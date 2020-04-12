@@ -67,6 +67,12 @@ namespace vanillapdf.net
             return PdfBaseException.GetException(value, message);
         }
 
+        public static PdfBaseException GetErrorException(uint value)
+        {
+            string message = GetPrintableErrorText(value);
+            return PdfBaseException.GetException(value, message);
+        }
+
         private static class NativeMethods
         {
             public static ErrorsGetLastErrorDelgate Errors_GetLastError = LibraryInstance.GetFunction<ErrorsGetLastErrorDelgate>("Errors_GetLastError");

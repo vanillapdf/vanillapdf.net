@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.test
@@ -9,22 +10,72 @@ namespace vanillapdf.net.test
         {
             MiscUtils.InitializeClasses();
 
-             PdfLogging.Enable();
+            PdfLogging.SetSeverity(LoggingSeverity.Debug);
+            if (PdfLogging.GetSeverity() != LoggingSeverity.Debug) {
+                Console.WriteLine("Could not set logging severity");
+            }
 
-            var severity = PdfLogging.GetSeverity();
+            PdfLogging.Enable();
+            for (int i = 0; i < args.Length; ++i) {
+                TestFile(args[i], null);
+            }
 
-            using (PdfFile file = PdfFile.Open("aa")) {
+            PdfLogging.Disable();
+
+            Console.ReadKey();
+        }
+
+        static void TestFile(string path, string password)
+        {
+            try {
+                TestFileInternal(path, password);
+            }
+            catch (Exception ex) {
+                Console.Out.WriteLine("Error with file {0}: {1}", path, ex.Message);
+
+                var lastError = PdfErrors.GetLastError();
+                var lastErrorName = PdfReturnValues.GetValueName(lastError);
+                var lastErrorMessage = PdfErrors.GetLastErrorMessage();
+
+                Console.Out.WriteLine("Last error {0} ({1}): {2}", lastErrorName, lastError, lastErrorMessage);
+            }
+        }
+
+        static void TestFileInternal(string path, string password)
+        {
+            Console.Out.WriteLine("Testing file: {0}", path);
+
+            var filename = Path.GetFileNameWithoutExtension(path);
+            using (PdfFile file = PdfFile.Open(path)) {
                 file.Initialize();
+
+                if (file.IsEncrypted()) {
+                    Console.Out.WriteLine("File {0} is encrypted, using password", path);
+
+                    bool isCorrect = file.SetEncryptionPassword(password);
+                    if (isCorrect) {
+                        Console.Out.WriteLine("File {0} is unlocked with correct password", path);
+                    } else {
+                        Console.Out.WriteLine("File {0} is encrypted, but the password is incorrect", path);
+                    }
+                }
+
+                using (PdfDocument document = PdfDocument.OpenFile(file)) {
+                    PdfCatalog catalog = document.GetCatalog();
+                    PdfPageTree tree = catalog.GetPageTree();
+
+                    var count = tree.GetPageCount();
+                    Console.Out.WriteLine("File contains {0} pages", count);
+
+                    var destinationFilename = String.Format("{0}_out.pdf", filename);
+                    Console.Out.WriteLine("Saving file to {0}", destinationFilename);
+
+                    document.Save(destinationFilename);
+                    Console.Out.WriteLine("File {0} tested successfully", path);
+                }
             }
 
-            using (PdfDocument document = PdfDocument.Open("aa")) {
-                PdfCatalog catalog = document.GetCatalog();
-                PdfPageTree tree = catalog.GetPageTree();
-                var count = tree.GetPageCount();
-            }
-
-            uint test = PdfErrors.GetLastError();
-            string message = PdfErrors.GetLastErrorMessage();
+            
         }
     }
 }
