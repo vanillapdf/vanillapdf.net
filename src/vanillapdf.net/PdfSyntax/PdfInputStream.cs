@@ -7,11 +7,8 @@ namespace vanillapdf.net
 {
     public class PdfInputStream : PdfUnknown
     {
-        internal PdfInputStreamSafeHandle Handle { get; }
-
-        internal PdfInputStream(PdfInputStreamSafeHandle handle)
+        internal PdfInputStream(PdfInputStreamSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfInputStream()
@@ -71,16 +68,6 @@ namespace vanillapdf.net
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-        }
-
-        //public static implicit operator Inputstream(Stream stream)
-        //{
-        //    return new Inputstream(IntPtr.Zero);
-        //}
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods

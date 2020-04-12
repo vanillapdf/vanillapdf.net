@@ -8,11 +8,8 @@ namespace vanillapdf.net
 {
     public class PdfObject : PdfUnknown
     {
-        internal PdfObjectSafeHandle Handle { get; }
-
         internal PdfObject(PdfObjectSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfObject()
@@ -28,11 +25,6 @@ namespace vanillapdf.net
             }
 
             return data;
-        }
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods

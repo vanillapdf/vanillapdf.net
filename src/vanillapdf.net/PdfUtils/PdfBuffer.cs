@@ -7,11 +7,8 @@ namespace vanillapdf.net
 {
     public class PdfBuffer : PdfUnknown
     {
-        internal PdfBufferSafeHandle Handle { get; }
-
-        internal PdfBuffer(PdfBufferSafeHandle handle)
+        internal PdfBuffer(PdfBufferSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfBuffer()
@@ -84,11 +81,6 @@ namespace vanillapdf.net
             }
 
             return new PdfInputStream(handle);
-        }
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods

@@ -7,11 +7,8 @@ namespace vanillapdf.net
 {
     public class PdfFile : PdfUnknown
     {
-        internal PdfFileSafeHandle Handle { get; }
-
-        internal PdfFile(PdfFileSafeHandle handle)
+        internal PdfFile(PdfFileSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfFile()
@@ -77,12 +74,18 @@ namespace vanillapdf.net
             return data;
         }
 
-        public void SetEncryptionPassword(string password)
+        public bool SetEncryptionPassword(string password)
         {
             UInt32 result = NativeMethods.File_SetEncryptionPassword(Handle, password);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
+            if (result == PdfReturnValues.ERROR_INVALID_PASSWORD) {
+                return false;
             }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetErrorException(result);
+            }
+
+            return true;
         }
 
         public PdfXref GetXrefChain()
@@ -93,11 +96,6 @@ namespace vanillapdf.net
             }
 
             return new PdfXref(data);
-        }
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods

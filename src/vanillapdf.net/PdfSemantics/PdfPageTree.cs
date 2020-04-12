@@ -7,11 +7,8 @@ namespace vanillapdf.net
 {
     public class PdfPageTree : PdfUnknown
     {
-        internal PdfPageTreeSafeHandle Handle { get; }
-
-        internal PdfPageTree(PdfPageTreeSafeHandle handle)
+        internal PdfPageTree(PdfPageTreeSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfPageTree()
@@ -37,11 +34,6 @@ namespace vanillapdf.net
             }
 
             return new PdfPageObject(data);
-        }
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods

@@ -7,11 +7,8 @@ namespace vanillapdf.net
 {
     public class PdfContents : PdfUnknown
     {
-        internal PdfContentsSafeHandle Handle { get; }
-
-        internal PdfContents(PdfContentsSafeHandle handle)
+        internal PdfContents(PdfContentsSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfContents()
@@ -27,11 +24,6 @@ namespace vanillapdf.net
             }
 
             return data.ToUInt64();
-        }
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods

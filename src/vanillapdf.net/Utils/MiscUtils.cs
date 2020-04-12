@@ -8,8 +8,15 @@ namespace vanillapdf.net.Utils
     {
         public const CallingConvention LibraryCallingConvention = CallingConvention.Cdecl;
 
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        internal delegate UInt32 ConvertToUnknownDelegate<T>(T handle, out PdfUnknownSafeHandle data);
+        // NOTE:
+        // There is some issue with templated delegates
+        // It possible to compile, but it fails in runtime with error
+
+        //[UnmanagedFunctionPointer(LibraryCallingConvention)]
+        //internal delegate UInt32 ConvertToDelegate<T, U>(T handle, out U data);
+
+        //[UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        //internal delegate UInt32 ConvertFromDelegate<T, U>(U handle, out T data);
 
         public static void InitializeClasses()
         {
@@ -33,6 +40,36 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfContents).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotations).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotation).TypeHandle);
+
+            // Safe handles
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
+
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfXrefSafeHandle).TypeHandle);
+
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfIntegerObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfBooleanObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectObjectReferenceSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfNameObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfNullObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfRealObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfStringObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObjectSafeHandle).TypeHandle);
+
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotationSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfContentsSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
         }
     }
 }

@@ -7,11 +7,8 @@ namespace vanillapdf.net
 {
     public class PdfPageObject : PdfUnknown
     {
-        internal PdfPageObjectSafeHandle Handle { get; }
-
-        internal PdfPageObject(PdfPageObjectSafeHandle handle)
+        internal PdfPageObject(PdfPageObjectSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfPageObject()
@@ -33,11 +30,6 @@ namespace vanillapdf.net
         {
             UInt32 result = NativeMethods.PageObject_GetAnnotations(Handle, out var data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
-                var aa = data.DangerousGetHandle();
-
-                data.SetHandleAsInvalid();
-                data.Close();
-                data.Dispose();
                 return null;
             }
 
@@ -45,7 +37,6 @@ namespace vanillapdf.net
                 throw PdfErrors.GetLastErrorException();
             }
 
-            //PdfPageAnnotationsSafeHandle newHandle = new PdfPageAnnotationsSafeHandle(data);
             return new PdfPageAnnotations(data);
         }
 

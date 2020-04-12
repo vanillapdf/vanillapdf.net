@@ -37,11 +37,8 @@ namespace vanillapdf.net
 
     public class PdfAnnotation : PdfUnknown
     {
-        internal PdfAnnotationSafeHandle Handle { get; }
-
-        internal PdfAnnotation(PdfAnnotationSafeHandle handle)
+        internal PdfAnnotation(PdfAnnotationSafeHandle handle) : base(handle)
         {
-            Handle = handle;
         }
 
         static PdfAnnotation()
@@ -57,11 +54,6 @@ namespace vanillapdf.net
             }
 
             return EnumUtil<PdfAnnotationType>.CheckedCast(data);
-        }
-
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
         }
 
         private static class NativeMethods
