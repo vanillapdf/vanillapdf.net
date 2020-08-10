@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\vanillapdf.net\vanillapdf.net.csproj" />
+    <ProjectReference Include="..\vanillapdf.net\vanillapdf.net.csproj">
+      <Private>true</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

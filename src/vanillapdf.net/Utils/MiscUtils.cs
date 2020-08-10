@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace vanillapdf.net.Utils
@@ -42,14 +41,14 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotation).TypeHandle);
 
             // Safe handles
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
 
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfXrefSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefSafeHandle).TypeHandle);
 
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfObjectSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfIntegerObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfBooleanObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectSafeHandle).TypeHandle);
@@ -69,7 +68,6 @@ namespace vanillapdf.net.Utils
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
         }
     }
 }
