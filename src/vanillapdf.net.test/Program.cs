@@ -60,6 +60,32 @@ namespace vanillapdf.net.test
                     }
                 }
 
+                using (var xrefChain = file.GetXrefChain())
+                using (var xrefChainIterator = xrefChain.GetIterator()) {
+                    while (true) {
+                        if (!xrefChain.IsIteratorValid(xrefChainIterator)) {
+                            break;
+                        }
+
+                        using (var xref = xrefChainIterator.GetValue())
+                        using (var xrefIterator = xref.GetIterator()) {
+                            while (true) {
+                                if (!xref.IsIteratorValid(xrefIterator)) {
+                                    break;
+                                }
+
+                                using (var entry = xrefIterator.GetValue()) {
+                                    // We got entry!!!
+                                }
+
+                                xrefIterator.Next();
+                            }
+                        }
+
+                        xrefChainIterator.Next();
+                    }
+                }
+
                 using (PdfDocument document = PdfDocument.OpenFile(file)) {
                     PdfCatalog catalog = document.GetCatalog();
                     PdfPageTree tree = catalog.GetPageTree();

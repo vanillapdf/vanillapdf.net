@@ -88,14 +88,14 @@ namespace vanillapdf.net
             return true;
         }
 
-        public PdfXref GetXrefChain()
+        public PdfXrefChain GetXrefChain()
         {
-            UInt32 result = NativeMethods.File_XrefChain(Handle, out PdfXrefSafeHandle data);
+            UInt32 result = NativeMethods.File_XrefChain(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfXref(data);
+            return new PdfXrefChain(data);
         }
 
         private static class NativeMethods
@@ -132,7 +132,7 @@ namespace vanillapdf.net
             public delegate UInt32 FileSetEncryptionPasswordDelgate(PdfFileSafeHandle handle, string password);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileXrefChainDelgate(PdfFileSafeHandle handle, out PdfXrefSafeHandle data);
+            public delegate UInt32 FileXrefChainDelgate(PdfFileSafeHandle handle, out PdfXrefChainSafeHandle data);
         }
     }
 }
