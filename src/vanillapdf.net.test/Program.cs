@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.test
@@ -76,6 +77,10 @@ namespace vanillapdf.net.test
 
                                 using (var entry = xrefIterator.GetValue()) {
                                     // We got entry!!!
+                                    Console.Out.WriteLine("Found entry: [{0} {1}] {2}",
+                                        entry.GetObjectNumber(),
+                                        entry.GetGenerationNumber(),
+                                        entry.GetEntryType());
                                 }
 
                                 xrefIterator.Next();

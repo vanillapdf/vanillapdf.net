@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfSyntax
 {
     public class PdfXref : PdfUnknown
     {

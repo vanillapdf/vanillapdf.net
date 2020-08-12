@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfSyntax
 {
     public class PdfObject : PdfUnknown
     {
