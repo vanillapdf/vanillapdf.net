@@ -68,22 +68,62 @@ namespace vanillapdf.net.test
                             break;
                         }
 
-                        using (var xref = xrefChainIterator.GetValue())
-                        using (var xrefIterator = xref.GetIterator()) {
-                            while (true) {
-                                if (!xref.IsIteratorValid(xrefIterator)) {
-                                    break;
-                                }
+                        using (var xref = xrefChainIterator.GetValue()) {
 
-                                using (var entry = xrefIterator.GetValue()) {
-                                    // We got entry!!!
-                                    Console.Out.WriteLine("Found entry: [{0} {1}] {2}",
-                                        entry.GetObjectNumber(),
-                                        entry.GetGenerationNumber(),
-                                        entry.GetEntryType());
-                                }
+                            var xrefOffset = xref.GetLastXrefOffset();
+                            Console.Out.WriteLine("Analyzing xref at offset {0}", xrefOffset);
 
-                                xrefIterator.Next();
+                            using (var trailerDictionary = xref.GetTrailerDictionary()) {
+                                // Check trailer dictionary
+                            }
+
+                            using (var xrefIterator = xref.GetIterator()) {
+                                while (true) {
+                                    if (!xref.IsIteratorValid(xrefIterator)) {
+                                        break;
+                                    }
+
+                                    using (var entry = xrefIterator.GetValue()) {
+                                        // We got entry!!!
+
+                                        if (entry.GetEntryType() == PdfXrefEntryType.Null) {
+                                        }
+
+                                        if (entry.GetEntryType() == PdfXrefEntryType.Free) {
+                                            var freeEntry = PdfXrefFreeEntry.FromEntry(entry);
+
+                                            Console.Out.WriteLine("Found FREE entry: [{0} {1}] {2}",
+                                                entry.GetObjectNumber(),
+                                                entry.GetGenerationNumber(),
+                                                freeEntry.GetNextFreeObjectNumber());
+                                        }
+
+                                        if (entry.GetEntryType() == PdfXrefEntryType.Used) {
+                                            var usedEntry = PdfXrefUsedEntry.FromEntry(entry);
+                                            var usedReference = usedEntry.GetReference();
+
+                                            Console.Out.WriteLine("Found USED entry: [{0} {1}] {2} {3}",
+                                                entry.GetObjectNumber(),
+                                                entry.GetGenerationNumber(),
+                                                usedEntry.GetOffset(),
+                                                usedReference.GetObjectType());
+                                        }
+
+                                        if (entry.GetEntryType() == PdfXrefEntryType.Compressed) {
+                                            var compressedEntry = PdfXrefCompressedEntry.FromEntry(entry);
+                                            var compressedReference = compressedEntry.GetReference();
+
+                                            Console.Out.WriteLine("Found COMPRESSED entry: [{0} {1}] [{2} {3}] {4}",
+                                                entry.GetObjectNumber(),
+                                                entry.GetGenerationNumber(),
+                                                compressedEntry.GetObjectStreamNumber(),
+                                                compressedEntry.GetIndex(),
+                                                compressedReference.GetObjectType());
+                                        }
+                                    }
+
+                                    xrefIterator.Next();
+                                }
                             }
                         }
 

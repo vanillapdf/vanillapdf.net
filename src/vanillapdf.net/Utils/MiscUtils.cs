@@ -39,6 +39,19 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefUsedEntry).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefCompressedEntry).TypeHandle);
 
+            RuntimeHelpers.RunClassConstructor(typeof(PdfObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfIntegerObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfBooleanObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectReferenceObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfNameObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfNullObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfRealObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObject).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfStringObject).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObject).TypeHandle);
+            //RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObject).TypeHandle);
+
             // Semtantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfCatalog).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfDocument).TypeHandle);
@@ -52,6 +65,7 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfOutputStreamSafeHandle).TypeHandle);
 
             RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefSafeHandle).TypeHandle);
@@ -60,11 +74,11 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfIntegerObjectSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfBooleanObjectSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectObjectReferenceSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectReferenceObjectSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfNameObjectSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfNullObjectSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfRealObjectSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObjectSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfNullObjectSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfRealObjectSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfStringObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObjectSafeHandle).TypeHandle);
