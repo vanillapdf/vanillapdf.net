@@ -55,7 +55,7 @@ namespace vanillapdf.net
 
         public static LoggingSeverity GetSeverity()
         {
-            UInt32 result = NativeMethods.Logging_GetSeverity(out int severity);
+            UInt32 result = NativeMethods.Logging_GetSeverity(out var severity);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -65,7 +65,7 @@ namespace vanillapdf.net
 
         public static void SetSeverity(LoggingSeverity severity)
         {
-            UInt32 result = NativeMethods.Logging_SetSeverity(severity.GetIntegralValue());
+            UInt32 result = NativeMethods.Logging_SetSeverity(severity);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -89,10 +89,10 @@ namespace vanillapdf.net
             public delegate UInt32 LoggingDisableDelgate();
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoggingGetSeverityDelgate(out int severity);
+            public delegate UInt32 LoggingGetSeverityDelgate(out LoggingSeverity severity);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoggingSetSeverityDelgate(int severity);
+            public delegate UInt32 LoggingSetSeverityDelgate(LoggingSeverity severity);
         }
     }
 }

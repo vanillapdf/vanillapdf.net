@@ -12,6 +12,9 @@ namespace vanillapdf.net.Utils
             }
         }
 
+        // Always use checked cast for parsed enum values from the interface
+        // If the value could not be interpreted by the enum type
+        // it throws exception as it should
         public static T CheckedCast(object enumValue)
         {
             if (!Enum.IsDefined(typeof(T), enumValue))
@@ -25,12 +28,6 @@ namespace vanillapdf.net.Utils
         {
             return Enum.IsDefined(typeof(T), enumValue);
         }
-
-        public static int GetIntegralValue(T enumvalue)
-        {
-            var underlyingType = Enum.GetUnderlyingType(typeof(LoggingSeverity));
-            return (int)Convert.ChangeType(enumvalue, underlyingType);
-        }
     }
 
     public static class EnumExtensions
@@ -39,12 +36,6 @@ namespace vanillapdf.net.Utils
             where T : struct, IConvertible
         {
             return EnumUtil<T>.IsDefined(enumValue);
-        }
-
-        public static int GetIntegralValue<T>(this T enumValue)
-            where T : struct, IConvertible
-        {
-            return EnumUtil<T>.GetIntegralValue(enumValue);
         }
     }
 }
