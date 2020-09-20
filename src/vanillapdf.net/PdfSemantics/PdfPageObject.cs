@@ -40,11 +40,6 @@ namespace vanillapdf.net
             return new PdfPageAnnotations(data);
         }
 
-        protected override void ReleaseManagedResources()
-        {
-            Handle.Dispose();
-        }
-
         private static class NativeMethods
         {
             public static PageObjectGetContentsDelgate PageObject_GetContents = LibraryInstance.GetFunction<PageObjectGetContentsDelgate>("PageObject_GetContents");

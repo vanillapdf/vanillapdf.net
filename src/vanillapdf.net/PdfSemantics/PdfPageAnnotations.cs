@@ -16,9 +16,9 @@ namespace vanillapdf.net
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
-        public UInt64 Size()
+        public UInt64 GetSize()
         {
-            UInt32 result = NativeMethods.PageAnnotations_Size(Handle, out UIntPtr data);
+            UInt32 result = NativeMethods.PageAnnotations_GetSize(Handle, out UIntPtr data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -38,7 +38,7 @@ namespace vanillapdf.net
 
         private static class NativeMethods
         {
-            public static PageAnnotationsSizeDelgate PageAnnotations_Size = LibraryInstance.GetFunction<PageAnnotationsSizeDelgate>("PageAnnotations_Size");
+            public static PageAnnotationsSizeDelgate PageAnnotations_GetSize = LibraryInstance.GetFunction<PageAnnotationsSizeDelgate>("PageAnnotations_GetSize");
             public static PageAnnotationsAtDelgate PageAnnotations_At = LibraryInstance.GetFunction<PageAnnotationsAtDelgate>("PageAnnotations_At");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]

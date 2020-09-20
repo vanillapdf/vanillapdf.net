@@ -18,7 +18,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public PdfDictionaryObject GetTrailerDictionary()
         {
-            UInt32 result = NativeMethods.Xref_TrailerDictionary(Handle, out var value);
+            UInt32 result = NativeMethods.Xref_GetTrailerDictionary(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -28,7 +28,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public Int64 GetLastXrefOffset()
         {
-            UInt32 result = NativeMethods.Xref_LastXrefOffset(Handle, out var value);
+            UInt32 result = NativeMethods.Xref_GetLastXrefOffset(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -58,16 +58,16 @@ namespace vanillapdf.net.PdfSyntax
 
         private static class NativeMethods
         {
-            public static XrefTrailerDictionaryDelgate Xref_TrailerDictionary = LibraryInstance.GetFunction<XrefTrailerDictionaryDelgate>("Xref_TrailerDictionary");
-            public static LastXrefOffsetDelgate Xref_LastXrefOffset = LibraryInstance.GetFunction<LastXrefOffsetDelgate>("Xref_LastXrefOffset");
+            public static GetTrailerDictionaryDelgate Xref_GetTrailerDictionary = LibraryInstance.GetFunction<GetTrailerDictionaryDelgate>("Xref_GetTrailerDictionary");
+            public static GetLastXrefOffsetDelgate Xref_GetLastXrefOffset = LibraryInstance.GetFunction<GetLastXrefOffsetDelgate>("Xref_GetLastXrefOffset");
             public static IteratorDelgate Xref_Iterator = LibraryInstance.GetFunction<IteratorDelgate>("Xref_Iterator");
             public static IsIteratorValidDelgate Xref_IsIteratorValid = LibraryInstance.GetFunction<IsIteratorValidDelgate>("Xref_IsIteratorValid");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 XrefTrailerDictionaryDelgate(PdfXrefSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
+            public delegate UInt32 GetTrailerDictionaryDelgate(PdfXrefSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LastXrefOffsetDelgate(PdfXrefSafeHandle handle, out Int64 data);
+            public delegate UInt32 GetLastXrefOffsetDelgate(PdfXrefSafeHandle handle, out Int64 data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 IteratorDelgate(PdfXrefSafeHandle handle, out PdfXrefIteratorSafeHandle data);

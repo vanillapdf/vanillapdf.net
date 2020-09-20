@@ -329,6 +329,141 @@ namespace vanillapdf.net
         }
     }
 
+    internal sealed class PdfXrefFreeEntrySafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("XrefFreeEntry_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToEntry = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("XrefFreeEntry_ToEntry");
+        private static ConvertFromUnknownDelegate Convert_FromEntry = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("XrefFreeEntry_FromEntry");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfXrefFreeEntrySafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfXrefFreeEntrySafeHandle data);
+
+        public static implicit operator PdfXrefEntrySafeHandle(PdfXrefFreeEntrySafeHandle handle)
+        {
+            UInt32 result = Convert_ToEntry(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfXrefFreeEntrySafeHandle(PdfXrefEntrySafeHandle handle)
+        {
+            UInt32 result = Convert_FromEntry(handle, out PdfXrefFreeEntrySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfXrefFreeEntrySafeHandle handle)
+        {
+            return (PdfXrefEntrySafeHandle)handle;
+        }
+
+        public static implicit operator PdfXrefFreeEntrySafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfXrefEntrySafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfXrefUsedEntrySafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("XrefUsedEntry_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToEntryDelegate Convert_ToEntry = LibraryInstance.GetFunction<ConvertToEntryDelegate>("XrefUsedEntry_ToEntry");
+        private static ConvertFromEntryDelegate Convert_FromEntry = LibraryInstance.GetFunction<ConvertFromEntryDelegate>("XrefUsedEntry_FromEntry");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToEntryDelegate(PdfXrefUsedEntrySafeHandle handle, out PdfXrefEntrySafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromEntryDelegate(PdfXrefEntrySafeHandle handle, out PdfXrefUsedEntrySafeHandle data);
+
+        public static implicit operator PdfXrefEntrySafeHandle(PdfXrefUsedEntrySafeHandle handle)
+        {
+            UInt32 result = Convert_ToEntry(handle, out PdfXrefEntrySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfXrefUsedEntrySafeHandle(PdfXrefEntrySafeHandle handle)
+        {
+            UInt32 result = Convert_FromEntry(handle, out PdfXrefUsedEntrySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfXrefUsedEntrySafeHandle handle)
+        {
+            return (PdfXrefEntrySafeHandle)handle;
+        }
+
+        public static implicit operator PdfXrefUsedEntrySafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfXrefEntrySafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfXrefCompressedEntrySafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("XrefCompressedEntry_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToEntry = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("XrefCompressedEntry_ToEntry");
+        private static ConvertFromUnknownDelegate Convert_FromEntry = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("XrefCompressedEntry_FromEntry");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfXrefCompressedEntrySafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfXrefCompressedEntrySafeHandle data);
+
+        public static implicit operator PdfXrefEntrySafeHandle(PdfXrefCompressedEntrySafeHandle handle)
+        {
+            UInt32 result = Convert_ToEntry(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfXrefCompressedEntrySafeHandle(PdfXrefEntrySafeHandle handle)
+        {
+            UInt32 result = Convert_FromEntry(handle, out PdfXrefCompressedEntrySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfXrefCompressedEntrySafeHandle handle)
+        {
+            return (PdfXrefEntrySafeHandle)handle;
+        }
+
+        public static implicit operator PdfXrefCompressedEntrySafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfXrefEntrySafeHandle)handle;
+        }
+    }
+
     internal class PdfObjectSafeHandle : PdfSafeHandle
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Object_Release");
@@ -409,13 +544,58 @@ namespace vanillapdf.net
         }
     }
 
+    internal sealed class PdfArrayObjectSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ArrayObject_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("ArrayObject_ToObject");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("ArrayObject_FromObject");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToObjectDelegate(PdfArrayObjectSafeHandle handle, out PdfObjectSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromObjectDelegate(PdfObjectSafeHandle handle, out PdfArrayObjectSafeHandle data);
+
+        public static implicit operator PdfObjectSafeHandle(PdfArrayObjectSafeHandle handle)
+        {
+            UInt32 result = Convert_ToObject(handle, out PdfObjectSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfArrayObjectSafeHandle(PdfObjectSafeHandle handle)
+        {
+            UInt32 result = Convert_FromObject(handle, out PdfArrayObjectSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfArrayObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfArrayObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+    }
+
     internal sealed class PdfBooleanObjectSafeHandle : PdfSafeHandle
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("BooleanObject_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("BooleanObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToBoolean");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("BooleanObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfBooleanObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -460,7 +640,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("DictionaryObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToDictionary");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("DictionaryObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfDictionaryObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -487,6 +667,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDictionaryObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfDictionaryObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfIndirectObjectReferenceSafeHandle : PdfSafeHandle
@@ -495,7 +685,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("IndirectObjectReference_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToIndirectReference");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("IndirectObjectReference_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfIndirectObjectReferenceSafeHandle handle, out PdfObjectSafeHandle data);
@@ -522,6 +712,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfIndirectObjectReferenceSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfIndirectObjectReferenceSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfNameObjectSafeHandle : PdfSafeHandle
@@ -530,7 +730,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("NameObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToName");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("NameObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfNameObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -557,6 +757,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfNameObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfNameObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfNullObjectSafeHandle : PdfSafeHandle
@@ -565,7 +775,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("NullObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToNull");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("NullObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfNullObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -592,6 +802,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfNullObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfNullObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfRealObjectSafeHandle : PdfSafeHandle
@@ -600,7 +820,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("RealObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToReal");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("RealObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfRealObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -627,6 +847,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfRealObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfRealObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfStreamObjectSafeHandle : PdfSafeHandle
@@ -635,7 +865,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("StreamObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToStream");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("StreamObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfStreamObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -662,6 +892,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfStreamObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfStreamObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfStringObjectSafeHandle : PdfSafeHandle
@@ -670,7 +910,7 @@ namespace vanillapdf.net
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToObjectDelegate Convert_ToObject = LibraryInstance.GetFunction<ConvertToObjectDelegate>("StringObject_ToObject");
-        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("Object_ToString");
+        private static ConvertFromObjectDelegate Convert_FromObject = LibraryInstance.GetFunction<ConvertFromObjectDelegate>("StringObject_FromObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfStringObjectSafeHandle handle, out PdfObjectSafeHandle data);
@@ -697,6 +937,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfStringObjectSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfStringObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfLiteralStringObjectSafeHandle : PdfSafeHandle
@@ -704,8 +954,8 @@ namespace vanillapdf.net
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("LiteralStringObject_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToStringDelegate Convert_ToString = LibraryInstance.GetFunction<ConvertToStringDelegate>("StringObject_ToLiteral");
-        private static ConvertFromStringDelegate Convert_FromString = LibraryInstance.GetFunction<ConvertFromStringDelegate>("LiteralStringObject_FromString");
+        private static ConvertToStringDelegate Convert_ToString = LibraryInstance.GetFunction<ConvertToStringDelegate>("LiteralStringObject_ToStringObject");
+        private static ConvertFromStringDelegate Convert_FromString = LibraryInstance.GetFunction<ConvertFromStringDelegate>("LiteralStringObject_FromStringObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToStringDelegate(PdfLiteralStringObjectSafeHandle handle, out PdfStringObjectSafeHandle data);
@@ -732,6 +982,16 @@ namespace vanillapdf.net
 
             return data;
         }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfLiteralStringObjectSafeHandle handle)
+        {
+            return (PdfStringObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfLiteralStringObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfStringObjectSafeHandle)handle;
+        }
     }
 
     internal sealed class PdfHexadecimalStringObjectSafeHandle : PdfSafeHandle
@@ -739,8 +999,8 @@ namespace vanillapdf.net
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("HexadecimalStringObject_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToObjectDelegate Convert_ToString = LibraryInstance.GetFunction<ConvertToObjectDelegate>("StringObject_ToHexadecimal");
-        private static ConvertFromStringDelegate Convert_FromString = LibraryInstance.GetFunction<ConvertFromStringDelegate>("HexadecimalStringObject_FromString");
+        private static ConvertToObjectDelegate Convert_ToString = LibraryInstance.GetFunction<ConvertToObjectDelegate>("HexadecimalStringObject_ToStringObject");
+        private static ConvertFromStringDelegate Convert_FromString = LibraryInstance.GetFunction<ConvertFromStringDelegate>("HexadecimalStringObject_FromStringObject");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToObjectDelegate(PdfHexadecimalStringObjectSafeHandle handle, out PdfStringObjectSafeHandle data);
@@ -766,6 +1026,16 @@ namespace vanillapdf.net
             }
 
             return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfHexadecimalStringObjectSafeHandle handle)
+        {
+            return (PdfStringObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfHexadecimalStringObjectSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfStringObjectSafeHandle)handle;
         }
     }
 

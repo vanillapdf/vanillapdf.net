@@ -28,6 +28,16 @@ namespace vanillapdf.net.PdfSyntax
             set { SetUnsignedIntegerValue(value); }
         }
 
+        public static PdfIntegerObject Create()
+        {
+            UInt32 result = NativeMethods.IntegerObject_Create(out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfIntegerObject(data);
+        }
+
         public Int64 GetIntegerValue()
         {
             UInt32 result = NativeMethods.IntegerObject_GetIntegerValue(Handle, out var value);
@@ -66,11 +76,15 @@ namespace vanillapdf.net.PdfSyntax
 
         private static class NativeMethods
         {
+            public static CreateDelgate IntegerObject_Create = LibraryInstance.GetFunction<CreateDelgate>("IntegerObject_Create");
             public static GetIntegerValueDelgate IntegerObject_GetIntegerValue = LibraryInstance.GetFunction<GetIntegerValueDelgate>("IntegerObject_GetIntegerValue");
             public static SetIntegerValueDelgate IntegerObject_SetIntegerValue = LibraryInstance.GetFunction<SetIntegerValueDelgate>("IntegerObject_SetIntegerValue");
 
             public static GetUnsignedIntegerValueDelgate IntegerObject_GetUnsignedIntegerValue = LibraryInstance.GetFunction<GetUnsignedIntegerValueDelgate>("IntegerObject_GetUnsignedIntegerValue");
             public static SetUnsignedIntegerValueDelgate IntegerObject_SetUnsignedIntegerValue = LibraryInstance.GetFunction<SetUnsignedIntegerValueDelgate>("IntegerObject_GetIntegerValue");
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 CreateDelgate(out PdfIntegerObjectSafeHandle handle);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetIntegerValueDelgate(PdfIntegerObjectSafeHandle handle, out Int64 value);

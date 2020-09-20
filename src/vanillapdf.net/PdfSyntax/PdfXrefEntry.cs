@@ -23,7 +23,7 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return data;
+            return EnumUtil<PdfXrefEntryType>.CheckedCast(data);
         }
 
         public UInt64 GetObjectNumber()
