@@ -26,6 +26,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNullObject(data);
         }
 
+        public static PdfNullObject FromObject(PdfObject data)
+        {
+            return new PdfNullObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate NullObject_Create = LibraryInstance.GetFunction<CreateDelgate>("NullObject_Create");

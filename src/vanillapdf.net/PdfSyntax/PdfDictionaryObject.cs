@@ -62,6 +62,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static PdfDictionaryObject FromObject(PdfObject data)
+        {
+            return new PdfDictionaryObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate DictionaryObject_Create = LibraryInstance.GetFunction<CreateDelgate>("DictionaryObject_Create");

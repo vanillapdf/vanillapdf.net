@@ -84,6 +84,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static PdfStreamObject FromObject(PdfObject data)
+        {
+            return new PdfStreamObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate StreamObject_Create = LibraryInstance.GetFunction<CreateDelgate>("StreamObject_Create");

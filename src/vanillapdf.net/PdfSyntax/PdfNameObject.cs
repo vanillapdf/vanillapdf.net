@@ -60,6 +60,11 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        public static PdfNameObject FromObject(PdfObject data)
+        {
+            return new PdfNameObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate NameObject_Create = LibraryInstance.GetFunction<CreateDelgate>("NameObject_Create");

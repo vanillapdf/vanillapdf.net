@@ -61,74 +61,8 @@ namespace vanillapdf.net.test
                     }
                 }
 
-                using (var xrefChain = file.GetXrefChain())
-                using (var xrefChainIterator = xrefChain.GetIterator()) {
-                    while (true) {
-                        if (!xrefChain.IsIteratorValid(xrefChainIterator)) {
-                            break;
-                        }
-
-                        using (var xref = xrefChainIterator.GetValue()) {
-
-                            var xrefOffset = xref.GetLastXrefOffset();
-                            Console.Out.WriteLine("Analyzing xref at offset {0}", xrefOffset);
-
-                            using (var trailerDictionary = xref.GetTrailerDictionary()) {
-                                // Check trailer dictionary
-                            }
-
-                            using (var xrefIterator = xref.GetIterator()) {
-                                while (true) {
-                                    if (!xref.IsIteratorValid(xrefIterator)) {
-                                        break;
-                                    }
-
-                                    using (var entry = xrefIterator.GetValue()) {
-                                        // We got entry!!!
-
-                                        if (entry.GetEntryType() == PdfXrefEntryType.Null) {
-                                        }
-
-                                        if (entry.GetEntryType() == PdfXrefEntryType.Free) {
-                                            var freeEntry = PdfXrefFreeEntry.FromEntry(entry);
-
-                                            Console.Out.WriteLine("Found FREE entry: [{0} {1}] {2}",
-                                                entry.GetObjectNumber(),
-                                                entry.GetGenerationNumber(),
-                                                freeEntry.GetNextFreeObjectNumber());
-                                        }
-
-                                        if (entry.GetEntryType() == PdfXrefEntryType.Used) {
-                                            var usedEntry = PdfXrefUsedEntry.FromEntry(entry);
-                                            var usedReference = usedEntry.GetReference();
-
-                                            Console.Out.WriteLine("Found USED entry: [{0} {1}] {2} {3}",
-                                                entry.GetObjectNumber(),
-                                                entry.GetGenerationNumber(),
-                                                usedEntry.GetOffset(),
-                                                usedReference.GetObjectType());
-                                        }
-
-                                        if (entry.GetEntryType() == PdfXrefEntryType.Compressed) {
-                                            var compressedEntry = PdfXrefCompressedEntry.FromEntry(entry);
-                                            var compressedReference = compressedEntry.GetReference();
-
-                                            Console.Out.WriteLine("Found COMPRESSED entry: [{0} {1}] [{2} {3}] {4}",
-                                                entry.GetObjectNumber(),
-                                                entry.GetGenerationNumber(),
-                                                compressedEntry.GetObjectStreamNumber(),
-                                                compressedEntry.GetIndex(),
-                                                compressedReference.GetObjectType());
-                                        }
-                                    }
-
-                                    xrefIterator.Next();
-                                }
-                            }
-                        }
-
-                        xrefChainIterator.Next();
-                    }
+                using (var xrefChain = file.GetXrefChain()) {
+                    CheckXrefChain(xrefChain);
                 }
 
                 using (PdfDocument document = PdfDocument.OpenFile(file)) {
@@ -145,8 +79,136 @@ namespace vanillapdf.net.test
                     Console.Out.WriteLine("File {0} tested successfully", path);
                 }
             }
+        }
 
-            
+        static void CheckXrefChain(PdfXrefChain chain)
+        {
+            using (var xrefChainIterator = chain.GetIterator()) {
+                while (true) {
+                    if (!chain.IsIteratorValid(xrefChainIterator)) {
+                        break;
+                    }
+
+                    using (var xref = xrefChainIterator.GetValue()) {
+                        CheckXref(xref);
+                    }
+
+                    xrefChainIterator.Next();
+                }
+            }
+        }
+
+        static void CheckXref(PdfXref xref)
+        {
+            var xrefOffset = xref.GetLastXrefOffset();
+            Console.Out.WriteLine("Analyzing xref at offset {0}", xrefOffset);
+
+            using (var trailerDictionary = xref.GetTrailerDictionary()) {
+                // Check trailer dictionary
+            }
+
+            using (var xrefIterator = xref.GetIterator()) {
+                while (true) {
+                    if (!xref.IsIteratorValid(xrefIterator)) {
+                        break;
+                    }
+
+                    using (var entry = xrefIterator.GetValue()) {
+                        CheckXrefEntry(entry);
+                    }
+
+                    xrefIterator.Next();
+                }
+            }
+        }
+
+        static void CheckXrefEntry(PdfXrefEntry entry)
+        {
+            if (entry.GetEntryType() == PdfXrefEntryType.Null) {
+            }
+
+            if (entry.GetEntryType() == PdfXrefEntryType.Free) {
+                var freeEntry = PdfXrefFreeEntry.FromEntry(entry);
+
+                Console.Out.WriteLine("Found FREE entry: [{0} {1}] {2}",
+                    entry.GetObjectNumber(),
+                    entry.GetGenerationNumber(),
+                    freeEntry.GetNextFreeObjectNumber());
+            }
+
+            if (entry.GetEntryType() == PdfXrefEntryType.Used) {
+                var usedEntry = PdfXrefUsedEntry.FromEntry(entry);
+
+                using (var usedReference = usedEntry.GetReference()) {
+
+                    Console.Out.WriteLine("Found USED entry: [{0} {1}] {2} {3}",
+                        entry.GetObjectNumber(),
+                        entry.GetGenerationNumber(),
+                        usedEntry.GetOffset(),
+                        usedReference.GetObjectType());
+
+                    CheckObject(usedReference);
+                }
+            }
+
+            if (entry.GetEntryType() == PdfXrefEntryType.Compressed) {
+                var compressedEntry = PdfXrefCompressedEntry.FromEntry(entry);
+
+                using (var compressedReference = compressedEntry.GetReference()) {
+
+                    Console.Out.WriteLine("Found COMPRESSED entry: [{0} {1}] [{2} {3}] {4}",
+                        entry.GetObjectNumber(),
+                        entry.GetGenerationNumber(),
+                        compressedEntry.GetObjectStreamNumber(),
+                        compressedEntry.GetIndex(),
+                        compressedReference.GetObjectType());
+
+                    CheckObject(compressedReference);
+                }
+            }
+        }
+
+        static void CheckObject(PdfObject data)
+        {
+            if (data.GetObjectType() == PdfObjectType.Array) {
+                var converted = PdfArrayObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Boolean) {
+                var converted = PdfBooleanObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Dictionary) {
+                var converted = PdfDictionaryObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.IndirectReference) {
+                var converted = PdfIndirectReferenceObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Integer) {
+                var converted = PdfIntegerObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Name) {
+                var converted = PdfNameObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Null) {
+                var converted = PdfNullObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Real) {
+                var converted = PdfRealObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.Stream) {
+                var converted = PdfStreamObject.FromObject(data);
+            }
+
+            if (data.GetObjectType() == PdfObjectType.String) {
+                var converted = PdfStringObject.FromObject(data);
+            }
         }
     }
 }

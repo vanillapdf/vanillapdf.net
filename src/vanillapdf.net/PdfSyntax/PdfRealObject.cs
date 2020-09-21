@@ -50,6 +50,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static PdfRealObject FromObject(PdfObject data)
+        {
+            return new PdfRealObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate RealObject_Create = LibraryInstance.GetFunction<CreateDelgate>("RealObject_Create");

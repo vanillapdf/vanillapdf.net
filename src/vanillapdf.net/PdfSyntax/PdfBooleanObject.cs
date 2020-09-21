@@ -50,6 +50,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static PdfBooleanObject FromObject(PdfObject data)
+        {
+            return new PdfBooleanObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate BooleanObject_Create = LibraryInstance.GetFunction<CreateDelgate>("BooleanObject_Create");

@@ -74,6 +74,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static PdfIntegerObject FromObject(PdfObject data)
+        {
+            return new PdfIntegerObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate IntegerObject_Create = LibraryInstance.GetFunction<CreateDelgate>("IntegerObject_Create");

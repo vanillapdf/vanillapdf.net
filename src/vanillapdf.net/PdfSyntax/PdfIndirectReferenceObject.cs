@@ -70,6 +70,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static PdfIndirectReferenceObject FromObject(PdfObject data)
+        {
+            return new PdfIndirectReferenceObject(data.Handle);
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate IndirectReferenceObject_Create = LibraryInstance.GetFunction<CreateDelgate>("IndirectReferenceObject_Create");

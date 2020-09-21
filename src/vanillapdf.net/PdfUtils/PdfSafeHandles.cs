@@ -43,6 +43,15 @@ namespace vanillapdf.net
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("IUnknown_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static AddRefDelegate IUnknown_AddRef = LibraryInstance.GetFunction<AddRefDelegate>("IUnknown_AddRef");
+        private static ReleaseRefDelegate IUnknown_Release = LibraryInstance.GetFunction<ReleaseRefDelegate>("IUnknown_Release");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 AddRefDelegate(PdfUnknownSafeHandle handle);
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ReleaseRefDelegate(PdfUnknownSafeHandle handle);
     }
 
     internal sealed class PdfBufferSafeHandle : PdfSafeHandle

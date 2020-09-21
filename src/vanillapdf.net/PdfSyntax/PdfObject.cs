@@ -24,7 +24,7 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return data;
+            return EnumUtil<PdfObjectType>.CheckedCast(data);
         }
 
         private static class NativeMethods
