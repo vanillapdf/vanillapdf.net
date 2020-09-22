@@ -55,8 +55,10 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObject).TypeHandle);
 
             // Semtantics
-            RuntimeHelpers.RunClassConstructor(typeof(PdfCatalog).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfDocument).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSignatureSettings).TypeHandle);
+
+            RuntimeHelpers.RunClassConstructor(typeof(PdfCatalog).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageObject).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageTree).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContents).TypeHandle);
@@ -92,10 +94,11 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObjectSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObjectSafeHandle).TypeHandle);
 
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSignatureSettingsSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotationSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfContentsSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);

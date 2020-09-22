@@ -1227,6 +1227,41 @@ namespace vanillapdf.net
         }
     }
 
+    internal sealed class PdfDocumentSignatureSettingsSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("DocumentSignatureSettings_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("DocumentSignatureSettings_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("DocumentSignatureSettings_FromUnknown");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDocumentSignatureSettingsSafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDocumentSignatureSettingsSafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfDocumentSignatureSettingsSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfDocumentSignatureSettingsSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
+
     internal sealed class PdfPageAnnotationsSafeHandle : PdfSafeHandle
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageAnnotations_Release");
@@ -1324,6 +1359,41 @@ namespace vanillapdf.net
         public static implicit operator PdfPageTreeSafeHandle(PdfUnknownSafeHandle handle)
         {
             UInt32 result = Convert_FromUnknown(handle, out PdfPageTreeSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
+
+    internal sealed class PdfDateSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Date_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Date_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Date_FromUnknown");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfDateSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDateSafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDateSafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfDateSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfDateSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
