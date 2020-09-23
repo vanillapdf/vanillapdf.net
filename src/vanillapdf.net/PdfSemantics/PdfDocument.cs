@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfSemantics
 {
     public class PdfDocument : PdfUnknown
     {
@@ -73,6 +73,14 @@ namespace vanillapdf.net
             }
         }
 
+        public void Sign(PdfFile destination, PdfDocumentSignatureSettings settings)
+        {
+            UInt32 result = NativeMethods.Document_Sign(Handle, destination.Handle, settings.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
         private static class NativeMethods
         {
             public static DocumentOpenDelgate Document_Open = LibraryInstance.GetFunction<DocumentOpenDelgate>("Document_Open");
@@ -81,6 +89,7 @@ namespace vanillapdf.net
             public static DocumentAppendDocumentDelgate Document_AppendDocument = LibraryInstance.GetFunction<DocumentAppendDocumentDelgate>("Document_AppendDocument");
             public static DocumentGetCatalogDelgate Document_GetCatalog = LibraryInstance.GetFunction<DocumentGetCatalogDelgate>("Document_GetCatalog");
             public static DocumentSaveDelgate Document_Save = LibraryInstance.GetFunction<DocumentSaveDelgate>("Document_Save");
+            public static DocumentSignDelgate Document_Sign = LibraryInstance.GetFunction<DocumentSignDelgate>("Document_Sign");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 DocumentOpenDelgate(string filename, out PdfDocumentSafeHandle data);
@@ -99,6 +108,9 @@ namespace vanillapdf.net
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 DocumentSaveDelgate(PdfDocumentSafeHandle handle, string filename);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 DocumentSignDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle destination, PdfDocumentSignatureSettingsSafeHandle settings);
         }
     }
 }

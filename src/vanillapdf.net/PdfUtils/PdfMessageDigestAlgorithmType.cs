@@ -1,7 +1,6 @@
-﻿namespace vanillapdf.net.PdfSemantics
+﻿namespace vanillapdf.net.PdfUtils
 {
-    public enum PdfMessageDigestAlgorithmType
-    {
+    public enum PdfMessageDigestAlgorithmType {
         None = 0,
         MDNULL,
         MD2,
@@ -15,5 +14,5 @@
         MDC2,
         RIPEMD160,
         WHIRLPOOL
-    }
+    };
 }

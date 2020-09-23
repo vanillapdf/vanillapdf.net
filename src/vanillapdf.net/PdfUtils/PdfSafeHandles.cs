@@ -15,6 +15,11 @@ namespace vanillapdf.net
         {
         }
 
+        internal void DangerousSetHandle(IntPtr newHandle)
+        {
+            handle = newHandle;
+        }
+
         public override bool IsInvalid
         {
             [PrePrepareMethod]
@@ -43,6 +48,22 @@ namespace vanillapdf.net
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("IUnknown_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        public void AddRef()
+        {
+            UInt32 result = IUnknown_AddRef(this);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public void Release()
+        {
+            UInt32 result = IUnknown_Release(this);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
 
         private static AddRefDelegate IUnknown_AddRef = LibraryInstance.GetFunction<AddRefDelegate>("IUnknown_AddRef");
         private static ReleaseRefDelegate IUnknown_Release = LibraryInstance.GetFunction<ReleaseRefDelegate>("IUnknown_Release");
@@ -151,6 +172,41 @@ namespace vanillapdf.net
         public static implicit operator PdfOutputStreamSafeHandle(PdfUnknownSafeHandle handle)
         {
             UInt32 result = Convert_FromUnknown(handle, out PdfOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
+
+    internal sealed class PdfSigningKeySafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("SigningKey_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("SigningKey_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("SigningKey_FromUnknown");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfSigningKeySafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfSigningKeySafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfSigningKeySafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfSigningKeySafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfSigningKeySafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -382,14 +438,14 @@ namespace vanillapdf.net
         private static ConvertFromUnknownDelegate Convert_FromEntry = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("XrefFreeEntry_FromEntry");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfXrefFreeEntrySafeHandle handle, out PdfUnknownSafeHandle data);
+        private delegate UInt32 ConvertToUnknownDelegate(PdfXrefFreeEntrySafeHandle handle, out PdfXrefEntrySafeHandle data);
 
         [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfXrefFreeEntrySafeHandle data);
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfXrefEntrySafeHandle handle, out PdfXrefFreeEntrySafeHandle data);
 
         public static implicit operator PdfXrefEntrySafeHandle(PdfXrefFreeEntrySafeHandle handle)
         {
-            UInt32 result = Convert_ToEntry(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = Convert_ToEntry(handle, out PdfXrefEntrySafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

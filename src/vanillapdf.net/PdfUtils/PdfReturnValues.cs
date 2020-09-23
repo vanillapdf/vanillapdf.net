@@ -49,7 +49,12 @@ namespace vanillapdf.net
         public static UInt32 ERROR_SUCCESS = LibraryInstance.GetConstant(VANILLAPDF_ERROR_SUCCESS);
         public static UInt32 ERROR_PARAMETER_VALUE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_PARAMETER_VALUE);
         public static UInt32 ERROR_NOT_SUPPORTED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_NOT_SUPPORTED);
+        public static UInt32 USER_CANCELLED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_USER_CANCELLED);
+        public static UInt32 ZLIB_DATA = LibraryInstance.GetConstant(VANILLAPDF_ERROR_ZLIB_DATA);
+        public static UInt32 INVALID_LICENSE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_LICENSE);
+        public static UInt32 LICENSE_REQUIRED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_LICENSE_REQUIRED);
         public static UInt32 ERROR_GENERAL = LibraryInstance.GetConstant(VANILLAPDF_ERROR_GENERAL);
+
         public static UInt32 ERROR_CONVERSION = LibraryInstance.GetConstant(VANILLAPDF_ERROR_CONVERSION);
         public static UInt32 ERROR_FILE_DISPOSED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_FILE_DISPOSED);
         public static UInt32 ERROR_FILE_NOT_INITIALIZED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_FILE_NOT_INITIALIZED);
@@ -59,7 +64,12 @@ namespace vanillapdf.net
         private const string VANILLAPDF_ERROR_SUCCESS = "VANILLAPDF_ERROR_SUCCESS";
         private const string VANILLAPDF_ERROR_PARAMETER_VALUE = "VANILLAPDF_ERROR_PARAMETER_VALUE";
         private const string VANILLAPDF_ERROR_NOT_SUPPORTED = "VANILLAPDF_ERROR_NOT_SUPPORTED";
+        private const string VANILLAPDF_ERROR_USER_CANCELLED = "VANILLAPDF_ERROR_USER_CANCELLED";
+        private const string VANILLAPDF_ERROR_ZLIB_DATA = "VANILLAPDF_ERROR_ZLIB_DATA";
+        private const string VANILLAPDF_ERROR_INVALID_LICENSE = "VANILLAPDF_ERROR_INVALID_LICENSE";
+        private const string VANILLAPDF_ERROR_LICENSE_REQUIRED = "VANILLAPDF_ERROR_LICENSE_REQUIRED";
         private const string VANILLAPDF_ERROR_GENERAL = "VANILLAPDF_ERROR_GENERAL";
+
         private const string VANILLAPDF_ERROR_CONVERSION = "VANILLAPDF_ERROR_CONVERSION";
         private const string VANILLAPDF_ERROR_FILE_DISPOSED = "VANILLAPDF_ERROR_FILE_DISPOSED";
         private const string VANILLAPDF_ERROR_FILE_NOT_INITIALIZED = "VANILLAPDF_ERROR_FILE_NOT_INITIALIZED";

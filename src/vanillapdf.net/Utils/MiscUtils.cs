@@ -1,6 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.Utils
 {
@@ -25,8 +27,9 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfErrors).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfReturnValues).TypeHandle);
 
-            RuntimeHelpers.RunClassConstructor(typeof(PdfBuffer).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfUnknown).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfBuffer).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfSigningKey).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputStream).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfOutputStream).TypeHandle);
 
@@ -68,6 +71,7 @@ namespace vanillapdf.net.Utils
             // Safe handles
             RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfSigningKeySafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfOutputStreamSafeHandle).TypeHandle);
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfSemantics
 {
     public class PdfDocumentSignatureSettings : PdfUnknown
     {
@@ -22,6 +22,12 @@ namespace vanillapdf.net
         {
             get { return GetDigest(); }
             set { SetDigest(value); }
+        }
+
+        public PdfSigningKey SigningKey
+        {
+            get { return GetSigningKey(); }
+            set { SetSigningKey(value); }
         }
 
         public PdfLiteralStringObject Name
@@ -77,6 +83,24 @@ namespace vanillapdf.net
         public void SetDigest(PdfMessageDigestAlgorithmType data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetDigest(Handle, data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public PdfSigningKey GetSigningKey()
+        {
+            UInt32 result = NativeMethods.DocumentSignatureSettings_GetSigningKey(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfSigningKey(data);
+        }
+
+        public void SetSigningKey(PdfSigningKey data)
+        {
+            UInt32 result = NativeMethods.DocumentSignatureSettings_SetSigningKey(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -179,8 +203,8 @@ namespace vanillapdf.net
             public static GetDigestDelgate DocumentSignatureSettings_GetDigest = LibraryInstance.GetFunction<GetDigestDelgate>("DocumentSignatureSettings_GetDigest");
             public static SetDigestDelgate DocumentSignatureSettings_SetDigest = LibraryInstance.GetFunction<SetDigestDelgate>("DocumentSignatureSettings_SetDigest");
 
-            //public static DocumentAppendDocumentDelgate DocumentSignatureSettings_GetSigningKey = LibraryInstance.GetFunction<DocumentAppendDocumentDelgate>("DocumentSignatureSettings_GetSigningKey");
-            //public static DocumentGetCatalogDelgate DocumentSignatureSettings_SetSigningKey = LibraryInstance.GetFunction<DocumentGetCatalogDelgate>("DocumentSignatureSettings_SetSigningKey");
+            public static GetSigningKeyDelgate DocumentSignatureSettings_GetSigningKey = LibraryInstance.GetFunction<GetSigningKeyDelgate>("DocumentSignatureSettings_GetSigningKey");
+            public static SetSigningKeyDelgate DocumentSignatureSettings_SetSigningKey = LibraryInstance.GetFunction<SetSigningKeyDelgate>("DocumentSignatureSettings_SetSigningKey");
 
             public static GetNameDelgate DocumentSignatureSettings_GetName = LibraryInstance.GetFunction<GetNameDelgate>("DocumentSignatureSettings_GetName");
             public static SetNameDelgate DocumentSignatureSettings_SetName = LibraryInstance.GetFunction<SetNameDelgate>("DocumentSignatureSettings_SetName");
@@ -205,6 +229,12 @@ namespace vanillapdf.net
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 SetDigestDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfMessageDigestAlgorithmType data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetSigningKeyDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfSigningKeySafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 SetSigningKeyDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfSigningKeySafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetNameDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
