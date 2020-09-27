@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace vanillapdf.net.Utils
 {
-    internal static class LibraryInstance
+    public static class LibraryInstance
     {
         private const string X86_LIBRARY_PATH = "x86\\libvanillapdf.dll";
         private const string X64_LIBRARY_PATH = "x64\\libvanillapdf.dll";
@@ -17,7 +17,7 @@ namespace vanillapdf.net.Utils
             get
             {
                 if (m_handle == IntPtr.Zero) {
-                    Intialize();
+                    Initialize();
                 }
 
                 return m_handle;
@@ -34,16 +34,21 @@ namespace vanillapdf.net.Utils
             return (m_handle != IntPtr.Zero);
         }
 
-        public static void Intialize()
+        public static void Initialize()
+        {
+            // Root path of the entry assembly
+            string rootAssemblyPath = Assembly.GetEntryAssembly().Location;
+            string rootPath = Path.GetDirectoryName(rootAssemblyPath);
+
+            Initialize(rootPath);
+        }
+
+        public static void Initialize(string rootPath)
         {
             // Already initialized
             if (m_handle != IntPtr.Zero) {
                 return;
             }
-
-            // Root path of the entry assembly
-            string rootAssemblyPath = Assembly.GetEntryAssembly().Location;
-            string rootPath = Path.GetDirectoryName(rootAssemblyPath);
 
             // Find the correct library path depending on the process
             string libraryPath = Path.Combine(rootPath, X86_LIBRARY_PATH);
@@ -77,7 +82,7 @@ namespace vanillapdf.net.Utils
             m_handle = IntPtr.Zero;
         }
 
-        public static T GetFunction<T>(string procName)
+        internal static T GetFunction<T>(string procName)
         {
             IntPtr procAddress = GetProcAddress(Handle, procName);
             if (procAddress == IntPtr.Zero) {
@@ -87,7 +92,7 @@ namespace vanillapdf.net.Utils
             return Marshal.GetDelegateForFunctionPointer<T>(procAddress);
         }
 
-        public static UInt32 GetConstant(string constantName)
+        internal static UInt32 GetConstant(string constantName)
         {
             IntPtr constantAddress = GetProcAddress(Handle, constantName);
             if (constantAddress == IntPtr.Zero) {
