@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net
@@ -20,6 +21,12 @@ namespace vanillapdf.net
         {
             get { return GetData(); }
             set { SetData(value); }
+        }
+
+        public string StringData
+        {
+            get { return GetDataString(); }
+            set { SetDataString(value); }
         }
 
         public static PdfBuffer Create()
@@ -73,9 +80,21 @@ namespace vanillapdf.net
             }
         }
 
-        public PdfInputStream ToInputStream(string name)
+        public string GetDataString()
         {
-            UInt32 result = NativeMethods.Buffer_ToInputStream(Handle, name, out PdfInputStreamSafeHandle handle);
+            var data = GetData();
+            return Encoding.ASCII.GetString(data);
+        }
+
+        public void SetDataString(string data)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes(data);
+            SetData(bytes);
+        }
+
+        public PdfInputStream ToInputStream()
+        {
+            UInt32 result = NativeMethods.Buffer_ToInputStream(Handle, out PdfInputStreamSafeHandle handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -100,7 +119,7 @@ namespace vanillapdf.net
             public delegate UInt32 BufferSetDataDelgate(PdfBufferSafeHandle handle, IntPtr data, UIntPtr size);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 BufferToInputStreamDelgate(PdfBufferSafeHandle handle, string name, out PdfInputStreamSafeHandle data);
+            public delegate UInt32 BufferToInputStreamDelgate(PdfBufferSafeHandle handle, out PdfInputStreamSafeHandle data);
         }
     }
 }
