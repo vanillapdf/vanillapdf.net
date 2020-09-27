@@ -2,3 +2,6 @@
 /**/.vs/
 /**/bin/
 /**/obj/
+
+# Local configuration
+launchSettings.json
