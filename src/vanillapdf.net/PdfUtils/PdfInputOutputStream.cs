@@ -1,0 +1,194 @@
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
+using vanillapdf.net.Utils;
+
+namespace vanillapdf.net
+{
+    public class PdfInputOutputStream : PdfUnknown
+    {
+        internal PdfInputOutputStream(PdfInputOutputStreamSafeHandle handle) : base(handle)
+        {
+        }
+
+        static PdfInputOutputStream()
+        {
+            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+        }
+
+        public Int64 InputPosition
+        {
+            get { return GetInputPosition(); }
+            set { SetInputPosition(value); }
+        }
+
+        public Int64 OutputPosition
+        {
+            get { return GetOutputPosition(); }
+            set { SetOutputPosition(value); }
+        }
+
+        public static PdfInputOutputStream CreateFromFile(string filename)
+        {
+            UInt32 result = NativeMethods.InputOutputStream_CreateFromFile(filename, out PdfInputOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfInputOutputStream(data);
+        }
+
+        public static PdfInputOutputStream CreateFromMemory()
+        {
+            UInt32 result = NativeMethods.InputOutputStream_CreateFromMemory(out PdfInputOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfInputOutputStream(data);
+        }
+
+        public Int64 GetInputPosition()
+        {
+            UInt32 result = NativeMethods.InputOutputStream_GetInputPosition(Handle, out Int64 data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public void SetInputPosition(Int64 data)
+        {
+            UInt32 result = NativeMethods.InputOutputStream_SetInputPosition(Handle, data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public byte[] Read(UInt32 length)
+        {
+            GCHandle pinnedArray;
+
+            try {
+                byte[] allocatedBuffer = new byte[length];
+
+                pinnedArray = GCHandle.Alloc(allocatedBuffer, GCHandleType.Pinned);
+
+                UInt32 result = NativeMethods.InputOutputStream_Read(Handle, new UIntPtr(length), pinnedArray.AddrOfPinnedObject(), out UIntPtr readLength);
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
+                }
+
+                var rawLength = readLength.ToUInt64();
+                var convertedLength = Convert.ToInt32(rawLength);
+                Array.Resize(ref allocatedBuffer, convertedLength);
+
+                return allocatedBuffer;
+            } finally {
+                if (pinnedArray.IsAllocated) {
+                    pinnedArray.Free();
+                }
+            }
+        }
+
+        public PdfBuffer ReadBuffer(UInt32 length)
+        {
+            UInt32 result = NativeMethods.InputOutputStream_ReadBuffer(Handle, new UIntPtr(length), out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfBuffer(data);
+        }
+
+        public Int64 GetOutputPosition()
+        {
+            UInt32 result = NativeMethods.InputOutputStream_GetOutputPosition(Handle, out Int64 data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public void SetOutputPosition(Int64 data)
+        {
+            UInt32 result = NativeMethods.InputOutputStream_SetOutputPosition(Handle, data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public static implicit operator PdfInputStream(PdfInputOutputStream data)
+        {
+            return new PdfInputStream(data.Handle);
+        }
+
+        public static explicit operator PdfInputOutputStream(PdfInputStream data)
+        {
+            return new PdfInputOutputStream(data.Handle);
+        }
+
+        public static implicit operator PdfOutputStream(PdfInputOutputStream data)
+        {
+            return new PdfOutputStream(data.Handle);
+        }
+
+        public static explicit operator PdfInputOutputStream(PdfOutputStream data)
+        {
+            return new PdfInputOutputStream(data.Handle);
+        }
+
+        private static class NativeMethods
+        {
+            public static CreateFromFileDelgate InputOutputStream_CreateFromFile = LibraryInstance.GetFunction<CreateFromFileDelgate>("InputOutputStream_CreateFromFile");
+            public static CreateFromMemoryDelgate InputOutputStream_CreateFromMemory = LibraryInstance.GetFunction<CreateFromMemoryDelgate>("InputOutputStream_CreateFromMemory");
+
+            public static ReadDelgate InputOutputStream_Read = LibraryInstance.GetFunction<ReadDelgate>("InputOutputStream_Read");
+            public static ReadBufferDelgate InputOutputStream_ReadBuffer = LibraryInstance.GetFunction<ReadBufferDelgate>("InputOutputStream_ReadBuffer");
+            public static GetInputPositionDelgate InputOutputStream_GetInputPosition = LibraryInstance.GetFunction<GetInputPositionDelgate>("InputOutputStream_GetInputPosition");
+            public static SetInputPositionDelgate InputOutputStream_SetInputPosition = LibraryInstance.GetFunction<SetInputPositionDelgate>("InputOutputStream_SetInputPosition");
+
+            public static GetOutputPositionDelgate InputOutputStream_GetOutputPosition = LibraryInstance.GetFunction<GetOutputPositionDelgate>("InputOutputStream_GetOutputPosition");
+            public static SetOutputPositionDelgate InputOutputStream_SetOutputPosition = LibraryInstance.GetFunction<SetOutputPositionDelgate>("InputOutputStream_SetOutputPosition");
+            public static WriteStringDelgate InputOutputStream_WriteString = LibraryInstance.GetFunction<WriteStringDelgate>("InputOutputStream_WriteString");
+            public static WriteBufferDelgate InputOutputStream_WriteBuffer = LibraryInstance.GetFunction<WriteBufferDelgate>("InputOutputStream_WriteBuffer");
+            public static FlushDelgate InputOutputStream_Flush = LibraryInstance.GetFunction<FlushDelgate>("InputOutputStream_Flush");
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 CreateFromFileDelgate(string filename, out PdfInputOutputStreamSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 CreateFromMemoryDelgate(out PdfInputOutputStreamSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 ReadDelgate(PdfInputOutputStreamSafeHandle handle, UIntPtr length, IntPtr data, out UIntPtr readLength);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 ReadBufferDelgate(PdfInputOutputStreamSafeHandle handle, UIntPtr length, out PdfBufferSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetInputPositionDelgate(PdfInputOutputStreamSafeHandle handle, out Int64 data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 SetInputPositionDelgate(PdfInputOutputStreamSafeHandle handle, Int64 data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetOutputPositionDelgate(PdfInputOutputStreamSafeHandle handle, out Int64 data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 SetOutputPositionDelgate(PdfInputOutputStreamSafeHandle handle, Int64 data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 WriteStringDelgate(PdfInputOutputStreamSafeHandle handle, string data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 WriteBufferDelgate(PdfInputOutputStreamSafeHandle handle, PdfBufferSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 FlushDelgate(PdfInputOutputStreamSafeHandle handle);
+        }
+    }
+}

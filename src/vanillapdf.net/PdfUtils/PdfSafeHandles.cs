@@ -180,6 +180,99 @@ namespace vanillapdf.net
         }
     }
 
+    internal sealed class PdfInputOutputStreamSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("InputOutputStream_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("InputOutputStream_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("InputOutputStream_FromUnknown");
+
+        private static ToInputStreamDelegate InputOutputStream_ToInputStream = LibraryInstance.GetFunction<ToInputStreamDelegate>("InputOutputStream_ToInputStream");
+        private static FromInputStreamDelegate InputOutputStream_FromInputStream = LibraryInstance.GetFunction<FromInputStreamDelegate>("InputOutputStream_FromInputStream");
+
+        private static ToOutputStreamDelegate InputOutputStream_ToOutputStream = LibraryInstance.GetFunction<ToOutputStreamDelegate>("InputOutputStream_ToOutputStream");
+        private static FromOutputStreamDelegate InputOutputStream_FromOutputStream = LibraryInstance.GetFunction<FromOutputStreamDelegate>("InputOutputStream_FromOutputStream");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfInputOutputStreamSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ToInputStreamDelegate(PdfInputOutputStreamSafeHandle handle, out PdfInputStreamSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 FromInputStreamDelegate(PdfInputStreamSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ToOutputStreamDelegate(PdfInputOutputStreamSafeHandle handle, out PdfOutputStreamSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 FromOutputStreamDelegate(PdfOutputStreamSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfInputOutputStreamSafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfInputOutputStreamSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfInputOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfInputStreamSafeHandle(PdfInputOutputStreamSafeHandle handle)
+        {
+            UInt32 result = InputOutputStream_ToInputStream(handle, out PdfInputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfInputOutputStreamSafeHandle(PdfInputStreamSafeHandle handle)
+        {
+            UInt32 result = InputOutputStream_FromInputStream(handle, out PdfInputOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfOutputStreamSafeHandle(PdfInputOutputStreamSafeHandle handle)
+        {
+            UInt32 result = InputOutputStream_ToOutputStream(handle, out PdfOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfInputOutputStreamSafeHandle(PdfOutputStreamSafeHandle handle)
+        {
+            UInt32 result = InputOutputStream_FromOutputStream(handle, out PdfInputOutputStreamSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
+
     internal sealed class PdfSigningKeySafeHandle : PdfSafeHandle
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("SigningKey_Release");
