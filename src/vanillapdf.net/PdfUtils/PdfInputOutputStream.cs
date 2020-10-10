@@ -121,6 +121,30 @@ namespace vanillapdf.net
             }
         }
 
+        public void WriteString(string data)
+        {
+            UInt32 result = NativeMethods.InputOutputStream_WriteString(Handle, data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public void WriteBuffer(PdfBuffer data)
+        {
+            UInt32 result = NativeMethods.InputOutputStream_WriteBuffer(Handle, data.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public void Flush()
+        {
+            UInt32 result = NativeMethods.InputOutputStream_Flush(Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
         public static implicit operator PdfInputStream(PdfInputOutputStream data)
         {
             return new PdfInputStream(data.Handle);
