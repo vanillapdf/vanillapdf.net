@@ -48,6 +48,8 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IEnumerator
 
+        private bool isFirst = true;
+
         object IEnumerator.Current => GetValue();
         PdfXref IEnumerator<PdfXref>.Current => GetValue();
 
@@ -55,6 +57,12 @@ namespace vanillapdf.net.PdfSyntax
         {
             if (!IsValid()) {
                 return false;
+            }
+
+            // HACK: Skip Next() for the first item
+            if (isFirst) {
+                isFirst = false;
+                return true;
             }
 
             Next();

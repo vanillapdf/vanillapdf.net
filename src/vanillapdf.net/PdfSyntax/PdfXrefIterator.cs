@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public class PdfXrefIterator : PdfUnknown
+    public class PdfXrefIterator : PdfUnknown, IEnumerator<PdfXrefEntry>
     {
         internal PdfXrefIterator(PdfXrefIteratorSafeHandle handle) : base(handle)
         {
@@ -43,6 +45,36 @@ namespace vanillapdf.net.PdfSyntax
 
             return data;
         }
+
+        #region IEnumerator
+
+        private bool isFirst = true;
+
+        object IEnumerator.Current => GetValue();
+        PdfXrefEntry IEnumerator<PdfXrefEntry>.Current => GetValue();
+
+        bool IEnumerator.MoveNext()
+        {
+            if (!IsValid()) {
+                return false;
+            }
+
+            // HACK: Skip Next() for the first item
+            if (isFirst) {
+                isFirst = false;
+                return true;
+            }
+
+            Next();
+            return IsValid();
+        }
+
+        void IEnumerator.Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

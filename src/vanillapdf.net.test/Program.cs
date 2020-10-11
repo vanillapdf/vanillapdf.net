@@ -85,18 +85,8 @@ namespace vanillapdf.net.test
 
         static void CheckXrefChain(PdfXrefChain chain)
         {
-            using (var xrefChainIterator = chain.GetIterator()) {
-                while (true) {
-                    if (!xrefChainIterator.IsValid()) {
-                        break;
-                    }
-
-                    using (var xref = xrefChainIterator.GetValue()) {
-                        CheckXref(xref);
-                    }
-
-                    xrefChainIterator.Next();
-                }
+            foreach (var xref in chain) {
+                CheckXref(xref);
             }
         }
 
@@ -109,18 +99,8 @@ namespace vanillapdf.net.test
                 // Check trailer dictionary
             }
 
-            using (var xrefIterator = xref.GetIterator()) {
-                while (true) {
-                    if (!xrefIterator.IsValid()) {
-                        break;
-                    }
-
-                    using (var entry = xrefIterator.GetValue()) {
-                        CheckXrefEntry(entry);
-                    }
-
-                    xrefIterator.Next();
-                }
+            foreach (var entry in xref) {
+                CheckXrefEntry(entry);
             }
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public class PdfXrefChain : PdfUnknown
+    public class PdfXrefChain : PdfUnknown, IEnumerable<PdfXref>
     {
         internal PdfXrefChain(PdfXrefChainSafeHandle handle) : base(handle)
         {
@@ -25,6 +27,20 @@ namespace vanillapdf.net.PdfSyntax
 
             return new PdfXrefChainIterator(value);
         }
+
+        #region IEnumerable<PdfXref>
+
+        IEnumerator<PdfXref> IEnumerable<PdfXref>.GetEnumerator()
+        {
+            return GetIterator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetIterator();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {
