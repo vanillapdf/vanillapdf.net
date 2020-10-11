@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.test
@@ -85,7 +87,7 @@ namespace vanillapdf.net.test
         {
             using (var xrefChainIterator = chain.GetIterator()) {
                 while (true) {
-                    if (!chain.IsIteratorValid(xrefChainIterator)) {
+                    if (!xrefChainIterator.IsValid()) {
                         break;
                     }
 
@@ -109,7 +111,7 @@ namespace vanillapdf.net.test
 
             using (var xrefIterator = xref.GetIterator()) {
                 while (true) {
-                    if (!xref.IsIteratorValid(xrefIterator)) {
+                    if (!xrefIterator.IsValid()) {
                         break;
                     }
 

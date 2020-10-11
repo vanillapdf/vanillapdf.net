@@ -34,16 +34,30 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public bool IsValid()
+        {
+            UInt32 result = NativeMethods.XrefIterator_IsValid(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
         private static class NativeMethods
         {
             public static GetValueDelgate XrefIterator_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("XrefIterator_GetValue");
             public static NextDelgate XrefIterator_Next = LibraryInstance.GetFunction<NextDelgate>("XrefIterator_Next");
+            public static IsValidDelgate XrefIterator_IsValid = LibraryInstance.GetFunction<IsValidDelgate>("XrefIterator_IsValid");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetValueDelgate(PdfXrefIteratorSafeHandle handle, out PdfXrefEntrySafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 NextDelgate(PdfXrefIteratorSafeHandle handle);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 IsValidDelgate(PdfXrefIteratorSafeHandle handle, out bool data);
         }
     }
 }
