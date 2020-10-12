@@ -30,7 +30,7 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IEnumerable<PdfXref>
 
-        IEnumerator<PdfXref> IEnumerable<PdfXref>.GetEnumerator()
+        public IEnumerator<PdfXref> GetEnumerator()
         {
             return GetIterator();
         }
