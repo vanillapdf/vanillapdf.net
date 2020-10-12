@@ -6,19 +6,10 @@ namespace vanillapdf.net.nunit.Utils
     [TestFixture]
     public class PdfBufferTest
     {
-        private PdfBuffer Buffer { get; set; }
-
-        [SetUp]
-        public void Setup()
-        {
-            Buffer = PdfBuffer.Create();
-            Assert.NotNull(Buffer);
-        }
-
         [Test]
         public void TestData()
         {
-            Buffer = PdfBuffer.Create();
+            var Buffer = PdfBuffer.Create();
             var testData = new byte[1024];
 
             Buffer.SetData(testData);
@@ -32,7 +23,7 @@ namespace vanillapdf.net.nunit.Utils
         {
             const string TEST_DATA = "TEST_DATA";
 
-            Buffer = PdfBuffer.Create();
+            var Buffer = PdfBuffer.Create();
             Buffer.SetDataString(TEST_DATA);
             var checkData = Buffer.GetDataString();
 
