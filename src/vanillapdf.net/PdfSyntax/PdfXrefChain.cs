@@ -20,7 +20,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public PdfXrefChainIterator GetIterator()
         {
-            UInt32 result = NativeMethods.XrefChain_Iterator(Handle, out var value);
+            UInt32 result = NativeMethods.XrefChain_GetIterator(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -44,10 +44,10 @@ namespace vanillapdf.net.PdfSyntax
 
         private static class NativeMethods
         {
-            public static IteratorDelgate XrefChain_Iterator = LibraryInstance.GetFunction<IteratorDelgate>("XrefChain_GetIterator");
+            public static GetIteratorDelgate XrefChain_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("XrefChain_GetIterator");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IteratorDelgate(PdfXrefChainSafeHandle handle, out PdfXrefChainIteratorSafeHandle data);
+            public delegate UInt32 GetIteratorDelgate(PdfXrefChainSafeHandle handle, out PdfXrefChainIteratorSafeHandle data);
         }
     }
 }
