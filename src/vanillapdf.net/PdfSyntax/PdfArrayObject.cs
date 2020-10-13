@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public class PdfArrayObject : PdfObject
+    public class PdfArrayObject : PdfObject , IList<PdfObject>
     {
         internal PdfArrayObject(PdfArrayObjectSafeHandle handle) : base(handle)
         {
@@ -36,14 +38,22 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToUInt64();
         }
 
-        public PdfObject At(UInt64 index)
+        public PdfObject GetValue(UInt64 index)
         {
-            UInt32 result = NativeMethods.ArrayObject_At(Handle, new UIntPtr(index), out var data);
+            UInt32 result = NativeMethods.ArrayObject_GetValue(Handle, new UIntPtr(index), out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
             return new PdfObject(data);
+        }
+
+        public void SetValue(UInt64 index, PdfObject item)
+        {
+            UInt32 result = NativeMethods.ArrayObject_SetValue(Handle, new UIntPtr(index), item.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
         }
 
         public void Append(PdfObject item)
@@ -70,19 +80,113 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public void Clear()
+        {
+            UInt32 result = NativeMethods.ArrayObject_Clear(Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
         public static PdfArrayObject FromObject(PdfObject data)
         {
             return new PdfArrayObject(data.Handle);
         }
 
+        #region IList<PdfObject>
+
+        public int Count => (int)GetSize();
+        public bool IsReadOnly => false;
+        public PdfObject this[int index] { get => GetValue((UInt64)index); set => SetValue((UInt64)index, value); }
+
+        public int IndexOf(PdfObject item)
+        {
+            for (int i = 0; i < Count; ++i) {
+                var current = GetValue((UInt64)i);
+
+                if (item.Equals(current)) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public void Insert(int index, PdfObject item)
+        {
+            Insert((UInt64)index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            Remove((UInt64)index);
+        }
+
+        public void Add(PdfObject item)
+        {
+            Append(item);
+        }
+
+        public bool Contains(PdfObject item)
+        {
+            for (int i = 0; i < Count; ++i) {
+                var current = GetValue((UInt64)i);
+
+                if (item.Equals(current)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void CopyTo(PdfObject[] array, int arrayIndex)
+        {
+            for (int i = 0; i < Count; ++i) {
+                array[arrayIndex++] = GetValue((UInt64)i);
+            }
+        }
+
+        public bool Remove(PdfObject item)
+        {
+            for (int i = 0; i < Count; ++i) {
+                var current = GetValue((UInt64)i);
+
+                if (item.Equals(current)) {
+                    Remove((UInt64)i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public IEnumerator<PdfObject> GetEnumerator()
+        {
+            for (int i = 0; i < Count; ++i) {
+                yield return GetValue((UInt64)i);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (int i = 0; i < Count; ++i) {
+                yield return GetValue((UInt64)i);
+            }
+        }
+
+        #endregion
+
         private static class NativeMethods
         {
             public static CreateDelgate ArrayObject_Create = LibraryInstance.GetFunction<CreateDelgate>("ArrayObject_Create");
             public static GetSizeDelgate ArrayObject_GetSize = LibraryInstance.GetFunction<GetSizeDelgate>("ArrayObject_GetSize");
-            public static AtDelgate ArrayObject_At = LibraryInstance.GetFunction<AtDelgate>("ArrayObject_At");
+            public static GetValueDelgate ArrayObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("ArrayObject_GetValue");
+            public static SetValueDelgate ArrayObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("ArrayObject_SetValue");
             public static AppendDelgate ArrayObject_Append = LibraryInstance.GetFunction<AppendDelgate>("ArrayObject_Append");
             public static InsertDelgate ArrayObject_Insert = LibraryInstance.GetFunction<InsertDelgate>("ArrayObject_Insert");
             public static RemoveDelgate ArrayObject_Remove = LibraryInstance.GetFunction<RemoveDelgate>("ArrayObject_Remove");
+            public static ClearDelgate ArrayObject_Clear = LibraryInstance.GetFunction<ClearDelgate>("ArrayObject_Clear");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CreateDelgate(out PdfArrayObjectSafeHandle handle);
@@ -91,7 +195,10 @@ namespace vanillapdf.net.PdfSyntax
             public delegate UInt32 GetSizeDelgate(PdfArrayObjectSafeHandle handle, out UIntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AtDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index, out PdfObjectSafeHandle data);
+            public delegate UInt32 GetValueDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index, out PdfObjectSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 SetValueDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index, PdfObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 AppendDelgate(PdfArrayObjectSafeHandle handle, PdfObjectSafeHandle data);
@@ -101,6 +208,9 @@ namespace vanillapdf.net.PdfSyntax
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 RemoveDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 ClearDelgate(PdfArrayObjectSafeHandle handle);
         }
     }
 }
