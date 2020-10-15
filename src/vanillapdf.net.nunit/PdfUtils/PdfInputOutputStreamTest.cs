@@ -1,25 +1,17 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace vanillapdf.net.nunit.Utils
 {
     [TestFixture]
     public class PdfInputOutputStreamTest
     {
-        private PdfInputOutputStream Stream { get; set; }
-
-        [SetUp]
-        public void Setup()
-        {
-            Stream = PdfInputOutputStream.CreateFromMemory();
-            Assert.NotNull(Stream);
-        }
-
         [Test]
         public void TestData()
         {
             const string TEST_DATA = "TEST_DATA";
 
-            Stream = PdfInputOutputStream.CreateFromMemory();
+            var Stream = PdfInputOutputStream.CreateFromMemory();
 
             Stream.WriteString(TEST_DATA);
 

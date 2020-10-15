@@ -26,7 +26,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFile(data);
         }
 
-        public static PdfFile OpenStream(PdfInputStream stream, string filename)
+        public static PdfFile OpenStream(PdfInputOutputStream stream, string filename)
         {
             UInt32 result = NativeMethods.File_OpenStream(stream.Handle, filename, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -46,7 +46,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFile(data);
         }
 
-        public static PdfFile CreateStream(PdfInputStream stream, string name)
+        public static PdfFile CreateStream(PdfInputOutputStream stream, string name)
         {
             UInt32 result = NativeMethods.File_CreateStream(stream.Handle, name, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -114,13 +114,13 @@ namespace vanillapdf.net.PdfSyntax
             public delegate UInt32 FileOpenDelgate(string filename, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileOpenStreamDelgate(PdfInputStreamSafeHandle input_stream, string name, out PdfFileSafeHandle data);
+            public delegate UInt32 FileOpenStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, string name, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FileCreateDelgate(string filename, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileCreateStreamDelgate(PdfInputStreamSafeHandle input_stream, string name, out PdfFileSafeHandle data);
+            public delegate UInt32 FileCreateStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, string name, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FileInitializeDelgate(PdfFileSafeHandle handle);
