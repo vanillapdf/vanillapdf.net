@@ -32,6 +32,7 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfUnknown).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfBuffer).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfSigningKey).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPKCS12Key).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputStream).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfOutputStream).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputOutputStream).TypeHandle);
@@ -76,6 +77,7 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfSigningKeySafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPKCS12KeySafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfOutputStreamSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfInputOutputStreamSafeHandle).TypeHandle);

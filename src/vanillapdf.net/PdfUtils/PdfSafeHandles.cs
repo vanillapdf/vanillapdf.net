@@ -308,6 +308,51 @@ namespace vanillapdf.net
         }
     }
 
+    internal sealed class PdfPKCS12KeySafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PKCS12Key_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToSigningKeyDelegate Convert_ToSigningKey = LibraryInstance.GetFunction<ConvertToSigningKeyDelegate>("PKCS12Key_ToSigningKey");
+        private static ConvertFromSigningKeyDelegate Convert_FromSigningKey = LibraryInstance.GetFunction<ConvertFromSigningKeyDelegate>("PKCS12Key_FromSigningKey");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToSigningKeyDelegate(PdfPKCS12KeySafeHandle handle, out PdfSigningKeySafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromSigningKeyDelegate(PdfSigningKeySafeHandle handle, out PdfPKCS12KeySafeHandle data);
+
+        public static implicit operator PdfSigningKeySafeHandle(PdfPKCS12KeySafeHandle handle)
+        {
+            UInt32 result = Convert_ToSigningKey(handle, out PdfSigningKeySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfPKCS12KeySafeHandle(PdfSigningKeySafeHandle handle)
+        {
+            UInt32 result = Convert_FromSigningKey(handle, out PdfPKCS12KeySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfPKCS12KeySafeHandle handle)
+        {
+            return (PdfSigningKeySafeHandle)handle;
+        }
+
+        public static implicit operator PdfPKCS12KeySafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfSigningKeySafeHandle)handle;
+        }
+    }
+
     #endregion
 
     #region Syntax
