@@ -22,6 +22,22 @@ namespace vanillapdf.net
                 return PdfNotSupportedException.Create(errorMessage);
             }
 
+            if (value == PdfReturnValues.USER_CANCELLED) {
+                return PdfUserCancelledException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ZLIB_DATA) {
+                return PdfZlibDataException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.INVALID_LICENSE) {
+                return PdfInvalidLicenseException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.LICENSE_REQUIRED) {
+                return PdfLicenseRequiredException.Create(errorMessage);
+            }
+
             if (value == PdfReturnValues.ERROR_GENERAL) {
                 return PdfGeneralException.Create(errorMessage);
             }
@@ -73,6 +89,62 @@ namespace vanillapdf.net
         }
 
         private PdfNotSupportedException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    public class PdfUserCancelledException : PdfBaseException
+    {
+        public static PdfUserCancelledException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            return new PdfUserCancelledException(message, code);
+        }
+
+        private PdfUserCancelledException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    public class PdfZlibDataException : PdfBaseException
+    {
+        public static PdfZlibDataException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            return new PdfZlibDataException(message, code);
+        }
+
+        private PdfZlibDataException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    public class PdfInvalidLicenseException : PdfBaseException
+    {
+        public static PdfInvalidLicenseException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            return new PdfInvalidLicenseException(message, code);
+        }
+
+        private PdfInvalidLicenseException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    public class PdfLicenseRequiredException : PdfBaseException
+    {
+        public static PdfLicenseRequiredException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            return new PdfLicenseRequiredException(message, code);
+        }
+
+        private PdfLicenseRequiredException(string message, UInt32 errorCode)
             : base(message, errorCode)
         {
         }

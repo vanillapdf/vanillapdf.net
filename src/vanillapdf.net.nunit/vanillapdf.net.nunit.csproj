@@ -20,4 +20,10 @@
     <ProjectReference Include="..\vanillapdf.net\vanillapdf.net.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\minimalist.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
