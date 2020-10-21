@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using vanillapdf.net.PdfSyntax;
 
 namespace vanillapdf.net.nunit.Utils
@@ -31,6 +32,16 @@ namespace vanillapdf.net.nunit.Utils
             var checkValue = check.GetDataString();
 
             Assert.AreEqual(DECODED_VALUE, checkValue);
+        }
+
+        [Test]
+        public void TestStability()
+        {
+            for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
+                PdfHexadecimalStringObject.Create();
+            }
+
+            GC.Collect();
         }
     }
 }

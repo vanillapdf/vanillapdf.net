@@ -72,12 +72,18 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        public void Remove(UInt64 index)
+        public bool Remove(UInt64 index)
         {
             UInt32 result = NativeMethods.ArrayObject_Remove(Handle, new UIntPtr(index));
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return false;
+            }
+
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+
+            return true;
         }
 
         public void Clear()
@@ -153,8 +159,7 @@ namespace vanillapdf.net.PdfSyntax
                 var current = GetValue((UInt64)i);
 
                 if (item.Equals(current)) {
-                    Remove((UInt64)i);
-                    return true;
+                    return Remove((UInt64)i);
                 }
             }
 

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using vanillapdf.net.PdfSyntax;
 
 namespace vanillapdf.net.nunit.Utils
@@ -38,6 +39,16 @@ namespace vanillapdf.net.nunit.Utils
             Assert.AreEqual(DictionaryObject.Count, 0);
             Assert.AreEqual(DictionaryObject.Keys.Count, 0);
             Assert.AreEqual(DictionaryObject.Values.Count, 0);
+        }
+
+        [Test]
+        public void TestStability()
+        {
+            for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
+                PdfDictionaryObject.Create();
+            }
+
+            GC.Collect();
         }
     }
 }

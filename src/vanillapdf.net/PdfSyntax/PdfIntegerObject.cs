@@ -86,7 +86,7 @@ namespace vanillapdf.net.PdfSyntax
             public static SetIntegerValueDelgate IntegerObject_SetIntegerValue = LibraryInstance.GetFunction<SetIntegerValueDelgate>("IntegerObject_SetIntegerValue");
 
             public static GetUnsignedIntegerValueDelgate IntegerObject_GetUnsignedIntegerValue = LibraryInstance.GetFunction<GetUnsignedIntegerValueDelgate>("IntegerObject_GetUnsignedIntegerValue");
-            public static SetUnsignedIntegerValueDelgate IntegerObject_SetUnsignedIntegerValue = LibraryInstance.GetFunction<SetUnsignedIntegerValueDelgate>("IntegerObject_GetIntegerValue");
+            public static SetUnsignedIntegerValueDelgate IntegerObject_SetUnsignedIntegerValue = LibraryInstance.GetFunction<SetUnsignedIntegerValueDelgate>("IntegerObject_SetUnsignedIntegerValue");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CreateDelgate(out PdfIntegerObjectSafeHandle handle);

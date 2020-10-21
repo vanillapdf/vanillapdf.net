@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace vanillapdf.net.nunit.Utils
@@ -63,6 +64,16 @@ namespace vanillapdf.net.nunit.Utils
             Assert.IsFalse(buffer2.Equals(buffer1));
 
             Assert.AreNotEqual(buffer1.GetHashCode(), buffer2.GetHashCode());
+        }
+
+        [Test]
+        public void TestStability()
+        {
+            for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
+                PdfBuffer.Create();
+            }
+
+            GC.Collect();
         }
     }
 }
