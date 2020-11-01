@@ -67,7 +67,7 @@ namespace vanillapdf.net
             }
         }
 
-        public byte[] Read(UInt32 length)
+        public byte[] Read(Int64 length)
         {
             GCHandle pinnedArray;
 
@@ -76,13 +76,12 @@ namespace vanillapdf.net
 
                 pinnedArray = GCHandle.Alloc(allocatedBuffer, GCHandleType.Pinned);
 
-                UInt32 result = NativeMethods.InputOutputStream_Read(Handle, new UIntPtr(length), pinnedArray.AddrOfPinnedObject(), out UIntPtr readLength);
+                UInt32 result = NativeMethods.InputOutputStream_Read(Handle, length, pinnedArray.AddrOfPinnedObject(), out Int64 readLength);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
 
-                var rawLength = readLength.ToUInt64();
-                var convertedLength = Convert.ToInt32(rawLength);
+                var convertedLength = Convert.ToInt32(readLength);
                 Array.Resize(ref allocatedBuffer, convertedLength);
 
                 return allocatedBuffer;
@@ -93,9 +92,9 @@ namespace vanillapdf.net
             }
         }
 
-        public PdfBuffer ReadBuffer(UInt32 length)
+        public PdfBuffer ReadBuffer(Int64 length)
         {
-            UInt32 result = NativeMethods.InputOutputStream_ReadBuffer(Handle, new UIntPtr(length), out var data);
+            UInt32 result = NativeMethods.InputOutputStream_ReadBuffer(Handle, length, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -188,10 +187,10 @@ namespace vanillapdf.net
             public delegate UInt32 CreateFromMemoryDelgate(out PdfInputOutputStreamSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ReadDelgate(PdfInputOutputStreamSafeHandle handle, UIntPtr length, IntPtr data, out UIntPtr readLength);
+            public delegate UInt32 ReadDelgate(PdfInputOutputStreamSafeHandle handle, Int64 length, IntPtr data, out Int64 readLength);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ReadBufferDelgate(PdfInputOutputStreamSafeHandle handle, UIntPtr length, out PdfBufferSafeHandle data);
+            public delegate UInt32 ReadBufferDelgate(PdfInputOutputStreamSafeHandle handle, Int64 length, out PdfBufferSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetInputPositionDelgate(PdfInputOutputStreamSafeHandle handle, out Int64 data);
