@@ -1,4 +1,5 @@
 ﻿using System;
+using vanillapdf.net.Utils.SafeHandles;
 
 namespace vanillapdf.net
 {

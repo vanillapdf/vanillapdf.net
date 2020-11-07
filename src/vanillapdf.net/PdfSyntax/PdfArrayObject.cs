@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using vanillapdf.net.Utils;
+using vanillapdf.net.Utils.SafeHandles;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public class PdfArrayObject : PdfObject , IList<PdfObject>
+    public class PdfArrayObject : PdfObject, IList<PdfObject>
     {
         internal PdfArrayObject(PdfArrayObjectSafeHandle handle) : base(handle)
         {

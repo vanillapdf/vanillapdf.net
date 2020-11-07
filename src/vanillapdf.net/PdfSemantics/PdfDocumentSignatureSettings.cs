@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
+using vanillapdf.net.Utils.SafeHandles;
 
 namespace vanillapdf.net.PdfSemantics
 {
