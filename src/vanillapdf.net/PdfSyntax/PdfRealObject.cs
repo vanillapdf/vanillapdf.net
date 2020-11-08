@@ -51,6 +51,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static implicit operator double(PdfRealObject obj)
+        {
+            return obj.Value;
+        }
+
         public static PdfRealObject FromObject(PdfObject data)
         {
             return new PdfRealObject(data.Handle);

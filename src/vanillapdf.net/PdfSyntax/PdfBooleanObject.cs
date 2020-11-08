@@ -51,6 +51,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static implicit operator bool(PdfBooleanObject obj)
+        {
+            return obj.Value;
+        }
+
         public static PdfBooleanObject FromObject(PdfObject data)
         {
             return new PdfBooleanObject(data.Handle);

@@ -75,6 +75,16 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public static implicit operator Int64(PdfIntegerObject obj)
+        {
+            return obj.IntegerValue;
+        }
+
+        public static implicit operator UInt64(PdfIntegerObject obj)
+        {
+            return obj.UnsignedIntegerValue;
+        }
+
         public static PdfIntegerObject FromObject(PdfObject data)
         {
             return new PdfIntegerObject(data.Handle);
