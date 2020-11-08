@@ -20,7 +20,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public PdfObjectType GetObjectType()
         {
-            UInt32 result = NativeMethods.Object_GetType(Handle, out PdfObjectType data);
+            UInt32 result = NativeMethods.Object_GetObjectType(Handle, out PdfObjectType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -30,7 +30,7 @@ namespace vanillapdf.net.PdfSyntax
 
         private static class NativeMethods
         {
-            public static GetTypeDelgate Object_GetType = LibraryInstance.GetFunction<GetTypeDelgate>("Object_GetType");
+            public static GetTypeDelgate Object_GetObjectType = LibraryInstance.GetFunction<GetTypeDelgate>("Object_GetObjectType");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetTypeDelgate(PdfObjectSafeHandle handle, out PdfObjectType data);

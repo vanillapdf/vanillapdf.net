@@ -8,7 +8,8 @@ namespace vanillapdf.net
 {
     public enum PdfAnnotationType
     {
-        Text = 0,
+        Undefined = 0,
+        Text,
         Link,
         FreeText,
         Line,
@@ -49,7 +50,7 @@ namespace vanillapdf.net
 
         public PdfAnnotationType GetAnnotationType()
         {
-            UInt32 result = NativeMethods.Annotation_GetType(Handle, out int data);
+            UInt32 result = NativeMethods.Annotation_GetAnnotationType(Handle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -59,10 +60,10 @@ namespace vanillapdf.net
 
         private static class NativeMethods
         {
-            public static AnnotationGetTypeDelgate Annotation_GetType = LibraryInstance.GetFunction<AnnotationGetTypeDelgate>("Annotation_GetType");
+            public static AnnotationGetTypeDelgate Annotation_GetAnnotationType = LibraryInstance.GetFunction<AnnotationGetTypeDelgate>("Annotation_GetAnnotationType");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AnnotationGetTypeDelgate(PdfAnnotationSafeHandle handle, out int data);
+            public delegate UInt32 AnnotationGetTypeDelgate(PdfAnnotationSafeHandle handle, out Int32 data);
         }
     }
 }

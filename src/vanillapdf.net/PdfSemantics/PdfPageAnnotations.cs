@@ -29,7 +29,7 @@ namespace vanillapdf.net
 
         public PdfAnnotation At(UInt64 index)
         {
-            UInt32 result = NativeMethods.PageAnnotations_At(Handle, new UIntPtr(index), out PdfAnnotationSafeHandle data);
+            UInt32 result = NativeMethods.PageAnnotations_At(Handle, new UIntPtr(index), out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

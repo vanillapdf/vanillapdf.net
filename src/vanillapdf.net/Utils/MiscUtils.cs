@@ -73,7 +73,14 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageTree).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContents).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotations).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotation).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstruction).TypeHandle);
+
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObject).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectText).TypeHandle);
+
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperation).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShow).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowArray).TypeHandle);
 
             // Safe handles
             RuntimeHelpers.RunClassConstructor(typeof(PdfUnknownSafeHandle).TypeHandle);
@@ -111,12 +118,19 @@ namespace vanillapdf.net.Utils
 
             RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSignatureSettingsSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotationSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfContentsSafeHandle).TypeHandle);
+
+            RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentsSafeHandle).TypeHandle);
             //RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectTextSafeHandle).TypeHandle);
+
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowArraySafeHandle).TypeHandle);
         }
     }
 }

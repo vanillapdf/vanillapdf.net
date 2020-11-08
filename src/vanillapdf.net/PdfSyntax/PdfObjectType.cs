@@ -2,7 +2,8 @@
 {
     public enum PdfObjectType
     {
-        Null = 0,
+        Undefined = 0,
+        Null,
         Array,
         Boolean,
         Dictionary,

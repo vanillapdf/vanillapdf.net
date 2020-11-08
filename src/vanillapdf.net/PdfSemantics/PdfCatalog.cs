@@ -36,7 +36,7 @@ namespace vanillapdf.net
             return EnumUtil<PdfVersion>.CheckedCast(data);
         }
 
-        public PdfPageTree GetPageTree()
+        public PdfPageTree GetPages()
         {
             UInt32 result = NativeMethods.Catalog_GetPages(Handle, out PdfPageTreeSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
