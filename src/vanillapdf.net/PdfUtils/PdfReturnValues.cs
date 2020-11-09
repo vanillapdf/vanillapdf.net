@@ -39,6 +39,10 @@ namespace vanillapdf.net
                 return VANILLAPDF_ERROR_OBJECT_MISSING;
             }
 
+            if (value == ERROR_PARSE_EXCEPTION) {
+                return VANILLAPDF_ERROR_PARSE_EXCEPTION;
+            }
+
             if (value == ERROR_INVALID_PASSWORD) {
                 return VANILLAPDF_ERROR_INVALID_PASSWORD;
             }
@@ -59,6 +63,7 @@ namespace vanillapdf.net
         public static UInt32 ERROR_FILE_DISPOSED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_FILE_DISPOSED);
         public static UInt32 ERROR_FILE_NOT_INITIALIZED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_FILE_NOT_INITIALIZED);
         public static UInt32 ERROR_OBJECT_MISSING = LibraryInstance.GetConstant(VANILLAPDF_ERROR_OBJECT_MISSING);
+        public static UInt32 ERROR_PARSE_EXCEPTION = LibraryInstance.GetConstant(VANILLAPDF_ERROR_PARSE_EXCEPTION);
         public static UInt32 ERROR_INVALID_PASSWORD = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_PASSWORD);
 
         private const string VANILLAPDF_ERROR_SUCCESS = "VANILLAPDF_ERROR_SUCCESS";
@@ -74,6 +79,8 @@ namespace vanillapdf.net
         private const string VANILLAPDF_ERROR_FILE_DISPOSED = "VANILLAPDF_ERROR_FILE_DISPOSED";
         private const string VANILLAPDF_ERROR_FILE_NOT_INITIALIZED = "VANILLAPDF_ERROR_FILE_NOT_INITIALIZED";
         private const string VANILLAPDF_ERROR_OBJECT_MISSING = "VANILLAPDF_ERROR_OBJECT_MISSING";
+        private const string VANILLAPDF_ERROR_PARSE_EXCEPTION = "VANILLAPDF_ERROR_PARSE_EXCEPTION";
         private const string VANILLAPDF_ERROR_INVALID_PASSWORD = "VANILLAPDF_ERROR_INVALID_PASSWORD";
+        
     }
 }

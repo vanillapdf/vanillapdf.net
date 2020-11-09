@@ -58,6 +58,14 @@ namespace vanillapdf.net
                 return PdfObjectMissingException.Create(errorMessage);
             }
 
+            if (value == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return PdfObjectMissingException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ERROR_PARSE_EXCEPTION) {
+                return PdfParseException.Create(errorMessage);
+            }
+
             if (value == PdfReturnValues.ERROR_INVALID_PASSWORD) {
                 return PdfInvalidPasswordException.Create(errorMessage);
             }
@@ -215,6 +223,20 @@ namespace vanillapdf.net
         }
 
         private PdfObjectMissingException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    public class PdfParseException : PdfBaseException
+    {
+        public static PdfParseException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_OBJECT_MISSING;
+            return new PdfParseException(message, code);
+        }
+
+        private PdfParseException(string message, UInt32 errorCode)
             : base(message, errorCode)
         {
         }
