@@ -2,7 +2,7 @@
 using System;
 using vanillapdf.net.PdfSyntax;
 
-namespace vanillapdf.net.nunit.Utils
+namespace vanillapdf.net.nunit.PdfSyntax
 {
     [TestFixture]
     public class PdfDictionaryObjectTest

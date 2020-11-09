@@ -1,11 +1,8 @@
 using NUnit.Framework;
 using System;
-using System.Linq;
-using vanillapdf.net.PdfSemantics;
-using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 
-namespace vanillapdf.net.nunit.Utils
+namespace vanillapdf.net.nunit.PdfUtils
 {
     [TestFixture]
     public class PdfSigningKeyTest

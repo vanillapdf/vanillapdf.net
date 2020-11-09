@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using System;
 
-namespace vanillapdf.net.nunit.Utils
+namespace vanillapdf.net.nunit.PdfUtils
 {
     [TestFixture]
     public class PdfPKCS12KeyTest

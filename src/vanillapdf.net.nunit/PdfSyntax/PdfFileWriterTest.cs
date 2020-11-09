@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using vanillapdf.net.PdfSyntax;
 
-namespace vanillapdf.net.nunit.Utils
+namespace vanillapdf.net.nunit.PdfSyntax
 {
     [TestFixture]
     public class PdfFileWriterTest
@@ -63,16 +63,9 @@ namespace vanillapdf.net.nunit.Utils
         [Test]
         public void TestWrite()
         {
-            var sourceStream = PdfInputOutputStream.CreateFromFile("Resources\\minimalist.pdf");
-            var destinationStream = PdfInputOutputStream.CreateFromMemory();
-
-            var sourceFile = PdfFile.OpenStream(sourceStream, "sourceStream");
-            sourceFile.Initialize();
-
-            var destinationFile = PdfFile.CreateStream(destinationStream, "destinationStream");
-
-            PdfFileWriter writer = PdfFileWriter.Create();
-            writer.Write(sourceFile, destinationFile);
+            foreach (var sourcePath in OneTimeSetup.TEST_DOCUMENTS) {
+                TestWriteInternal(sourcePath);
+            }
         }
 
         [Test]
@@ -85,6 +78,20 @@ namespace vanillapdf.net.nunit.Utils
             catch (Exception ex) {
                 Assert.IsTrue(ex is PdfLicenseRequiredException);
             }
+        }
+
+        private void TestWriteInternal(string sourcePath)
+        {
+            var sourceStream = PdfInputOutputStream.CreateFromFile(sourcePath);
+            var destinationStream = PdfInputOutputStream.CreateFromMemory();
+
+            var sourceFile = PdfFile.OpenStream(sourceStream, "sourceStream");
+            sourceFile.Initialize();
+
+            var destinationFile = PdfFile.CreateStream(destinationStream, "destinationStream");
+
+            PdfFileWriter writer = PdfFileWriter.Create();
+            writer.Write(sourceFile, destinationFile);
         }
     }
 }

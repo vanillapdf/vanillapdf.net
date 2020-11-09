@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace vanillapdf.net.nunit.Utils
+namespace vanillapdf.net.nunit.PdfUtils
 {
     [TestFixture]
     public class PdfBufferTest

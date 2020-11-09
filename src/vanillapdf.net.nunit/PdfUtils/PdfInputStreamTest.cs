@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace vanillapdf.net.nunit.Utils
+namespace vanillapdf.net.nunit.PdfUtils
 {
     [TestFixture]
     public class PdfInputStreamTest
