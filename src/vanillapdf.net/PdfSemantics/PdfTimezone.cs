@@ -1,9 +1,10 @@
 ﻿namespace vanillapdf.net.PdfSemantics
 {
-    public enum PdfTimezone
+    public enum PdfTimezoneType
     {
-        TimezoneType_UTC = 0,
-        TimezoneType_Later,
-        TimezoneType_Earlier
+        Undefined = 0,
+        UTC,
+        Later,
+        Earlier
     }
 }

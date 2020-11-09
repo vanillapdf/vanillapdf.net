@@ -53,7 +53,7 @@ namespace vanillapdf.net.PdfSemantics
             set { SetSecond(value); }
         }
 
-        public PdfTimezone Timezone
+        public PdfTimezoneType Timezone
         {
             get { return GetTimezone(); }
             set { SetTimezone(value); }
@@ -199,17 +199,17 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfTimezone GetTimezone()
+        public PdfTimezoneType GetTimezone()
         {
             UInt32 result = NativeMethods.Date_GetTimezone(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return EnumUtil<PdfTimezone>.CheckedCast(data);
+            return EnumUtil<PdfTimezoneType>.CheckedCast(data);
         }
 
-        public void SetTimezone(PdfTimezone data)
+        public void SetTimezone(PdfTimezoneType data)
         {
             UInt32 result = NativeMethods.Date_SetTimezone(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -328,10 +328,10 @@ namespace vanillapdf.net.PdfSemantics
             public delegate UInt32 SetSecondDelgate(PdfDateSafeHandle handle, Int32 data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTimezoneDelgate(PdfDateSafeHandle handle, out PdfTimezone data);
+            public delegate UInt32 GetTimezoneDelgate(PdfDateSafeHandle handle, out PdfTimezoneType data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetTimezoneDelgate(PdfDateSafeHandle handle, PdfTimezone data);
+            public delegate UInt32 SetTimezoneDelgate(PdfDateSafeHandle handle, PdfTimezoneType data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetHourOffsetDelgate(PdfDateSafeHandle handle, out Int32 data);
