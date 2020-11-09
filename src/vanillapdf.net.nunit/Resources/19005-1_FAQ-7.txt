@@ -1,0 +1,49 @@
+Frequently Asked Questions (FAQs) 
+ISO 19005-1:2005 (PDF/A-1) 
+ 
+necessary in order to attain stable and secure long-term preservation. The Swedish 
+National Archive's policy is to refer primarily to international recognized 
+standards, secondly to other standards (Swedish standards etc.) and finally to 
+specific regulations prepared by the Swedish National Archive. PDF/A-1 enables 
+preservation of certain types of documents in their original form. PDF/A-1 is not 
+primarily to be used as a format for producing or editing documents, but as a 
+format in which to establish documents. One of the main criteria when prescribing 
+about document formats is independency from specific hardware and/or software. 
+ 
+Who are some of the vendors that report PDF/A-1 support? 
+Adobe Systems Inc. ? www.adobe.com 
+Apago ? www.apagoinc.com 
+Visioneer ? www.visioneer.com 
+Callas - www.callassoftware.com 
+Compart Systemhaus GmbH ? www.compart.net 
+PDF Tools AG ? www.pdf-tools.com 
+ 
+Why does the standards development process take so long? 
+Developing a standard according to National Standards bodies and ISO policies ensure 
+that the process is an open and consensus driven process. Several participants with 
+expertise in the area come together to contribute to development of the standard. 
+In order to ensure that there is ample opportunity for all interested parties to provide input 
+and express opinions there is a very formal balloting process determined by the standards 
+organization.   
+ 
+How did PDF/A get started and who is involved? 
+The PDF/A activity was initiated in the United States through the joint sponsorship of 
+AIIM, Association for Information and Image Management and NPES, The Association 
+for Suppliers of Printing, Publishing, and Converting Technologies. Under the auspices 
+of TC-171 Document Management Application ns Subcommittee 2 Application Issues, a 
+Joint Working Group (WG5) was formed with representatives from ISO Technical 
+Committees 42, 46, 130, and 171. A diverse group of librarians, archivists, PDF software 
+developers, government agencies, imaging experts, graphics experts and others 
+collaborated to develop PDF/A. Initial meetings were held in mid-2002 and the standard 
+was approved in June 2005. Technical experts from 15 national standards bodies 
+provided input throughout the development process.   
+ 
+Currently actively involved organizations are: AIIM, NPES, Adobe, Appligent, Callas, 
+EMC/Documentum, Global Graphics, Harvard University, Merck & Co., Inc.,   
+PDF Sages, the Administrative Office of the US Courts, the Internal Revenue Service and 
+the National Archives and Records Administration. 
+ 
+Countries currently involved in this ISO activity include: Australia, China, Germany, 
+France, Japan, the Netherlands, Switzerland, the United Kingdom, the United States and 
+Sweden. 
+July 10, 2006 Page 7 

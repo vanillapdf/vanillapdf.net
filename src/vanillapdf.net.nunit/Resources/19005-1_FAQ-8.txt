@@ -1,0 +1,31 @@
+Frequently Asked Questions (FAQs) 
+ISO 19005-1:2005 (PDF/A-1) 
+ 
+ 
+ 
+Where can I get more information? 
+There is a considerable amount of information about PDF/A listed on the AIIM website 
+at http://www.aiim.org/standards. There are copies of initial requirements, meeting 
+minutes, meeting notes and presentation materials at this site.  In addition both AIIM and 
+NPES have posted the PDF 1.4 Reference and the XMP Specification: 
+www.aiim.org/standards 
+www.npes.org/standards 
+ 
+Where can I purchase a copy of the PDF/A standard? 
+The published PDF/A-1 standard may be purchased directly from ISO or from national 
+standards bodies around the world. 
+http://www.iso.org/iso/en/CatalogueDetailPage.CatalogueDetail?CSNUMBER=38920&I 
+CS1=37&ICS2=100&ICS3=99 
+www.ansi.org 
+ 
+How can I get involved? 
+AIIM and NPES welcomes representatives from vendors, user organizations and users 
+themselves. If you think you can help contribute to the development of this standard 
+please contact AIIM or NPES 
+www.aiim.org 
+www.npes.org 
+ 
+ 
+ 
+ 
+July 10, 2006 Page 8 

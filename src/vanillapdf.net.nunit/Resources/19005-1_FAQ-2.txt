@@ -1,0 +1,47 @@
+Frequently Asked Questions (FAQs) 
+ISO 19005-1:2005 (PDF/A-1) 
+ 
+What is PDF/A? 
+ISO 19005-1, Document management ? Electronic document file format for long-term 
+preservation ? Part 1: Use of PDF 1.4 (PDF/A-1) is the first in a new family of ISO 
+Standards to address the growing need to maintain information in electronic documents 
+over archival time spans. 
+ 
+Because this initial version of PDF/A is based on PDF 1.4, the standard is being 
+published in parts so that new parts can be added without obsolescing previous parts. For 
+example: PDF/A-1 refers to the format defined by Part 1 (ISO 19005-1) of the standard 
+(or PDF 1.4) while Part 2 (ISO 19005-2) and later parts may be based on a later version 
+of PDF and/or may define archiving requirements for more complex content types. 
+ 
+Why PDF/A? 
+The feature-rich nature of PDF can create difficulties in preserving information over the 
+long-term, and some useful features of the PDF file format are incompatible with the 
+demands of long-term preservation. For example, PDF documents are not necessarily 
+self-contained, drawing on system fonts and other content stored external to the original 
+file. As time passes, and especially as technology changes, these external connections can 
+be broken, and the dependencies cause information to be lost. Additionally, because of 
+the lack of standardization among the many PDF development tools on the market, there 
+is inconsistency in the implementation of the file format. This lack of standardization 
+could be chaotic for the information managers of the future, especially as  
+it would be difficult (if not impossible) for them to ?get under the hood? of the PDF files 
+unless a format specification were put in place that specifically addressed long-term 
+preservation needs. 
+ 
+Tremendous quantities of valuable information are currently be created and saved all over 
+the world as PDF, and a specification solution is needed to ensure that digital PDF 
+documents remain readable, renderable and accessible for the long-term. PDF/A is 
+designed to be that specification. 
+ 
+What is the difference between PDF and PDF/A? 
+The PDF/A-1 (ISO 19005-1:2005) standard is based on Adobe?s PDF Reference 1.4, and 
+specifies how to use a subset of PDF components to develop software that creates, 
+renders and otherwise process a flavor of PDF that is more suitable for archival 
+preservation than traditional PDF. PDF/A-1 aims to preserve the static visual appearance 
+of electronic documents over time and also aims to support future access and future 
+migration needs by providing frameworks for: 1) embedding metadata about electronic 
+documents, and 2) defining the logical structure and semantic properties of electronic 
+documents. The result is a file format, based on PDF 1.4 that is more suitable for long 
+term preservation. PDF/A-1 files will be more self-contained, self-describing and more 
+device-independent than traditional PDF 1.4 files. 
+ 
+July 10, 2006 Page 2 

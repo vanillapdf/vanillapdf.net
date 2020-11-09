@@ -1,0 +1,40 @@
+ 
+Frequently Asked Questions (FAQs) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ISO 19005-1:2005 
+PDF/A-1 
+Date: July 10, 2006 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Statement: 
+This FAQ is prepared in support of ISO 19005-1:2005, Document management ? 
+Electronic document file format for long-term preservation ? Part 1: Use of PDF 1.4 
+(PDF/A-1) 
+ 
+This document is published by the PDF/A Joint Working Group working under the 
+auspices of TC-171 Document Management Applications Subcommittee 2 Application 
+Issues, with representatives from ISO Technical Committees 42, 46, 130, and 171.  It 
+may be obtained directly from ISO (
+www.iso.org
+) or from national body standards 
+organizations (e.g., ANSI, BSI, DIN, AFNOR, etc.).   
+ 
+The following statement must accompany any distribution of this FAQ:  
+?This FAQ may be freely distributed and/or translated in its entirety.  The current 
+authoritative version of this FAQ is maintained at both NPES (
+www.npes.org
+) and AIIM 
+(
+www.aiim.org
+).?  

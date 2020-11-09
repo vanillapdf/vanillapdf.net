@@ -1,0 +1,45 @@
+Frequently Asked Questions (FAQs) 
+ISO 19005-1:2005 (PDF/A-1) 
+ 
+How does PDF/A-1 address these long-term preservation needs? 
+ 
+Device Independent. PDF/A-1 requires device independent components so that the static 
+visual appearance can be reliably and consistently rendered and printed without regard to 
+the hardware or software platform used. The graphics clause, for example, incorporates 
+requirements to ensure predictable color rendering. PDF/A-1 also prohibits the use of 
+components not defined in PDF Reference 1.4. 
+ 
+Self-Contained. Everything that is necessary to render or print a PDF/A-1 file must be 
+contained within the file. The fonts clause requires that all fonts used for rendering 
+content are embedded in the file. A PDF/A-1 conforming writer must always embed 
+fonts, and a conforming reader must always use the embedded fonts. This means that the 
+file will be rendered using the fonts intended and not using fonts residing on the local 
+workstation.   
+ 
+Self-Documenting. PDF/A-1 requires Adobe Extensible Metadata Platform (XMP) be 
+used for embedding metadata in PDF files. To allow flexibility of implementation, 
+PDF/A-1 provides recommendations for documenting file attributes such as: File 
+identifier, File provenance, Font metadata, and allows non-XMP schemas to be included, 
+as long as they are embedded. Implementers can use XMP in a variety of ways to include 
+information about electronic records within the file itself. Having metadata embedded in 
+the file can increase the informational value of electronic documents and enhance the 
+future researcher?s understanding of the document. 
+ 
+Unfettered. PDF/A-1 prohibits encryption. This prohibition means that User IDs and/or 
+Passwords are not needed to do anything with a PDF/A-1 file.  PDF/A-1 files are open 
+and available to anyone or any software that processes the file. Implementers that require 
+access controls can provide these access controls outside of the file format. 
+ 
+Available. PDF/A-1 is based on an authoritative specification that is publicly available. 
+Anyone can use the PDF Reference and XMP Specification in conjunction with PDF/A-1 
+to create applications that read, write, or process PDF/A-1 files. Adobe has granted a 
+general royalty free license to use certain of its patents to create applications that process 
+PDF/A-1 files. Additionally, Adobe has granted AIIM and NPES the rights to publish 
+these specifications on their respective Internet sites into the indefinite future. 
+ 
+Adoption. PDF/A-1 was designed for flexibility of implementation to promote its wide 
+adoption. If widely adopted, PDF/A software tools will proliferate, and the market will 
+support the file format as long as the demand exists. Market support of PDF/A will help 
+ensure the viability of PDF/A and extend the length of time that PDF documents can be 
+maintained as PDF/A. 
+July 10, 2006 Page 4 
