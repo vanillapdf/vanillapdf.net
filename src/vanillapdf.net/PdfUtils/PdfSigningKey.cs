@@ -68,7 +68,7 @@ namespace vanillapdf.net.PdfUtils
 
                 return context.Initialize(digest);
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -91,7 +91,7 @@ namespace vanillapdf.net.PdfUtils
                     return context.Update(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -113,7 +113,7 @@ namespace vanillapdf.net.PdfUtils
 
                 return PdfReturnValues.ERROR_SUCCESS;
             }
-            catch (Exception ex) {
+            catch {
                 buffer = IntPtr.Zero;
                 return PdfReturnValues.ERROR_GENERAL;
             }
@@ -127,7 +127,7 @@ namespace vanillapdf.net.PdfUtils
 
                 context.Cleanup();
             }
-            catch (Exception ex) {
+            catch {
             }
         }
 

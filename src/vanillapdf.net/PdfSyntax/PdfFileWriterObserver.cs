@@ -90,7 +90,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnInitializing(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -108,7 +108,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnFinalizing(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -126,7 +126,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnBeforeObjectWrite(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -144,7 +144,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnAfterObjectWrite(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -162,7 +162,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnBeforeObjectOffsetRecalculation(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -180,7 +180,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnAfterObjectOffsetRecalculation(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -198,7 +198,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnBeforeEntryOffsetRecalculation(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -216,7 +216,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnAfterEntryOffsetRecalculation(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -234,7 +234,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnBeforeOutputFlush(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
@@ -252,7 +252,7 @@ namespace vanillapdf.net.PdfSyntax
                     return context.OnAfterOutputFlush(wrapper);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
