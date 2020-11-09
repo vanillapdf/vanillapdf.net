@@ -132,5 +132,14 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowArraySafeHandle).TypeHandle);
         }
+
+        public static UInt64 PlatformIntegerConversion(int value)
+        {
+            if (Environment.Is64BitProcess) {
+                return (UInt64)value;
+            } else {
+                return (UInt32)value;
+            }
+        }
     }
 }

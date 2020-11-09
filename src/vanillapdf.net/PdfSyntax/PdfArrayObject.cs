@@ -100,16 +100,32 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfArrayObject(data.Handle);
         }
 
+        #region private helper
+
+        private PdfObject GetValue(int index)
+        {
+            UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(index);
+            return GetValue(indexConverted);
+        }
+
+        private void SetValue(int index, PdfObject item)
+        {
+            UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(index);
+            SetValue(indexConverted, item);
+        }
+
+        #endregion
+
         #region IList<PdfObject>
 
         public int Count => (int)GetSize();
         public bool IsReadOnly => false;
-        public PdfObject this[int index] { get => GetValue((UInt64)index); set => SetValue((UInt64)index, value); }
+        public PdfObject this[int index] { get => GetValue(index); set => SetValue(index, value); }
 
         public int IndexOf(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
-                var current = GetValue((UInt64)i);
+                var current = GetValue(i);
 
                 if (item.Equals(current)) {
                     return i;
@@ -121,12 +137,14 @@ namespace vanillapdf.net.PdfSyntax
 
         public void Insert(int index, PdfObject item)
         {
-            Insert((UInt64)index, item);
+            UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(index);
+            Insert(indexConverted, item);
         }
 
         public void RemoveAt(int index)
         {
-            Remove((UInt64)index);
+            UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(index);
+            Remove(indexConverted);
         }
 
         public void Add(PdfObject item)
@@ -137,7 +155,7 @@ namespace vanillapdf.net.PdfSyntax
         public bool Contains(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
-                var current = GetValue((UInt64)i);
+                var current = GetValue(i);
 
                 if (item.Equals(current)) {
                     return true;
@@ -150,17 +168,18 @@ namespace vanillapdf.net.PdfSyntax
         public void CopyTo(PdfObject[] array, int arrayIndex)
         {
             for (int i = 0; i < Count; ++i) {
-                array[arrayIndex++] = GetValue((UInt64)i);
+                array[arrayIndex++] = GetValue(i);
             }
         }
 
         public bool Remove(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
-                var current = GetValue((UInt64)i);
+                var current = GetValue(i);
 
                 if (item.Equals(current)) {
-                    return Remove((UInt64)i);
+                    UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(i);
+                    return Remove(indexConverted);
                 }
             }
 
@@ -170,14 +189,14 @@ namespace vanillapdf.net.PdfSyntax
         public IEnumerator<PdfObject> GetEnumerator()
         {
             for (int i = 0; i < Count; ++i) {
-                yield return GetValue((UInt64)i);
+                yield return GetValue(i);
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             for (int i = 0; i < Count; ++i) {
-                yield return GetValue((UInt64)i);
+                yield return GetValue(i);
             }
         }
 

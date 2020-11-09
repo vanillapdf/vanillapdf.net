@@ -88,7 +88,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
             var ArrayObject = PdfArrayObject.Create();
 
             bool removed_zero = ArrayObject.Remove(0);
-            bool removed_neg = ArrayObject.Remove(ulong.MaxValue);
+            bool removed_neg = ArrayObject.Remove(OneTimeSetup.PLATFORM_MAXIMUM_VALUE);
 
             Assert.IsFalse(removed_zero);
             Assert.IsFalse(removed_neg);
