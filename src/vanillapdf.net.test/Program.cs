@@ -69,7 +69,7 @@ namespace vanillapdf.net.test
 
                 using (PdfDocument document = PdfDocument.OpenFile(file)) {
                     PdfCatalog catalog = document.GetCatalog();
-                    PdfPageTree tree = catalog.GetPageTree();
+                    PdfPageTree tree = catalog.GetPages();
 
                     var count = tree.GetPageCount();
                     Console.Out.WriteLine("File contains {0} pages", count);
