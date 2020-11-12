@@ -3,11 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU;x86;x64</Platforms>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.4.2</Version>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Description>Vanilla.PDF is a cross-platform SDK for creating and modifying PDF documents</Description>
+    <Copyright>Copyright 2018-2020 Vanilla.PDF Labs s.r.o.</Copyright>
+    <PackageTags>pdf parsing sign</PackageTags>
+    <PackageIcon>vanilla_logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,6 +30,17 @@
 
   <ItemGroup>
     <PackageReference Include="vanillapdf" Version="1.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\vanilla_logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
