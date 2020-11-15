@@ -59,18 +59,18 @@ namespace vanillapdf.net
             return sb.ToString();
         }
 
-        public static PdfBaseException GetLastErrorException()
+        public static PdfUnmanagedException GetLastErrorException()
         {
             uint value = GetLastError();
             string message = GetLastErrorMessage();
 
-            return PdfBaseException.GetException(value, message);
+            return PdfUnmanagedException.GetException(value, message);
         }
 
-        public static PdfBaseException GetErrorException(uint value)
+        public static PdfUnmanagedException GetErrorException(uint value)
         {
             string message = GetPrintableErrorText(value);
-            return PdfBaseException.GetException(value, message);
+            return PdfUnmanagedException.GetException(value, message);
         }
 
         private static class NativeMethods

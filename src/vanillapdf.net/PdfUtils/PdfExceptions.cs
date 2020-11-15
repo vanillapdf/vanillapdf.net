@@ -1,18 +1,22 @@
 ﻿using System;
+using vanillapdf.net.Utils;
 
 namespace vanillapdf.net
 {
-    public abstract class PdfBaseException : Exception
+    /// <summary>
+    /// Base exception class for all unmanaged derived exceptions
+    /// </summary>
+    public abstract class PdfUnmanagedException : PdfBaseException
     {
         public UInt32 ErrorCode { get; protected set; }
 
-        public PdfBaseException(string message, UInt32 errorCode)
+        public PdfUnmanagedException(string message, UInt32 errorCode)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public static PdfBaseException GetException(uint value, string errorMessage = null)
+        public static PdfUnmanagedException GetException(uint value, string errorMessage = null)
         {
             if (value == PdfReturnValues.ERROR_PARAMETER_VALUE) {
                 return PdfParameterValueException.Create(errorMessage);
@@ -74,7 +78,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfParameterValueException : PdfBaseException
+    public class PdfParameterValueException : PdfUnmanagedException
     {
         public static PdfParameterValueException Create(string message)
         {
@@ -88,7 +92,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfNotSupportedException : PdfBaseException
+    public class PdfNotSupportedException : PdfUnmanagedException
     {
         public static PdfNotSupportedException Create(string message)
         {
@@ -102,7 +106,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfUserCancelledException : PdfBaseException
+    public class PdfUserCancelledException : PdfUnmanagedException
     {
         public static PdfUserCancelledException Create(string message)
         {
@@ -116,7 +120,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfZlibDataException : PdfBaseException
+    public class PdfZlibDataException : PdfUnmanagedException
     {
         public static PdfZlibDataException Create(string message)
         {
@@ -130,7 +134,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfInvalidLicenseException : PdfBaseException
+    public class PdfInvalidLicenseException : PdfUnmanagedException
     {
         public static PdfInvalidLicenseException Create(string message)
         {
@@ -144,7 +148,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfLicenseRequiredException : PdfBaseException
+    public class PdfLicenseRequiredException : PdfUnmanagedException
     {
         public static PdfLicenseRequiredException Create(string message)
         {
@@ -158,7 +162,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfGeneralException : PdfBaseException
+    public class PdfGeneralException : PdfUnmanagedException
     {
         public static PdfGeneralException Create(string message)
         {
@@ -172,7 +176,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfConversionException : PdfBaseException
+    public class PdfConversionException : PdfUnmanagedException
     {
         public static PdfConversionException Create(string message)
         {
@@ -186,7 +190,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfFileDisposedException : PdfBaseException
+    public class PdfFileDisposedException : PdfUnmanagedException
     {
         public static PdfFileDisposedException Create(string message)
         {
@@ -200,7 +204,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfFileNotInitializedException : PdfBaseException
+    public class PdfFileNotInitializedException : PdfUnmanagedException
     {
         public static PdfFileNotInitializedException Create(string message)
         {
@@ -214,7 +218,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfObjectMissingException : PdfBaseException
+    public class PdfObjectMissingException : PdfUnmanagedException
     {
         public static PdfObjectMissingException Create(string message)
         {
@@ -228,7 +232,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfParseException : PdfBaseException
+    public class PdfParseException : PdfUnmanagedException
     {
         public static PdfParseException Create(string message)
         {
@@ -242,7 +246,7 @@ namespace vanillapdf.net
         }
     }
 
-    public class PdfInvalidPasswordException : PdfBaseException
+    public class PdfInvalidPasswordException : PdfUnmanagedException
     {
         public static PdfInvalidPasswordException Create(string message)
         {
