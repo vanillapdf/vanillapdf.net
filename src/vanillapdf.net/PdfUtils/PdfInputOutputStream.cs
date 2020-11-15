@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using vanillapdf.net.Utils;
-using vanillapdf.net.Utils.SafeHandles;
 
 namespace vanillapdf.net
 {

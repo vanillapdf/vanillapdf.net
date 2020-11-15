@@ -2,10 +2,8 @@
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
-using vanillapdf.net.Utils;
-using static vanillapdf.net.Utils.MiscUtils;
 
-namespace vanillapdf.net.Utils.SafeHandles
+namespace vanillapdf.net.Utils
 {
     internal abstract class PdfSafeHandle : SafeHandle
     {

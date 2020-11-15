@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using static vanillapdf.net.Utils.MiscUtils;
 
-namespace vanillapdf.net.Utils.SafeHandles
+namespace vanillapdf.net.Utils
 {
     internal sealed class PdfContentInstructionSafeHandle : PdfSafeHandle
     {
