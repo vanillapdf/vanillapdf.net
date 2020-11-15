@@ -3,7 +3,6 @@ using System.IO;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
-using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.test
 {
@@ -13,8 +12,8 @@ namespace vanillapdf.net.test
         {
             //MiscUtils.InitializeClasses();
 
-            PdfLogging.SetSeverity(LoggingSeverity.Debug);
-            if (PdfLogging.GetSeverity() != LoggingSeverity.Debug) {
+            PdfLogging.SetSeverity(PdfLoggingSeverity.Debug);
+            if (PdfLogging.GetSeverity() != PdfLoggingSeverity.Debug) {
                 Console.WriteLine("Could not set logging severity");
             }
 

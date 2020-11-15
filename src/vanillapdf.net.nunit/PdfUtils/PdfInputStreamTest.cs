@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfUtils
 {

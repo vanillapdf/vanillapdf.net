@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfUtils;
 using static vanillapdf.net.Utils.MiscUtils;
 
 namespace vanillapdf.net.Utils

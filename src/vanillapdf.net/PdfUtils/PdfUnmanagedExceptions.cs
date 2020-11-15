@@ -1,7 +1,7 @@
 ﻿using System;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfUtils
 {
     /// <summary>
     /// Base exception class for all unmanaged derived exceptions

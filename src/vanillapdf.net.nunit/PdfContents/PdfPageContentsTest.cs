@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfContents
 {

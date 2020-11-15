@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics

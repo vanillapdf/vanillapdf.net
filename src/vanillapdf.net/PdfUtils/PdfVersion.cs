@@ -1,4 +1,4 @@
-﻿namespace vanillapdf.net
+﻿namespace vanillapdf.net.PdfUtils
 {
     public enum PdfVersion
     {

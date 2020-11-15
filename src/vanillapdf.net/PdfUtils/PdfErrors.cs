@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfUtils
 {
     public static class PdfErrors
     {

@@ -2,6 +2,7 @@
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
+using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.Utils
 {

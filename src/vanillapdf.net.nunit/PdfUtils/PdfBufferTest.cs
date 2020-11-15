@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Linq;
+using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfUtils
 {
