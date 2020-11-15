@@ -8,7 +8,7 @@ namespace vanillapdf.net.Utils
     public static class LibraryInstance
     {
         private static IPlatformUtils m_handle;
-        public static IPlatformUtils Handle
+        internal static IPlatformUtils Handle
         {
             get
             {

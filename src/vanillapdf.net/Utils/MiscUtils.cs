@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
@@ -9,7 +8,7 @@ using vanillapdf.net.Utils.SafeHandles;
 
 namespace vanillapdf.net.Utils
 {
-    public static class MiscUtils
+    internal static class MiscUtils
     {
         public const CallingConvention LibraryCallingConvention = CallingConvention.Cdecl;
 

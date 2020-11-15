@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace vanillapdf.net.Utils
 {
-    class EnumMarshaller<T> : ICustomMarshaler where T : struct, IConvertible
+    internal class EnumMarshaller<T> : ICustomMarshaler where T : struct, IConvertible
     {
         public void CleanUpManagedData(object ManagedObj)
         {

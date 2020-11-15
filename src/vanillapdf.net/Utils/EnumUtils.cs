@@ -2,7 +2,7 @@
 
 namespace vanillapdf.net.Utils
 {
-    public static class EnumUtil<T>
+    internal static class EnumUtil<T>
         where T : struct, IConvertible
     {
         static EnumUtil()
@@ -30,7 +30,7 @@ namespace vanillapdf.net.Utils
         }
     }
 
-    public static class EnumExtensions
+    internal static class EnumExtensions
     {
         public static bool IsDefined<T>(this T enumValue)
             where T : struct, IConvertible

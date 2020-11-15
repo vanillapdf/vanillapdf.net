@@ -11,7 +11,7 @@ namespace vanillapdf.net.test
     {
         static void Main(string[] args)
         {
-            MiscUtils.InitializeClasses();
+            //MiscUtils.InitializeClasses();
 
             PdfLogging.SetSeverity(LoggingSeverity.Debug);
             if (PdfLogging.GetSeverity() != LoggingSeverity.Debug) {

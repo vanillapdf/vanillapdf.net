@@ -2,7 +2,7 @@
 
 namespace vanillapdf.net.Utils
 {
-    public interface IPlatformUtils
+    internal interface IPlatformUtils
     {
         void LoadLibrary(string rootPath);
         IntPtr GetProcAddress(string procName);

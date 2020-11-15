@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace vanillapdf.net.Utils
 {
-    class LinuxPlatformUtils : IPlatformUtils
+    internal class LinuxPlatformUtils : IPlatformUtils
     {
         private const string LINUX_X86_LIBRARY_PATH = "runtimes\\linux-x86\\native\\libvanillapdf.so";
         private const string LINUX_X64_LIBRARY_PATH = "runtimes\\linux-x64\\native\\libvanillapdf.so";

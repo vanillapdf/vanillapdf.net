@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace vanillapdf.net.Utils
 {
-    class WindowsPlatformUtils : IPlatformUtils
+    internal class WindowsPlatformUtils : IPlatformUtils
     {
         private const string WIN_X86_LIBRARY_PATH = "runtimes\\win-x86\\native\\libvanillapdf.dll";
         private const string WIN_X64_LIBRARY_PATH = "runtimes\\win-x64\\native\\libvanillapdf.dll";
