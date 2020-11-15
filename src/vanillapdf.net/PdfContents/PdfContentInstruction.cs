@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfContents
 {
     public enum PdfContentInstructionType
     {

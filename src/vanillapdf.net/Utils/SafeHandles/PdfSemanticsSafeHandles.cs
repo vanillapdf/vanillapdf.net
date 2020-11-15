@@ -75,21 +75,21 @@ namespace vanillapdf.net.Utils
         }
     }
 
-    internal sealed class PdfContentsSafeHandle : PdfSafeHandle
+    internal sealed class PdfPageContentsSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Contents_Release");
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageContents_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Contents_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Contents_FromUnknown");
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("PageContents_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("PageContents_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfContentsSafeHandle handle, out PdfUnknownSafeHandle data);
+        private delegate UInt32 ConvertToUnknownDelegate(PdfPageContentsSafeHandle handle, out PdfUnknownSafeHandle data);
 
         [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfContentsSafeHandle data);
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfPageContentsSafeHandle data);
 
-        public static implicit operator PdfUnknownSafeHandle(PdfContentsSafeHandle handle)
+        public static implicit operator PdfUnknownSafeHandle(PdfPageContentsSafeHandle handle)
         {
             UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -99,9 +99,9 @@ namespace vanillapdf.net.Utils
             return data;
         }
 
-        public static implicit operator PdfContentsSafeHandle(PdfUnknownSafeHandle handle)
+        public static implicit operator PdfPageContentsSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfContentsSafeHandle data);
+            UInt32 result = Convert_FromUnknown(handle, out PdfPageContentsSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

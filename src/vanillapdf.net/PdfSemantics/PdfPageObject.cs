@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfSemantics
 {
     public class PdfPageObject : PdfUnknown
     {
@@ -17,14 +17,14 @@ namespace vanillapdf.net
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
-        public PdfContents GetContents()
+        public PdfPageContents GetContents()
         {
             UInt32 result = NativeMethods.PageObject_GetContents(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfContents(data);
+            return new PdfPageContents(data);
         }
 
         public PdfPageAnnotations GetAnnotations()
@@ -47,7 +47,7 @@ namespace vanillapdf.net
             public static PageObjectGetAnnotationsDelgate PageObject_GetAnnotations = LibraryInstance.GetFunction<PageObjectGetAnnotationsDelgate>("PageObject_GetAnnotations");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 PageObjectGetContentsDelgate(PdfPageObjectSafeHandle handle, out PdfContentsSafeHandle data);
+            public delegate UInt32 PageObjectGetContentsDelgate(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 PageObjectGetAnnotationsDelgate(PdfPageObjectSafeHandle handle, out PdfPageAnnotationsSafeHandle data);

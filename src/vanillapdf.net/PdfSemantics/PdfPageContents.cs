@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
-namespace vanillapdf.net
+namespace vanillapdf.net.PdfSemantics
 {
-    public class PdfContents : PdfUnknown
+    public class PdfPageContents : PdfUnknown
     {
-        internal PdfContents(PdfContentsSafeHandle handle) : base(handle)
+        internal PdfPageContents(PdfPageContentsSafeHandle handle) : base(handle)
         {
         }
 
-        static PdfContents()
+        static PdfPageContents()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
@@ -39,14 +40,14 @@ namespace vanillapdf.net
 
         private static class NativeMethods
         {
-            public static GetInstructionsSizeDelgate Contents_GetInstructionsSize = LibraryInstance.GetFunction<GetInstructionsSizeDelgate>("Contents_GetInstructionsSize");
-            public static GetInstructionAtDelgate Contents_GetInstructionAt = LibraryInstance.GetFunction<GetInstructionAtDelgate>("Contents_GetInstructionAt");
+            public static GetInstructionsSizeDelgate Contents_GetInstructionsSize = LibraryInstance.GetFunction<GetInstructionsSizeDelgate>("PageContents_GetInstructionsSize");
+            public static GetInstructionAtDelgate Contents_GetInstructionAt = LibraryInstance.GetFunction<GetInstructionAtDelgate>("PageContents_GetInstructionAt");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetInstructionsSizeDelgate(PdfContentsSafeHandle handle, out UIntPtr data);
+            public delegate UInt32 GetInstructionsSizeDelgate(PdfPageContentsSafeHandle handle, out UIntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetInstructionAtDelgate(PdfContentsSafeHandle handle, UIntPtr at, out PdfContentInstructionSafeHandle data);
+            public delegate UInt32 GetInstructionAtDelgate(PdfPageContentsSafeHandle handle, UIntPtr at, out PdfContentInstructionSafeHandle data);
         }
     }
 }

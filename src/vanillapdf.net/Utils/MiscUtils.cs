@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
@@ -69,7 +70,7 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfCatalog).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageObject).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageTree).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContents).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageContents).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotations).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstruction).TypeHandle);
 
@@ -120,8 +121,8 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContentsSafeHandle).TypeHandle);
-            //RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageContentsSafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectSafeHandle).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectTextSafeHandle).TypeHandle);

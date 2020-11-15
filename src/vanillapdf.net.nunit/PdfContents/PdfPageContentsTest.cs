@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
