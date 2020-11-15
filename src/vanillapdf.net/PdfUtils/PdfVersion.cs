@@ -1,5 +1,8 @@
 ﻿namespace vanillapdf.net.PdfUtils
 {
+    /// <summary>
+    /// PDF document version to which document conforms
+    /// </summary>
     public enum PdfVersion
     {
         PdfVersion_10 = 0,

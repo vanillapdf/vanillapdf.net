@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Represents low-level interface for manipulating file structure
+    /// </summary>
     public class PdfFile : PdfUnknown
     {
         internal PdfFile(PdfFileSafeHandle handle) : base(handle)
@@ -57,6 +60,9 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFile(data);
         }
 
+        /// <summary>
+        /// Reads the file cross-reference tables and initialized basic properties
+        /// </summary>
         public void Initialize()
         {
             UInt32 result = NativeMethods.File_Initialize(Handle);

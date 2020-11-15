@@ -26,19 +26,19 @@ namespace vanillapdf.net.PdfUtils
                 return PdfNotSupportedException.Create(errorMessage);
             }
 
-            if (value == PdfReturnValues.USER_CANCELLED) {
+            if (value == PdfReturnValues.ERROR_USER_CANCELLED) {
                 return PdfUserCancelledException.Create(errorMessage);
             }
 
-            if (value == PdfReturnValues.ZLIB_DATA) {
+            if (value == PdfReturnValues.ERROR_ZLIB_DATA) {
                 return PdfZlibDataException.Create(errorMessage);
             }
 
-            if (value == PdfReturnValues.INVALID_LICENSE) {
+            if (value == PdfReturnValues.ERROR_INVALID_LICENSE) {
                 return PdfInvalidLicenseException.Create(errorMessage);
             }
 
-            if (value == PdfReturnValues.LICENSE_REQUIRED) {
+            if (value == PdfReturnValues.ERROR_LICENSE_REQUIRED) {
                 return PdfLicenseRequiredException.Create(errorMessage);
             }
 
@@ -78,6 +78,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// An invalid unexpected parameter was passed to native function
+    /// </summary>
     public class PdfParameterValueException : PdfUnmanagedException
     {
         public static PdfParameterValueException Create(string message)
@@ -92,6 +95,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// The required feature is not supported in the current library version
+    /// </summary>
     public class PdfNotSupportedException : PdfUnmanagedException
     {
         public static PdfNotSupportedException Create(string message)
@@ -106,11 +112,14 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Usually happens in the callback functions and server as a way to terminate current function
+    /// </summary>
     public class PdfUserCancelledException : PdfUnmanagedException
     {
         public static PdfUserCancelledException Create(string message)
         {
-            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            UInt32 code = PdfReturnValues.ERROR_USER_CANCELLED;
             return new PdfUserCancelledException(message, code);
         }
 
@@ -120,11 +129,14 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Represents error during decompression
+    /// </summary>
     public class PdfZlibDataException : PdfUnmanagedException
     {
         public static PdfZlibDataException Create(string message)
         {
-            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            UInt32 code = PdfReturnValues.ERROR_ZLIB_DATA;
             return new PdfZlibDataException(message, code);
         }
 
@@ -134,11 +146,14 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// The license file presented is not valid
+    /// </summary>
     public class PdfInvalidLicenseException : PdfUnmanagedException
     {
         public static PdfInvalidLicenseException Create(string message)
         {
-            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            UInt32 code = PdfReturnValues.ERROR_INVALID_LICENSE;
             return new PdfInvalidLicenseException(message, code);
         }
 
@@ -148,11 +163,14 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// The license file is required to access premium functionality
+    /// </summary>
     public class PdfLicenseRequiredException : PdfUnmanagedException
     {
         public static PdfLicenseRequiredException Create(string message)
         {
-            UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
+            UInt32 code = PdfReturnValues.ERROR_LICENSE_REQUIRED;
             return new PdfLicenseRequiredException(message, code);
         }
 
@@ -162,6 +180,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// General error state that cannot be precisely defined
+    /// </summary>
     public class PdfGeneralException : PdfUnmanagedException
     {
         public static PdfGeneralException Create(string message)
@@ -176,6 +197,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Trying to access incorrect object type
+    /// </summary>
     public class PdfConversionException : PdfUnmanagedException
     {
         public static PdfConversionException Create(string message)
@@ -190,6 +214,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Trying to access already released file
+    /// </summary>
     public class PdfFileDisposedException : PdfUnmanagedException
     {
         public static PdfFileDisposedException Create(string message)
@@ -204,6 +231,10 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Accessing file properties before it was properly initialized
+    /// @see \ref PdfSyntax.PdfFile.Initialize
+    /// </summary>
     public class PdfFileNotInitializedException : PdfUnmanagedException
     {
         public static PdfFileNotInitializedException Create(string message)
@@ -218,6 +249,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Trying to access object which is not present in the structure
+    /// </summary>
     public class PdfObjectMissingException : PdfUnmanagedException
     {
         public static PdfObjectMissingException Create(string message)
@@ -232,11 +266,14 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Low-level parsing error
+    /// </summary>
     public class PdfParseException : PdfUnmanagedException
     {
         public static PdfParseException Create(string message)
         {
-            UInt32 code = PdfReturnValues.ERROR_OBJECT_MISSING;
+            UInt32 code = PdfReturnValues.ERROR_PARSE_EXCEPTION;
             return new PdfParseException(message, code);
         }
 
@@ -246,6 +283,9 @@ namespace vanillapdf.net.PdfUtils
         }
     }
 
+    /// <summary>
+    /// Invalid password was used to decode encrypted file
+    /// </summary>
     public class PdfInvalidPasswordException : PdfUnmanagedException
     {
         public static PdfInvalidPasswordException Create(string message)

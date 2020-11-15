@@ -53,10 +53,10 @@ namespace vanillapdf.net.PdfUtils
         public static UInt32 ERROR_SUCCESS = LibraryInstance.GetConstant(VANILLAPDF_ERROR_SUCCESS);
         public static UInt32 ERROR_PARAMETER_VALUE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_PARAMETER_VALUE);
         public static UInt32 ERROR_NOT_SUPPORTED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_NOT_SUPPORTED);
-        public static UInt32 USER_CANCELLED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_USER_CANCELLED);
-        public static UInt32 ZLIB_DATA = LibraryInstance.GetConstant(VANILLAPDF_ERROR_ZLIB_DATA);
-        public static UInt32 INVALID_LICENSE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_LICENSE);
-        public static UInt32 LICENSE_REQUIRED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_LICENSE_REQUIRED);
+        public static UInt32 ERROR_USER_CANCELLED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_USER_CANCELLED);
+        public static UInt32 ERROR_ZLIB_DATA = LibraryInstance.GetConstant(VANILLAPDF_ERROR_ZLIB_DATA);
+        public static UInt32 ERROR_INVALID_LICENSE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_LICENSE);
+        public static UInt32 ERROR_LICENSE_REQUIRED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_LICENSE_REQUIRED);
         public static UInt32 ERROR_GENERAL = LibraryInstance.GetConstant(VANILLAPDF_ERROR_GENERAL);
 
         public static UInt32 ERROR_CONVERSION = LibraryInstance.GetConstant(VANILLAPDF_ERROR_CONVERSION);
