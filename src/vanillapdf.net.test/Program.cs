@@ -32,14 +32,18 @@ namespace vanillapdf.net.test
             try {
                 TestFileInternal(path, password);
             }
-            catch (Exception ex) {
+            catch (PdfUnmanagedException ex) {
                 Console.Out.WriteLine("Error with file {0}: {1}", path, ex.Message);
 
+                // Last error is only available for unmanaged exceptions
                 var lastError = PdfErrors.GetLastError();
                 var lastErrorName = PdfReturnValues.GetValueName(lastError);
                 var lastErrorMessage = PdfErrors.GetLastErrorMessage();
 
                 Console.Out.WriteLine("Last error {0} ({1}): {2}", lastErrorName, lastError, lastErrorMessage);
+            }
+            catch (Exception ex) {
+                Console.Out.WriteLine("Error with file {0}: {1}", path, ex.Message);
             }
         }
 

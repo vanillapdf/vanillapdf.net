@@ -8,7 +8,7 @@ namespace vanillapdf.net.Utils
         static EnumUtil()
         {
             if (!typeof(T).IsEnum) {
-                throw new Exception(typeof(T).FullName + " is not an enum type.");
+                throw new PdfManagedException(typeof(T).FullName + " is not an enum type.");
             }
         }
 

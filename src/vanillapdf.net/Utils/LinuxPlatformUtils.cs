@@ -29,10 +29,10 @@ namespace vanillapdf.net.Utils
             if (Handle == IntPtr.Zero) {
                 IntPtr error = NativeMethods.dlerror();
                 if (error == IntPtr.Zero) {
-                    throw new Exception("Unable to load library");
+                    throw new PdfManagedException("Unable to load library");
                 }
                 else {
-                    throw new Exception(string.Format("Unable to load library. Error detail: {0}", Marshal.PtrToStringAnsi(error)));
+                    throw new PdfManagedException(string.Format("Unable to load library. Error detail: {0}", Marshal.PtrToStringAnsi(error)));
                 }
             }
         }
@@ -53,10 +53,10 @@ namespace vanillapdf.net.Utils
             if (closed != 0) {
                 IntPtr error = NativeMethods.dlerror();
                 if (error == IntPtr.Zero) {
-                    throw new Exception("Unable to release library");
+                    throw new PdfManagedException("Unable to release library");
                 }
                 else {
-                    throw new Exception(string.Format("Unable to release library. Error detail: {0}", Marshal.PtrToStringAnsi(error)));
+                    throw new PdfManagedException(string.Format("Unable to release library. Error detail: {0}", Marshal.PtrToStringAnsi(error)));
                 }
             }
 
