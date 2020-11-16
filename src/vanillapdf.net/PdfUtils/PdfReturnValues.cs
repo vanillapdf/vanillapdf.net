@@ -47,7 +47,7 @@ namespace vanillapdf.net.PdfUtils
                 return VANILLAPDF_ERROR_INVALID_PASSWORD;
             }
 
-            throw new Exception("Unknown return value");
+            throw new PdfManagedException("Unknown return value");
         }
 
         public static UInt32 ERROR_SUCCESS = LibraryInstance.GetConstant(VANILLAPDF_ERROR_SUCCESS);

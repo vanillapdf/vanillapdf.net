@@ -17,7 +17,7 @@ namespace vanillapdf.net.PdfUtils
         {
             UInt32 result = NativeMethods.Errors_GetLastError(out UInt32 code);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw new Exception("Could not get last error");
+                throw new PdfManagedException("Could not get last error");
             }
 
             return code;
@@ -27,7 +27,7 @@ namespace vanillapdf.net.PdfUtils
         {
             UInt32 lengthResult = NativeMethods.Errors_GetPrintableErrorTextLength(error, out UInt32 length);
             if (lengthResult != PdfReturnValues.ERROR_SUCCESS) {
-                throw new Exception("Could not get last error message length");
+                throw new PdfManagedException("Could not get last error message length");
             }
 
             int convertedLength = Convert.ToInt32(length);
@@ -35,7 +35,7 @@ namespace vanillapdf.net.PdfUtils
 
             UInt32 messageResult = NativeMethods.Errors_GetPrintableErrorText(error, sb, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
-                throw new Exception("Could not get last error message");
+                throw new PdfManagedException("Could not get last error message");
             }
 
             return sb.ToString();
@@ -45,7 +45,7 @@ namespace vanillapdf.net.PdfUtils
         {
             UInt32 lengthResult = NativeMethods.Errors_GetLastErrorMessageLength(out UInt32 length);
             if (lengthResult != PdfReturnValues.ERROR_SUCCESS) {
-                throw new Exception("Could not get last error message length");
+                throw new PdfManagedException("Could not get last error message length");
             }
 
             int convertedLength = Convert.ToInt32(length);
@@ -53,7 +53,7 @@ namespace vanillapdf.net.PdfUtils
 
             UInt32 messageResult = NativeMethods.Errors_GetLastErrorMessage(sb, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
-                throw new Exception("Could not get last error message");
+                throw new PdfManagedException("Could not get last error message");
             }
 
             return sb.ToString();

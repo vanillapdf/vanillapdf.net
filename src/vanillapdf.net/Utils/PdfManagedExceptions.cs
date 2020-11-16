@@ -5,7 +5,7 @@
     /// </summary>
     public class PdfManagedException : PdfBaseException
     {
-        public PdfManagedException(string message) : base(message)
+        internal PdfManagedException(string message) : base(message)
         {
         }
     }

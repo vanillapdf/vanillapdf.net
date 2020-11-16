@@ -13,7 +13,7 @@ namespace vanillapdf.net.PdfSyntax
             Handle = GCHandle.Alloc(this);
         }
 
-        public GCHandle Handle { get; }
+        internal GCHandle Handle { get; }
 
         public abstract UInt32 OnInitializing(PdfInputOutputStream data);
         public abstract UInt32 OnFinalizing(PdfInputOutputStream data);

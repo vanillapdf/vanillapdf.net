@@ -7,7 +7,7 @@ namespace vanillapdf.net.Utils
     /// </summary>
     public abstract class PdfBaseException : Exception
     {
-        public PdfBaseException(string message) : base(message)
+        internal PdfBaseException(string message) : base(message)
         {
         }
     }

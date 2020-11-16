@@ -8,15 +8,18 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public abstract class PdfUnmanagedException : PdfBaseException
     {
+        /// <summary>
+        /// Native error code associated with the reason of error
+        /// </summary>
         public UInt32 ErrorCode { get; protected set; }
 
-        public PdfUnmanagedException(string message, UInt32 errorCode)
+        internal PdfUnmanagedException(string message, UInt32 errorCode)
             : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public static PdfUnmanagedException GetException(uint value, string errorMessage = null)
+        internal static PdfUnmanagedException GetException(uint value, string errorMessage = null)
         {
             if (value == PdfReturnValues.ERROR_PARAMETER_VALUE) {
                 return PdfParameterValueException.Create(errorMessage);
@@ -74,7 +77,7 @@ namespace vanillapdf.net.PdfUtils
                 return PdfInvalidPasswordException.Create(errorMessage);
             }
 
-            throw new Exception("Unknown return value");
+            throw new PdfManagedException("Unknown return value");
         }
     }
 
@@ -83,7 +86,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfParameterValueException : PdfUnmanagedException
     {
-        public static PdfParameterValueException Create(string message)
+        internal static PdfParameterValueException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_PARAMETER_VALUE;
             return new PdfParameterValueException(message, code);
@@ -100,7 +103,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfNotSupportedException : PdfUnmanagedException
     {
-        public static PdfNotSupportedException Create(string message)
+        internal static PdfNotSupportedException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_NOT_SUPPORTED;
             return new PdfNotSupportedException(message, code);
@@ -117,7 +120,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfUserCancelledException : PdfUnmanagedException
     {
-        public static PdfUserCancelledException Create(string message)
+        internal static PdfUserCancelledException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_USER_CANCELLED;
             return new PdfUserCancelledException(message, code);
@@ -134,7 +137,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfZlibDataException : PdfUnmanagedException
     {
-        public static PdfZlibDataException Create(string message)
+        internal static PdfZlibDataException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_ZLIB_DATA;
             return new PdfZlibDataException(message, code);
@@ -151,7 +154,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfInvalidLicenseException : PdfUnmanagedException
     {
-        public static PdfInvalidLicenseException Create(string message)
+        internal static PdfInvalidLicenseException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_INVALID_LICENSE;
             return new PdfInvalidLicenseException(message, code);
@@ -168,7 +171,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfLicenseRequiredException : PdfUnmanagedException
     {
-        public static PdfLicenseRequiredException Create(string message)
+        internal static PdfLicenseRequiredException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_LICENSE_REQUIRED;
             return new PdfLicenseRequiredException(message, code);
@@ -185,7 +188,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfGeneralException : PdfUnmanagedException
     {
-        public static PdfGeneralException Create(string message)
+        internal static PdfGeneralException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_GENERAL;
             return new PdfGeneralException(message, code);
@@ -202,7 +205,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfConversionException : PdfUnmanagedException
     {
-        public static PdfConversionException Create(string message)
+        internal static PdfConversionException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_CONVERSION;
             return new PdfConversionException(message, code);
@@ -219,7 +222,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfFileDisposedException : PdfUnmanagedException
     {
-        public static PdfFileDisposedException Create(string message)
+        internal static PdfFileDisposedException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_FILE_DISPOSED;
             return new PdfFileDisposedException(message, code);
@@ -237,7 +240,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfFileNotInitializedException : PdfUnmanagedException
     {
-        public static PdfFileNotInitializedException Create(string message)
+        internal static PdfFileNotInitializedException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_FILE_NOT_INITIALIZED;
             return new PdfFileNotInitializedException(message, code);
@@ -254,7 +257,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfObjectMissingException : PdfUnmanagedException
     {
-        public static PdfObjectMissingException Create(string message)
+        internal static PdfObjectMissingException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_OBJECT_MISSING;
             return new PdfObjectMissingException(message, code);
@@ -271,7 +274,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfParseException : PdfUnmanagedException
     {
-        public static PdfParseException Create(string message)
+        internal static PdfParseException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_PARSE_EXCEPTION;
             return new PdfParseException(message, code);
@@ -288,7 +291,7 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfInvalidPasswordException : PdfUnmanagedException
     {
-        public static PdfInvalidPasswordException Create(string message)
+        internal static PdfInvalidPasswordException Create(string message)
         {
             UInt32 code = PdfReturnValues.ERROR_INVALID_PASSWORD;
             return new PdfInvalidPasswordException(message, code);
