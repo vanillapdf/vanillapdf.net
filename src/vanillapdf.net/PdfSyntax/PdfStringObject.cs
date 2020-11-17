@@ -33,7 +33,7 @@ namespace vanillapdf.net.PdfSyntax
             return EnumUtil<PdfStringType>.CheckedCast(data);
         }
 
-        public PdfBuffer GetValue()
+        private PdfBuffer GetValue()
         {
             UInt32 result = NativeMethods.StringObject_GetValue(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -43,7 +43,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(value);
         }
 
-        public void SetValue(PdfBuffer value)
+        private void SetValue(PdfBuffer value)
         {
             UInt32 result = NativeMethods.StringObject_SetValue(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

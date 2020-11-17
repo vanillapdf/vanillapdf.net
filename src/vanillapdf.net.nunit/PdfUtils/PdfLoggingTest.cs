@@ -9,8 +9,8 @@ namespace vanillapdf.net.nunit.PdfUtils
         [Test]
         public void TestInterface()
         {
-            PdfLogging.SetSeverity(PdfLoggingSeverity.Debug);
-            Assert.AreEqual(PdfLoggingSeverity.Debug, PdfLogging.GetSeverity());
+            PdfLogging.Severity = PdfLoggingSeverity.Debug;
+            Assert.AreEqual(PdfLoggingSeverity.Debug, PdfLogging.Severity);
 
             PdfLogging.Enable();
             Assert.AreEqual(true, PdfLogging.IsEnabled());

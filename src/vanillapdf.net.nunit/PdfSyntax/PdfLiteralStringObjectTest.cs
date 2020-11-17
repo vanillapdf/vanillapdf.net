@@ -16,8 +16,8 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var StringObject = PdfLiteralStringObject.CreateFromEncodedString(ENCODED_VALUE);
 
-            PdfBuffer check = StringObject.GetValue();
-            var checkValue = check.GetDataString();
+            //PdfBuffer check = StringObject.GetValue();
+            //var checkValue = check.GetDataString();
 
             // TODO: Fix encoded string initialization
             //Assert.AreEqual(DECODED_VALUE, checkValue);
@@ -30,10 +30,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var StringObject = PdfLiteralStringObject.CreateFromDecodedString(DECODED_VALUE);
 
-            PdfBuffer check = StringObject.GetValue();
-            var checkValue = check.GetDataString();
-
-            Assert.AreEqual(DECODED_VALUE, checkValue);
+            Assert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
         }
 
         [Test]

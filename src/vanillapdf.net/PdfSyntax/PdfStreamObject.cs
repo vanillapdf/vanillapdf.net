@@ -39,7 +39,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfStreamObject(data);
         }
 
-        public PdfDictionaryObject GetHeader()
+        private PdfDictionaryObject GetHeader()
         {
             UInt32 result = NativeMethods.StreamObject_GetHeader(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -49,7 +49,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObject(value);
         }
 
-        public void SetHeader(PdfDictionaryObject data)
+        private void SetHeader(PdfDictionaryObject data)
         {
             UInt32 result = NativeMethods.StreamObject_SetHeader(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -67,7 +67,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(value);
         }
 
-        public PdfBuffer GetBody()
+        private PdfBuffer GetBody()
         {
             UInt32 result = NativeMethods.StreamObject_GetBody(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -77,7 +77,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(value);
         }
 
-        public void SetBody(PdfBuffer data)
+        private void SetBody(PdfBuffer data)
         {
             UInt32 result = NativeMethods.StreamObject_SetBody(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

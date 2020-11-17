@@ -33,7 +33,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfRealObject(data);
         }
 
-        public double GetValue()
+        private double GetValue()
         {
             UInt32 result = NativeMethods.RealObject_GetValue(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -43,7 +43,7 @@ namespace vanillapdf.net.PdfSyntax
             return value;
         }
 
-        public void SetValue(double value)
+        private void SetValue(double value)
         {
             UInt32 result = NativeMethods.RealObject_SetValue(Handle, value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

@@ -12,8 +12,8 @@ namespace vanillapdf.net.test
         {
             //MiscUtils.InitializeClasses();
 
-            PdfLogging.SetSeverity(PdfLoggingSeverity.Debug);
-            if (PdfLogging.GetSeverity() != PdfLoggingSeverity.Debug) {
+            PdfLogging.Severity = PdfLoggingSeverity.Debug;
+            if (PdfLogging.Severity != PdfLoggingSeverity.Debug) {
                 Console.WriteLine("Could not set logging severity");
             }
 

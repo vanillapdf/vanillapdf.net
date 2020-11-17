@@ -48,7 +48,7 @@ namespace vanillapdf.net.PdfUtils
             return new PdfInputOutputStream(data);
         }
 
-        public Int64 GetInputPosition()
+        internal Int64 GetInputPosition()
         {
             UInt32 result = NativeMethods.InputOutputStream_GetInputPosition(Handle, out Int64 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -58,7 +58,7 @@ namespace vanillapdf.net.PdfUtils
             return data;
         }
 
-        public void SetInputPosition(Int64 data)
+        internal void SetInputPosition(Int64 data)
         {
             UInt32 result = NativeMethods.InputOutputStream_SetInputPosition(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -101,7 +101,7 @@ namespace vanillapdf.net.PdfUtils
             return new PdfBuffer(data);
         }
 
-        public Int64 GetOutputPosition()
+        private Int64 GetOutputPosition()
         {
             UInt32 result = NativeMethods.InputOutputStream_GetOutputPosition(Handle, out Int64 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -111,7 +111,7 @@ namespace vanillapdf.net.PdfUtils
             return data;
         }
 
-        public void SetOutputPosition(Int64 data)
+        private void SetOutputPosition(Int64 data)
         {
             UInt32 result = NativeMethods.InputOutputStream_SetOutputPosition(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

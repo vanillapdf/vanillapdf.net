@@ -32,7 +32,7 @@ namespace vanillapdf.net.PdfUtils
             return new PdfOutputStream(data);
         }
 
-        public Int64 GetOutputPosition()
+        private Int64 GetOutputPosition()
         {
             UInt32 result = NativeMethods.OutputStream_GetOutputPosition(Handle, out Int64 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -42,7 +42,7 @@ namespace vanillapdf.net.PdfUtils
             return data;
         }
 
-        public void SetOutputPosition(Int64 data)
+        private void SetOutputPosition(Int64 data)
         {
             UInt32 result = NativeMethods.OutputStream_SetOutputPosition(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

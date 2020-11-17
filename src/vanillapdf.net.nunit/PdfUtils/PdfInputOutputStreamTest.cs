@@ -16,9 +16,8 @@ namespace vanillapdf.net.nunit.PdfUtils
             Stream.WriteString(TEST_DATA);
 
             var readBuffer = Stream.ReadBuffer(100);
-            var checkString = readBuffer.GetDataString();
 
-            Assert.AreEqual(TEST_DATA, checkString);
+            Assert.AreEqual(TEST_DATA, readBuffer.StringData);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIntegerObject(data);
         }
 
-        public Int64 GetIntegerValue()
+        private Int64 GetIntegerValue()
         {
             UInt32 result = NativeMethods.IntegerObject_GetIntegerValue(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -49,7 +49,7 @@ namespace vanillapdf.net.PdfSyntax
             return value;
         }
 
-        public void SetIntegerValue(Int64 value)
+        private void SetIntegerValue(Int64 value)
         {
             UInt32 result = NativeMethods.IntegerObject_SetIntegerValue(Handle, value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -57,7 +57,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        public UInt64 GetUnsignedIntegerValue()
+        private UInt64 GetUnsignedIntegerValue()
         {
             UInt32 result = NativeMethods.IntegerObject_GetUnsignedIntegerValue(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -67,7 +67,7 @@ namespace vanillapdf.net.PdfSyntax
             return value;
         }
 
-        public void SetUnsignedIntegerValue(UInt64 value)
+        private void SetUnsignedIntegerValue(UInt64 value)
         {
             UInt32 result = NativeMethods.IntegerObject_SetUnsignedIntegerValue(Handle, value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

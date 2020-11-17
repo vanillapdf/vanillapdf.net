@@ -12,7 +12,7 @@ namespace vanillapdf.net.PdfUtils
             Handle = GCHandle.Alloc(this);
         }
 
-        public GCHandle Handle { get; }
+        internal GCHandle Handle { get; }
 
         public abstract UInt32 Initialize(PdfMessageDigestAlgorithmType digest);
         public abstract UInt32 Update(PdfBuffer buffer);

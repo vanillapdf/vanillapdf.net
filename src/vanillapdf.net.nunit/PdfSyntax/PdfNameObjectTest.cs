@@ -21,9 +21,8 @@ namespace vanillapdf.net.nunit.PdfSyntax
             NameObject.Value = Buffer;
 
             var checkBuffer = NameObject.Value;
-            var checkString = checkBuffer.GetDataString();
 
-            Assert.AreEqual(TEST_VALUE, checkString);
+            Assert.AreEqual(TEST_VALUE, checkBuffer.StringData);
         }
 
         [Test]

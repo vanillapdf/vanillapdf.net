@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
 {
+    /// <summary>
+    /// Servers as container for transferring arbitrary binary data
+    /// </summary>
     public class PdfBuffer : PdfUnknown, IEquatable<PdfBuffer>
     {
         internal PdfBuffer(PdfBufferSafeHandle handle) : base(handle)
@@ -17,12 +20,18 @@ namespace vanillapdf.net.PdfUtils
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Binary data that are stored in the buffer
+        /// </summary>
         public byte[] Data
         {
             get { return GetData(); }
             set { SetData(value); }
         }
 
+        /// <summary>
+        /// ANSI string representation of the binary data
+        /// </summary>
         public string StringData
         {
             get { return GetDataString(); }
@@ -39,7 +48,7 @@ namespace vanillapdf.net.PdfUtils
             return new PdfBuffer(handle);
         }
 
-        public byte[] GetData()
+        private byte[] GetData()
         {
             UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -56,7 +65,7 @@ namespace vanillapdf.net.PdfUtils
             return allocatedBuffer;
         }
 
-        public void SetData(byte[] data)
+        private void SetData(byte[] data)
         {
             IntPtr allocator = IntPtr.Zero;
             UInt32 result = PdfReturnValues.ERROR_GENERAL;
@@ -68,7 +77,8 @@ namespace vanillapdf.net.PdfUtils
                 var dataSize = Convert.ToUInt64(data.Length);
                 result = NativeMethods.Buffer_SetData(Handle, allocator, new UIntPtr(dataSize));
 
-            } finally {
+            }
+            finally {
                 if (allocator != IntPtr.Zero) {
                     Marshal.FreeHGlobal(allocator);
                     allocator = IntPtr.Zero;
@@ -80,13 +90,13 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        public string GetDataString()
+        private string GetDataString()
         {
             var data = GetData();
             return Encoding.ASCII.GetString(data);
         }
 
-        public void SetDataString(string data)
+        private void SetDataString(string data)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
             SetData(bytes);

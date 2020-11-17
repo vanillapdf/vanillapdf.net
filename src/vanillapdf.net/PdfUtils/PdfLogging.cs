@@ -69,7 +69,7 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        public static PdfLoggingSeverity GetSeverity()
+        private static PdfLoggingSeverity GetSeverity()
         {
             UInt32 result = NativeMethods.Logging_GetSeverity(out var severity);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -79,7 +79,7 @@ namespace vanillapdf.net.PdfUtils
             return EnumUtil<PdfLoggingSeverity>.CheckedCast(severity);
         }
 
-        public static void SetSeverity(PdfLoggingSeverity severity)
+        private static void SetSeverity(PdfLoggingSeverity severity)
         {
             UInt32 result = NativeMethods.Logging_SetSeverity(severity);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

@@ -24,7 +24,7 @@ namespace vanillapdf.net.PdfContents
             set { SetValue(value); }
         }
 
-        public PdfStringObject GetValue()
+        private PdfStringObject GetValue()
         {
             UInt32 result = NativeMethods.ContentOperationTextShow_GetValue(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -34,7 +34,7 @@ namespace vanillapdf.net.PdfContents
             return new PdfStringObject(value);
         }
 
-        public void SetValue(PdfStringObject value)
+        private void SetValue(PdfStringObject value)
         {
             UInt32 result = NativeMethods.ContentOperationTextShow_SetValue(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

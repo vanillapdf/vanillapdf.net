@@ -53,7 +53,7 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
-        public PdfObject GetReferencedObject()
+        private PdfObject GetReferencedObject()
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_GetReferencedObject(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -63,7 +63,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfObject(data);
         }
 
-        public void SetReferencedObject(PdfObject value)
+        private void SetReferencedObject(PdfObject value)
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_SetReferencedObject(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

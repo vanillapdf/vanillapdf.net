@@ -33,7 +33,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBooleanObject(data);
         }
 
-        public bool GetValue()
+        private bool GetValue()
         {
             UInt32 result = NativeMethods.BooleanObject_GetValue(Handle, out bool data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -43,7 +43,7 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
-        public void SetValue(bool data)
+        private void SetValue(bool data)
         {
             UInt32 result = NativeMethods.BooleanObject_SetValue(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

@@ -70,7 +70,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDocumentSignatureSettings(data);
         }
 
-        public PdfMessageDigestAlgorithmType GetDigest()
+        private PdfMessageDigestAlgorithmType GetDigest()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetDigest(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -80,7 +80,7 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfMessageDigestAlgorithmType>.CheckedCast(data);
         }
 
-        public void SetDigest(PdfMessageDigestAlgorithmType data)
+        private void SetDigest(PdfMessageDigestAlgorithmType data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetDigest(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -88,7 +88,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfSigningKey GetSigningKey()
+        private PdfSigningKey GetSigningKey()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetSigningKey(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -98,7 +98,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfSigningKey(data);
         }
 
-        public void SetSigningKey(PdfSigningKey data)
+        private void SetSigningKey(PdfSigningKey data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetSigningKey(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -106,7 +106,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfLiteralStringObject GetName()
+        private PdfLiteralStringObject GetName()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetName(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -116,7 +116,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfLiteralStringObject(data);
         }
 
-        public void SetName(PdfLiteralStringObject data)
+        private void SetName(PdfLiteralStringObject data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetName(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -124,7 +124,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfLiteralStringObject GetLocation()
+        private PdfLiteralStringObject GetLocation()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetLocation(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -134,7 +134,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfLiteralStringObject(data);
         }
 
-        public void SetLocation(PdfLiteralStringObject data)
+        private void SetLocation(PdfLiteralStringObject data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetLocation(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -142,7 +142,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfLiteralStringObject GetReason()
+        private PdfLiteralStringObject GetReason()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetReason(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -152,7 +152,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfLiteralStringObject(data);
         }
 
-        public void SetReason(PdfLiteralStringObject data)
+        private void SetReason(PdfLiteralStringObject data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetReason(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -160,7 +160,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfDate GetSigningTime()
+        private PdfDate GetSigningTime()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetSigningTime(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -170,7 +170,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDate(data);
         }
 
-        public void SetSigningTime(PdfDate data)
+        private void SetSigningTime(PdfDate data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetSigningTime(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -178,7 +178,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfHexadecimalStringObject GetCertificate()
+        private PdfHexadecimalStringObject GetCertificate()
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_GetCertificate(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -188,7 +188,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfHexadecimalStringObject(data);
         }
 
-        public void SetCertificate(PdfHexadecimalStringObject data)
+        private void SetCertificate(PdfHexadecimalStringObject data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetCertificate(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

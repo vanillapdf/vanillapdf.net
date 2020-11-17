@@ -52,7 +52,7 @@ namespace vanillapdf.net.PdfUtils
             return new PdfBuffer(data);
         }
 
-        public Int64 GetInputPosition()
+        private Int64 GetInputPosition()
         {
             UInt32 result = NativeMethods.InputStream_GetInputPosition(Handle, out Int64 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -62,7 +62,7 @@ namespace vanillapdf.net.PdfUtils
             return data;
         }
 
-        public void SetInputPosition(Int64 data)
+        private void SetInputPosition(Int64 data)
         {
             UInt32 result = NativeMethods.InputStream_SetInputPosition(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

@@ -99,7 +99,7 @@ namespace vanillapdf.net.nunit.PdfContents
 
                                 if (contentOperation.GetOperationType() == PdfContentOperationType.TextShow) {
                                     var contentOperationTextShow = PdfContentOperationTextShow.FromContentOperation(contentOperation);
-                                    stringBuilder.Append(contentOperationTextShow.Value.Value.GetDataString());
+                                    stringBuilder.Append(contentOperationTextShow.Value.Value.StringData);
                                     continue;
                                 }
 
@@ -109,7 +109,7 @@ namespace vanillapdf.net.nunit.PdfContents
                                     foreach (var showItem in contentOperationTextShowArray.Value) {
                                         if (showItem.GetObjectType() == PdfObjectType.String) {
                                             var showText = PdfStringObject.FromObject(showItem);
-                                            stringBuilder.Append(showText.Value.GetDataString());
+                                            stringBuilder.Append(showText.Value.StringData);
                                         }
                                     }
 

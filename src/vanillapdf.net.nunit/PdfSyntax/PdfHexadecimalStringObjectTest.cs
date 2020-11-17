@@ -16,10 +16,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var StringObject = PdfHexadecimalStringObject.CreateFromEncodedString(ENCODED_VALUE);
 
-            PdfBuffer check = StringObject.GetValue();
-            var checkValue = check.GetDataString();
-
-            Assert.AreEqual(DECODED_VALUE, checkValue);
+            Assert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
         }
 
         [Test]
@@ -29,10 +26,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var StringObject = PdfHexadecimalStringObject.CreateFromDecodedString(DECODED_VALUE);
 
-            PdfBuffer check = StringObject.GetValue();
-            var checkValue = check.GetDataString();
-
-            Assert.AreEqual(DECODED_VALUE, checkValue);
+            Assert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
         }
 
         [Test]

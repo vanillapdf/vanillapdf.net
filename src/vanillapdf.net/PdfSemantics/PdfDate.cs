@@ -91,7 +91,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDate(data);
         }
 
-        public Int32 GetYear()
+        private Int32 GetYear()
         {
             UInt32 result = NativeMethods.Date_GetYear(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -101,7 +101,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetYear(Int32 data)
+        private void SetYear(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetYear(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -109,7 +109,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetMonth()
+        private Int32 GetMonth()
         {
             UInt32 result = NativeMethods.Date_GetMonth(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -119,7 +119,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetMonth(Int32 data)
+        private void SetMonth(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetMonth(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -127,7 +127,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetDay()
+        private Int32 GetDay()
         {
             UInt32 result = NativeMethods.Date_GetDay(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -137,7 +137,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetDay(Int32 data)
+        private void SetDay(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetDay(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -145,7 +145,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetHour()
+        private Int32 GetHour()
         {
             UInt32 result = NativeMethods.Date_GetHour(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -155,7 +155,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetHour(Int32 data)
+        private void SetHour(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetHour(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -163,7 +163,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetMinute()
+        private Int32 GetMinute()
         {
             UInt32 result = NativeMethods.Date_GetMinute(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -173,7 +173,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetMinute(Int32 data)
+        private void SetMinute(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetMinute(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -181,7 +181,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetSecond()
+        private Int32 GetSecond()
         {
             UInt32 result = NativeMethods.Date_GetSecond(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -191,7 +191,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetSecond(Int32 data)
+        private void SetSecond(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetSecond(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -199,7 +199,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public PdfTimezoneType GetTimezone()
+        private PdfTimezoneType GetTimezone()
         {
             UInt32 result = NativeMethods.Date_GetTimezone(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -209,7 +209,7 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfTimezoneType>.CheckedCast(data);
         }
 
-        public void SetTimezone(PdfTimezoneType data)
+        private void SetTimezone(PdfTimezoneType data)
         {
             UInt32 result = NativeMethods.Date_SetTimezone(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -217,7 +217,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetHourOffset()
+        private Int32 GetHourOffset()
         {
             UInt32 result = NativeMethods.Date_GetHourOffset(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -227,7 +227,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetHourOffset(Int32 data)
+        private void SetHourOffset(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetHourOffset(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -235,7 +235,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        public Int32 GetMinuteOffset()
+        private Int32 GetMinuteOffset()
         {
             UInt32 result = NativeMethods.Date_GetMinuteOffset(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -245,7 +245,7 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        public void SetMinuteOffset(Int32 data)
+        private void SetMinuteOffset(Int32 data)
         {
             UInt32 result = NativeMethods.Date_SetMinuteOffset(Handle, data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

@@ -22,7 +22,7 @@ namespace vanillapdf.net.PdfSemantics
             get { return GetVersion(); }
         }
 
-        public PdfVersion? GetVersion()
+        private PdfVersion? GetVersion()
         {
             UInt32 result = NativeMethods.Catalog_GetVersion(Handle, out int data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {

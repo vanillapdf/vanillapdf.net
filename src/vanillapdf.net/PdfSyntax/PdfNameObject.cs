@@ -33,7 +33,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNameObject(data);
         }
 
-        public PdfBuffer GetValue()
+        private PdfBuffer GetValue()
         {
             UInt32 result = NativeMethods.NameObject_GetValue(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -43,7 +43,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(data);
         }
 
-        public void SetValue(PdfBuffer data)
+        private void SetValue(PdfBuffer data)
         {
             UInt32 result = NativeMethods.NameObject_SetValue(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
