@@ -5,39 +5,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
 {
-    public abstract class PdfSigningContext : IDisposable
-    {
-        public PdfSigningContext()
-        {
-            Handle = GCHandle.Alloc(this);
-        }
-
-        internal GCHandle Handle { get; }
-
-        public abstract UInt32 Initialize(PdfMessageDigestAlgorithmType digest);
-        public abstract UInt32 Update(PdfBuffer buffer);
-        public abstract UInt32 Final(out PdfBuffer buffer);
-        public abstract void Cleanup();
-
-        private void ReleaseUnmanagedResources()
-        {
-            if (Handle.IsAllocated) {
-                Handle.Free();
-            }
-        }
-
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~PdfSigningContext()
-        {
-            ReleaseUnmanagedResources();
-        }
-    }
-
+    /// <summary>
+    /// Signing key is used for file signing
+    /// </summary>
     public class PdfSigningKey : PdfUnknown
     {
         internal PdfSigningKey(PdfSigningKeySafeHandle handle) : base(handle)
@@ -49,7 +19,11 @@ namespace vanillapdf.net.PdfUtils
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
-        public static PdfSigningKey CreateCustom(PdfSigningContext context)
+        /// <summary>
+        /// Create a new instance of \ref PdfSigningKey with associated \ref PdfSigningKeyContext callback functions
+        /// </summary>
+        /// <returns>New instance of \ref PdfSigningKey</returns>
+        public static PdfSigningKey CreateCustom(PdfSigningKeyContext context)
         {
             UInt32 result = NativeMethods.SigningKey_CreateCustom(Initialize, Update, Final, Cleanup, GCHandle.ToIntPtr(context.Handle), out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -63,7 +37,7 @@ namespace vanillapdf.net.PdfUtils
         {
             try {
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
-                PdfSigningContext context = (handle.Target as PdfSigningContext);
+                PdfSigningKeyContext context = (handle.Target as PdfSigningKeyContext);
 
                 return context.Initialize(digest);
             }
@@ -76,7 +50,7 @@ namespace vanillapdf.net.PdfUtils
         {
             try {
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
-                PdfSigningContext context = (handle.Target as PdfSigningContext);
+                PdfSigningKeyContext context = (handle.Target as PdfSigningKeyContext);
 
                 // This is unfortunately neccessary, because of the error
                 // "Cannot marshal 'parameter #2': SafeHandles cannot be marshaled from unmanaged to managed."
@@ -99,7 +73,7 @@ namespace vanillapdf.net.PdfUtils
         {
             try {
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
-                PdfSigningContext context = (handle.Target as PdfSigningContext);
+                PdfSigningKeyContext context = (handle.Target as PdfSigningKeyContext);
 
                 UInt32 rv = context.Final(out PdfBuffer finalResult);
                 if (rv != PdfReturnValues.ERROR_SUCCESS) {
@@ -122,7 +96,7 @@ namespace vanillapdf.net.PdfUtils
         {
             try {
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
-                PdfSigningContext context = (handle.Target as PdfSigningContext);
+                PdfSigningKeyContext context = (handle.Target as PdfSigningKeyContext);
 
                 context.Cleanup();
             }

@@ -5,7 +5,7 @@ namespace vanillapdf.net.PdfUtils
 {
     public static class PdfReturnValues
     {
-        public static string GetValueName(uint value)
+        internal static string GetValueName(uint value)
         {
             if (value == ERROR_SUCCESS) {
                 return VANILLAPDF_ERROR_SUCCESS;

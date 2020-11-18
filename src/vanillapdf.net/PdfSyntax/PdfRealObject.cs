@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Represents floating point number object in the PDF structure
+    /// </summary>
     public class PdfRealObject : PdfObject
     {
         internal PdfRealObject(PdfRealObjectSafeHandle handle) : base(handle)
@@ -17,12 +20,19 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Currently stored floating point number
+        /// </summary>
         public double Value
         {
             get { return GetValue(); }
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfRealObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfRealObject</returns>
         public static PdfRealObject Create()
         {
             UInt32 result = NativeMethods.RealObject_Create(out var data);

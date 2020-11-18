@@ -5,6 +5,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
 {
+    /// <summary>
+    /// Class for managing licensed features
+    /// </summary>
     public static class PdfLicenseInfo
     {
         static PdfLicenseInfo()
@@ -12,6 +15,10 @@ namespace vanillapdf.net.PdfUtils
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Set license from file
+        /// </summary>
+        /// <param name="filename">path to file containing license information</param>
         public static void SetLicenseFile(string filename)
         {
             UInt32 result = NativeMethods.LicenseInfo_SetLicenseFile(filename);
@@ -20,6 +27,10 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
+        /// <summary>
+        /// Set license from buffer
+        /// </summary>
+        /// <param name="data">buffer containing license information</param>
         public static void SetLicenseBuffer(PdfBuffer data)
         {
             UInt32 result = NativeMethods.LicenseInfo_SetLicenseBuffer(data.Handle);
@@ -28,6 +39,10 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
+        /// <summary>
+        /// Check if the presented license is valid
+        /// </summary>
+        /// <returns>true if the license is valid, false otherwise</returns>
         public static bool IsValid()
         {
             UInt32 result = NativeMethods.LicenseInfo_IsValid(out var data);
@@ -38,6 +53,11 @@ namespace vanillapdf.net.PdfUtils
             return data;
         }
 
+        /// <summary>
+        /// Check if the license is temporary
+        /// Temporary license means it is only for a limited time-frame
+        /// </summary>
+        /// <returns>true if the license is temporary, false otherwise</returns>
         public static bool IsTemporary()
         {
             UInt32 result = NativeMethods.LicenseInfo_IsTemporary(out var data);

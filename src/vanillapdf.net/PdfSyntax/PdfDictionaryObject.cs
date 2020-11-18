@@ -100,7 +100,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObject(data.Handle);
         }
 
-        #region IDictionary
+        #region IDictionary<PdfNameObject, PdfObject>
+
+        /** \name IDictionary<PdfNameObject, PdfObject>
+        *  @{
+        */
 
         public ICollection<PdfNameObject> Keys
         {
@@ -194,6 +198,8 @@ namespace vanillapdf.net.PdfSyntax
         {
             return GetIterator();
         }
+
+        /** @}*/
 
         #endregion
 

@@ -7,7 +7,7 @@ namespace vanillapdf.net.nunit.PdfUtils
     [TestFixture]
     public class PdfSigningKeyTest
     {
-        public class PdfCustomSigningContext : PdfSigningContext
+        public class PdfCustomSigningContext : PdfSigningKeyContext
         {
             public override uint Initialize(PdfMessageDigestAlgorithmType digest)
             {

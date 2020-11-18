@@ -38,6 +38,10 @@ namespace vanillapdf.net.PdfUtils
             set { SetDataString(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfBuffer with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfBuffer</returns>
         public static PdfBuffer Create()
         {
             UInt32 result = NativeMethods.Buffer_Create(out PdfBufferSafeHandle handle);

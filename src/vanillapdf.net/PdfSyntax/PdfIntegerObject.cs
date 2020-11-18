@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Represents integral numeric value
+    /// </summary>
     public class PdfIntegerObject : PdfObject
     {
         internal PdfIntegerObject(PdfIntegerObjectSafeHandle handle) : base(handle)
@@ -17,18 +20,28 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Signed numeric value
+        /// </summary>
         public Int64 IntegerValue
         {
             get { return GetIntegerValue(); }
             set { SetIntegerValue(value); }
         }
 
+        /// <summary>
+        /// Unsigned numeric value
+        /// </summary>
         public UInt64 UnsignedIntegerValue
         {
             get { return GetUnsignedIntegerValue(); }
             set { SetUnsignedIntegerValue(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfIntegerObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfIntegerObject</returns>
         public static PdfIntegerObject Create()
         {
             UInt32 result = NativeMethods.IntegerObject_Create(out var data);

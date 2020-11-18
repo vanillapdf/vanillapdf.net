@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Represents boolean object in the PDF structure
+    /// </summary>
     public class PdfBooleanObject : PdfObject
     {
         internal PdfBooleanObject(PdfBooleanObjectSafeHandle handle) : base(handle)
@@ -17,12 +20,19 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Currently stored boolean value
+        /// </summary>
         public bool Value
         {
             get { return GetValue(); }
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfBooleanObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfBooleanObject</returns>
         public static PdfBooleanObject Create()
         {
             UInt32 result = NativeMethods.BooleanObject_Create(out var data);

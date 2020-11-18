@@ -96,7 +96,7 @@ namespace vanillapdf.net.Utils
         /// Find procedure in the native library by it's name
         /// </summary>
         /// <typeparam name="T">Function delegate type</typeparam>
-        /// <param name="procName">Function name</param>
+        /// <param name="procName">Name of the symbol exported by the native library</param>
         /// <returns>If the procedure is found the function returns delegate to specified function, otherwise throws Exception</returns>
         public static T GetFunction<T>(string procName)
         {
@@ -111,7 +111,7 @@ namespace vanillapdf.net.Utils
         /// <summary>
         /// Finds the constant symbol exported by the native library
         /// </summary>
-        /// <param name="constantName">Name of the required constant</param>
+        /// <param name="constantName">Name of the symbol exported by the native library</param>
         /// <returns>If the constant is found the function returns it's numeric value, otherwise throws Exception</returns>
         public static UInt32 GetConstant(string constantName)
         {

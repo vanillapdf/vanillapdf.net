@@ -118,6 +118,10 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IList<PdfObject>
 
+        /** \name IList<PdfObject>
+        *  @{
+        */
+
         public int Count => (int)GetSize();
         public bool IsReadOnly => false;
         public PdfObject this[int index] { get => GetValue(index); set => SetValue(index, value); }
@@ -199,6 +203,8 @@ namespace vanillapdf.net.PdfSyntax
                 yield return GetValue(i);
             }
         }
+
+        /** @}*/
 
         #endregion
 

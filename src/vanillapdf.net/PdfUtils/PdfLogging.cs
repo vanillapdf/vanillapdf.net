@@ -51,7 +51,7 @@ namespace vanillapdf.net.PdfUtils
         }
 
         /// <summary>
-        /// Enables
+        /// Enables logging debug output
         /// </summary>
         public static void Enable()
         {
@@ -61,6 +61,9 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
+        /// <summary>
+        /// Disables logging debug output
+        /// </summary>
         public static void Disable()
         {
             UInt32 result = NativeMethods.Logging_Disable();
