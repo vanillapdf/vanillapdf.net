@@ -20,6 +20,11 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Opens an existing file from the specified location
+        /// </summary>
+        /// <param name="filename">path to existing file location</param>
+        /// <returns>A new \ref PdfFile instance on success, throws exception on failure</returns>
         public static PdfFile Open(string filename)
         {
             UInt32 result = NativeMethods.File_Open(filename, out var data);
@@ -30,6 +35,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFile(data);
         }
 
+        /// <summary>
+        /// Open file from existing \ref PdfInputOutputStream
+        /// </summary>
+        /// <param name="stream">Stream containing a valid PDF document structure</param>
+        /// <param name="filename">Filename for logging purposes</param>
+        /// <returns>A new \ref PdfFile instance on success, throws exception on failure</returns>
         public static PdfFile OpenStream(PdfInputOutputStream stream, string filename)
         {
             UInt32 result = NativeMethods.File_OpenStream(stream.Handle, filename, out var data);

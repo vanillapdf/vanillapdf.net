@@ -6,7 +6,8 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfUtils
 {
     /// <summary>
-    /// Signing key is used for file signing
+    /// Signing key is used for document signing
+    /// @see \ref PdfSemantics.PdfDocument.Sign
     /// </summary>
     public class PdfSigningKey : PdfUnknown
     {

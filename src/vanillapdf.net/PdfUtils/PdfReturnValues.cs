@@ -3,6 +3,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
 {
+    /// <summary>
+    /// Class holds commonly used return values from the native code
+    /// </summary>
     public static class PdfReturnValues
     {
         internal static string GetValueName(uint value)
@@ -50,21 +53,90 @@ namespace vanillapdf.net.PdfUtils
             throw new PdfManagedException("Unknown return value");
         }
 
+        #region Global error states
+
+        /// <summary>
+        /// Indicates that the operation completed successfully.
+        /// </summary>
         public static UInt32 ERROR_SUCCESS = LibraryInstance.GetConstant(VANILLAPDF_ERROR_SUCCESS);
+
+        /// <summary>
+        /// An invalid parameter value to function call was passed.
+        /// </summary>
         public static UInt32 ERROR_PARAMETER_VALUE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_PARAMETER_VALUE);
+
+        /// <summary>
+        /// Operation is currently not supported.
+        /// </summary>
         public static UInt32 ERROR_NOT_SUPPORTED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_NOT_SUPPORTED);
+
+        /// <summary>
+        /// Operation was cancelled by user.
+        /// </summary>
         public static UInt32 ERROR_USER_CANCELLED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_USER_CANCELLED);
+
+        /// <summary>
+        /// Error in compressed data.
+        /// </summary>
         public static UInt32 ERROR_ZLIB_DATA = LibraryInstance.GetConstant(VANILLAPDF_ERROR_ZLIB_DATA);
+
+        /// <summary>
+        /// Presented license file is not valid.
+        /// </summary>
         public static UInt32 ERROR_INVALID_LICENSE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_LICENSE);
+
+        /// <summary>
+        /// Error accessing licensed feature without a valid license file.
+        /// </summary>
         public static UInt32 ERROR_LICENSE_REQUIRED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_LICENSE_REQUIRED);
+
+        /// <summary>
+        /// An unknown error has occurred.
+        /// </summary>
         public static UInt32 ERROR_GENERAL = LibraryInstance.GetConstant(VANILLAPDF_ERROR_GENERAL);
 
+        #endregion
+
+        #region Syntax errors
+
+        /// <summary>
+        /// An invalid object type was passed to function.
+        /// </summary>
         public static UInt32 ERROR_CONVERSION = LibraryInstance.GetConstant(VANILLAPDF_ERROR_CONVERSION);
+
+        /// <summary>
+        /// The source file was already disposed.
+        /// </summary>
         public static UInt32 ERROR_FILE_DISPOSED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_FILE_DISPOSED);
+
+        /// <summary>
+        /// The source file was not yet initialized.
+        /// </summary>
         public static UInt32 ERROR_FILE_NOT_INITIALIZED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_FILE_NOT_INITIALIZED);
+
+        /// <summary>
+        /// A dependent object was not found.
+        /// </summary>
         public static UInt32 ERROR_OBJECT_MISSING = LibraryInstance.GetConstant(VANILLAPDF_ERROR_OBJECT_MISSING);
+
+        /// <summary>
+        /// Error during low-level file processing, the document might be damaged.
+        /// 
+        /// If the document can be correctly processed with other readers,
+	    /// please let us know by sending the document for observations.
+        /// In case the document contains sensitive information,
+	    /// consider document anonymizer utility.
+        /// </summary>
         public static UInt32 ERROR_PARSE_EXCEPTION = LibraryInstance.GetConstant(VANILLAPDF_ERROR_PARSE_EXCEPTION);
+
+        /// <summary>
+        /// Invalid protection password or key.
+        /// 
+        /// The source file was encrypted, while the entered password did not match.
+        /// </summary>
         public static UInt32 ERROR_INVALID_PASSWORD = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_PASSWORD);
+
+        #endregion
 
         private const string VANILLAPDF_ERROR_SUCCESS = "VANILLAPDF_ERROR_SUCCESS";
         private const string VANILLAPDF_ERROR_PARAMETER_VALUE = "VANILLAPDF_ERROR_PARAMETER_VALUE";

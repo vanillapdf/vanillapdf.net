@@ -7,6 +7,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
+    /// <summary>
+    /// High-level counterpart of the \ref PdfSyntax.PdfFile
+    /// </summary>
     public class PdfDocument : PdfUnknown
     {
         internal PdfDocument(PdfDocumentSafeHandle handle) : base(handle)
@@ -18,6 +21,11 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Open and existing document for reading and manupulation
+        /// </summary>
+        /// <param name="filename">path to existing document</param>
+        /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
         public static PdfDocument Open(string filename)
         {
             UInt32 result = NativeMethods.Document_Open(filename, out var data);
@@ -28,6 +36,11 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDocument(data);
         }
 
+        /// <summary>
+        /// Creates a new document on the specified location
+        /// </summary>
+        /// <param name="filename">path file to be created</param>
+        /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
         public static PdfDocument Create(string filename)
         {
             UInt32 result = NativeMethods.Document_Create(filename, out var data);
@@ -38,6 +51,11 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDocument(data);
         }
 
+        /// <summary>
+        /// Open and existing document for reading and manupulation
+        /// </summary>
+        /// <param name="file">Handle to \ref PdfFile instance</param>
+        /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
         public static PdfDocument OpenFile(PdfFile file)
         {
             UInt32 result = NativeMethods.Document_OpenFile(file.Handle, out var data);
@@ -48,6 +66,10 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDocument(data);
         }
 
+        /// <summary>
+        /// Appends all pages from the specified document to the current instance
+        /// </summary>
+        /// <param name="source">Source document from which all pages will be extracted</param>
         public void AppendDocument(PdfDocument source)
         {
             UInt32 result = NativeMethods.Document_AppendDocument(Handle, source.Handle);
@@ -56,6 +78,10 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Get catalog entry (the root of all nested items) from the current document
+        /// </summary>
+        /// <returns>Handle to existing \ref PdfCatalog instance on success, throws exception on failure</returns>
         public PdfCatalog GetCatalog()
         {
             UInt32 result = NativeMethods.Document_GetCatalog(Handle, out var data);
@@ -66,6 +92,10 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfCatalog(data);
         }
 
+        /// <summary>
+        /// Saves current document at the specified location
+        /// </summary>
+        /// <param name="filename">file path where the document should be saved</param>
         public void Save(string filename)
         {
             UInt32 result = NativeMethods.Document_Save(Handle, filename);
@@ -74,6 +104,11 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Sign current document using specified settings
+        /// </summary>
+        /// <param name="destination">Destination of the signed file</param>
+        /// <param name="settings">Signature settings</param>
         public void Sign(PdfFile destination, PdfDocumentSignatureSettings settings)
         {
             UInt32 result = NativeMethods.Document_Sign(Handle, destination.Handle, settings.Handle);
