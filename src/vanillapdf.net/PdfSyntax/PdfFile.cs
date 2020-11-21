@@ -21,6 +21,22 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
+        /// Determines if the file is encrypted
+        /// </summary>
+        public bool Encrypted
+        {
+            get { return IsEncrypted(); }
+        }
+
+        /// <summary>
+        /// Cross-reference chain contains list of all indirect objects
+        /// </summary>
+        public PdfXrefChain XrefChain
+        {
+            get { return GetXrefChain(); }
+        }
+
+        /// <summary>
         /// Opens an existing file from the specified location
         /// </summary>
         /// <param name="filename">path to existing file location</param>
@@ -36,14 +52,14 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
-        /// Open file from existing \ref PdfInputOutputStream
+        /// Open file from existing \ref PdfInputOutputStream containing a valid PDF document structure
         /// </summary>
         /// <param name="stream">Stream containing a valid PDF document structure</param>
-        /// <param name="filename">Filename for logging purposes</param>
+        /// <param name="name">Filename for logging purposes</param>
         /// <returns>A new \ref PdfFile instance on success, throws exception on failure</returns>
-        public static PdfFile OpenStream(PdfInputOutputStream stream, string filename)
+        public static PdfFile OpenStream(PdfInputOutputStream stream, string name)
         {
-            UInt32 result = NativeMethods.File_OpenStream(stream.Handle, filename, out var data);
+            UInt32 result = NativeMethods.File_OpenStream(stream.Handle, name, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -51,6 +67,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFile(data);
         }
 
+        /// <summary>
+        /// Creates a file for writing.
+        /// Truncates the contents if it already exists.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static PdfFile Create(string filename)
         {
             UInt32 result = NativeMethods.File_Create(filename, out var data);
@@ -61,6 +83,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFile(data);
         }
 
+        /// <summary>
+        /// Creates a new file content in the specified \ref PdfInputOutputStream
+        /// </summary>
+        /// <param name="stream">Stream to receive data when the file is saved</param>
+        /// <param name="name">Filename for logging purposes</param>
+        /// <returns>A new \ref PdfFile instance on success, throws exception on failure</returns>
         public static PdfFile CreateStream(PdfInputOutputStream stream, string name)
         {
             UInt32 result = NativeMethods.File_CreateStream(stream.Handle, name, out var data);
@@ -82,7 +110,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        public bool IsEncrypted()
+        private bool IsEncrypted()
         {
             UInt32 result = NativeMethods.File_IsEncrypted(Handle, out bool data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -92,6 +120,11 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Set encryption password for files that require authentication
+        /// </summary>
+        /// <param name="password">Clear-text password to be used to decrypt the file</param>
+        /// <returns>true if the password is correct, false if incorrect, throw exception on failure</returns>
         public bool SetEncryptionPassword(string password)
         {
             UInt32 result = NativeMethods.File_SetEncryptionPassword(Handle, password);
@@ -106,7 +139,7 @@ namespace vanillapdf.net.PdfSyntax
             return true;
         }
 
-        public PdfXrefChain GetXrefChain()
+        private PdfXrefChain GetXrefChain()
         {
             UInt32 result = NativeMethods.File_XrefChain(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

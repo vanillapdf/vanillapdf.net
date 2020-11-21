@@ -37,10 +37,9 @@ namespace vanillapdf.net.test
 
                 // Last error is only available for unmanaged exceptions
                 var lastError = PdfErrors.GetLastError();
-                var lastErrorName = PdfReturnValues.GetValueName(lastError);
                 var lastErrorMessage = PdfErrors.GetLastErrorMessage();
 
-                Console.Out.WriteLine("Last error {0} ({1}): {2}", lastErrorName, lastError, lastErrorMessage);
+                Console.Out.WriteLine("Last error {0}: {1}", lastError, lastErrorMessage);
             }
             catch (Exception ex) {
                 Console.Out.WriteLine("Error with file {0}: {1}", path, ex.Message);
@@ -55,7 +54,7 @@ namespace vanillapdf.net.test
             using (PdfFile file = PdfFile.Open(path)) {
                 file.Initialize();
 
-                if (file.IsEncrypted()) {
+                if (file.Encrypted) {
                     Console.Out.WriteLine("File {0} is encrypted, using password", path);
 
                     bool isCorrect = file.SetEncryptionPassword(password);
@@ -66,9 +65,7 @@ namespace vanillapdf.net.test
                     }
                 }
 
-                using (var xrefChain = file.GetXrefChain()) {
-                    CheckXrefChain(xrefChain);
-                }
+                CheckXrefChain(file.XrefChain);
 
                 using (PdfDocument document = PdfDocument.OpenFile(file)) {
                     PdfCatalog catalog = document.GetCatalog();

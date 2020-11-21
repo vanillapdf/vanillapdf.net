@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
+    /// <summary>
+    /// Class for representing specific timepoint in the calendar
+    /// </summary>
     public class PdfDate : PdfUnknown
     {
         internal PdfDate(PdfDateSafeHandle handle) : base(handle)
@@ -17,60 +20,91 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Year (1970+)
+        /// </summary>
         public Int32 Year
         {
             get { return GetYear(); }
             set { SetYear(value); }
         }
 
+        /// <summary>
+        /// Month (1-12)
+        /// </summary>
         public Int32 Month
         {
             get { return GetMonth(); }
             set { SetMonth(value); }
         }
 
+        /// <summary>
+        /// Day (1-31)
+        /// </summary>
         public Int32 Day
         {
             get { return GetDay(); }
             set { SetDay(value); }
         }
 
+        /// <summary>
+        /// Hour (0-23)
+        /// </summary>
         public Int32 Hour
         {
             get { return GetHour(); }
             set { SetHour(value); }
         }
 
+        /// <summary>
+        /// Minute (0-59)
+        /// </summary>
         public Int32 Minute
         {
             get { return GetMinute(); }
             set { SetMinute(value); }
         }
 
+        /// <summary>
+        /// Second (0-59)
+        /// </summary>
         public Int32 Second
         {
             get { return GetSecond(); }
             set { SetSecond(value); }
         }
 
+        /// <summary>
+        /// Timezone
+        /// </summary>
         public PdfTimezoneType Timezone
         {
             get { return GetTimezone(); }
             set { SetTimezone(value); }
         }
 
+        /// <summary>
+        /// Timezone offset hours (0-23)
+        /// </summary>
         public Int32 HourOffset
         {
             get { return GetHourOffset(); }
             set { SetHourOffset(value); }
         }
 
+        /// <summary>
+        /// Timezone offset minutes (0-59)
+        /// </summary>
         public Int32 MinuteOffset
         {
             get { return GetMinuteOffset(); }
             set { SetMinuteOffset(value); }
         }
 
+        /// <summary>
+        /// Creates a new blank instance of \ref PdfDate with default values
+        /// </summary>
+        /// <returns>A new \ref PdfDate instance on success, throws exception on failure</returns>
         public static PdfDate CreateEmpty()
         {
             UInt32 result = NativeMethods.Date_CreateEmpty(out var data);
@@ -81,6 +115,10 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDate(data);
         }
 
+        /// <summary>
+        /// Creates a new blank instance of \ref PdfDate with current date from local computer
+        /// </summary>
+        /// <returns>A new \ref PdfDate instance on success, throws exception on failure</returns>
         public static PdfDate CreateCurrent()
         {
             UInt32 result = NativeMethods.Date_CreateCurrent(out var data);
