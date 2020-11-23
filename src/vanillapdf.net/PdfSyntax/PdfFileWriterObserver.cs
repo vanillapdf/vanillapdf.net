@@ -6,49 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public abstract class PdfFileWriterObserverContext : IDisposable
-    {
-        public PdfFileWriterObserverContext()
-        {
-            Handle = GCHandle.Alloc(this);
-        }
-
-        internal GCHandle Handle { get; }
-
-        public abstract UInt32 OnInitializing(PdfInputOutputStream data);
-        public abstract UInt32 OnFinalizing(PdfInputOutputStream data);
-
-        public abstract UInt32 OnBeforeObjectWrite(PdfObject data);
-        public abstract UInt32 OnAfterObjectWrite(PdfObject data);
-
-        public abstract UInt32 OnBeforeObjectOffsetRecalculation(PdfObject data);
-        public abstract UInt32 OnAfterObjectOffsetRecalculation(PdfObject data);
-
-        public abstract UInt32 OnBeforeEntryOffsetRecalculation(PdfXrefEntry data);
-        public abstract UInt32 OnAfterEntryOffsetRecalculation(PdfXrefEntry data);
-
-        public abstract UInt32 OnBeforeOutputFlush(PdfInputOutputStream data);
-        public abstract UInt32 OnAfterOutputFlush(PdfInputOutputStream data);
-
-        private void ReleaseUnmanagedResources()
-        {
-            if (Handle.IsAllocated) {
-                Handle.Free();
-            }
-        }
-
-        public void Dispose()
-        {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
-        }
-
-        ~PdfFileWriterObserverContext()
-        {
-            ReleaseUnmanagedResources();
-        }
-    }
-
+    /// <summary>
+    /// Observer capable of receiving events from \ref PdfFileWriter
+    /// </summary>
     public class PdfFileWriterObserver : PdfUnknown
     {
         internal PdfFileWriterObserver(PdfFileWriterObserverSafeHandle handle) : base(handle)
@@ -60,6 +20,11 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfFileWriterObserver using specified context
+        /// </summary>
+        /// <param name="context">Handle to observer context to be used</param>
+        /// <returns>New instance of \ref PdfFileWriterObserver on success, throws exception on failure</returns>
         public static PdfFileWriterObserver CreateCustom(PdfFileWriterObserverContext context)
         {
             UInt32 result = NativeMethods.FileWriterObserver_CreateCustom(

@@ -32,7 +32,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Create a new instance of \ref PdfBooleanObject with default value
         /// </summary>
-        /// <returns>New instance of \ref PdfBooleanObject</returns>
+        /// <returns>New instance of \ref PdfBooleanObject on success, throws exception on failure</returns>
         public static PdfBooleanObject Create()
         {
             UInt32 result = NativeMethods.BooleanObject_Create(out var data);

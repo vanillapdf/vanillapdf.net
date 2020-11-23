@@ -41,7 +41,7 @@ namespace vanillapdf.net.PdfUtils
         /// <summary>
         /// Create a new instance of \ref PdfBuffer with default value
         /// </summary>
-        /// <returns>New instance of \ref PdfBuffer</returns>
+        /// <returns>New instance of \ref PdfBuffer on success, throws exception on failure</returns>
         public static PdfBuffer Create()
         {
             UInt32 result = NativeMethods.Buffer_Create(out PdfBufferSafeHandle handle);

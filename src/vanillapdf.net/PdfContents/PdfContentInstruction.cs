@@ -6,13 +6,27 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfContents
 {
+    /// <summary>
+    /// Available content instruction types
+    /// </summary>
     public enum PdfContentInstructionType
     {
         Undefined = 0,
+
+        /// <summary>
+        /// Atomic content operation.
+        /// </summary>
         Operation,
+
+        /// <summary>
+        /// Composed non-atomic content object
+        /// </summary>
         Object
     };
 
+    /// <summary>
+    /// Base class for all content objects and operations.
+    /// </summary>
     public class PdfContentInstruction : PdfUnknown
     {
         internal PdfContentInstruction(PdfContentInstructionSafeHandle handle) : base(handle)
@@ -24,6 +38,10 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Get derived type of current object
+        /// </summary>
+        /// <returns>Type of current content instruction on success, throws exception on failure</returns>
         public PdfContentInstructionType GetInstructionType()
         {
             UInt32 result = NativeMethods.ContentInstruction_GetInstructionType(Handle, out Int32 data);

@@ -5,6 +5,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
 {
+    /// <summary>
+    /// Class representing PKCS#12 private encryption/signature key
+    /// </summary>
     public class PdfPKCS12Key : PdfUnknown
     {
         internal PdfPKCS12Key(PdfPKCS12KeySafeHandle handle) : base(handle)
@@ -16,6 +19,12 @@ namespace vanillapdf.net.PdfUtils
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfPKCS12Key from specified file
+        /// </summary>
+        /// <param name="filename">Path to file containing PKCS#12 structure</param>
+        /// <param name="password">Additional password to be used to decrypt file, NULL if no password required</param>
+        /// <returns>New instance of \ref PdfPKCS12Key on success, throws exception on failure</returns>
         public static PdfPKCS12Key CreateFromFile(string filename, string password)
         {
             UInt32 result = NativeMethods.PKCS12Key_CreateFromFile(filename, password, out var data);
@@ -26,6 +35,12 @@ namespace vanillapdf.net.PdfUtils
             return new PdfPKCS12Key(data);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfPKCS12Key from binary data
+        /// </summary>
+        /// <param name="filename">Binary data containing PKCS#12 structure</param>
+        /// <param name="password">Additional password to be used to decrypt file, NULL if no password required</param>
+        /// <returns>New instance of \ref PdfPKCS12Key on success, throws exception on failure</returns>
         public static PdfPKCS12Key CreateFromBuffer(PdfBuffer buffer, string password)
         {
             UInt32 result = NativeMethods.PKCS12Key_CreateFromBuffer(buffer.Handle, password, out var data);
