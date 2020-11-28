@@ -52,7 +52,7 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
-        /// Open file from existing \ref PdfInputOutputStream containing a valid PDF document structure
+        /// Open file from existing \ref PdfUtils.PdfInputOutputStream containing a valid PDF document structure
         /// </summary>
         /// <param name="stream">Stream containing a valid PDF document structure</param>
         /// <param name="name">Filename for logging purposes</param>
@@ -84,7 +84,7 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
-        /// Creates a new file content in the specified \ref PdfInputOutputStream
+        /// Creates a new file content in the specified \ref PdfUtils.PdfInputOutputStream
         /// </summary>
         /// <param name="stream">Stream to receive data when the file is saved</param>
         /// <param name="name">Filename for logging purposes</param>

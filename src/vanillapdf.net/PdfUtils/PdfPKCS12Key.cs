@@ -38,7 +38,7 @@ namespace vanillapdf.net.PdfUtils
         /// <summary>
         /// Create a new instance of \ref PdfPKCS12Key from binary data
         /// </summary>
-        /// <param name="filename">Binary data containing PKCS#12 structure</param>
+        /// <param name="buffer">Binary data containing PKCS#12 structure</param>
         /// <param name="password">Additional password to be used to decrypt file, NULL if no password required</param>
         /// <returns>New instance of \ref PdfPKCS12Key on success, throws exception on failure</returns>
         public static PdfPKCS12Key CreateFromBuffer(PdfBuffer buffer, string password)
@@ -51,11 +51,19 @@ namespace vanillapdf.net.PdfUtils
             return new PdfPKCS12Key(data);
         }
 
+        /// <summary>
+        /// Convert to \ref PdfSigningKey
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfPKCS12Key to be converted</param>
         public static implicit operator PdfSigningKey(PdfPKCS12Key data)
         {
             return new PdfSigningKey(data.Handle);
         }
 
+        /// <summary>
+        /// Convert to \ref PdfPKCS12Key
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfSigningKey to be converted</param>
         public static explicit operator PdfPKCS12Key(PdfSigningKey data)
         {
             return new PdfPKCS12Key(data.Handle);

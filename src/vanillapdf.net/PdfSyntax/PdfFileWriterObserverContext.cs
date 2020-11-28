@@ -96,6 +96,9 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Release all managed and unmanaged resources
+        /// </summary>
         public void Dispose()
         {
             ReleaseUnmanagedResources();

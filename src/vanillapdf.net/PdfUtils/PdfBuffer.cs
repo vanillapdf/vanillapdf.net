@@ -106,6 +106,11 @@ namespace vanillapdf.net.PdfUtils
             SetData(bytes);
         }
 
+        /// <summary>
+        /// Custom equality operator to compare buffer contents
+        /// </summary>
+        /// <param name="other">Other buffer to be compared</param>
+        /// <returns>True when the buffer data are equal, false if not equal, throws exception on failure</returns>
         public bool Equals(PdfBuffer other)
         {
             if (other == null) {
@@ -120,6 +125,10 @@ namespace vanillapdf.net.PdfUtils
             return data;
         }
 
+        /// <summary>
+        /// Custom hash value calculation
+        /// </summary>
+        /// <returns>Integral value representing hash of the binary data</returns>
         public UInt64 Hash()
         {
             UInt32 result = NativeMethods.Buffer_Hash(Handle, out var data);
@@ -130,6 +139,10 @@ namespace vanillapdf.net.PdfUtils
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfInputStream from the current data of the \ref PdfBuffer
+        /// </summary>
+        /// <returns>New instance of \ref PdfInputStream on success, throws exception on failure</returns>
         public PdfInputStream ToInputStream()
         {
             UInt32 result = NativeMethods.Buffer_ToInputStream(Handle, out PdfInputStreamSafeHandle handle);
@@ -140,6 +153,11 @@ namespace vanillapdf.net.PdfUtils
             return new PdfInputStream(handle);
         }
 
+        /// <summary>
+        /// Custom equality operator to support \ref PdfBuffer
+        /// </summary>
+        /// <param name="obj">Other object to be compared</param>
+        /// <returns>True if the compared objects are equal, false if not equal, throws exception on failure</returns>
         public override bool Equals(object obj)
         {
             if (obj is PdfBuffer) {
@@ -149,6 +167,10 @@ namespace vanillapdf.net.PdfUtils
             return base.Equals(obj);
         }
 
+        /// <summary>
+        /// Custom hash value calculation
+        /// </summary>
+        /// <returns>Integral value representing hash of the binary data</returns>
         public override int GetHashCode()
         {
             return (int)Hash();

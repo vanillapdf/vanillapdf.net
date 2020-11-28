@@ -20,7 +20,7 @@ namespace vanillapdf.net.PdfUtils
         }
 
         /// <summary>
-        /// Current offsept position in the input stream
+        /// Current offset position in the input stream
         /// </summary>
         public Int64 InputPosition
         {
