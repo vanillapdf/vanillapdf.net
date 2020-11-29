@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSyntax
 {
     /// <summary>
-    /// Represents floating point number object in the PDF structure
+    /// Real objects represent mathematical real numbers
     /// </summary>
     public class PdfRealObject : PdfObject
     {
@@ -66,6 +66,11 @@ namespace vanillapdf.net.PdfSyntax
             return obj.Value;
         }
 
+        /// <summary>
+        /// Convert object to real object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfRealObject if the object can be converted, throws exception on failure</returns>
         public static PdfRealObject FromObject(PdfObject data)
         {
             return new PdfRealObject(data.Handle);

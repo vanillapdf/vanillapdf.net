@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfUtils
 {
     /// <summary>
-    /// Servers as container for transferring arbitrary binary data
+    /// Serves as container for transferring arbitrary binary data
     /// </summary>
     public class PdfBuffer : PdfUnknown, IEquatable<PdfBuffer>
     {

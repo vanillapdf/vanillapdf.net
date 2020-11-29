@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Represents reference to another object
+    /// </summary>
     public class PdfIndirectReferenceObject : PdfObject
     {
         internal PdfIndirectReferenceObject(PdfIndirectReferenceObjectSafeHandle handle) : base(handle)
@@ -23,6 +26,10 @@ namespace vanillapdf.net.PdfSyntax
             set { SetReferencedObject(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfIndirectReferenceObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfIndirectReferenceObject on success, throws exception on failure</returns>
         public static PdfIndirectReferenceObject Create()
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_Create(out var data);
@@ -71,6 +78,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Convert object to indirect reference object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfIndirectReferenceObject if the object can be converted, throws exception on failure</returns>
         public static PdfIndirectReferenceObject FromObject(PdfObject data)
         {
             return new PdfIndirectReferenceObject(data.Handle);

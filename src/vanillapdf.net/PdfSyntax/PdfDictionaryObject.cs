@@ -8,6 +8,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// A dictionary object is an associative table containing pairs of objects
+    /// </summary>
     public class PdfDictionaryObject : PdfObject, IDictionary<PdfNameObject, PdfObject>
     {
         internal PdfDictionaryObject(PdfDictionaryObjectSafeHandle handle) : base(handle)
@@ -19,6 +22,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfDictionaryObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfDictionaryObject on success, throws exception on failure</returns>
         public static PdfDictionaryObject Create()
         {
             UInt32 result = NativeMethods.DictionaryObject_Create(out var data);
@@ -95,6 +102,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Convert object to dictionary object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfDictionaryObject if the object can be converted, throws exception on failure</returns>
         public static PdfDictionaryObject FromObject(PdfObject data)
         {
             return new PdfDictionaryObject(data.Handle);

@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Stream object represents compressed data inside document
+    /// </summary>
     public class PdfStreamObject : PdfObject
     {
         internal PdfStreamObject(PdfStreamObjectSafeHandle handle) : base(handle)
@@ -29,6 +32,10 @@ namespace vanillapdf.net.PdfSyntax
             set { SetBody(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfStreamObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfStreamObject on success, throws exception on failure</returns>
         public static PdfStreamObject Create()
         {
             UInt32 result = NativeMethods.StreamObject_Create(out var data);
@@ -85,6 +92,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Convert object to stream object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfStreamObject if the object can be converted, throws exception on failure</returns>
         public static PdfStreamObject FromObject(PdfObject data)
         {
             return new PdfStreamObject(data.Handle);

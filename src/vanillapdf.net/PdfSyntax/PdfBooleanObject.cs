@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSyntax
 {
     /// <summary>
-    /// Represents boolean object in the PDF structure
+    /// Boolean objects represent the logical values of true and false
     /// </summary>
     public class PdfBooleanObject : PdfObject
     {
@@ -61,11 +61,20 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Custom conversion to bool
+        /// </summary>
+        /// <param name="obj">Handle to object to be converted</param>
         public static implicit operator bool(PdfBooleanObject obj)
         {
             return obj.Value;
         }
 
+        /// <summary>
+        /// Convert object to boolean object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfBooleanObject if the object can be converted, throws exception on failure</returns>
         public static PdfBooleanObject FromObject(PdfObject data)
         {
             return new PdfBooleanObject(data.Handle);

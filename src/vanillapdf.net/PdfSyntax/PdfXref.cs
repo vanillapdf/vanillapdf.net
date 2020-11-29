@@ -8,6 +8,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// The cross-reference table contains information that permits random access to indirect objects within the file
+    /// </summary>
     public class PdfXref : PdfUnknown, IEnumerable<PdfXrefEntry>
     {
         internal PdfXref(PdfXrefSafeHandle handle) : base(handle)
@@ -19,6 +22,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Get cross-reference table meta-data dictionary
+        /// </summary>
+        /// <returns>Handle to dictionary associated with cross-reference section on success, throws exception on failure</returns>
         public PdfDictionaryObject GetTrailerDictionary()
         {
             UInt32 result = NativeMethods.Xref_GetTrailerDictionary(Handle, out var value);
@@ -29,6 +36,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObject(value);
         }
 
+        /// <summary>
+        /// Get byte offset in the decoded stream from the beginning of the file to the beginning of the xref keyword in the last cross-reference section.
+        /// </summary>
+        /// <returns>Offset of the cross-reference section on success, throws exception on failure</returns>
         public Int64 GetLastXrefOffset()
         {
             UInt32 result = NativeMethods.Xref_GetLastXrefOffset(Handle, out var value);
@@ -39,6 +50,10 @@ namespace vanillapdf.net.PdfSyntax
             return value;
         }
 
+        /// <summary>
+        /// Get cross-reference entry iterator
+        /// </summary>
+        /// <returns>Handle to iterator for enumerating cross-reference entries on success, throws exception on failure</returns>
         public PdfXrefIterator GetIterator()
         {
             UInt32 result = NativeMethods.Xref_GetIterator(Handle, out var value);
@@ -51,7 +66,7 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IEnumerable<PdfXref>
 
-        IEnumerator<PdfXrefEntry> IEnumerable<PdfXrefEntry>.GetEnumerator()
+        public IEnumerator<PdfXrefEntry> GetEnumerator()
         {
             return GetIterator();
         }

@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// A hexadecimal string is preferable for arbitrary binary data
+    /// </summary>
     public class PdfHexadecimalStringObject : PdfStringObject
     {
         internal PdfHexadecimalStringObject(PdfHexadecimalStringObjectSafeHandle handle) : base(handle)
@@ -17,6 +20,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfHexadecimalStringObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfHexadecimalStringObject on success, throws exception on failure</returns>
         public static PdfHexadecimalStringObject Create()
         {
             UInt32 result = NativeMethods.HexadecimalStringObject_Create(out var data);
@@ -72,6 +79,11 @@ namespace vanillapdf.net.PdfSyntax
             return CreateFromDecodedString(value);
         }
 
+        /// <summary>
+        /// Convert string object to hexadecimal string object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfStringObject to be converted</param>
+        /// <returns>A new instance of \ref PdfHexadecimalStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfHexadecimalStringObject FromString(PdfStringObject data)
         {
             return new PdfHexadecimalStringObject(data.Handle);

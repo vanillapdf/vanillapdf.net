@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// A literal string is preferable for printable data
+    /// </summary>
     public class PdfLiteralStringObject : PdfStringObject
     {
         internal PdfLiteralStringObject(PdfLiteralStringObjectSafeHandle handle) : base(handle)
@@ -17,6 +20,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfLiteralStringObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfLiteralStringObject on success, throws exception on failure</returns>
         public static PdfLiteralStringObject Create()
         {
             UInt32 result = NativeMethods.LiteralStringObject_Create(out var data);
@@ -72,6 +79,11 @@ namespace vanillapdf.net.PdfSyntax
             return CreateFromDecodedString(value);
         }
 
+        /// <summary>
+        /// Convert string object to literal string object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfStringObject to be converted</param>
+        /// <returns>A new instance of \ref PdfLiteralStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfLiteralStringObject FromString(PdfStringObject data)
         {
             return new PdfLiteralStringObject(data.Handle);

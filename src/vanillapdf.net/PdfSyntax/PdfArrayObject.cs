@@ -8,6 +8,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// An array object is a one-dimensional collection of objects arranged sequentially
+    /// </summary>
     public class PdfArrayObject : PdfObject, IList<PdfObject>
     {
         internal PdfArrayObject(PdfArrayObjectSafeHandle handle) : base(handle)
@@ -19,6 +22,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfArrayObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfArrayObject on success, throws exception on failure</returns>
         public static PdfArrayObject Create()
         {
             UInt32 result = NativeMethods.ArrayObject_Create(out var data);
@@ -95,6 +102,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Convert object to array object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfArrayObject if the object can be converted, throws exception on failure</returns>
         public static PdfArrayObject FromObject(PdfObject data)
         {
             return new PdfArrayObject(data.Handle);

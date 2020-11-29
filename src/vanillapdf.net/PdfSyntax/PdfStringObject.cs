@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Reprsents human readable text
+    /// </summary>
     public class PdfStringObject : PdfObject
     {
         internal PdfStringObject(PdfStringObjectSafeHandle handle) : base(handle)
@@ -17,12 +20,19 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
         }
 
+        /// <summary>
+        /// Get value of underlying data buffer
+        /// </summary>
         public PdfBuffer Value
         {
             get { return GetValue(); }
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// Get derived type of current object
+        /// </summary>
+        /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfStringType GetStringType()
         {
             UInt32 result = NativeMethods.StringObject_GetType(Handle, out PdfStringType data);
@@ -51,6 +61,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Convert object to string object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfStringObject FromObject(PdfObject data)
         {
             return new PdfStringObject(data.Handle);

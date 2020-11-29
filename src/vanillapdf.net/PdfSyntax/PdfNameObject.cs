@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// A name object is an atomic symbol uniquely defined by a sequence of characters
+    /// </summary>
     public class PdfNameObject : PdfObject, IEquatable<PdfNameObject>
     {
         internal PdfNameObject(PdfNameObjectSafeHandle handle) : base(handle)
@@ -23,6 +26,10 @@ namespace vanillapdf.net.PdfSyntax
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfNameObject with default value
+        /// </summary>
+        /// <returns>New instance of \ref PdfNameObject on success, throws exception on failure</returns>
         public static PdfNameObject Create()
         {
             UInt32 result = NativeMethods.NameObject_Create(out var data);
@@ -75,6 +82,11 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Convert object to name object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfNameObject if the object can be converted, throws exception on failure</returns>
         public static PdfNameObject FromObject(PdfObject data)
         {
             return new PdfNameObject(data.Handle);

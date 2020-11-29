@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSyntax
 {
     /// <summary>
-    /// Represents integral numeric value
+    /// Integer objects represent mathematical integers
     /// </summary>
     public class PdfIntegerObject : PdfObject
     {
@@ -41,7 +41,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Create a new instance of \ref PdfIntegerObject with default value
         /// </summary>
-        /// <returns>New instance of \ref PdfIntegerObject</returns>
+        /// <returns>New instance of \ref PdfIntegerObject on success, throws exception on failure</returns>
         public static PdfIntegerObject Create()
         {
             UInt32 result = NativeMethods.IntegerObject_Create(out var data);
@@ -98,6 +98,11 @@ namespace vanillapdf.net.PdfSyntax
             return obj.UnsignedIntegerValue;
         }
 
+        /// <summary>
+        /// Convert object to integer object
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfIntegerObject if the object can be converted, throws exception on failure</returns>
         public static PdfIntegerObject FromObject(PdfObject data)
         {
             return new PdfIntegerObject(data.Handle);
