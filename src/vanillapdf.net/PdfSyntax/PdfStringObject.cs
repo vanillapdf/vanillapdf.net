@@ -35,7 +35,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfStringType GetStringType()
         {
-            UInt32 result = NativeMethods.StringObject_GetType(Handle, out PdfStringType data);
+            UInt32 result = NativeMethods.StringObject_GetStringType(Handle, out PdfStringType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -73,12 +73,12 @@ namespace vanillapdf.net.PdfSyntax
 
         private static class NativeMethods
         {
-            public static GetTypeDelgate StringObject_GetType = LibraryInstance.GetFunction<GetTypeDelgate>("StringObject_GetType");
+            public static GetStringTypeDelgate StringObject_GetStringType = LibraryInstance.GetFunction<GetStringTypeDelgate>("StringObject_GetStringType");
             public static GetValueDelgate StringObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("StringObject_GetValue");
             public static SetValueDelgate StringObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("StringObject_SetValue");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTypeDelgate(PdfStringObjectSafeHandle handle, out PdfStringType data);
+            public delegate UInt32 GetStringTypeDelgate(PdfStringObjectSafeHandle handle, out PdfStringType data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetValueDelgate(PdfStringObjectSafeHandle handle, out PdfBufferSafeHandle value);
