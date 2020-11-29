@@ -20,6 +20,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfDictionaryObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>

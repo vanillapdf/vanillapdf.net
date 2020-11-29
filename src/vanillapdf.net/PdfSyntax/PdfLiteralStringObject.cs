@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfLiteralStringObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>

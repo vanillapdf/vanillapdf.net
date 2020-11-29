@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfIndirectReferenceObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectReferenceObjectSafeHandle).TypeHandle);
         }
 
         public PdfObject ReferencedObject

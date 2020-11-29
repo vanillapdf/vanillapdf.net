@@ -17,6 +17,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfDictionaryObjectIterator()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectIteratorSafeHandle).TypeHandle);
         }
 
         public PdfNameObject GetKey()

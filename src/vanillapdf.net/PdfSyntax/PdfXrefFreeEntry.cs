@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfXrefFreeEntry()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefFreeEntrySafeHandle).TypeHandle);
         }
 
         public UInt64 GetNextFreeObjectNumber()

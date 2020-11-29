@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfUtils
         static PdfSigningKey()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfSigningKeySafeHandle).TypeHandle);
         }
 
         /// <summary>

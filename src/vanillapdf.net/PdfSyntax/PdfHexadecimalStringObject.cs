@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfHexadecimalStringObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>

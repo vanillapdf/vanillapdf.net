@@ -19,6 +19,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfDocumentSignatureSettings()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSignatureSettingsSafeHandle).TypeHandle);
         }
 
         /// <summary>

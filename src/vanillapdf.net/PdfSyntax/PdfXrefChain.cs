@@ -17,6 +17,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfXrefChain()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefChainSafeHandle).TypeHandle);
         }
 
         public PdfXrefChainIterator GetIterator()

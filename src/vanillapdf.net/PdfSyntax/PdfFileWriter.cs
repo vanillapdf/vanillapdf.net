@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfFileWriter()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfFileWriterSafeHandle).TypeHandle);
         }
 
         /// <summary>

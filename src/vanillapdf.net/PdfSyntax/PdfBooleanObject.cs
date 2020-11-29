@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfBooleanObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfBooleanObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfXrefEntry()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefEntrySafeHandle).TypeHandle);
         }
 
         public PdfXrefEntryType GetEntryType()

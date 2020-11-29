@@ -94,7 +94,8 @@ namespace vanillapdf.net.PdfContents
         static PdfContentOperation()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-        }
+			RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationSafeHandle).TypeHandle);
+		}
 
 		public PdfContentOperationType GetOperationType()
 		{

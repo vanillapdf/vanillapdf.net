@@ -17,6 +17,7 @@ namespace vanillapdf.net.PdfUtils
         static PdfPKCS12Key()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPKCS12KeySafeHandle).TypeHandle);
         }
 
         /// <summary>

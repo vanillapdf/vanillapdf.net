@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfPageAnnotations()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
         }
 
         public UInt64 GetSize()

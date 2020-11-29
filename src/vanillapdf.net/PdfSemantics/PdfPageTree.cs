@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfPageTree()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
         }
 
         public UInt64 GetPageCount()

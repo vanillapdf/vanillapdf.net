@@ -17,6 +17,7 @@ namespace vanillapdf.net.PdfUtils
         static PdfInputOutputStream()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfInputOutputStreamSafeHandle).TypeHandle);
         }
 
         /// <summary>

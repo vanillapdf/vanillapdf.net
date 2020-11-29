@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfCatalog()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
         }
 
         public PdfVersion? Version

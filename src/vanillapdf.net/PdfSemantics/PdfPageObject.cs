@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfPageObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
         }
 
         public PdfPageContents GetContents()

@@ -16,6 +16,7 @@ namespace vanillapdf.net.PdfContents
         static PdfContentOperationTextShowArray()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowArraySafeHandle).TypeHandle);
         }
 
         public PdfArrayObject Value

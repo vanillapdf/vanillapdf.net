@@ -36,6 +36,7 @@ namespace vanillapdf.net.PdfContents
         static PdfContentInstruction()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionSafeHandle).TypeHandle);
         }
 
         /// <summary>

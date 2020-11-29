@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfStreamObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObjectSafeHandle).TypeHandle);
         }
 
         public PdfDictionaryObject Header

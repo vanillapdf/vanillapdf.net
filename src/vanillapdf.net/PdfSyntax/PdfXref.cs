@@ -20,6 +20,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfXref()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace vanillapdf.net.PdfSyntax
         {
             public static GetTrailerDictionaryDelgate Xref_GetTrailerDictionary = LibraryInstance.GetFunction<GetTrailerDictionaryDelgate>("Xref_GetTrailerDictionary");
             public static GetLastXrefOffsetDelgate Xref_GetLastXrefOffset = LibraryInstance.GetFunction<GetLastXrefOffsetDelgate>("Xref_GetLastXrefOffset");
-            public static IteratorDelgate Xref_GetIterator = LibraryInstance.GetFunction<IteratorDelgate>("Xref_GetIterator");
+            public static GetIteratorDelgate Xref_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("Xref_GetIterator");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetTrailerDictionaryDelgate(PdfXrefSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
@@ -91,7 +92,7 @@ namespace vanillapdf.net.PdfSyntax
             public delegate UInt32 GetLastXrefOffsetDelgate(PdfXrefSafeHandle handle, out Int64 data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IteratorDelgate(PdfXrefSafeHandle handle, out PdfXrefIteratorSafeHandle data);
+            public delegate UInt32 GetIteratorDelgate(PdfXrefSafeHandle handle, out PdfXrefIteratorSafeHandle data);
         }
     }
 }

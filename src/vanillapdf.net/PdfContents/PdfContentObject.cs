@@ -22,6 +22,7 @@ namespace vanillapdf.net.PdfContents
         static PdfContentObject()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectSafeHandle).TypeHandle);
         }
 
         public PdfContentObjectType GetObjectType()

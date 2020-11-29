@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfUtils
         static PdfBuffer()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfBufferSafeHandle).TypeHandle);
         }
 
         /// <summary>

@@ -16,6 +16,7 @@ namespace vanillapdf.net.PdfContents
         static PdfContentOperationGeneric()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationGenericSafeHandle).TypeHandle);
         }
 
         public PdfContentOperator GetOperator()

@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfXrefUsedEntry()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefUsedEntrySafeHandle).TypeHandle);
         }
 
         public Int64 GetOffset()

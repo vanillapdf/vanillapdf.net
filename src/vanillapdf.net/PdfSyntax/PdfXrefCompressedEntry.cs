@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfSyntax
         static PdfXrefCompressedEntry()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefUsedEntrySafeHandle).TypeHandle);
         }
 
         public PdfObject GetReference()

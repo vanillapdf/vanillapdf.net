@@ -16,6 +16,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfPageContents()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfPageContentsSafeHandle).TypeHandle);
         }
 
         public UInt64 GetInstructionsSize()

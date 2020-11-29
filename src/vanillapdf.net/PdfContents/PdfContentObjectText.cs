@@ -15,6 +15,7 @@ namespace vanillapdf.net.PdfContents
         static PdfContentObjectText()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectTextSafeHandle).TypeHandle);
         }
 
         public UInt64 GetOperationsSize()

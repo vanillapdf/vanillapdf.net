@@ -18,6 +18,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfDate()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDateSafeHandle).TypeHandle);
         }
 
         /// <summary>

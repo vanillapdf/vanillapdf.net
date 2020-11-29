@@ -19,6 +19,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfDocument()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSafeHandle).TypeHandle);
         }
 
         /// <summary>

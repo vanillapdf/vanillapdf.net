@@ -46,6 +46,7 @@ namespace vanillapdf.net.PdfSemantics
         static PdfAnnotation()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotationSafeHandle).TypeHandle);
         }
 
         public PdfAnnotationType GetAnnotationType()
