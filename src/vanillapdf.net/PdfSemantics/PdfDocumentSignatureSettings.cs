@@ -72,7 +72,7 @@ namespace vanillapdf.net.PdfSemantics
         /// 
         /// Depending on the signature handler, this may be a normal unverified computer time or
         /// a time generated in a verifiable way from a secure time server.
-	    /// This value should be used only when the time of signing is not available in the signature.
+        /// This value should be used only when the time of signing is not available in the signature.
         /// </summary>
         public PdfDate SigningTime
         {

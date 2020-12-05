@@ -54,7 +54,7 @@ namespace vanillapdf.net.PdfContents
             public static SetValueDelgate ContentOperationTextShow_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("ContentOperationTextShow_SetValue");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-			public delegate UInt32 GetValueDelgate(PdfContentOperationTextShowSafeHandle handle, out PdfStringObjectSafeHandle data);
+            public delegate UInt32 GetValueDelgate(PdfContentOperationTextShowSafeHandle handle, out PdfStringObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 SetValueDelgate(PdfContentOperationTextShowSafeHandle handle, PdfStringObjectSafeHandle data);

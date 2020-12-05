@@ -123,9 +123,9 @@ namespace vanillapdf.net.PdfUtils
         /// Error during low-level file processing, the document might be damaged.
         /// 
         /// If the document can be correctly processed with other readers,
-	    /// please let us know by sending the document for observations.
+        /// please let us know by sending the document for observations.
         /// In case the document contains sensitive information,
-	    /// consider document anonymizer utility.
+        /// consider document anonymizer utility.
         /// </summary>
         public static UInt32 ERROR_PARSE_EXCEPTION = LibraryInstance.GetConstant(VANILLAPDF_ERROR_PARSE_EXCEPTION);
 

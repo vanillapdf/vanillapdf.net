@@ -63,7 +63,7 @@
 
         /// <summary>
         /// RIPEMD (RACE Integrity Primitives Evaluation Message Digest) is an improved,
-		/// 160-bit version of the original RIPEMD, and the most common version in the family.
+        /// 160-bit version of the original RIPEMD, and the most common version in the family.
         /// </summary>
         RIPEMD160,
 
