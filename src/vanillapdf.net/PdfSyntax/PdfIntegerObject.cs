@@ -89,11 +89,19 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Custom conversion to Int64
+        /// </summary>
+        /// <param name="obj">Handle to object to be converted</param>
         public static implicit operator Int64(PdfIntegerObject obj)
         {
             return obj.IntegerValue;
         }
 
+        /// <summary>
+        /// Custom conversion to UInt64
+        /// </summary>
+        /// <param name="obj">Handle to object to be converted</param>
         public static implicit operator UInt64(PdfIntegerObject obj)
         {
             return obj.UnsignedIntegerValue;

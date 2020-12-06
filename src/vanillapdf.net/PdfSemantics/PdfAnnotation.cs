@@ -8,6 +8,9 @@ namespace vanillapdf.net.PdfSemantics
 {
     public enum PdfAnnotationType
     {
+        /// <summary>
+        /// Undefined unitialized default value, triggers error when used
+        /// </summary>
         Undefined = 0,
         Text,
         Link,

@@ -49,6 +49,11 @@ namespace vanillapdf.net.PdfContents
             return new PdfObject(data);
         }
 
+        /// <summary>
+        /// Convert content operation to a generic type operation
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfContentOperation to be converted</param>
+        /// <returns>A new instance of \ref PdfContentOperationGeneric if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperationGeneric FromContentOperation(PdfContentOperation data)
         {
             return new PdfContentOperationGeneric(data.Handle);

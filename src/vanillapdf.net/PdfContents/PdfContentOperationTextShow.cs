@@ -43,6 +43,11 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
+        /// <summary>
+        /// Convert content operation to text showing operation
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfContentOperation to be converted</param>
+        /// <returns>A new instance of \ref PdfContentOperationTextShow if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperationTextShow FromContentOperation(PdfContentOperation data)
         {
             return new PdfContentOperationTextShow(data.Handle);

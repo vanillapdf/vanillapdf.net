@@ -1,0 +1,91 @@
+﻿namespace vanillapdf.net.PdfContents
+{
+    /// <summary>
+    /// Derived types of \ref PdfContentOperation
+    /// </summary>
+    public enum PdfContentOperationType
+    {
+        /// <summary>
+        /// Undefined unitialized default value, triggers error when used
+        /// </summary>
+        Undefined = 0,
+
+        /// <summary>
+        /// Unresolved operation often containing unknown operator.
+        /// </summary>
+        Generic,
+        LineWidth,
+        LineCap,
+        LineJoin,
+        MiterLimit,
+        DashPattern,
+        ColorRenderingIntent,
+        Flatness,
+        GraphicsState,
+        SaveGraphicsState,
+        RestoreGraphicsState,
+        TransformationMatrix,
+        BeginSubpath,
+        Line,
+        FullCurve,
+        FinalCurve,
+        InitialCurve,
+        CloseSubpath,
+        Rectangle,
+        Stroke,
+        CloseAndStroke,
+        FillPathNonzero,
+        FillPathCompatibility,
+        FillPathEvenOdd,
+        FillStrokeNonzero,
+        FillStrokeEvenOdd,
+        CloseFillStrokeNonzero,
+        CloseFillStrokeEvenOdd,
+        EndPath,
+        ClipPathNonzero,
+        ClipPathEvenOdd,
+        BeginText,
+        EndText,
+        CharacterSpacing,
+        WordSpacing,
+        HorizontalScaling,
+        Leading,
+        TextFont,
+        TextRenderingMode,
+        TextRise,
+        TextTranslate,
+        TextTranslateLeading,
+        TextMatrix,
+        TextNextLine,
+        TextShow,
+        TextShowArray,
+        TextNextLineShow,
+        TextNextLineShowSpacing,
+        SetCharWidth,
+        SetCacheDevice,
+        ColorSpaceStroke,
+        ColorSpaceNonstroke,
+        SetColorStroke,
+        SetColorStrokeExtended,
+        SetColorNonstroke,
+        SetColorNonstrokeExtended,
+        SetStrokingColorSpaceGray,
+        SetNonstrokingColorSpaceGray,
+        SetStrokingColorSpaceRGB,
+        SetNonstrokingColorSpaceRGB,
+        SetStrokingColorSpaceCMYK,
+        SetNonstrokingColorSpaceCMYK,
+        ShadingPaint,
+        BeginInlineImageObject,
+        BeginInlineImageData,
+        EndInlineImageObject,
+        InvokeXObject,
+        DefineMarkedContentPoint,
+        DefineMarkedContentPointWithPropertyList,
+        BeginMarkedContentSequence,
+        BeginMarkedContentSequenceWithPropertyList,
+        EndMarkedContentSequence,
+        BeginCompatibilitySection,
+        EndCompatibilitySection
+    };
+}

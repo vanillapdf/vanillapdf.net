@@ -62,6 +62,10 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Custom conversion to double
+        /// </summary>
+        /// <param name="obj">Handle to object to be converted</param>
         public static implicit operator double(PdfRealObject obj)
         {
             return obj.Value;

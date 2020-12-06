@@ -8,6 +8,9 @@ namespace vanillapdf.net.PdfContents
 {
     public enum PdfContentOperatorType
     {
+        /// <summary>
+        /// Undefined unitialized default value, triggers error when used
+        /// </summary>
         Undefined = 0,
         Unknown,
         LineWidth,

@@ -6,85 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfContents
 {
-    public enum PdfContentOperationType
-    {
-        Undefined = 0,
-        Generic,
-        LineWidth,
-        LineCap,
-        LineJoin,
-        MiterLimit,
-        DashPattern,
-        ColorRenderingIntent,
-        Flatness,
-        GraphicsState,
-        SaveGraphicsState,
-        RestoreGraphicsState,
-        TransformationMatrix,
-        BeginSubpath,
-        Line,
-        FullCurve,
-        FinalCurve,
-        InitialCurve,
-        CloseSubpath,
-        Rectangle,
-        Stroke,
-        CloseAndStroke,
-        FillPathNonzero,
-        FillPathCompatibility,
-        FillPathEvenOdd,
-        FillStrokeNonzero,
-        FillStrokeEvenOdd,
-        CloseFillStrokeNonzero,
-        CloseFillStrokeEvenOdd,
-        EndPath,
-        ClipPathNonzero,
-        ClipPathEvenOdd,
-        BeginText,
-        EndText,
-        CharacterSpacing,
-        WordSpacing,
-        HorizontalScaling,
-        Leading,
-        TextFont,
-        TextRenderingMode,
-        TextRise,
-        TextTranslate,
-        TextTranslateLeading,
-        TextMatrix,
-        TextNextLine,
-        TextShow,
-        TextShowArray,
-        TextNextLineShow,
-        TextNextLineShowSpacing,
-        SetCharWidth,
-        SetCacheDevice,
-        ColorSpaceStroke,
-        ColorSpaceNonstroke,
-        SetColorStroke,
-        SetColorStrokeExtended,
-        SetColorNonstroke,
-        SetColorNonstrokeExtended,
-        SetStrokingColorSpaceGray,
-        SetNonstrokingColorSpaceGray,
-        SetStrokingColorSpaceRGB,
-        SetNonstrokingColorSpaceRGB,
-        SetStrokingColorSpaceCMYK,
-        SetNonstrokingColorSpaceCMYK,
-        ShadingPaint,
-        BeginInlineImageObject,
-        BeginInlineImageData,
-        EndInlineImageObject,
-        InvokeXObject,
-        DefineMarkedContentPoint,
-        DefineMarkedContentPointWithPropertyList,
-        BeginMarkedContentSequence,
-        BeginMarkedContentSequenceWithPropertyList,
-        EndMarkedContentSequence,
-        BeginCompatibilitySection,
-        EndCompatibilitySection
-    }
-
+    /// <summary>
+    /// Atomic operation modifying graphics state parameters.
+    /// </summary>
     public class PdfContentOperation : PdfUnknown
     {
         internal PdfContentOperation(PdfContentOperationSafeHandle handle) : base(handle)
@@ -97,6 +21,10 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get derived type of current object
+        /// </summary>
+        /// <returns>Type of current content operation on success, throws exception on failure</returns>
         public PdfContentOperationType GetOperationType()
         {
             UInt32 result = NativeMethods.ContentOperation_GetOperationType(Handle, out Int32 data);
