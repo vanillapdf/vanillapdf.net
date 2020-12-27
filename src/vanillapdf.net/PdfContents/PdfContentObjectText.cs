@@ -7,7 +7,8 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfContents
 {
     /// <summary>
-    /// A PDF text object consists of operators that may show text strings, move the text position, and set text state and certain other parameters.
+    /// A PDF text object consists of operators that may show text strings,
+    /// move the text position, and set text state and certain other parameters.
     /// </summary>
     public class PdfContentObjectText : PdfContentObject
     {
@@ -22,7 +23,7 @@ namespace vanillapdf.net.PdfContents
         }
 
         /// <summary>
-        /// Get number of operations within current text object
+        /// Get number of operations within the current text object
         /// </summary>
         /// <returns>Number of operations within current text object on success, throws exception on failure</returns>
         public UInt64 GetOperationsSize()
@@ -36,7 +37,7 @@ namespace vanillapdf.net.PdfContents
         }
 
         /// <summary>
-        /// Get operation at index
+        /// Get content stream operation at index in the current text object
         /// </summary>
         /// <returns>Operation at <p>index</p> on success, throws exception on failure</returns>
         public PdfContentOperation GetOperationAt(UInt64 index)

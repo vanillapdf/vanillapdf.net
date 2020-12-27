@@ -6,6 +6,10 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
+    /// <summary>
+    /// The pages of a document are accessed through a structure known as the page tree,
+    /// which defines the ordering of pages in the document.
+    /// </summary>
     public class PdfPageTree : PdfUnknown
     {
         internal PdfPageTree(PdfPageTreeSafeHandle handle) : base(handle)
@@ -18,6 +22,10 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get number of pages in the current \ref PdfPageTree
+        /// </summary>
+        /// <returns>Number of pages on success, throws exception on failure</returns>
         public UInt64 GetPageCount()
         {
             UInt32 result = NativeMethods.PageTree_GetPageCount(Handle, out UIntPtr count);
@@ -28,6 +36,11 @@ namespace vanillapdf.net.PdfSemantics
             return count.ToUInt64();
         }
 
+        /// <summary>
+        /// Get \ref PdfPageObject at index in the current \ref PdfPageTree
+        /// </summary>
+        /// <param name="index">Index of \ref PdfPageObject to be returned</param>
+        /// <returns>Handle to \ref PdfPageObject at <p>index</p> on success, throws exception on failure</returns>
         public PdfPageObject GetPage(UInt64 index)
         {
             UInt32 result = NativeMethods.PageTree_GetPage(Handle, new UIntPtr(index), out PdfPageObjectSafeHandle data);

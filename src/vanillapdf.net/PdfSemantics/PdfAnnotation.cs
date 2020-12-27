@@ -6,40 +6,11 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
-    public enum PdfAnnotationType
-    {
-        /// <summary>
-        /// Undefined unitialized default value, triggers error when used
-        /// </summary>
-        Undefined = 0,
-        Text,
-        Link,
-        FreeText,
-        Line,
-        Square,
-        Circle,
-        Polygon,
-        PolyLine,
-        Highlight,
-        Underline,
-        Squiggly,
-        StrikeOut,
-        RubberStamp,
-        Caret,
-        Ink,
-        Popup,
-        FileAttachment,
-        Sound,
-        Movie,
-        Widget,
-        Screen,
-        PrinterMark,
-        TrapNetwork,
-        Watermark,
-        TripleD,
-        Redaction,
-    };
-
+    /// <summary>
+    /// An annotation associates an object such as a note, sound, or movie
+    /// with a location on a page of a PDF document, or provides a way
+    /// to interact with the user by means of the mouse and keyboard.
+    /// </summary>
     public class PdfAnnotation : PdfUnknown
     {
         internal PdfAnnotation(PdfAnnotationSafeHandle handle) : base(handle)
@@ -52,6 +23,10 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotationSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get derived type of current object
+        /// </summary>
+        /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfAnnotationType GetAnnotationType()
         {
             UInt32 result = NativeMethods.Annotation_GetAnnotationType(Handle, out Int32 data);

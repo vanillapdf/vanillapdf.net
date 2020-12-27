@@ -7,6 +7,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfContents
 {
+    /// <summary>
+    /// Stream operation for showing a simple text string
+    /// </summary>
     public class PdfContentOperationTextShow : PdfContentOperation
     {
         internal PdfContentOperationTextShow(PdfContentOperationTextShowSafeHandle handle) : base(handle)
@@ -19,6 +22,9 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Text string to be displayed in the document
+        /// </summary>
         public PdfStringObject Value
         {
             get { return GetValue(); }

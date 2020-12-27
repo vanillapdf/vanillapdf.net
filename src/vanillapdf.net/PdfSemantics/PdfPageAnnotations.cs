@@ -6,6 +6,10 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
+    /// <summary>
+    /// An array of annotation dictionaries that shall contain indirect
+    /// references to all \ref PdfAnnotation associated with the page.
+    /// </summary>
     public class PdfPageAnnotations : PdfUnknown
     {
         internal PdfPageAnnotations(PdfPageAnnotationsSafeHandle handle) : base(handle)
@@ -18,6 +22,10 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotationsSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get number of page annotations in the current \ref PdfPageObject
+        /// </summary>
+        /// <returns>Number of page annotations on success, throws exception on failure</returns>
         public UInt64 GetSize()
         {
             UInt32 result = NativeMethods.PageAnnotations_GetSize(Handle, out UIntPtr data);
@@ -28,6 +36,11 @@ namespace vanillapdf.net.PdfSemantics
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Get page annotation at index in the current \ref PdfPageObject
+        /// </summary>
+        /// <param name="index">Index of page annotation to be returned</param>
+        /// <returns>Handle to page annotation object at <p>index</p> on success, throws exception on failure</returns>
         public PdfAnnotation At(UInt64 index)
         {
             UInt32 result = NativeMethods.PageAnnotations_At(Handle, new UIntPtr(index), out var data);

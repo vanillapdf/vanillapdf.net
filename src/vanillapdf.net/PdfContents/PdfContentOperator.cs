@@ -6,88 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfContents
 {
-    public enum PdfContentOperatorType
-    {
-        /// <summary>
-        /// Undefined unitialized default value, triggers error when used
-        /// </summary>
-        Undefined = 0,
-        Unknown,
-        LineWidth,
-        LineCap,
-        LineJoin,
-        MiterLimit,
-        DashPattern,
-        ColorRenderingIntent,
-        Flatness,
-        GraphicsState,
-        SaveGraphicsState,
-        RestoreGraphicsState,
-        TransformationMatrix,
-        BeginSubpath,
-        Line,
-        FullCurve,
-        FinalCurve,
-        InitialCurve,
-        CloseSubpath,
-        Rectangle,
-        Stroke,
-        CloseAndStroke,
-        FillPathNonzero,
-        FillPathCompatibility,
-        FillPathEvenOdd,
-        FillStrokeNonzero,
-        FillStrokeEvenOdd,
-        CloseFillStrokeNonzero,
-        CloseFillStrokeEvenOdd,
-        EndPath,
-        ClipPathNonzero,
-        ClipPathEvenOdd,
-        BeginText,
-        EndText,
-        CharacterSpacing,
-        WordSpacing,
-        HorizontalScaling,
-        Leading,
-        TextFont,
-        TextRenderingMode,
-        TextRise,
-        TextTranslate,
-        TextTranslateLeading,
-        TextMatrix,
-        TextNextLine,
-        TextShow,
-        TextShowArray,
-        TextNextLineShow,
-        TextNextLineShowSpacing,
-        SetCharWidth,
-        SetCacheDevice,
-        ColorSpaceStroke,
-        ColorSpaceNonstroke,
-        SetColorStroke,
-        SetColorStrokeExtended,
-        SetColorNonstroke,
-        SetColorNonstrokeExtended,
-        SetStrokingColorSpaceGray,
-        SetNonstrokingColorSpaceGray,
-        SetStrokingColorSpaceRGB,
-        SetNonstrokingColorSpaceRGB,
-        SetStrokingColorSpaceCMYK,
-        SetNonstrokingColorSpaceCMYK,
-        ShadingPaint,
-        BeginInlineImageObject,
-        BeginInlineImageData,
-        EndInlineImageObject,
-        InvokeXObject,
-        DefineMarkedContentPoint,
-        DefineMarkedContentPointWithPropertyList,
-        BeginMarkedContentSequence,
-        BeginMarkedContentSequenceWithPropertyList,
-        EndMarkedContentSequence,
-        BeginCompatibilitySection,
-        EndCompatibilitySection
-    };
-
+    /// <summary>
+    /// An operator is a PDF keyword specifying some action that shall be performed, such as painting a graphical shape on the page.
+    /// </summary>
     public class PdfContentOperator : PdfUnknown
     {
         internal PdfContentOperator(PdfContentOperatorSafeHandle handle) : base(handle)
@@ -100,6 +21,10 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperatorSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get derived type of current object
+        /// </summary>
+        /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfContentOperatorType GetOperatorType()
         {
             UInt32 result = NativeMethods.ContentOperator_GetOperatorType(Handle, out Int32 data);
@@ -110,6 +35,10 @@ namespace vanillapdf.net.PdfContents
             return EnumUtil<PdfContentOperatorType>.CheckedCast(data);
         }
 
+        /// <summary>
+        /// Get data buffer containing text representation of the content operator
+        /// </summary>
+        /// <returns>Handle to a data buffer on success, throws exception on failure</returns>
         public PdfBuffer GetValue()
         {
             UInt32 result = NativeMethods.ContentOperator_GetValue(Handle, out var value);

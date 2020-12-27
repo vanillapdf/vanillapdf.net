@@ -7,6 +7,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfContents
 {
+    /// <summary>
+    /// Show one or more text strings, allowing individual glyph positioning.
+    /// </summary>
     public class PdfContentOperationTextShowArray : PdfContentOperation
     {
         internal PdfContentOperationTextShowArray(PdfContentOperationTextShowArraySafeHandle handle) : base(handle)
@@ -19,6 +22,13 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowArraySafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Set new text strings to be shown.
+        /// 
+        /// Each element of array shall be either a string or a number.
+        /// If the element is a string, this operator shall show the string.
+        /// If it is a number, the operator shall adjust the text position by that amount.
+        /// </summary>
         public PdfArrayObject Value
         {
             get { return GetValue(); }

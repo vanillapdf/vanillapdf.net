@@ -6,18 +6,6 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfUtils
 {
     /// <summary>
-    /// Levels of detail in debug traces
-    /// </summary>
-    public enum PdfLoggingSeverity
-    {
-        Debug = 0,
-        Info,
-        Warning,
-        Error,
-        Fatal
-    }
-
-    /// <summary>
     /// Class supporting additional debug information in case of errors
     /// </summary>
     public static class PdfLogging

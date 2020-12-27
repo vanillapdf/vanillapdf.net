@@ -7,6 +7,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfContents
 {
+    /// <summary>
+    /// Unresolved operation often containing unknown operator.
+    /// </summary>
     public class PdfContentOperationGeneric : PdfContentOperation
     {
         internal PdfContentOperationGeneric(PdfContentOperationGenericSafeHandle handle) : base(handle)
@@ -19,6 +22,10 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationGenericSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get operator in the current content stream operation
+        /// </summary>
+        /// <returns>Handle to content stream operator on success, throws exception on failure</returns>
         public PdfContentOperator GetOperator()
         {
             UInt32 result = NativeMethods.ContentOperationGeneric_GetOperator(Handle, out var data);
@@ -29,6 +36,10 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperator(data);
         }
 
+        /// <summary>
+        /// Get number of operands in the current content stream operation
+        /// </summary>
+        /// <returns>Number of operands on success, throws exception on failure</returns>
         public UInt64 GetOperandsSize()
         {
             UInt32 result = NativeMethods.ContentOperationGeneric_GetOperandsSize(Handle, out UIntPtr data);
@@ -39,6 +50,11 @@ namespace vanillapdf.net.PdfContents
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Get operand at index in the current content stream operation
+        /// </summary>
+        /// <param name="index">Index of operand to be returned</param>
+        /// <returns>Operand at <p>index</p> on success, throws exception on failure</returns>
         public PdfObject GetOperandAt(UInt64 index)
         {
             UInt32 result = NativeMethods.ContentOperationGeneric_GetOperandAt(Handle, new UIntPtr(index), out var data);

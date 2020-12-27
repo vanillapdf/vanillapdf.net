@@ -106,6 +106,18 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Saves current document at the specified location
+        /// </summary>
+        /// <param name="destination">File handle to the destination path</param>
+        public void SaveFile(PdfFile destination)
+        {
+            UInt32 result = NativeMethods.Document_SaveFile(Handle, destination.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        /// <summary>
         /// Sign current document using specified settings
         /// </summary>
         /// <param name="destination">Destination of the signed file</param>
@@ -126,6 +138,7 @@ namespace vanillapdf.net.PdfSemantics
             public static DocumentAppendDocumentDelgate Document_AppendDocument = LibraryInstance.GetFunction<DocumentAppendDocumentDelgate>("Document_AppendDocument");
             public static DocumentGetCatalogDelgate Document_GetCatalog = LibraryInstance.GetFunction<DocumentGetCatalogDelgate>("Document_GetCatalog");
             public static DocumentSaveDelgate Document_Save = LibraryInstance.GetFunction<DocumentSaveDelgate>("Document_Save");
+            public static DocumentSaveFileDelgate Document_SaveFile = LibraryInstance.GetFunction<DocumentSaveFileDelgate>("Document_SaveFile");
             public static DocumentSignDelgate Document_Sign = LibraryInstance.GetFunction<DocumentSignDelgate>("Document_Sign");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
@@ -145,6 +158,9 @@ namespace vanillapdf.net.PdfSemantics
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 DocumentSaveDelgate(PdfDocumentSafeHandle handle, string filename);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 DocumentSaveFileDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle file);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 DocumentSignDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle destination, PdfDocumentSignatureSettingsSafeHandle settings);

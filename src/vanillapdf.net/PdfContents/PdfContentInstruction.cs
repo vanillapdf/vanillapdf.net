@@ -7,27 +7,6 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfContents
 {
     /// <summary>
-    /// Available content instruction types
-    /// </summary>
-    public enum PdfContentInstructionType
-    {
-        /// <summary>
-        /// Undefined unitialized default value, triggers error when used
-        /// </summary>
-        Undefined = 0,
-
-        /// <summary>
-        /// Atomic content operation.
-        /// </summary>
-        Operation,
-
-        /// <summary>
-        /// Composed non-atomic content object
-        /// </summary>
-        Object
-    };
-
-    /// <summary>
     /// Base class for all content objects and operations.
     /// </summary>
     public class PdfContentInstruction : PdfUnknown

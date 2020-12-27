@@ -6,6 +6,11 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
+    /// <summary>
+    /// The leaves of the page tree are page objects,
+    /// each of which is a dictionary specifying the
+    /// attributes of a single page of the document.
+    /// </summary>
     public class PdfPageObject : PdfUnknown
     {
         internal PdfPageObject(PdfPageObjectSafeHandle handle) : base(handle)
@@ -18,6 +23,11 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// A content stream (see 7.8.2, "Content Streams") that shall describe
+        /// the contents of this page. If this entry is absent, the page shall be empty.
+        /// </summary>
+        /// <returns>Handle to \ref PdfPageContents object on success, throws exception on failure</returns>
         public PdfPageContents GetContents()
         {
             UInt32 result = NativeMethods.PageObject_GetContents(Handle, out var data);
@@ -28,6 +38,12 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfPageContents(data);
         }
 
+        /// <summary>
+        /// An array of annotation dictionaries that shall contain
+        /// indirect references to all annotations associated
+        /// with the page (see 12.5, "Annotations").
+        /// </summary>
+        /// <returns>Handle to \ref PdfPageAnnotations object on success, throws exception on failure</returns>
         public PdfPageAnnotations GetAnnotations()
         {
             UInt32 result = NativeMethods.PageObject_GetAnnotations(Handle, out var data);
