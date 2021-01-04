@@ -24,9 +24,9 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Get number of \ref PdfContentInstruction in the current \ref PdfPageObject
+        /// Get number of \ref PdfContents.PdfContentInstruction in the current \ref PdfPageObject
         /// </summary>
-        /// <returns>Number of \ref PdfContentInstruction on success, throws exception on failure</returns>
+        /// <returns>Number of \ref PdfContents.PdfContentInstruction on success, throws exception on failure</returns>
         public UInt64 GetInstructionsSize()
         {
             UInt32 result = NativeMethods.Contents_GetInstructionsSize(Handle, out UIntPtr data);
@@ -38,10 +38,10 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Get \ref PdfContentInstruction at index in the current \ref PdfPageObject
+        /// Get \ref PdfContents.PdfContentInstruction at index in the current \ref PdfPageObject
         /// </summary>
-        /// <param name="index">Index of \ref PdfContentInstruction to be returned</param>
-        /// <returns>Handle to \ref PdfContentInstruction object at <p>index</p> on success, throws exception on failure</returns>
+        /// <param name="index">Index of \ref PdfContents.PdfContentInstruction to be returned</param>
+        /// <returns>Handle to \ref PdfContents.PdfContentInstruction object at <p>index</p> on success, throws exception on failure</returns>
         public PdfContentInstruction GetInstructionAt(UInt64 index)
         {
             UInt32 result = NativeMethods.Contents_GetInstructionAt(Handle, new UIntPtr(index), out var data);

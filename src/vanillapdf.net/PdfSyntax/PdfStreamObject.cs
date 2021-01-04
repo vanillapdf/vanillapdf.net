@@ -21,16 +21,30 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObjectSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Stream object's header dictionary
+        /// </summary>
         public PdfDictionaryObject Header
         {
             get { return GetHeader(); }
             set { SetHeader(value); }
         }
 
+        /// <summary>
+        /// Binary data content of the stream's body
+        /// </summary>
         public PdfBuffer Body
         {
             get { return GetBody(); }
             set { SetBody(value); }
+        }
+
+        /// <summary>
+        /// Binary data content of the stream's body in the raw compressed format
+        /// </summary>
+        public PdfBuffer BodyRaw
+        {
+            get { return GetBodyRaw(); }
         }
 
         /// <summary>
@@ -65,7 +79,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        public PdfBuffer GetBodyRaw()
+        private PdfBuffer GetBodyRaw()
         {
             UInt32 result = NativeMethods.StreamObject_GetBodyRaw(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

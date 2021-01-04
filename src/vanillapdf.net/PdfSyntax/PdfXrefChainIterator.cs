@@ -8,7 +8,10 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public class PdfXrefChainIterator : PdfUnknown , IEnumerator<PdfXref>
+    /// <summary>
+    /// A pointer to \ref PdfXref within \ref PdfXrefChain collection
+    /// </summary>
+    public class PdfXrefChainIterator : PdfUnknown, IEnumerator<PdfXref>
     {
         internal PdfXrefChainIterator(PdfXrefChainIteratorSafeHandle handle) : base(handle)
         {
@@ -20,6 +23,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefChainIteratorSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get cross-reference section from current iterator position
+        /// </summary>
+        /// <returns>A handle to current \ref PdfXref on success, throws exception on failure</returns>
         public PdfXref GetValue()
         {
             UInt32 result = NativeMethods.XrefChainIterator_GetValue(Handle, out var data);
@@ -30,6 +37,9 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXref(data);
         }
 
+        /// <summary>
+        /// Advance the iterator to the next position
+        /// </summary>
         public void Next()
         {
             UInt32 result = NativeMethods.XrefChainIterator_Next(Handle);
@@ -38,6 +48,10 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Check if the current iterator position is valid
+        /// </summary>
+        /// <returns>True if the current iterator position is valid, false if invalid, throws exception on failure</returns>
         public bool IsValid()
         {
             UInt32 result = NativeMethods.XrefChainIterator_IsValid(Handle, out var data);
@@ -53,9 +67,9 @@ namespace vanillapdf.net.PdfSyntax
         private bool isFirst = true;
 
         object IEnumerator.Current => GetValue();
-        PdfXref IEnumerator<PdfXref>.Current => GetValue();
+        public PdfXref Current => GetValue();
 
-        bool IEnumerator.MoveNext()
+        public bool MoveNext()
         {
             if (!IsValid()) {
                 return false;
@@ -71,7 +85,7 @@ namespace vanillapdf.net.PdfSyntax
             return IsValid();
         }
 
-        void IEnumerator.Reset()
+        public void Reset()
         {
             throw new NotImplementedException();
         }

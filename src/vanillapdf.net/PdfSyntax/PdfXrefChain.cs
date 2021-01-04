@@ -8,6 +8,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// An ordered collection of all \ref PdfXref within the PDF file.
+    /// </summary>
     public class PdfXrefChain : PdfUnknown, IEnumerable<PdfXref>
     {
         internal PdfXrefChain(PdfXrefChainSafeHandle handle) : base(handle)
@@ -20,6 +23,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefChainSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get cross-reference section iterator
+        /// </summary>
+        /// <returns>Handle to iterator for enumerating cross-reference sections on success, throws exception on failure</returns>
         public PdfXrefChainIterator GetIterator()
         {
             UInt32 result = NativeMethods.XrefChain_GetIterator(Handle, out var value);

@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Cross-reference entry represents item within \ref PdfXref
+    /// </summary>
     public class PdfXrefEntry : PdfUnknown
     {
         internal PdfXrefEntry(PdfXrefEntrySafeHandle handle) : base(handle)
@@ -18,6 +21,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefEntrySafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get derived type of current object
+        /// </summary>
+        /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfXrefEntryType GetEntryType()
         {
             UInt32 result = NativeMethods.XrefEntry_GetType(Handle, out var data);
@@ -28,6 +35,10 @@ namespace vanillapdf.net.PdfSyntax
             return EnumUtil<PdfXrefEntryType>.CheckedCast(data);
         }
 
+        /// <summary>
+        /// Get indirect object's object number
+        /// </summary>
+        /// <returns>Object number this entry is referring to on success, throws exception on failure</returns>
         public UInt64 GetObjectNumber()
         {
             UInt32 result = NativeMethods.XrefEntry_GetObjectNumber(Handle, out var data);
@@ -38,6 +49,10 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Get indirect object's generation number
+        /// </summary>
+        /// <returns>Generation number this entry is referring to on success, throws exception on failure</returns>
         public UInt16 GetGenerationNumber()
         {
             UInt32 result = NativeMethods.XrefEntry_GetGenerationNumber(Handle, out var data);
@@ -48,6 +63,10 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Quick check, if the entry is used or compressed
+        /// </summary>
+        /// <returns>True if the entry type is used or compressed, false if the entry is free, throws exception on failure</returns>
         public bool InUse()
         {
             UInt32 result = NativeMethods.XrefEntry_InUse(Handle, out var data);
