@@ -8,6 +8,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// A pointer to \ref PdfXrefEntry within \ref PdfXref collection
+    /// </summary>
     public class PdfXrefIterator : PdfUnknown, IEnumerator<PdfXrefEntry>
     {
         internal PdfXrefIterator(PdfXrefIteratorSafeHandle handle) : base(handle)
@@ -20,6 +23,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefIteratorSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get cross-reference entry from current iterator position
+        /// </summary>
+        /// <returns>A handle to current \ref PdfXref on success, throws exception on failure</returns>
         public PdfXrefEntry GetValue()
         {
             UInt32 result = NativeMethods.XrefIterator_GetValue(Handle, out var data);
@@ -30,6 +37,9 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefEntry(data);
         }
 
+        /// <summary>
+        /// Advance the iterator to the next position
+        /// </summary>
         public void Next()
         {
             UInt32 result = NativeMethods.XrefIterator_Next(Handle);
@@ -38,6 +48,10 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Check if the current iterator position is valid
+        /// </summary>
+        /// <returns>True if the current iterator position is valid, false if invalid, throws exception on failure</returns>
         public bool IsValid()
         {
             UInt32 result = NativeMethods.XrefIterator_IsValid(Handle, out var data);

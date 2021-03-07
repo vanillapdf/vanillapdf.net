@@ -35,6 +35,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfHexadecimalStringObject(data);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfLiteralStringObject from specified data in PDF format
+        /// </summary>
+        /// <param name="value">Handle to \ref PdfBuffer containing data in PDF format</param>
+        /// <returns>New instance of \ref PdfHexadecimalStringObject on success, throws exception on failure</returns>
         public static PdfHexadecimalStringObject CreateFromEncodedBuffer(PdfBuffer value)
         {
             UInt32 result = NativeMethods.HexadecimalStringObject_CreateFromEncodedBuffer(value.Handle, out var data);
@@ -45,6 +50,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfHexadecimalStringObject(data);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfLiteralStringObject from specified data in PDF format
+        /// </summary>
+        /// <param name="value">A string containing data in PDF format</param>
+        /// <returns>New instance of \ref PdfHexadecimalStringObject on success, throws exception on failure</returns>
         public static PdfHexadecimalStringObject CreateFromEncodedString(string value)
         {
             UInt32 result = NativeMethods.HexadecimalStringObject_CreateFromEncodedString(value, out var data);
@@ -55,6 +65,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfHexadecimalStringObject(data);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfLiteralStringObject from specified data in PDF format
+        /// </summary>
+        /// <param name="value">Handle to \ref PdfBuffer containing raw data after PDF parsing</param>
+        /// <returns>New instance of \ref PdfHexadecimalStringObject on success, throws exception on failure</returns>
         public static PdfHexadecimalStringObject CreateFromDecodedBuffer(PdfBuffer value)
         {
             UInt32 result = NativeMethods.HexadecimalStringObject_CreateFromDecodedBuffer(value.Handle, out var data);
@@ -65,6 +80,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfHexadecimalStringObject(data);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfLiteralStringObject from specified data in PDF format
+        /// </summary>
+        /// <param name="value">A string containing raw data after PDF parsing</param>
+        /// <returns>New instance of \ref PdfHexadecimalStringObject on success, throws exception on failure</returns>
         public static PdfHexadecimalStringObject CreateFromDecodedString(string value)
         {
             UInt32 result = NativeMethods.HexadecimalStringObject_CreateFromDecodedString(value, out var data);

@@ -36,6 +36,11 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Convert object to compressed stream entry
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfXrefEntry to be converted</param>
+        /// <returns>A new instance of \ref PdfXrefFreeEntry if the object can be converted, throws exception on failure</returns>
         public static PdfXrefFreeEntry FromEntry(PdfXrefEntry entry)
         {
             return new PdfXrefFreeEntry(entry.Handle);

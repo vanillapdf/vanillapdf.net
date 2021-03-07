@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Used entry means that an indirect object is allocated within the PDF file and this entry points to it's offset.
+    /// </summary>
     public class PdfXrefUsedEntry : PdfXrefEntry
     {
         internal PdfXrefUsedEntry(PdfXrefUsedEntrySafeHandle handle) : base(handle)
@@ -18,6 +21,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfXrefUsedEntrySafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Number of bytes from the beginning of the file to the beginning of the referenced object.
+        /// </summary>
+        /// <returns>Offset of the object in the source document on success, throws exception on failure</returns>
         public Int64 GetOffset()
         {
             UInt32 result = NativeMethods.XrefUsedEntry_GetOffset(Handle, out var data);
@@ -28,6 +35,10 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Get reference to the object represented by this entry
+        /// </summary>
+        /// <returns>Reference to the object represented by this entry on success, throws exception on failure</returns>
         public PdfObject GetReference()
         {
             UInt32 result = NativeMethods.XrefUsedEntry_GetReference(Handle, out var data);
@@ -38,6 +49,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfObject(data);
         }
 
+        /// <summary>
+        /// Convert object to compressed stream entry
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfXrefEntry to be converted</param>
+        /// <returns>A new instance of \ref PdfXrefUsedEntry if the object can be converted, throws exception on failure</returns>
         public static PdfXrefUsedEntry FromEntry(PdfXrefEntry entry)
         {
             return new PdfXrefUsedEntry(entry.Handle);
