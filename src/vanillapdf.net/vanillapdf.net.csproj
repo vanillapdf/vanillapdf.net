@@ -5,7 +5,7 @@
     <Platforms>AnyCPU;x86;x64</Platforms>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.4.2</Version>
+    <Version>1.5.0</Version>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
@@ -14,6 +14,7 @@
     <Copyright>Copyright 2018-2021 Vanilla.PDF Labs s.r.o.</Copyright>
     <PackageTags>pdf parsing sign</PackageTags>
     <PackageIcon>vanilla_logo.png</PackageIcon>
+    <AssemblyVersion>1.5.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -45,10 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="vanillapdf" Version="1.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -61,6 +58,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="vanillapdf" Version="1.5.0" />
   </ItemGroup>
 
 </Project>
