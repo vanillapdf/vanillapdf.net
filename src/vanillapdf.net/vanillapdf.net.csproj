@@ -11,7 +11,7 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Vanilla.PDF is a cross-platform SDK for creating and modifying PDF documents</Description>
-    <Copyright>Copyright 2018-2020 Vanilla.PDF Labs s.r.o.</Copyright>
+    <Copyright>Copyright 2018-2021 Vanilla.PDF Labs s.r.o.</Copyright>
     <PackageTags>pdf parsing sign</PackageTags>
     <PackageIcon>vanilla_logo.png</PackageIcon>
   </PropertyGroup>
@@ -29,11 +29,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="VanillaExamples\CustomFileWriterObserverContextExample.cs.pp" />
+    <None Remove="VanillaExamples\CustomSigningContextExample.cs.pp" />
+    <None Remove="VanillaExamples\DocumentMetadataExample.cs.pp" />
+    <None Remove="VanillaExamples\DocumentObjectsExample.cs.pp" />
+    <None Remove="VanillaExamples\DocumentPageContentsExample.cs.pp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="VanillaExamples\CustomFileWriterObserverContextExample.cs.pp" />
+    <Content Include="VanillaExamples\CustomSigningContextExample.cs.pp" />
+    <Content Include="VanillaExamples\DocumentMetadataExample.cs.pp" />
+    <Content Include="VanillaExamples\DocumentObjectsExample.cs.pp" />
+    <Content Include="VanillaExamples\DocumentPageContentsExample.cs.pp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="vanillapdf" Version="1.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="README.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
