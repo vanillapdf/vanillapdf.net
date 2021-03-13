@@ -28,21 +28,21 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <None Remove="VanillaExamples\CustomFileWriterObserverContextExample.cs.pp" />
-    <None Remove="VanillaExamples\CustomSigningContextExample.cs.pp" />
-    <None Remove="VanillaExamples\DocumentMetadataExample.cs.pp" />
-    <None Remove="VanillaExamples\DocumentObjectsExample.cs.pp" />
-    <None Remove="VanillaExamples\DocumentPageContentsExample.cs.pp" />
+    <Compile Remove="VanillaExamples\CustomFileWriterObserverContextExample.cs" />
+    <Compile Remove="VanillaExamples\CustomSigningContextExample.cs" />
+    <Compile Remove="VanillaExamples\DocumentMetadataExample.cs" />
+    <Compile Remove="VanillaExamples\DocumentObjectsExample.cs" />
+    <Compile Remove="VanillaExamples\DocumentPageContentsExample.cs" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Content Include="VanillaExamples\CustomFileWriterObserverContextExample.cs.pp" />
-    <Content Include="VanillaExamples\CustomSigningContextExample.cs.pp" />
-    <Content Include="VanillaExamples\DocumentMetadataExample.cs.pp" />
-    <Content Include="VanillaExamples\DocumentObjectsExample.cs.pp" />
-    <Content Include="VanillaExamples\DocumentPageContentsExample.cs.pp" />
+    <Content Include="VanillaExamples\CustomFileWriterObserverContextExample.cs" Pack="True" />
+    <Content Include="VanillaExamples\CustomSigningContextExample.cs" Pack="True" />
+    <Content Include="VanillaExamples\DocumentMetadataExample.cs" Pack="True" />
+    <Content Include="VanillaExamples\DocumentObjectsExample.cs" Pack="True" />
+    <Content Include="VanillaExamples\DocumentPageContentsExample.cs" Pack="True" />
   </ItemGroup>
 
   <ItemGroup>
