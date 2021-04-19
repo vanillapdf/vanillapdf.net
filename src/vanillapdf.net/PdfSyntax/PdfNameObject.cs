@@ -107,6 +107,11 @@ namespace vanillapdf.net.PdfSyntax
             return (int)Hash();
         }
 
+        public override string ToString()
+        {
+            return Value.StringData;
+        }
+
         private static class NativeMethods
         {
             public static CreateDelgate NameObject_Create = LibraryInstance.GetFunction<CreateDelgate>("NameObject_Create");
