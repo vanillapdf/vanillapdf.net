@@ -6,8 +6,8 @@ namespace vanillapdf.net.Utils
 {
     internal class LinuxPlatformUtils : IPlatformUtils
     {
-        private const string LINUX_X86_LIBRARY_PATH = "runtimes\\linux-x86\\native\\libvanillapdf.so";
-        private const string LINUX_X64_LIBRARY_PATH = "runtimes\\linux-x64\\native\\libvanillapdf.so";
+        private const string LINUX_X86_LIBRARY_PATH = "runtimes/linux-x86/native/libvanillapdf.so";
+        private const string LINUX_X64_LIBRARY_PATH = "runtimes/linux-x64/native/libvanillapdf.so";
 
         private IntPtr Handle { get; set; }
 
