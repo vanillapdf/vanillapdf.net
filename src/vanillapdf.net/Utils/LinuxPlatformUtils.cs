@@ -29,7 +29,7 @@ namespace vanillapdf.net.Utils
             if (Handle == IntPtr.Zero) {
                 IntPtr error = NativeMethods.dlerror();
                 if (error == IntPtr.Zero) {
-                    throw new PdfManagedException("Unable to load library");
+                    throw new PdfManagedException($"Unable to load library: \"{libraryPath}\"");
                 }
                 else {
                     throw new PdfManagedException(string.Format("Unable to load library. Error detail: {0}", Marshal.PtrToStringAnsi(error)));
