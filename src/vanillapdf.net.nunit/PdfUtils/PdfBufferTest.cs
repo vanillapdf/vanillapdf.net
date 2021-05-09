@@ -20,6 +20,17 @@ namespace vanillapdf.net.nunit.PdfUtils
         }
 
         [Test]
+        public void TestDataEmpty()
+        {
+            var Buffer = PdfBuffer.Create();
+            var testData = new byte[0];
+
+            Buffer.Data = testData;
+
+            Assert.IsTrue(testData.SequenceEqual(Buffer.Data));
+        }
+
+        [Test]
         public void TestDataString()
         {
             const string TEST_DATA = "TEST_DATA";

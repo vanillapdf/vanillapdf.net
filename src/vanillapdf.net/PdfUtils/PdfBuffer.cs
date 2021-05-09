@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -65,7 +66,12 @@ namespace vanillapdf.net.PdfUtils
             var sizeConverted = Convert.ToInt32(rawSize);
 
             byte[] allocatedBuffer = new byte[sizeConverted];
-            Marshal.Copy(data, allocatedBuffer, 0, sizeConverted);
+
+            // Marshal.Copy throws exception if the data is null pointer
+            if (sizeConverted > 0) {
+                Debug.Assert(data != IntPtr.Zero);
+                Marshal.Copy(data, allocatedBuffer, 0, sizeConverted);
+            }
 
             return allocatedBuffer;
         }
