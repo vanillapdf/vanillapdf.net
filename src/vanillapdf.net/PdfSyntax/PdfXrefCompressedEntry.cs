@@ -12,14 +12,14 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfXrefCompressedEntry : PdfXrefEntry
     {
-        internal PdfXrefCompressedEntry(PdfXrefUsedEntrySafeHandle handle) : base(handle)
+        internal PdfXrefCompressedEntry(PdfXrefCompressedEntrySafeHandle handle) : base(handle)
         {
         }
 
         static PdfXrefCompressedEntry()
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefUsedEntrySafeHandle).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefCompressedEntrySafeHandle).TypeHandle);
         }
 
         /// <summary>

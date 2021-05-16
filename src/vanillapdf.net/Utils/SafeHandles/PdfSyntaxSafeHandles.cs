@@ -380,18 +380,18 @@ namespace vanillapdf.net.Utils
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("XrefCompressedEntry_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToEntry = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("XrefCompressedEntry_ToEntry");
-        private static ConvertFromUnknownDelegate Convert_FromEntry = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("XrefCompressedEntry_FromEntry");
+        private static ConvertToEntryDelegate Convert_ToEntry = LibraryInstance.GetFunction<ConvertToEntryDelegate>("XrefCompressedEntry_ToEntry");
+        private static ConvertFromEntryDelegate Convert_FromEntry = LibraryInstance.GetFunction<ConvertFromEntryDelegate>("XrefCompressedEntry_FromEntry");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfXrefCompressedEntrySafeHandle handle, out PdfUnknownSafeHandle data);
+        private delegate UInt32 ConvertToEntryDelegate(PdfXrefCompressedEntrySafeHandle handle, out PdfXrefEntrySafeHandle data);
 
         [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfXrefCompressedEntrySafeHandle data);
+        private delegate UInt32 ConvertFromEntryDelegate(PdfXrefEntrySafeHandle handle, out PdfXrefCompressedEntrySafeHandle data);
 
         public static implicit operator PdfXrefEntrySafeHandle(PdfXrefCompressedEntrySafeHandle handle)
         {
-            UInt32 result = Convert_ToEntry(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = Convert_ToEntry(handle, out PdfXrefEntrySafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
