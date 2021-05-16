@@ -40,6 +40,12 @@ namespace vanillapdf.net.PdfSyntax
             return EnumUtil<PdfObjectType>.CheckedCast(data);
         }
 
+        public override string ToString()
+        {
+            var buffer = ToStringInternal();
+            return buffer.StringData;
+        }
+
         private Int64 GetOffset()
         {
             UInt32 result = NativeMethods.Object_GetOffset(Handle, out var data);
@@ -50,16 +56,30 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        private PdfBuffer ToStringInternal()
+        {
+            UInt32 result = NativeMethods.Object_ToString(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfBuffer(data);
+        }
+
         private static class NativeMethods
         {
             public static GetTypeDelgate Object_GetObjectType = LibraryInstance.GetFunction<GetTypeDelgate>("Object_GetObjectType");
             public static GetOffsetDelgate Object_GetOffset = LibraryInstance.GetFunction<GetOffsetDelgate>("Object_GetOffset");
+            public static ToStringDelgate Object_ToString = LibraryInstance.GetFunction<ToStringDelgate>("Object_ToString");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetTypeDelgate(PdfObjectSafeHandle handle, out PdfObjectType data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetOffsetDelgate(PdfObjectSafeHandle handle, out Int64 data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 ToStringDelgate(PdfObjectSafeHandle handle, out PdfBufferSafeHandle data);
         }
     }
 }
