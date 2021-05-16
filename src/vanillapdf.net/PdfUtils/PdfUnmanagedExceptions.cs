@@ -77,7 +77,7 @@ namespace vanillapdf.net.PdfUtils
                 return PdfInvalidPasswordException.Create(errorMessage);
             }
 
-            throw new PdfManagedException("Unknown return value");
+            throw new PdfManagedException($"Unknown return value: {value}");
         }
     }
 

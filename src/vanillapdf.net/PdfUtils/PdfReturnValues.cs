@@ -50,7 +50,7 @@ namespace vanillapdf.net.PdfUtils
                 return VANILLAPDF_ERROR_INVALID_PASSWORD;
             }
 
-            throw new PdfManagedException("Unknown return value");
+            throw new PdfManagedException($"Unknown return value: {value}");
         }
 
         #region Global error states
