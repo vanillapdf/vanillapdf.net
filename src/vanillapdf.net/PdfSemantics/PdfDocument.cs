@@ -38,7 +38,22 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Creates a new document on the specified location
+        /// Open and existing document for reading and manupulation
+        /// </summary>
+        /// <param name="file">Handle to \ref PdfFile instance</param>
+        /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
+        public static PdfDocument OpenFile(PdfFile file)
+        {
+            UInt32 result = NativeMethods.Document_OpenFile(file.Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDocument(data);
+        }
+
+        /// <summary>
+        /// Creates a new document at the specified location
         /// </summary>
         /// <param name="filename">path file to be created</param>
         /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
@@ -53,13 +68,13 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Open and existing document for reading and manupulation
+        /// Creates a new document at the specified location
         /// </summary>
         /// <param name="file">Handle to \ref PdfFile instance</param>
         /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
-        public static PdfDocument OpenFile(PdfFile file)
+        public static PdfDocument CreateFile(PdfFile file)
         {
-            UInt32 result = NativeMethods.Document_OpenFile(file.Handle, out var data);
+            UInt32 result = NativeMethods.Document_CreateFile(file.Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -133,8 +148,9 @@ namespace vanillapdf.net.PdfSemantics
         private static class NativeMethods
         {
             public static DocumentOpenDelgate Document_Open = LibraryInstance.GetFunction<DocumentOpenDelgate>("Document_Open");
-            public static DocumentCreateDelgate Document_Create = LibraryInstance.GetFunction<DocumentCreateDelgate>("Document_Create");
             public static DocumentOpenFileDelgate Document_OpenFile = LibraryInstance.GetFunction<DocumentOpenFileDelgate>("Document_OpenFile");
+            public static DocumentCreateDelgate Document_Create = LibraryInstance.GetFunction<DocumentCreateDelgate>("Document_Create");
+            public static DocumentCreateFileDelgate Document_CreateFile = LibraryInstance.GetFunction<DocumentCreateFileDelgate>("Document_CreateFile");
             public static DocumentAppendDocumentDelgate Document_AppendDocument = LibraryInstance.GetFunction<DocumentAppendDocumentDelgate>("Document_AppendDocument");
             public static DocumentGetCatalogDelgate Document_GetCatalog = LibraryInstance.GetFunction<DocumentGetCatalogDelgate>("Document_GetCatalog");
             public static DocumentSaveDelgate Document_Save = LibraryInstance.GetFunction<DocumentSaveDelgate>("Document_Save");
@@ -145,10 +161,13 @@ namespace vanillapdf.net.PdfSemantics
             public delegate UInt32 DocumentOpenDelgate(string filename, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 DocumentOpenFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 DocumentCreateDelgate(string filename, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentOpenFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
+            public delegate UInt32 DocumentCreateFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 DocumentAppendDocumentDelgate(PdfDocumentSafeHandle handle, PdfDocumentSafeHandle source);
