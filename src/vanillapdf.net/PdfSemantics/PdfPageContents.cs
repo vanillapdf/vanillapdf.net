@@ -29,7 +29,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>Number of \ref PdfContents.PdfContentInstruction on success, throws exception on failure</returns>
         public UInt64 GetInstructionsSize()
         {
-            UInt32 result = NativeMethods.Contents_GetInstructionsSize(Handle, out UIntPtr data);
+            UInt32 result = NativeMethods.PageContents_GetInstructionsSize(Handle, out UIntPtr data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -44,7 +44,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>Handle to \ref PdfContents.PdfContentInstruction object at <p>index</p> on success, throws exception on failure</returns>
         public PdfContentInstruction GetInstructionAt(UInt64 index)
         {
-            UInt32 result = NativeMethods.Contents_GetInstructionAt(Handle, new UIntPtr(index), out var data);
+            UInt32 result = NativeMethods.PageContents_GetInstructionAt(Handle, new UIntPtr(index), out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -52,16 +52,30 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfContentInstruction(data);
         }
 
+        public bool RecalculateStreamData()
+        {
+            UInt32 result = NativeMethods.PageContents_RecalculateStreamData(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
         private static class NativeMethods
         {
-            public static GetInstructionsSizeDelgate Contents_GetInstructionsSize = LibraryInstance.GetFunction<GetInstructionsSizeDelgate>("PageContents_GetInstructionsSize");
-            public static GetInstructionAtDelgate Contents_GetInstructionAt = LibraryInstance.GetFunction<GetInstructionAtDelgate>("PageContents_GetInstructionAt");
+            public static GetInstructionsSizeDelgate PageContents_GetInstructionsSize = LibraryInstance.GetFunction<GetInstructionsSizeDelgate>("PageContents_GetInstructionsSize");
+            public static GetInstructionAtDelgate PageContents_GetInstructionAt = LibraryInstance.GetFunction<GetInstructionAtDelgate>("PageContents_GetInstructionAt");
+            public static RecalculateStreamDataDelgate PageContents_RecalculateStreamData = LibraryInstance.GetFunction<RecalculateStreamDataDelgate>("PageContents_RecalculateStreamData");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetInstructionsSizeDelgate(PdfPageContentsSafeHandle handle, out UIntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetInstructionAtDelgate(PdfPageContentsSafeHandle handle, UIntPtr at, out PdfContentInstructionSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 RecalculateStreamDataDelgate(PdfPageContentsSafeHandle handle, out bool data);
         }
     }
 }
