@@ -58,16 +58,38 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfPageAnnotations(data);
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <returns>Handle to \ref PdfResourceDictionary object on success, throws exception on failure</returns>
+        public PdfResourceDictionary GetResources()
+        {
+            UInt32 result = NativeMethods.PageObject_GetResources(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfResourceDictionary(data);
+        }
+
         private static class NativeMethods
         {
             public static PageObjectGetContentsDelgate PageObject_GetContents = LibraryInstance.GetFunction<PageObjectGetContentsDelgate>("PageObject_GetContents");
             public static PageObjectGetAnnotationsDelgate PageObject_GetAnnotations = LibraryInstance.GetFunction<PageObjectGetAnnotationsDelgate>("PageObject_GetAnnotations");
+            public static PageObjectGetResourcesDelgate PageObject_GetResources = LibraryInstance.GetFunction<PageObjectGetResourcesDelgate>("PageObject_GetResources");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 PageObjectGetContentsDelgate(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 PageObjectGetAnnotationsDelgate(PdfPageObjectSafeHandle handle, out PdfPageAnnotationsSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 PageObjectGetResourcesDelgate(PdfPageObjectSafeHandle handle, out PdfResourceDictionarySafeHandle data);
         }
     }
 }

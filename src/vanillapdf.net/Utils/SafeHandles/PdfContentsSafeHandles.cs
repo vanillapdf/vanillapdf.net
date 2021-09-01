@@ -348,4 +348,49 @@ namespace vanillapdf.net.Utils
             return (PdfContentOperationSafeHandle)handle;
         }
     }
+
+    internal sealed class PdfContentOperationTextFontSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextFont_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate ContentOperationTextFont_ToContentOperation = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperationTextFont_ToContentOperation");
+        private static ConvertFromUnknownDelegate ContentOperationTextFont_FromContentOperation = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentOperationTextFont_FromContentOperation");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfContentOperationTextFontSafeHandle handle, out PdfContentOperationSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfContentOperationSafeHandle handle, out PdfContentOperationTextFontSafeHandle data);
+
+        public static implicit operator PdfContentOperationSafeHandle(PdfContentOperationTextFontSafeHandle handle)
+        {
+            UInt32 result = ContentOperationTextFont_ToContentOperation(handle, out PdfContentOperationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfContentOperationTextFontSafeHandle(PdfContentOperationSafeHandle handle)
+        {
+            UInt32 result = ContentOperationTextFont_FromContentOperation(handle, out PdfContentOperationTextFontSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfContentOperationTextFontSafeHandle handle)
+        {
+            return (PdfContentOperationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfContentOperationTextFontSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfContentOperationSafeHandle)handle;
+        }
+    }
 }
