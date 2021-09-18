@@ -59,7 +59,7 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// TODO
+        /// A dictionary containing any resources required by the page(see 7.8.3, "Resource Dictionaries").
         /// </summary>
         /// <returns>Handle to \ref PdfResourceDictionary object on success, throws exception on failure</returns>
         public PdfResourceDictionary GetResources()

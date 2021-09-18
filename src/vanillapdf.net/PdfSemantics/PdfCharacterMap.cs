@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSemantics
 {
     /// <summary>
-    /// TODO
+    /// A CMap shall specify the mapping from  character codes to character selectors.
     /// </summary>
     public class PdfCharacterMap : PdfUnknown
     {

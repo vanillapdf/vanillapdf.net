@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSemantics
 {
     /// <summary>
-    /// TODO
+    /// Base class for all fonts in to representable inside a PDF document.
     /// </summary>
     public class PdfFont : PdfUnknown
     {

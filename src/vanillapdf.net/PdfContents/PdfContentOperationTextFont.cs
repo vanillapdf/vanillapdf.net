@@ -8,7 +8,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfContents
 {
     /// <summary>
-    /// TODO
+    /// Set the text font and the text font size.
     /// </summary>
     public class PdfContentOperationTextFont: PdfContentOperation
     {

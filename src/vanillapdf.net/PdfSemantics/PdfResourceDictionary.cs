@@ -7,7 +7,10 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSemantics
 {
     /// <summary>
-    /// TODO
+    /// A content stream's named resources shall be defined
+    /// by a resource dictionary, which shall enumerate the
+    /// named resources needed by the operators in the
+    /// content stream and the names by which they can be referred to.
     /// </summary>
     public class PdfResourceDictionary : PdfUnknown
     {
@@ -22,9 +25,9 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// TODO
+        /// A dictionary that maps resource names to font dictionaries.
         /// </summary>
-        /// <returns>TODO</returns>
+        /// <returns>Handle to \ref PdfFontMap object on success, throws exception on failure</returns>
         public PdfFontMap GetFontMap()
         {
             UInt32 result = NativeMethods.ResourceDictionary_GetFontMap(Handle, out var data);

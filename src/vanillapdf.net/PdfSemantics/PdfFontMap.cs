@@ -8,7 +8,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSemantics
 {
     /// <summary>
-    /// TODO
+    /// A dictionary that maps resource names to font dictionaries.
     /// </summary>
     public class PdfFontMap : PdfUnknown
     {

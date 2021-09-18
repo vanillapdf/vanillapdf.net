@@ -7,7 +7,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfSemantics
 {
     /// <summary>
-    /// TODO
+    /// A font composed of glyphs from a descendant CIDFont.
     /// </summary>
     public class PdfType0Font : PdfFont
     {
