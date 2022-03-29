@@ -23,6 +23,12 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
         }
 
+        public PdfRectangle MediaBox
+        {
+            get { return GetMediaBox(); }
+            set { SetMediaBox(value); }
+        }
+
         /// <summary>
         /// A content stream (see 7.8.2, "Content Streams") that shall describe
         /// the contents of this page. If this entry is absent, the page shall be empty.
@@ -76,20 +82,50 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfResourceDictionary(data);
         }
 
+        private PdfRectangle GetMediaBox()
+        {
+            UInt32 result = NativeMethods.PageObject_GetMediaBox(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfRectangle(data);
+        }
+
+        private void SetMediaBox(PdfRectangle data)
+        {
+            UInt32 result = NativeMethods.PageObject_SetMediaBox(Handle, data.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
         private static class NativeMethods
         {
-            public static PageObjectGetContentsDelgate PageObject_GetContents = LibraryInstance.GetFunction<PageObjectGetContentsDelgate>("PageObject_GetContents");
-            public static PageObjectGetAnnotationsDelgate PageObject_GetAnnotations = LibraryInstance.GetFunction<PageObjectGetAnnotationsDelgate>("PageObject_GetAnnotations");
-            public static PageObjectGetResourcesDelgate PageObject_GetResources = LibraryInstance.GetFunction<PageObjectGetResourcesDelgate>("PageObject_GetResources");
+            public static GetContentsDelgate PageObject_GetContents = LibraryInstance.GetFunction<GetContentsDelgate>("PageObject_GetContents");
+            public static GetAnnotationsDelgate PageObject_GetAnnotations = LibraryInstance.GetFunction<GetAnnotationsDelgate>("PageObject_GetAnnotations");
+            public static GetResourcesDelgate PageObject_GetResources = LibraryInstance.GetFunction<GetResourcesDelgate>("PageObject_GetResources");
+            public static GetMediaBoxDelgate PageObject_GetMediaBox = LibraryInstance.GetFunction<GetMediaBoxDelgate>("PageObject_GetMediaBox");
+            public static SetMediaBoxDelgate PageObject_SetMediaBox = LibraryInstance.GetFunction<SetMediaBoxDelgate>("PageObject_SetMediaBox");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 PageObjectGetContentsDelgate(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
+            public delegate UInt32 GetContentsDelgate(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 PageObjectGetAnnotationsDelgate(PdfPageObjectSafeHandle handle, out PdfPageAnnotationsSafeHandle data);
+            public delegate UInt32 GetAnnotationsDelgate(PdfPageObjectSafeHandle handle, out PdfPageAnnotationsSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 PageObjectGetResourcesDelgate(PdfPageObjectSafeHandle handle, out PdfResourceDictionarySafeHandle data);
+            public delegate UInt32 GetResourcesDelgate(PdfPageObjectSafeHandle handle, out PdfResourceDictionarySafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetMediaBoxDelgate(PdfPageObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 SetMediaBoxDelgate(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
         }
     }
 }

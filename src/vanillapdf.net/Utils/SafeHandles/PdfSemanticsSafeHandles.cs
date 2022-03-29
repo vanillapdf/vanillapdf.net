@@ -549,4 +549,41 @@ namespace vanillapdf.net.Utils
             return data;
         }
     }
+
+    internal sealed class PdfRectangleSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Rectangle_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Rectangle_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Rectangle_FromUnknown");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfRectangleSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfRectangleSafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS)
+            {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfRectangleSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfRectangleSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS)
+            {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
 }
