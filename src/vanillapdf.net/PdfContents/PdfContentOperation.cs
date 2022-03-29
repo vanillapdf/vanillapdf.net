@@ -21,6 +21,11 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationSafeHandle).TypeHandle);
         }
 
+        public PdfContentOperationType OperationType
+        { 
+            get { return GetOperationType(); }
+        }
+
         /// <summary>
         /// Get derived type of current object
         /// </summary>
@@ -33,6 +38,16 @@ namespace vanillapdf.net.PdfContents
             }
 
             return EnumUtil<PdfContentOperationType>.CheckedCast(data);
+        }
+
+        /// <summary>
+        /// Convert content instruction to content operation
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfContentInstruction to be converted</param>
+        /// <returns>A new instance of \ref PdfContentOperation if the object can be converted, throws exception on failure</returns>
+        public static PdfContentOperation FromContentInstruction(PdfContentInstruction data)
+        {
+            return new PdfContentOperation(data.Handle);
         }
 
         private static class NativeMethods
