@@ -42,7 +42,7 @@ namespace vanillapdf.net.PdfUtils
         /// <summary>
         /// Cleanup and release allocated resources required for signature calculation
         /// </summary>
-        public abstract void Cleanup();
+        public abstract UInt32 Cleanup();
 
         private void ReleaseUnmanagedResources()
         {

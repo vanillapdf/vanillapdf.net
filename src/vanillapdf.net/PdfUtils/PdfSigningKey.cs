@@ -27,7 +27,7 @@ namespace vanillapdf.net.PdfUtils
         /// <returns>New instance of \ref PdfSigningKey</returns>
         public static PdfSigningKey CreateCustom(PdfSigningKeyContext context)
         {
-            UInt32 result = NativeMethods.SigningKey_CreateCustom(Initialize, Update, Final, Cleanup, GCHandle.ToIntPtr(context.Handle), out var data);
+            UInt32 result = NativeMethods.SigningKey_CreateCustom(initializeDelgate, updateDelgate, finalDelgate, cleanupDelgate, GCHandle.ToIntPtr(context.Handle), out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -59,17 +59,22 @@ namespace vanillapdf.net.PdfUtils
                 // The reason for this, is the unmanaged code is unable to create SafeHandle,
                 // when calling back to managed.
 
-                PdfBufferSafeHandle bufferSafeHandle = new PdfBufferSafeHandle();
-                bufferSafeHandle.DangerousSetHandle(buffer);
+                using (PdfBufferSafeHandle bufferSafeHandle = new PdfBufferSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfBuffer(bufferSafeHandle)) {
-                    return context.Update(wrapper);
+                    bufferSafeHandle.DangerousSetHandle(buffer);
+                    bufferSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfBuffer(bufferSafeHandle)) {
+                        return context.Update(wrapper);
+                    }
                 }
             }
             catch {
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
+
 
         private static UInt32 Final(IntPtr userdata, out IntPtr buffer)
         {
@@ -94,17 +99,28 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        private static void Cleanup(IntPtr userdata)
+        private static UInt32 Cleanup(IntPtr userdata)
         {
             try {
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfSigningKeyContext context = (handle.Target as PdfSigningKeyContext);
 
-                context.Cleanup();
+                return context.Cleanup();
             }
             catch {
+                return PdfReturnValues.ERROR_GENERAL;
             }
         }
+
+        // We need to have static delegates as the SigningKey_CreateCustom
+        // would create a delegate when referencing the static function
+        // which would be disposed during the garbage collection.
+        // We prevent cleaning up the delegates by having static references.
+
+        private static NativeMethods.InitializeDelgate initializeDelgate = Initialize;
+        private static NativeMethods.UpdateDelgate updateDelgate = Update;
+        private static NativeMethods.FinalDelgate finalDelgate = Final;
+        private static NativeMethods.CleanupDelgate cleanupDelgate = Cleanup;
 
         private static class NativeMethods
         {
@@ -123,7 +139,7 @@ namespace vanillapdf.net.PdfUtils
             public delegate UInt32 FinalDelgate(IntPtr userdata, out IntPtr buffer);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate void CleanupDelgate(IntPtr userdata);
+            public delegate UInt32 CleanupDelgate(IntPtr userdata);
         }
     }
 }
