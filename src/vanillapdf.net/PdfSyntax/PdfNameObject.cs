@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfNameObject : PdfObject, IEquatable<PdfNameObject>
     {
+        internal PdfNameObjectSafeHandle Handle { get; }
+
         internal PdfNameObject(PdfNameObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfNameObject()
@@ -90,7 +93,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfNameObject if the object can be converted, throws exception on failure</returns>
         public static PdfNameObject FromObject(PdfObject data)
         {
-            return new PdfNameObject(data.Handle);
+            return new PdfNameObject(data.ObjectHandle);
         }
 
         public override bool Equals(object obj)
@@ -107,10 +110,15 @@ namespace vanillapdf.net.PdfSyntax
             return (int)Hash();
         }
 
-        public override string ToString()
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
         {
-            return Value.StringData;
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
+
+        #endregion
 
         private static class NativeMethods
         {

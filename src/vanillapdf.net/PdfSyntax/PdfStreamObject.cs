@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfStreamObject : PdfObject
     {
+        internal PdfStreamObjectSafeHandle Handle { get; }
+
         internal PdfStreamObject(PdfStreamObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfStreamObject()
@@ -114,8 +117,18 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfStreamObject if the object can be converted, throws exception on failure</returns>
         public static PdfStreamObject FromObject(PdfObject data)
         {
-            return new PdfStreamObject(data.Handle);
+            return new PdfStreamObject(data.ObjectHandle);
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

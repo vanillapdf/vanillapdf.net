@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfLiteralStringObject : PdfStringObject
     {
+        internal PdfLiteralStringObjectSafeHandle Handle { get; }
+
         internal PdfLiteralStringObject(PdfLiteralStringObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfLiteralStringObject()
@@ -107,7 +110,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfLiteralStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfLiteralStringObject FromString(PdfStringObject data)
         {
-            return new PdfLiteralStringObject(data.Handle);
+            return new PdfLiteralStringObject(data.StringHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

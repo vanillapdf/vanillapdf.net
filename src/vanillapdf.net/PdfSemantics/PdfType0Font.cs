@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfType0Font : PdfFont
     {
+        internal PdfType0FontSafeHandle Handle { get; }
+
         internal PdfType0Font(PdfType0FontSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfType0Font()
@@ -42,7 +45,13 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>A new instance of \ref PdfType0Font if the object can be converted, throws exception on failure</returns>
         public static PdfType0Font FromFont(PdfFont data)
         {
-            return new PdfType0Font(data.Handle);
+            return new PdfType0Font(data.FontHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

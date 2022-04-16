@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfBaseFontRange : PdfUnknown
     {
+        internal PdfBaseFontRangeSafeHandle Handle { get; }
+
         internal PdfBaseFontRange(PdfBaseFontRangeSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfBaseFontRange()
@@ -111,7 +114,7 @@ namespace vanillapdf.net.PdfContents
 
         private void SetDestination(PdfObject value)
         {
-            UInt32 result = NativeMethods.BaseFontRange_SetDestination(Handle, value.Handle);
+            UInt32 result = NativeMethods.BaseFontRange_SetDestination(Handle, value.ObjectHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -145,6 +148,12 @@ namespace vanillapdf.net.PdfContents
             }
 
             return new PdfBuffer(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

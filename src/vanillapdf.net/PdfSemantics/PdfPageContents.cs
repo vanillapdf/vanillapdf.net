@@ -13,8 +13,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfPageContents : PdfUnknown
     {
+        internal PdfPageContentsSafeHandle Handle { get; }
+
         internal PdfPageContents(PdfPageContentsSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfPageContents()
@@ -60,6 +63,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return data;
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

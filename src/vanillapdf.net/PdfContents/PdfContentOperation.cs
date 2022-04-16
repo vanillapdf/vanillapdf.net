@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentOperation : PdfUnknown
     {
+        internal PdfContentOperationSafeHandle OperationHandle { get; }
+
         internal PdfContentOperation(PdfContentOperationSafeHandle handle) : base(handle)
         {
+            OperationHandle = handle;
         }
 
         static PdfContentOperation()
@@ -32,7 +35,7 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of current content operation on success, throws exception on failure</returns>
         public PdfContentOperationType GetOperationType()
         {
-            UInt32 result = NativeMethods.ContentOperation_GetOperationType(Handle, out Int32 data);
+            UInt32 result = NativeMethods.ContentOperation_GetOperationType(OperationHandle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -47,15 +50,21 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentOperation if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperation FromContentInstruction(PdfContentInstruction data)
         {
-            return new PdfContentOperation(data.Handle);
+            return new PdfContentOperation(data.UnknownHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            OperationHandle?.Dispose();
         }
 
         private static class NativeMethods
         {
-            public static GetInstructionTypeDelgate ContentOperation_GetOperationType = LibraryInstance.GetFunction<GetInstructionTypeDelgate>("ContentOperation_GetOperationType");
+            public static GetOperationTypeDelgate ContentOperation_GetOperationType = LibraryInstance.GetFunction<GetOperationTypeDelgate>("ContentOperation_GetOperationType");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetInstructionTypeDelgate(PdfContentInstructionSafeHandle handle, out Int32 data);
+            public delegate UInt32 GetOperationTypeDelgate(PdfContentOperationSafeHandle handle, out Int32 data);
         }
     }
 }

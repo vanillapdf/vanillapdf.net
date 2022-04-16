@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfFileWriter : PdfUnknown
     {
+        internal PdfFileWriterSafeHandle Handle { get; }
+
         internal PdfFileWriter(PdfFileWriterSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfFileWriter()
@@ -83,6 +86,12 @@ namespace vanillapdf.net.PdfSyntax
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

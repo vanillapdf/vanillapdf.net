@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfHexadecimalStringObject : PdfStringObject
     {
+        internal PdfHexadecimalStringObjectSafeHandle Handle { get; }
+
         internal PdfHexadecimalStringObject(PdfHexadecimalStringObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfHexadecimalStringObject()
@@ -107,7 +110,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfHexadecimalStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfHexadecimalStringObject FromString(PdfStringObject data)
         {
-            return new PdfHexadecimalStringObject(data.Handle);
+            return new PdfHexadecimalStringObject(data.StringHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

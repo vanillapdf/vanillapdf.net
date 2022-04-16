@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfBuffer : PdfUnknown, IEquatable<PdfBuffer>
     {
+        internal PdfBufferSafeHandle Handle { get; }
+
         internal PdfBuffer(PdfBufferSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfBuffer()
@@ -181,6 +184,12 @@ namespace vanillapdf.net.PdfUtils
         public override int GetHashCode()
         {
             return (int)Hash();
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

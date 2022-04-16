@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentOperationGeneric : PdfContentOperation
     {
+        internal PdfContentOperationGenericSafeHandle Handle { get; }
+
         internal PdfContentOperationGeneric(PdfContentOperationGenericSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfContentOperationGeneric()
@@ -72,7 +75,13 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentOperationGeneric if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperationGeneric FromContentOperation(PdfContentOperation data)
         {
-            return new PdfContentOperationGeneric(data.Handle);
+            return new PdfContentOperationGeneric(data.OperationHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle.Dispose();
         }
 
         private static class NativeMethods

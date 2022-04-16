@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfXrefFreeEntry : PdfXrefEntry
     {
+        internal PdfXrefFreeEntrySafeHandle Handle { get; }
+
         internal PdfXrefFreeEntry(PdfXrefFreeEntrySafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfXrefFreeEntry()
@@ -43,8 +46,18 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfXrefFreeEntry if the object can be converted, throws exception on failure</returns>
         public static PdfXrefFreeEntry FromEntry(PdfXrefEntry entry)
         {
-            return new PdfXrefFreeEntry(entry.Handle);
+            return new PdfXrefFreeEntry(entry.BaseEntryHandle);
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

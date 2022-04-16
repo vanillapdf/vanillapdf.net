@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfDocumentSignatureSettings : PdfUnknown
     {
+        internal PdfDocumentSignatureSettingsSafeHandle Handle { get; }
+
         internal PdfDocumentSignatureSettings(PdfDocumentSignatureSettingsSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfDocumentSignatureSettings()
@@ -229,6 +232,12 @@ namespace vanillapdf.net.PdfSemantics
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

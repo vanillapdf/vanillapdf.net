@@ -13,8 +13,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfXrefChain : PdfUnknown, IEnumerable<PdfXref>
     {
+        internal PdfXrefChainSafeHandle Handle { get; }
+
         internal PdfXrefChain(PdfXrefChainSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfXrefChain()
@@ -36,6 +39,16 @@ namespace vanillapdf.net.PdfSyntax
 
             return new PdfXrefChainIterator(value);
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         #region IEnumerable<PdfXref>
 

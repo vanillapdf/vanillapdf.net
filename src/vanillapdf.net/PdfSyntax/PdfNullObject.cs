@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfNullObject : PdfObject
     {
+        internal PdfNullObjectSafeHandle Handle { get; }
+
         internal PdfNullObject(PdfNullObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfNullObject()
@@ -42,8 +45,18 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfNullObject if the object can be converted, throws exception on failure</returns>
         public static PdfNullObject FromObject(PdfObject data)
         {
-            return new PdfNullObject(data.Handle);
+            return new PdfNullObject(data.ObjectHandle);
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

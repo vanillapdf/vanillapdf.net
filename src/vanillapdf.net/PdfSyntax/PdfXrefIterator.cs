@@ -13,8 +13,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfXrefIterator : PdfUnknown, IEnumerator<PdfXrefEntry>
     {
+        internal PdfXrefIteratorSafeHandle Handle { get; }
+
         internal PdfXrefIterator(PdfXrefIteratorSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfXrefIterator()
@@ -61,6 +64,16 @@ namespace vanillapdf.net.PdfSyntax
 
             return data;
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         #region IEnumerator
 

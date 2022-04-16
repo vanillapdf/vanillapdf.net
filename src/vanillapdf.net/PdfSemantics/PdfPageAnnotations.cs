@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfPageAnnotations : PdfUnknown
     {
+        internal PdfPageAnnotationsSafeHandle Handle { get; }
+
         internal PdfPageAnnotations(PdfPageAnnotationsSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfPageAnnotations()
@@ -49,6 +52,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfAnnotation(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

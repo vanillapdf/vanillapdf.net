@@ -10,8 +10,11 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfPKCS12Key : PdfUnknown
     {
+        internal PdfPKCS12KeySafeHandle Handle { get; }
+
         internal PdfPKCS12Key(PdfPKCS12KeySafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfPKCS12Key()
@@ -69,6 +72,16 @@ namespace vanillapdf.net.PdfUtils
         {
             return new PdfPKCS12Key(data.Handle);
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

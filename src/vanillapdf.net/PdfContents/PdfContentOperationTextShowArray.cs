@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentOperationTextShowArray : PdfContentOperation
     {
+        internal PdfContentOperationTextShowArraySafeHandle Handle { get; }
+
         internal PdfContentOperationTextShowArray(PdfContentOperationTextShowArraySafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfContentOperationTextShowArray()
@@ -60,7 +63,13 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentOperationTextShowArray if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperationTextShowArray FromContentOperation(PdfContentOperation data)
         {
-            return new PdfContentOperationTextShowArray(data.Handle);
+            return new PdfContentOperationTextShowArray(data.OperationHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods
@@ -69,10 +78,10 @@ namespace vanillapdf.net.PdfContents
             public static SetValueDelgate ContentOperationTextShow_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("ContentOperationTextShow_SetValue");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfContentInstructionSafeHandle handle, out PdfArrayObjectSafeHandle data);
+            public delegate UInt32 GetValueDelgate(PdfContentOperationTextShowArraySafeHandle handle, out PdfArrayObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfContentInstructionSafeHandle handle, PdfArrayObjectSafeHandle data);
+            public delegate UInt32 SetValueDelgate(PdfContentOperationTextShowArraySafeHandle handle, PdfArrayObjectSafeHandle data);
         }
     }
 }

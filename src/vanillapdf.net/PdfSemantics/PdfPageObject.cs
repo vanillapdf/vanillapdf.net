@@ -13,8 +13,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfPageObject : PdfUnknown
     {
+        internal PdfPageObjectSafeHandle Handle { get; }
+
         internal PdfPageObject(PdfPageObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfPageObject()
@@ -102,6 +105,12 @@ namespace vanillapdf.net.PdfSemantics
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

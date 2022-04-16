@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfFileWriterObserver : PdfUnknown
     {
+        internal PdfFileWriterObserverSafeHandle Handle { get; }
+
         internal PdfFileWriterObserver(PdfFileWriterObserverSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfFileWriterObserver()
@@ -41,6 +44,12 @@ namespace vanillapdf.net.PdfSyntax
             }
 
             return new PdfFileWriterObserver(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static UInt32 OnInitializing(IntPtr userdata, IntPtr data)

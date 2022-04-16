@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentObjectText : PdfContentObject
     {
+        internal PdfContentObjectTextSafeHandle Handle { get; }
+
         internal PdfContentObjectText(PdfContentObjectTextSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfContentObjectText()
@@ -57,7 +60,13 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentObjectText if the object can be converted, throws exception on failure</returns>
         public static PdfContentObjectText FromContentObject(PdfContentObject data)
         {
-            return new PdfContentObjectText(data.Handle);
+            return new PdfContentObjectText(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

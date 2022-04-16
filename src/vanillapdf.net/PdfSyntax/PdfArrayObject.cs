@@ -13,8 +13,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfArrayObject : PdfObject, IList<PdfObject>
     {
+        internal PdfArrayObjectSafeHandle Handle { get; }
+
         internal PdfArrayObject(PdfArrayObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfArrayObject()
@@ -59,7 +62,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public void SetValue(UInt64 index, PdfObject item)
         {
-            UInt32 result = NativeMethods.ArrayObject_SetValue(Handle, new UIntPtr(index), item.Handle);
+            UInt32 result = NativeMethods.ArrayObject_SetValue(Handle, new UIntPtr(index), item.ObjectHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -67,7 +70,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public void Append(PdfObject item)
         {
-            UInt32 result = NativeMethods.ArrayObject_Append(Handle, item.Handle);
+            UInt32 result = NativeMethods.ArrayObject_Append(Handle, item.ObjectHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -75,7 +78,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public void Insert(UInt64 index, PdfObject item)
         {
-            UInt32 result = NativeMethods.ArrayObject_Insert(Handle, new UIntPtr(index), item.Handle);
+            UInt32 result = NativeMethods.ArrayObject_Insert(Handle, new UIntPtr(index), item.ObjectHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -110,7 +113,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfArrayObject if the object can be converted, throws exception on failure</returns>
         public static PdfArrayObject FromObject(PdfObject data)
         {
-            return new PdfArrayObject(data.Handle);
+            return new PdfArrayObject(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         #region private helper

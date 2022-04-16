@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfUnicodeCharacterMap : PdfCharacterMap
     {
+        internal PdfUnicodeCharacterMapSafeHandle Handle { get; }
+
         internal PdfUnicodeCharacterMap(PdfUnicodeCharacterMapSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfUnicodeCharacterMap()
@@ -35,6 +38,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfBuffer(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

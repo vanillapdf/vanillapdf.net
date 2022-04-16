@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfFile : PdfUnknown
     {
+        internal PdfFileSafeHandle Handle { get; }
+
         internal PdfFile(PdfFileSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfFile()
@@ -148,6 +151,12 @@ namespace vanillapdf.net.PdfSyntax
             }
 
             return new PdfXrefChain(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

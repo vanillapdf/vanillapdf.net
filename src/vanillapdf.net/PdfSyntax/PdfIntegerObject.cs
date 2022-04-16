@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfIntegerObject : PdfObject
     {
+        internal PdfIntegerObjectSafeHandle Handle { get; }
+
         internal PdfIntegerObject(PdfIntegerObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfIntegerObject()
@@ -114,7 +117,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIntegerObject if the object can be converted, throws exception on failure</returns>
         public static PdfIntegerObject FromObject(PdfObject data)
         {
-            return new PdfIntegerObject(data.Handle);
+            return new PdfIntegerObject(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

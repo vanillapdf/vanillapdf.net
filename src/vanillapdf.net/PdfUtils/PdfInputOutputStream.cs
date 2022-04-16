@@ -10,8 +10,11 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfInputOutputStream : PdfUnknown
     {
+        internal PdfInputOutputStreamSafeHandle Handle { get; }
+
         internal PdfInputOutputStream(PdfInputOutputStreamSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfInputOutputStream()
@@ -218,6 +221,16 @@ namespace vanillapdf.net.PdfUtils
         {
             return new PdfInputOutputStream(data.Handle);
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

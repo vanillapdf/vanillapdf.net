@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfStringObject : PdfObject
     {
+        internal PdfStringObjectSafeHandle StringHandle { get; }
+
         internal PdfStringObject(PdfStringObjectSafeHandle handle) : base(handle)
         {
+            StringHandle = handle;
         }
 
         static PdfStringObject()
@@ -36,7 +39,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfStringType GetStringType()
         {
-            UInt32 result = NativeMethods.StringObject_GetStringType(Handle, out PdfStringType data);
+            UInt32 result = NativeMethods.StringObject_GetStringType(StringHandle, out PdfStringType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -46,7 +49,7 @@ namespace vanillapdf.net.PdfSyntax
 
         private PdfBuffer GetValue()
         {
-            UInt32 result = NativeMethods.StringObject_GetValue(Handle, out var value);
+            UInt32 result = NativeMethods.StringObject_GetValue(StringHandle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -56,7 +59,7 @@ namespace vanillapdf.net.PdfSyntax
 
         private void SetValue(PdfBuffer value)
         {
-            UInt32 result = NativeMethods.StringObject_SetValue(Handle, value.Handle);
+            UInt32 result = NativeMethods.StringObject_SetValue(StringHandle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -69,7 +72,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfStringObject FromObject(PdfObject data)
         {
-            return new PdfStringObject(data.Handle);
+            return new PdfStringObject(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            StringHandle?.Dispose();
         }
 
         private static class NativeMethods

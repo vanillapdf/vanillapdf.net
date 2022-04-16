@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfIndirectReferenceObject : PdfObject
     {
+        internal PdfIndirectReferenceObjectSafeHandle Handle { get; }
+
         internal PdfIndirectReferenceObject(PdfIndirectReferenceObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfIndirectReferenceObject()
@@ -73,7 +76,7 @@ namespace vanillapdf.net.PdfSyntax
 
         private void SetReferencedObject(PdfObject value)
         {
-            UInt32 result = NativeMethods.IndirectReferenceObject_SetReferencedObject(Handle, value.Handle);
+            UInt32 result = NativeMethods.IndirectReferenceObject_SetReferencedObject(Handle, value.ObjectHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -86,7 +89,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIndirectReferenceObject if the object can be converted, throws exception on failure</returns>
         public static PdfIndirectReferenceObject FromObject(PdfObject data)
         {
-            return new PdfIndirectReferenceObject(data.Handle);
+            return new PdfIndirectReferenceObject(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

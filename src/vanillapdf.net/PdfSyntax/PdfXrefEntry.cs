@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfXrefEntry : PdfUnknown
     {
+        internal PdfXrefEntrySafeHandle BaseEntryHandle { get; }
+
         internal PdfXrefEntry(PdfXrefEntrySafeHandle handle) : base(handle)
         {
+            BaseEntryHandle = handle;
         }
 
         static PdfXrefEntry()
@@ -27,7 +30,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfXrefEntryType GetEntryType()
         {
-            UInt32 result = NativeMethods.XrefEntry_GetType(Handle, out var data);
+            UInt32 result = NativeMethods.XrefEntry_GetType(BaseEntryHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -41,7 +44,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Object number this entry is referring to on success, throws exception on failure</returns>
         public UInt64 GetObjectNumber()
         {
-            UInt32 result = NativeMethods.XrefEntry_GetObjectNumber(Handle, out var data);
+            UInt32 result = NativeMethods.XrefEntry_GetObjectNumber(BaseEntryHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -55,7 +58,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Generation number this entry is referring to on success, throws exception on failure</returns>
         public UInt16 GetGenerationNumber()
         {
-            UInt32 result = NativeMethods.XrefEntry_GetGenerationNumber(Handle, out var data);
+            UInt32 result = NativeMethods.XrefEntry_GetGenerationNumber(BaseEntryHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -69,13 +72,23 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>True if the entry type is used or compressed, false if the entry is free, throws exception on failure</returns>
         public bool InUse()
         {
-            UInt32 result = NativeMethods.XrefEntry_InUse(Handle, out var data);
+            UInt32 result = NativeMethods.XrefEntry_InUse(BaseEntryHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
             return data;
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            BaseEntryHandle?.Dispose();
+        }
+
+        #endregion
 
         private static class NativeMethods
         {

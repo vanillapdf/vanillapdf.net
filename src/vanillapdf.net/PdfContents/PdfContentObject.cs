@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentObject : PdfContentInstruction
     {
+        internal PdfContentObjectSafeHandle ObjectHandle { get; }
+
         internal PdfContentObject(PdfContentObjectSafeHandle handle) : base(handle)
         {
+            ObjectHandle = handle;
         }
 
         static PdfContentObject()
@@ -27,7 +30,7 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfContentObjectType GetObjectType()
         {
-            UInt32 result = NativeMethods.ContentObject_GetObjectType(Handle, out Int32 data);
+            UInt32 result = NativeMethods.ContentObject_GetObjectType(ObjectHandle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -42,7 +45,13 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentObject if the object can be converted, throws exception on failure</returns>
         public static PdfContentObject FromContentInstruction(PdfContentInstruction data)
         {
-            return new PdfContentObject(data.Handle);
+            return new PdfContentObject(data.InstructionHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            ObjectHandle?.Dispose();
         }
 
         private static class NativeMethods

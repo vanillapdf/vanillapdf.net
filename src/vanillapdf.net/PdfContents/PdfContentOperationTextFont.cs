@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentOperationTextFont: PdfContentOperation
     {
+        internal PdfContentOperationTextFontSafeHandle Handle { get; }
+
         internal PdfContentOperationTextFont(PdfContentOperationTextFontSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfContentOperationTextFont()
@@ -83,7 +86,13 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentOperationTextFont if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperationTextFont FromContentOperation(PdfContentOperation data)
         {
-            return new PdfContentOperationTextFont(data.Handle);
+            return new PdfContentOperationTextFont(data.OperationHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

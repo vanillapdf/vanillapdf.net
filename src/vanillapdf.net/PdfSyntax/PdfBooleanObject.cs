@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfBooleanObject : PdfObject
     {
+        internal PdfBooleanObjectSafeHandle Handle { get; }
+
         internal PdfBooleanObject(PdfBooleanObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfBooleanObject()
@@ -78,7 +81,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfBooleanObject if the object can be converted, throws exception on failure</returns>
         public static PdfBooleanObject FromObject(PdfObject data)
         {
-            return new PdfBooleanObject(data.Handle);
+            return new PdfBooleanObject(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

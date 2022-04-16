@@ -9,31 +9,29 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfUnknown : IDisposable
     {
-        internal PdfUnknownSafeHandle Handle { get; }
+        internal static int Counter { get; private set; }
 
-        private bool _disposed = false;
+        internal PdfUnknownSafeHandle UnknownHandle { get; }
+
+        protected bool _disposed = false;
 
         internal PdfUnknown(PdfUnknownSafeHandle handle)
         {
-            Handle = handle;
+            UnknownHandle = handle;
+            Counter++;
         }
 
-        ~PdfUnknown()
+        internal void AddRef()
         {
-            Dispose(false);
-        }
-
-        public void AddRef()
-        {
-            UInt32 result = NativeMethods.IUnknown_AddRef(Handle);
+            UInt32 result = NativeMethods.IUnknown_AddRef(UnknownHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
         }
 
-        public void Release()
+        internal void Release()
         {
-            UInt32 result = NativeMethods.IUnknown_Release(Handle);
+            UInt32 result = NativeMethods.IUnknown_Release(UnknownHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -56,10 +54,22 @@ namespace vanillapdf.net.PdfUtils
             }
 
             if (disposing) {
-                Handle.Dispose();
+                UnknownHandle?.Dispose();
+                DisposeCustomHandle();
             }
 
             _disposed = true;
+            Counter--;
+        }
+
+        protected virtual void DisposeCustomHandle()
+        {
+            
+        }
+
+        ~PdfUnknown()
+        {
+            Dispose(false);
         }
 
         private static class NativeMethods

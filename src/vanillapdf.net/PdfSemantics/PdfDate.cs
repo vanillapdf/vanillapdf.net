@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfDate : PdfUnknown
     {
+        internal PdfDateSafeHandle Handle { get; }
+
         internal PdfDate(PdfDateSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfDate()
@@ -290,6 +293,12 @@ namespace vanillapdf.net.PdfSemantics
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

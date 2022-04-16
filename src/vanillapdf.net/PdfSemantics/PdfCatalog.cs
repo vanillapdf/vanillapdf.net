@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfCatalog : PdfUnknown
     {
+        internal PdfCatalogSafeHandle Handle { get; }
+
         internal PdfCatalog(PdfCatalogSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfCatalog()
@@ -63,6 +66,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfPageTree(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

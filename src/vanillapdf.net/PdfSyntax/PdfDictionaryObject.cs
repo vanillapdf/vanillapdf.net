@@ -13,8 +13,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfDictionaryObject : PdfObject, IDictionary<PdfNameObject, PdfObject>
     {
+        internal PdfDictionaryObjectSafeHandle Handle { get; }
+
         internal PdfDictionaryObject(PdfDictionaryObjectSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfDictionaryObject()
@@ -49,7 +52,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public PdfObject Find(PdfNameObject key)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.Handle, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.ObjectHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -59,7 +62,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public bool Contains(PdfNameObject key)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Contains(Handle, key.Handle, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_Contains(Handle, key.ObjectHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -79,7 +82,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public void Insert(PdfNameObject key, PdfObject data)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.Handle, data.Handle);
+            UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.ObjectHandle, data.ObjectHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -87,7 +90,7 @@ namespace vanillapdf.net.PdfSyntax
 
         public bool Remove(PdfNameObject key)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Remove(Handle, key.Handle, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_Remove(Handle, key.ObjectHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -110,7 +113,13 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfDictionaryObject if the object can be converted, throws exception on failure</returns>
         public static PdfDictionaryObject FromObject(PdfObject data)
         {
-            return new PdfDictionaryObject(data.Handle);
+            return new PdfDictionaryObject(data.ObjectHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         #region IDictionary<PdfNameObject, PdfObject>

@@ -8,8 +8,11 @@ namespace vanillapdf.net.PdfSemantics
 {
     public class PdfRectangle : PdfUnknown
     {
+        internal PdfRectangleSafeHandle Handle { get; }
+
         internal PdfRectangle(PdfRectangleSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfRectangle()
@@ -122,6 +125,12 @@ namespace vanillapdf.net.PdfSemantics
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

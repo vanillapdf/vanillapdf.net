@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfSyntax
     /// </summary>
     public class PdfObject : PdfUnknown
     {
+        internal PdfObjectSafeHandle ObjectHandle { get; }
+
         internal PdfObject(PdfObjectSafeHandle handle) : base(handle)
         {
+            ObjectHandle = handle;
         }
 
         static PdfObject()
@@ -32,7 +35,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfObjectType GetObjectType()
         {
-            UInt32 result = NativeMethods.Object_GetObjectType(Handle, out PdfObjectType data);
+            UInt32 result = NativeMethods.Object_GetObjectType(ObjectHandle, out PdfObjectType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -42,13 +45,14 @@ namespace vanillapdf.net.PdfSyntax
 
         public override string ToString()
         {
-            var buffer = ToStringInternal();
-            return buffer.StringData;
+            using (var buffer = ToStringInternal()) {
+                return buffer.StringData;
+            }
         }
 
         private Int64 GetOffset()
         {
-            UInt32 result = NativeMethods.Object_GetOffset(Handle, out var data);
+            UInt32 result = NativeMethods.Object_GetOffset(ObjectHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -58,12 +62,18 @@ namespace vanillapdf.net.PdfSyntax
 
         private PdfBuffer ToStringInternal()
         {
-            UInt32 result = NativeMethods.Object_ToString(Handle, out var data);
+            UInt32 result = NativeMethods.Object_ToString(ObjectHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
             return new PdfBuffer(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            ObjectHandle?.Dispose();
         }
 
         private static class NativeMethods

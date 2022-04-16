@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentOperator : PdfUnknown
     {
+        internal PdfContentOperatorSafeHandle Handle { get; }
+
         internal PdfContentOperator(PdfContentOperatorSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfContentOperator()
@@ -47,6 +50,12 @@ namespace vanillapdf.net.PdfContents
             }
 
             return new PdfBuffer(value);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

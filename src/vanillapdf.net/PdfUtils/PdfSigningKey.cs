@@ -11,8 +11,11 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfSigningKey : PdfUnknown
     {
+        internal PdfSigningKeySafeHandle Handle { get; }
+
         internal PdfSigningKey(PdfSigningKeySafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfSigningKey()
@@ -111,6 +114,16 @@ namespace vanillapdf.net.PdfUtils
                 return PdfReturnValues.ERROR_GENERAL;
             }
         }
+
+        #region PdfUnknown
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
+        }
+
+        #endregion
 
         // We need to have static delegates as the SigningKey_CreateCustom
         // would create a delegate when referencing the static function

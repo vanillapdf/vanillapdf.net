@@ -928,16 +928,6 @@ namespace vanillapdf.net.Utils
 
             return data;
         }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfStringObjectSafeHandle handle)
-        {
-            return (PdfObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfStringObjectSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfObjectSafeHandle)handle;
-        }
     }
 
     internal sealed class PdfLiteralStringObjectSafeHandle : PdfSafeHandle
@@ -973,16 +963,6 @@ namespace vanillapdf.net.Utils
 
             return data;
         }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfLiteralStringObjectSafeHandle handle)
-        {
-            return (PdfStringObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfLiteralStringObjectSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfStringObjectSafeHandle)handle;
-        }
     }
 
     internal sealed class PdfHexadecimalStringObjectSafeHandle : PdfSafeHandle
@@ -1017,16 +997,6 @@ namespace vanillapdf.net.Utils
             }
 
             return data;
-        }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfHexadecimalStringObjectSafeHandle handle)
-        {
-            return (PdfStringObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfHexadecimalStringObjectSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfStringObjectSafeHandle)handle;
         }
     }
 }

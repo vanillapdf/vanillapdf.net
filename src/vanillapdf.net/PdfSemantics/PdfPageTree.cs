@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfPageTree : PdfUnknown
     {
+        internal PdfPageTreeSafeHandle Handle { get; }
+
         internal PdfPageTree(PdfPageTreeSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfPageTree()
@@ -49,6 +52,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfPageObject(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

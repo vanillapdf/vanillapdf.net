@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfContents
     /// </summary>
     public class PdfContentOperationTextShow : PdfContentOperation
     {
+        internal PdfContentOperationTextShowSafeHandle Handle { get; }
+
         internal PdfContentOperationTextShow(PdfContentOperationTextShowSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfContentOperationTextShow()
@@ -43,7 +46,7 @@ namespace vanillapdf.net.PdfContents
 
         private void SetValue(PdfStringObject value)
         {
-            UInt32 result = NativeMethods.ContentOperationTextShow_SetValue(Handle, value.Handle);
+            UInt32 result = NativeMethods.ContentOperationTextShow_SetValue(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -56,7 +59,13 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentOperationTextShow if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperationTextShow FromContentOperation(PdfContentOperation data)
         {
-            return new PdfContentOperationTextShow(data.Handle);
+            return new PdfContentOperationTextShow(data.OperationHandle);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

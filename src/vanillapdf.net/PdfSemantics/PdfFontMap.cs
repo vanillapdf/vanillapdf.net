@@ -12,8 +12,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfFontMap : PdfUnknown
     {
+        internal PdfFontMapSafeHandle Handle { get; }
+
         internal PdfFontMap(PdfFontMapSafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfFontMap()
@@ -40,6 +43,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfFont(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods

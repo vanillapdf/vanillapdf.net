@@ -2,6 +2,8 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.Utils
 {
@@ -131,6 +133,11 @@ namespace vanillapdf.net.Utils
         public static int GetSafeHandleCounter()
         {
             return PdfSafeHandle.Counter;
+        }
+
+        public static int GetUnknownCounter()
+        {
+            return PdfUnknown.Counter;
         }
     }
 }

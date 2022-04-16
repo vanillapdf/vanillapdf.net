@@ -14,8 +14,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfResourceDictionary : PdfUnknown
     {
+        internal PdfResourceDictionarySafeHandle Handle { get; }
+
         internal PdfResourceDictionary(PdfResourceDictionarySafeHandle handle) : base(handle)
         {
+            Handle = handle;
         }
 
         static PdfResourceDictionary()
@@ -40,6 +43,12 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfFontMap(data);
+        }
+
+        protected override void DisposeCustomHandle()
+        {
+            base.DisposeCustomHandle();
+            Handle?.Dispose();
         }
 
         private static class NativeMethods
