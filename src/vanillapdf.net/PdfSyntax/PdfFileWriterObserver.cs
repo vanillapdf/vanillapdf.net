@@ -32,11 +32,11 @@ namespace vanillapdf.net.PdfSyntax
         public static PdfFileWriterObserver CreateCustom(PdfFileWriterObserverContext context)
         {
             UInt32 result = NativeMethods.FileWriterObserver_CreateCustom(
-                OnInitializing, OnFinalizing,
-                OnBeforeObjectWrite, OnAfterObjectWrite,
-                OnBeforeObjectOffsetRecalculation, OnAfterObjectOffsetRecalculation,
-                OnBeforeEntryOffsetRecalculation, OnAfterEntryOffsetRecalculation,
-                OnBeforeOutputFlush, OnAfterOutputFlush,
+                onInitializingDelegate, onFinalizingDelegate,
+                onBeforeObjectWriteDelegate, onAfterObjectWriteDelegate,
+                onBeforeObjectOffsetRecalculationDelgate, onAfterObjectOffsetRecalculationDelgate,
+                onBeforeEntryOffsetRecalculationDelgate, onAfterEntryOffsetRecalculationDelgate,
+                onBeforeOutputFlushDelegate, onAfterOutputFlushDelegate,
                 GCHandle.ToIntPtr(context.Handle), out var data);
 
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -94,11 +94,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle();
-                objectSafeHandle.DangerousSetHandle(data);
+                using (PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfObject(objectSafeHandle)) {
-                    return context.OnBeforeObjectWrite(wrapper);
+                    objectSafeHandle.DangerousSetHandle(data);
+                    objectSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfObject(objectSafeHandle)) {
+                        return context.OnBeforeObjectWrite(wrapper);
+                    }
                 }
             }
             catch {
@@ -112,11 +116,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle();
-                objectSafeHandle.DangerousSetHandle(data);
+                using (PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfObject(objectSafeHandle)) {
-                    return context.OnAfterObjectWrite(wrapper);
+                    objectSafeHandle.DangerousSetHandle(data);
+                    objectSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfObject(objectSafeHandle)) {
+                        return context.OnAfterObjectWrite(wrapper);
+                    }
                 }
             }
             catch {
@@ -130,11 +138,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle();
-                objectSafeHandle.DangerousSetHandle(data);
+                using (PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfObject(objectSafeHandle)) {
-                    return context.OnBeforeObjectOffsetRecalculation(wrapper);
+                    objectSafeHandle.DangerousSetHandle(data);
+                    objectSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfObject(objectSafeHandle)) {
+                        return context.OnBeforeObjectOffsetRecalculation(wrapper);
+                    }
                 }
             }
             catch {
@@ -148,11 +160,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle();
-                objectSafeHandle.DangerousSetHandle(data);
+                using (PdfObjectSafeHandle objectSafeHandle = new PdfObjectSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfObject(objectSafeHandle)) {
-                    return context.OnAfterObjectOffsetRecalculation(wrapper);
+                    objectSafeHandle.DangerousSetHandle(data);
+                    objectSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfObject(objectSafeHandle)) {
+                        return context.OnAfterObjectOffsetRecalculation(wrapper);
+                    }
                 }
             }
             catch {
@@ -166,11 +182,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfXrefEntrySafeHandle entrySafeHandle = new PdfXrefEntrySafeHandle();
-                entrySafeHandle.DangerousSetHandle(data);
+                using (PdfXrefEntrySafeHandle entrySafeHandle = new PdfXrefEntrySafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfXrefEntry(entrySafeHandle)) {
-                    return context.OnBeforeEntryOffsetRecalculation(wrapper);
+                    entrySafeHandle.DangerousSetHandle(data);
+                    entrySafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfXrefEntry(entrySafeHandle)) {
+                        return context.OnBeforeEntryOffsetRecalculation(wrapper);
+                    }
                 }
             }
             catch {
@@ -184,11 +204,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfXrefEntrySafeHandle entrySafeHandle = new PdfXrefEntrySafeHandle();
-                entrySafeHandle.DangerousSetHandle(data);
+                using (PdfXrefEntrySafeHandle entrySafeHandle = new PdfXrefEntrySafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfXrefEntry(entrySafeHandle)) {
-                    return context.OnAfterEntryOffsetRecalculation(wrapper);
+                    entrySafeHandle.DangerousSetHandle(data);
+                    entrySafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfXrefEntry(entrySafeHandle)) {
+                        return context.OnAfterEntryOffsetRecalculation(wrapper);
+                    }
                 }
             }
             catch {
@@ -202,11 +226,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfInputOutputStreamSafeHandle streamSafeHandle = new PdfInputOutputStreamSafeHandle();
-                streamSafeHandle.DangerousSetHandle(data);
+                using (PdfInputOutputStreamSafeHandle streamSafeHandle = new PdfInputOutputStreamSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfInputOutputStream(streamSafeHandle)) {
-                    return context.OnBeforeOutputFlush(wrapper);
+                    streamSafeHandle.DangerousSetHandle(data);
+                    streamSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfInputOutputStream(streamSafeHandle)) {
+                        return context.OnBeforeOutputFlush(wrapper);
+                    }
                 }
             }
             catch {
@@ -220,11 +248,15 @@ namespace vanillapdf.net.PdfSyntax
                 GCHandle handle = GCHandle.FromIntPtr(userdata);
                 PdfFileWriterObserverContext context = (handle.Target as PdfFileWriterObserverContext);
 
-                PdfInputOutputStreamSafeHandle streamSafeHandle = new PdfInputOutputStreamSafeHandle();
-                streamSafeHandle.DangerousSetHandle(data);
+                using (PdfInputOutputStreamSafeHandle streamSafeHandle = new PdfInputOutputStreamSafeHandle()) {
+                    bool success = false;
 
-                using (var wrapper = new PdfInputOutputStream(streamSafeHandle)) {
-                    return context.OnAfterOutputFlush(wrapper);
+                    streamSafeHandle.DangerousSetHandle(data);
+                    streamSafeHandle.DangerousAddRef(ref success);
+
+                    using (var wrapper = new PdfInputOutputStream(streamSafeHandle)) {
+                        return context.OnAfterOutputFlush(wrapper);
+                    }
                 }
             }
             catch {
@@ -232,48 +264,64 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        // We need to have static delegates as the FileWriterObserver_CreateCustom
+        // would create a delegate when referencing the static function
+        // which would be disposed during the garbage collection.
+        // We prevent cleaning up the delegates by having static references.
+
+        private static NativeMethods.OnInitializingDelegate onInitializingDelegate = OnInitializing;
+        private static NativeMethods.OnFinalizingDelegate onFinalizingDelegate = OnInitializing;
+        private static NativeMethods.OnBeforeObjectWriteDelegate onBeforeObjectWriteDelegate = OnBeforeObjectWrite;
+        private static NativeMethods.OnAfterObjectWriteDelegate onAfterObjectWriteDelegate = OnAfterObjectWrite;
+        private static NativeMethods.OnBeforeObjectOffsetRecalculationDelegate onBeforeObjectOffsetRecalculationDelgate = OnBeforeObjectOffsetRecalculation;
+        private static NativeMethods.OnAfterObjectOffsetRecalculationDelegate onAfterObjectOffsetRecalculationDelgate = OnAfterObjectOffsetRecalculation;
+        private static NativeMethods.OnBeforeEntryOffsetRecalculationDelegate onBeforeEntryOffsetRecalculationDelgate = OnBeforeEntryOffsetRecalculation;
+        private static NativeMethods.OnAfterEntryOffsetRecalculationDelegate onAfterEntryOffsetRecalculationDelgate = OnAfterEntryOffsetRecalculation;
+        private static NativeMethods.OnBeforeOutputFlushDelegate onBeforeOutputFlushDelegate = OnBeforeOutputFlush;
+        private static NativeMethods.OnAfterOutputFlushDelegate onAfterOutputFlushDelegate = OnAfterOutputFlush;
+
         private static class NativeMethods
         {
             public static CreateCustomDelgate FileWriterObserver_CreateCustom = LibraryInstance.GetFunction<CreateCustomDelgate>("FileWriterObserver_CreateCustom");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CreateCustomDelgate(
-                OnInitializingDelgate on_initializing,
-                OnFinalizingDelgate on_finalizing,
-                OnBeforeObjectWriteDelgate on_before_object_write,
-                OnAfterObjectWriteDelgate on_after_object_write,
-                OnBeforeObjectOffsetRecalculationDelgate on_before_object_offset_recalculation,
-                OnAfterObjectOffsetRecalculationDelgate on_after_object_offset_recalculation,
-                OnBeforeEntryOffsetRecalculationDelgate on_before_entry_offset_recalculation,
-                OnAfterEntryOffsetRecalculationDelgate on_after_entry_offset_recalculation,
+                OnInitializingDelegate on_initializing,
+                OnFinalizingDelegate on_finalizing,
+                OnBeforeObjectWriteDelegate on_before_object_write,
+                OnAfterObjectWriteDelegate on_after_object_write,
+                OnBeforeObjectOffsetRecalculationDelegate on_before_object_offset_recalculation,
+                OnAfterObjectOffsetRecalculationDelegate on_after_object_offset_recalculation,
+                OnBeforeEntryOffsetRecalculationDelegate on_before_entry_offset_recalculation,
+                OnAfterEntryOffsetRecalculationDelegate on_after_entry_offset_recalculation,
                 OnBeforeOutputFlushDelegate on_before_output_flush,
                 OnAfterOutputFlushDelegate on_after_output_flush,
                 IntPtr userdata,
                 out PdfFileWriterObserverSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnInitializingDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnInitializingDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnFinalizingDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnFinalizingDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeObjectWriteDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnBeforeObjectWriteDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterObjectWriteDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnAfterObjectWriteDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeObjectOffsetRecalculationDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnBeforeObjectOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterObjectOffsetRecalculationDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnAfterObjectOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeEntryOffsetRecalculationDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnBeforeEntryOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterEntryOffsetRecalculationDelgate(IntPtr userdata, IntPtr data);
+            public delegate UInt32 OnAfterEntryOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 OnBeforeOutputFlushDelegate(IntPtr userdata, IntPtr data);
