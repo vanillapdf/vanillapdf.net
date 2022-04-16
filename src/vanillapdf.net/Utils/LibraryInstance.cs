@@ -127,5 +127,10 @@ namespace vanillapdf.net.Utils
 
             return BitConverter.ToUInt32(bytes, 0);
         }
+
+        public static int GetSafeHandleCounter()
+        {
+            return PdfSafeHandle.Counter;
+        }
     }
 }

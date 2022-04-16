@@ -8,10 +8,13 @@ namespace vanillapdf.net.Utils
 {
     internal abstract class PdfSafeHandle : SafeHandle
     {
+        internal static int Counter { get; set; }
+
         protected abstract GenericReleaseDelgate ReleaseDelegate { get; }
 
         public PdfSafeHandle() : base(IntPtr.Zero, true)
         {
+            Counter++;
         }
 
         internal void DangerousSetHandle(IntPtr newHandle)
@@ -33,6 +36,8 @@ namespace vanillapdf.net.Utils
             if (ReleaseDelegate == null) {
                 return false;
             }
+
+            Counter--;
 
             return (ReleaseDelegate(handle) == PdfReturnValues.ERROR_SUCCESS);
         }
