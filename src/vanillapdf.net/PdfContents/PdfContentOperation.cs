@@ -9,7 +9,7 @@ namespace vanillapdf.net.PdfContents
     /// <summary>
     /// Atomic operation modifying graphics state parameters.
     /// </summary>
-    public class PdfContentOperation : PdfUnknown
+    public class PdfContentOperation : PdfContentInstruction
     {
         internal PdfContentOperationSafeHandle OperationHandle { get; }
 
@@ -50,7 +50,7 @@ namespace vanillapdf.net.PdfContents
         /// <returns>A new instance of \ref PdfContentOperation if the object can be converted, throws exception on failure</returns>
         public static PdfContentOperation FromContentInstruction(PdfContentInstruction data)
         {
-            return new PdfContentOperation(data.UnknownHandle);
+            return new PdfContentOperation(data.InstructionHandle);
         }
 
         protected override void DisposeCustomHandle()

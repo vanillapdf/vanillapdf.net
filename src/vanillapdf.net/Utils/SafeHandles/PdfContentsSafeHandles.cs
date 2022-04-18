@@ -184,18 +184,18 @@ namespace vanillapdf.net.Utils
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperation_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate ContentOperation_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperation_ToUnknown");
-        private static ConvertFromUnknownDelegate ContentOperation_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentOperation_FromUnknown");
+        private static ConvertToUnknownDelegate Convert_ToInstruction = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperation_ToInstruction");
+        private static ConvertFromUnknownDelegate Convert_FromInstruction = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentOperation_FromInstruction");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfContentOperationSafeHandle handle, out PdfUnknownSafeHandle data);
+        private delegate UInt32 ConvertToUnknownDelegate(PdfContentOperationSafeHandle handle, out PdfContentInstructionSafeHandle data);
 
         [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfContentOperationSafeHandle data);
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfContentInstructionSafeHandle handle, out PdfContentOperationSafeHandle data);
 
-        public static implicit operator PdfUnknownSafeHandle(PdfContentOperationSafeHandle handle)
+        public static implicit operator PdfContentInstructionSafeHandle(PdfContentOperationSafeHandle handle)
         {
-            UInt32 result = ContentOperation_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = Convert_ToInstruction(handle, out PdfContentInstructionSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -203,9 +203,9 @@ namespace vanillapdf.net.Utils
             return data;
         }
 
-        public static implicit operator PdfContentOperationSafeHandle(PdfUnknownSafeHandle handle)
+        public static implicit operator PdfContentOperationSafeHandle(PdfContentInstructionSafeHandle handle)
         {
-            UInt32 result = ContentOperation_FromUnknown(handle, out PdfContentOperationSafeHandle data);
+            UInt32 result = Convert_FromInstruction(handle, out PdfContentOperationSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -247,16 +247,6 @@ namespace vanillapdf.net.Utils
 
             return data;
         }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentOperationGenericSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentOperationGenericSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
-        }
     }
 
     internal sealed class PdfContentOperationTextShowSafeHandle : PdfSafeHandle
@@ -291,16 +281,6 @@ namespace vanillapdf.net.Utils
             }
 
             return data;
-        }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentOperationTextShowSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentOperationTextShowSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
         }
     }
 
@@ -337,16 +317,6 @@ namespace vanillapdf.net.Utils
 
             return data;
         }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentOperationTextShowArraySafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentOperationTextShowArraySafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
-        }
     }
 
     internal sealed class PdfContentOperationTextFontSafeHandle : PdfSafeHandle
@@ -381,16 +351,6 @@ namespace vanillapdf.net.Utils
             }
 
             return data;
-        }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentOperationTextFontSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentOperationTextFontSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfContentOperationSafeHandle)handle;
         }
     }
 
