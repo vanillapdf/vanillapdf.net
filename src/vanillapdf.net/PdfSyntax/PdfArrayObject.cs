@@ -151,10 +151,10 @@ namespace vanillapdf.net.PdfSyntax
         public int IndexOf(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
-                var current = GetValue(i);
-
-                if (item.Equals(current)) {
-                    return i;
+                using (var current = GetValue(i)) {
+                    if (item.Equals(current)) {
+                        return i;
+                    }
                 }
             }
 
@@ -181,10 +181,11 @@ namespace vanillapdf.net.PdfSyntax
         public bool Contains(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
-                var current = GetValue(i);
+                using (var current = GetValue(i)) {
 
-                if (item.Equals(current)) {
-                    return true;
+                    if (item.Equals(current)) {
+                        return true;
+                    }
                 }
             }
 
@@ -201,11 +202,12 @@ namespace vanillapdf.net.PdfSyntax
         public bool Remove(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
-                var current = GetValue(i);
+                using (var current = GetValue(i)) {
 
-                if (item.Equals(current)) {
-                    UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(i);
-                    return Remove(indexConverted);
+                    if (item.Equals(current)) {
+                        UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(i);
+                        return Remove(indexConverted);
+                    }
                 }
             }
 
