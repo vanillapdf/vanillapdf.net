@@ -57,7 +57,21 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfObject(data);
+            using (var baseObject = new PdfObject(data)) {
+                return GetAsDerivedObject(baseObject);
+            }
+        }
+
+        public T FindAs<T>(PdfNameObject key) where T : PdfObject
+        {
+            UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.ObjectHandle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            using (var baseObject = new PdfObject(data)) {
+                return (T)GetAsDerivedObject(baseObject);
+            }
         }
 
         public bool Contains(PdfNameObject key)
