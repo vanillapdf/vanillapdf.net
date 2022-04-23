@@ -86,6 +86,13 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToUInt64();
         }
 
+        public static implicit operator PdfNameObject(string data)
+        {
+            PdfNameObject result = PdfNameObject.Create();
+            result.Value.StringData = data;
+            return result;
+        }
+
         /// <summary>
         /// Convert object to name object
         /// </summary>
