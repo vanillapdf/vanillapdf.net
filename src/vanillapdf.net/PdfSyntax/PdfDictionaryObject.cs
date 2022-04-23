@@ -94,9 +94,9 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObjectIterator(value);
         }
 
-        public void Insert(PdfNameObject key, PdfObject data)
+        public void Insert(PdfNameObject key, PdfObject data, bool overwrite = false)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.ObjectHandle, data.ObjectHandle);
+            UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.ObjectHandle, data.ObjectHandle, overwrite);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -170,7 +170,7 @@ namespace vanillapdf.net.PdfSyntax
         public int Count => (int)GetSize();
         public bool IsReadOnly => false;
 
-        public PdfObject this[PdfNameObject key] { get => Find(key); set => Insert(key, value); }
+        public PdfObject this[PdfNameObject key] { get => Find(key); set => Insert(key, value, true); }
 
         public void Add(PdfNameObject key, PdfObject value)
         {
@@ -272,7 +272,7 @@ namespace vanillapdf.net.PdfSyntax
             public delegate UInt32 ClearDelgate(PdfDictionaryObjectSafeHandle handle);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InsertDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, PdfObjectSafeHandle data);
+            public delegate UInt32 InsertDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, PdfObjectSafeHandle data, bool overwrite);
         }
     }
 }
