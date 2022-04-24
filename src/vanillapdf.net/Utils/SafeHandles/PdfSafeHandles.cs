@@ -2,19 +2,21 @@
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Threading;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.Utils
 {
     internal abstract class PdfSafeHandle : SafeHandle
     {
-        internal static int Counter { get; set; }
+        internal static int _counter;
+        internal static int Counter { get => _counter; private set => _counter = value; }
 
         protected abstract GenericReleaseDelgate ReleaseDelegate { get; }
 
         public PdfSafeHandle() : base(IntPtr.Zero, true)
         {
-            Counter++;
+            Interlocked.Increment(ref _counter);
         }
 
         internal void DangerousSetHandle(IntPtr newHandle)
@@ -37,7 +39,7 @@ namespace vanillapdf.net.Utils
                 return false;
             }
 
-            Counter--;
+            Interlocked.Decrement(ref _counter);
 
             return (ReleaseDelegate(handle) == PdfReturnValues.ERROR_SUCCESS);
         }

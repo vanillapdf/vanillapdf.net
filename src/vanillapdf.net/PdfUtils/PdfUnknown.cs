@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -9,7 +10,8 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public class PdfUnknown : IDisposable
     {
-        internal static int Counter { get; private set; }
+        internal static int _counter;
+        internal static int Counter { get => _counter; private set => _counter = value; }
 
         internal PdfUnknownSafeHandle UnknownHandle { get; }
 
@@ -18,7 +20,8 @@ namespace vanillapdf.net.PdfUtils
         internal PdfUnknown(PdfUnknownSafeHandle handle)
         {
             UnknownHandle = handle;
-            Counter++;
+
+            Interlocked.Increment(ref _counter);
         }
 
         internal void AddRef()
@@ -54,17 +57,21 @@ namespace vanillapdf.net.PdfUtils
             }
 
             if (disposing) {
-                UnknownHandle?.Dispose();
                 DisposeCustomHandle();
             }
 
             _disposed = true;
-            Counter--;
+            DecrementCounter();
+        }
+
+        protected virtual void DecrementCounter()
+        {
+            Interlocked.Decrement(ref _counter);
         }
 
         protected virtual void DisposeCustomHandle()
         {
-            
+            UnknownHandle?.Dispose();
         }
 
         ~PdfUnknown()
