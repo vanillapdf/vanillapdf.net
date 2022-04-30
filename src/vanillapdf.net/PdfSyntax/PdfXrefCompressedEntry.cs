@@ -26,10 +26,16 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
-        /// Get reference to the object represented by this entry
+        /// Reference to the object represented by this entry
         /// </summary>
         /// <returns>Reference to the object represented by this entry on success, throws exception on failure</returns>
-        public PdfObject GetReference()
+        public PdfObject Reference
+        {
+            get => GetReference();
+            set => SetReference(value);
+        }
+
+        private PdfObject GetReference()
         {
             UInt32 result = NativeMethods.XrefCompressedEntry_GetReference(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -37,6 +43,14 @@ namespace vanillapdf.net.PdfSyntax
             }
 
             return new PdfObject(data);
+        }
+
+        private void SetReference(PdfObject value)
+        {
+            UInt32 result = NativeMethods.XrefCompressedEntry_SetReference(Handle, value.ObjectHandle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
         }
 
         /// <summary>
@@ -91,11 +105,15 @@ namespace vanillapdf.net.PdfSyntax
         private static class NativeMethods
         {
             public static GetReferenceDelgate XrefCompressedEntry_GetReference = LibraryInstance.GetFunction<GetReferenceDelgate>("XrefCompressedEntry_GetReference");
+            public static SetReferenceDelgate XrefCompressedEntry_SetReference = LibraryInstance.GetFunction<SetReferenceDelgate>("XrefCompressedEntry_SetReference");
             public static GetIndexDelgate XrefCompressedEntry_GetIndex = LibraryInstance.GetFunction<GetIndexDelgate>("XrefCompressedEntry_GetIndex");
             public static GetObjectStreamNumberDelgate XrefCompressedEntry_GetObjectStreamNumber = LibraryInstance.GetFunction<GetObjectStreamNumberDelgate>("XrefCompressedEntry_GetObjectStreamNumber");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetReferenceDelgate(PdfXrefEntrySafeHandle handle, out PdfObjectSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 SetReferenceDelgate(PdfXrefEntrySafeHandle handle, PdfObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetIndexDelgate(PdfXrefEntrySafeHandle handle, out UIntPtr data);
