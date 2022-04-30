@@ -70,6 +70,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(data);
         }
 
+        public virtual PdfObject ConvertTo<T>() where T : PdfObject
+        {
+            throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
+        }
+
         public static PdfObject GetAsDerivedObject(PdfObject pdfObject)
         {
             return GetAsDerivedObject(pdfObject, true);

@@ -65,6 +65,19 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public override PdfObject ConvertTo<T>()
+        {
+            if (typeof(T) == typeof(PdfRealObject)) {
+                return this;
+            }
+
+            if (typeof(T) == typeof(PdfIntegerObject)) {
+                return PdfIntegerObject.FromObject(this);
+            }
+
+            throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
+        }
+
         /// <summary>
         /// Custom conversion to double
         /// </summary>

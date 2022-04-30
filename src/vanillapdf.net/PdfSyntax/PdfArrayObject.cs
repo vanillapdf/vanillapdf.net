@@ -64,14 +64,8 @@ namespace vanillapdf.net.PdfSyntax
 
         public T GetValueAs<T>(UInt64 index) where T : PdfObject
         {
-            UInt32 result = NativeMethods.ArrayObject_GetValue(Handle, new UIntPtr(index), out var data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-
-            using (var baseObject = new PdfObject(data)) {
-                return (T)GetAsDerivedObject(baseObject);
-            }
+            var result = GetValue(index);
+            return (T)result.ConvertTo<T>();
         }
 
         public void SetValue(UInt64 index, PdfObject item)

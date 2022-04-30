@@ -64,14 +64,8 @@ namespace vanillapdf.net.PdfSyntax
 
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
-            UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.ObjectHandle, out var data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-
-            using (var baseObject = new PdfObject(data)) {
-                return (T)GetAsDerivedObject(baseObject);
-            }
+            var result = Find(key);
+            return (T)result.ConvertTo<T>();
         }
 
         public bool Contains(PdfNameObject key)
