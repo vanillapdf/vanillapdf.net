@@ -47,6 +47,15 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBooleanObject(data);
         }
 
+        public override PdfObject ConvertTo<T>()
+        {
+            if (typeof(T) == typeof(PdfBooleanObject)) {
+                return this;
+            }
+
+            return base.ConvertTo<T>();
+        }
+
         private bool GetValue()
         {
             UInt32 result = NativeMethods.BooleanObject_GetValue(Handle, out bool data);

@@ -114,6 +114,15 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public override PdfObject ConvertTo<T>()
+        {
+            if (typeof(T) == typeof(PdfDictionaryObject)) {
+                return this;
+            }
+
+            return base.ConvertTo<T>();
+        }
+
         /// <summary>
         /// Convert object to dictionary object
         /// </summary>

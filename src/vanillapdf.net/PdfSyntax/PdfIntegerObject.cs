@@ -66,7 +66,7 @@ namespace vanillapdf.net.PdfSyntax
                 return PdfRealObject.FromObject(this);
             }
 
-            throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
+            return base.ConvertTo<T>();
         }
 
         private Int64 GetIntegerValue()

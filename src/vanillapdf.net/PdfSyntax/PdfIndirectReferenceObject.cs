@@ -64,6 +64,15 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        public override PdfObject ConvertTo<T>()
+        {
+            if (typeof(T) == typeof(PdfIndirectReferenceObject)) {
+                return this;
+            }
+
+            return base.ConvertTo<T>();
+        }
+
         private PdfObject GetReferencedObject()
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_GetReferencedObject(Handle, out var data);

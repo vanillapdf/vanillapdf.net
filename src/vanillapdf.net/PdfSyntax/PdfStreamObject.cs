@@ -110,6 +110,15 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public override PdfObject ConvertTo<T>()
+        {
+            if (typeof(T) == typeof(PdfStreamObject)) {
+                return this;
+            }
+
+            return base.ConvertTo<T>();
+        }
+
         /// <summary>
         /// Convert object to stream object
         /// </summary>
