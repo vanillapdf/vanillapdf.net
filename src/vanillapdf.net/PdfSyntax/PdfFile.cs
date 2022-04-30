@@ -143,6 +143,16 @@ namespace vanillapdf.net.PdfSyntax
             return true;
         }
 
+        public PdfXrefUsedEntry AllocateNewEntry()
+        {
+            UInt32 result = NativeMethods.File_AllocateNewEntry(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetErrorException(result);
+            }
+
+            return new PdfXrefUsedEntry(data);
+        }
+
         private PdfXrefChain GetXrefChain()
         {
             UInt32 result = NativeMethods.File_XrefChain(Handle, out var data);
@@ -168,6 +178,7 @@ namespace vanillapdf.net.PdfSyntax
             public static FileInitializeDelgate File_Initialize = LibraryInstance.GetFunction<FileInitializeDelgate>("File_Initialize");
             public static FileIsEncryptedDelgate File_IsEncrypted = LibraryInstance.GetFunction<FileIsEncryptedDelgate>("File_IsEncrypted");
             public static FileSetEncryptionPasswordDelgate File_SetEncryptionPassword = LibraryInstance.GetFunction<FileSetEncryptionPasswordDelgate>("File_SetEncryptionPassword");
+            public static FileAllocateNewEntryDelegate File_AllocateNewEntry = LibraryInstance.GetFunction<FileAllocateNewEntryDelegate>("File_AllocateNewEntry");
 
             public static FileXrefChainDelgate File_XrefChain = LibraryInstance.GetFunction<FileXrefChainDelgate>("File_XrefChain");
 
@@ -194,6 +205,9 @@ namespace vanillapdf.net.PdfSyntax
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FileXrefChainDelgate(PdfFileSafeHandle handle, out PdfXrefChainSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 FileAllocateNewEntryDelegate(PdfFileSafeHandle handle, out PdfXrefUsedEntrySafeHandle data);
         }
     }
 }
