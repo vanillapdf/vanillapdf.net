@@ -136,6 +136,11 @@ namespace vanillapdf.net.PdfUtils
         /// </summary>
         public static UInt32 ERROR_INVALID_PASSWORD = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INVALID_PASSWORD);
 
+        /// <summary>
+        /// Trying to insert a new entry into dictionary with duplicate key.
+        /// </summary>
+        public static UInt32 ERROR_DUPLICATE_KEY = LibraryInstance.GetConstant(VANILLAPDF_ERROR_DUPLICATE_KEY);
+
         #endregion
 
         private const string VANILLAPDF_ERROR_SUCCESS = "VANILLAPDF_ERROR_SUCCESS";
@@ -153,6 +158,7 @@ namespace vanillapdf.net.PdfUtils
         private const string VANILLAPDF_ERROR_OBJECT_MISSING = "VANILLAPDF_ERROR_OBJECT_MISSING";
         private const string VANILLAPDF_ERROR_PARSE_EXCEPTION = "VANILLAPDF_ERROR_PARSE_EXCEPTION";
         private const string VANILLAPDF_ERROR_INVALID_PASSWORD = "VANILLAPDF_ERROR_INVALID_PASSWORD";
-        
+        private const string VANILLAPDF_ERROR_DUPLICATE_KEY = "VANILLAPDF_ERROR_DUPLICATE_KEY";
+
     }
 }
