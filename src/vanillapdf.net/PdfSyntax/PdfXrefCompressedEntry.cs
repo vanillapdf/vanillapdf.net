@@ -42,7 +42,9 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfObject(data);
+            using (var baseObject = new PdfObject(data)) {
+                return PdfObject.GetAsDerivedObject(baseObject);
+            }
         }
 
         private void SetReference(PdfObject value)
