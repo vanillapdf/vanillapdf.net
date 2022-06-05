@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -22,6 +23,16 @@ namespace vanillapdf.net.PdfSemantics
         {
             RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfFontSafeHandle).TypeHandle);
+        }
+
+        public static PdfFont CreateFromObject(PdfDictionaryObject dictionary)
+        {
+            UInt32 result = NativeMethods.Font_CreateFromObject(dictionary.Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfFont(data);
         }
 
         /// <summary>
@@ -46,7 +57,11 @@ namespace vanillapdf.net.PdfSemantics
 
         private static class NativeMethods
         {
+            public static CreateFromObjectDelgate Font_CreateFromObject = LibraryInstance.GetFunction<CreateFromObjectDelgate>("Font_CreateFromObject");
             public static GetFontTypeDelgate Font_GetFontType = LibraryInstance.GetFunction<GetFontTypeDelgate>("Font_GetFontType");
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 CreateFromObjectDelgate(PdfDictionaryObjectSafeHandle handle, out PdfFontSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetFontTypeDelgate(PdfFontSafeHandle handle, out Int32 data);
