@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -30,6 +31,11 @@ namespace vanillapdf.net.PdfSemantics
         {
             get { return GetMediaBox(); }
             set { SetMediaBox(value); }
+        }
+
+        public PdfDictionaryObject BaseObject
+        {
+            get => GetBaseObject();
         }
 
         /// <summary>
@@ -107,6 +113,16 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        private PdfDictionaryObject GetBaseObject()
+        {
+            UInt32 result = NativeMethods.PageObject_GetBaseObject(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDictionaryObject(data);
+        }
+
         protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
@@ -120,6 +136,7 @@ namespace vanillapdf.net.PdfSemantics
             public static GetResourcesDelgate PageObject_GetResources = LibraryInstance.GetFunction<GetResourcesDelgate>("PageObject_GetResources");
             public static GetMediaBoxDelgate PageObject_GetMediaBox = LibraryInstance.GetFunction<GetMediaBoxDelgate>("PageObject_GetMediaBox");
             public static SetMediaBoxDelgate PageObject_SetMediaBox = LibraryInstance.GetFunction<SetMediaBoxDelgate>("PageObject_SetMediaBox");
+            public static GetBaseObjectDelgate PageObject_GetBaseObject = LibraryInstance.GetFunction<GetBaseObjectDelgate>("PageObject_GetBaseObject");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetContentsDelgate(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
@@ -135,6 +152,9 @@ namespace vanillapdf.net.PdfSemantics
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 SetMediaBoxDelgate(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetBaseObjectDelgate(PdfPageObjectSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
         }
     }
 }
