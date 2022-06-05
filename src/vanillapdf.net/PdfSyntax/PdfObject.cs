@@ -70,6 +70,16 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(data);
         }
 
+        public PdfBuffer ToPdf()
+        {
+            UInt32 result = NativeMethods.Object_ToPdf(ObjectHandle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfBuffer(data);
+        }
+
         public virtual PdfObject ConvertTo<T>() where T : PdfObject
         {
             throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
@@ -142,6 +152,7 @@ namespace vanillapdf.net.PdfSyntax
             public static GetTypeDelgate Object_GetObjectType = LibraryInstance.GetFunction<GetTypeDelgate>("Object_GetObjectType");
             public static GetOffsetDelgate Object_GetOffset = LibraryInstance.GetFunction<GetOffsetDelgate>("Object_GetOffset");
             public static ToStringDelgate Object_ToString = LibraryInstance.GetFunction<ToStringDelgate>("Object_ToString");
+            public static ToPdfDelgate Object_ToPdf = LibraryInstance.GetFunction<ToPdfDelgate>("Object_ToPdf");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetTypeDelgate(PdfObjectSafeHandle handle, out PdfObjectType data);
@@ -151,6 +162,9 @@ namespace vanillapdf.net.PdfSyntax
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 ToStringDelgate(PdfObjectSafeHandle handle, out PdfBufferSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 ToPdfDelgate(PdfObjectSafeHandle handle, out PdfBufferSafeHandle data);
         }
     }
 }
