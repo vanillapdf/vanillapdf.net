@@ -8,7 +8,7 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
-    public class PdfDictionaryObjectIterator : PdfUnknown , IEnumerator<KeyValuePair<PdfNameObject, PdfObject>>
+    public class PdfDictionaryObjectIterator : PdfUnknown, IEnumerator<KeyValuePair<PdfNameObject, PdfObject>>
     {
         internal PdfDictionaryObjectIteratorSafeHandle Handle { get; }
 
