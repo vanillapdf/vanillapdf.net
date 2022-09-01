@@ -133,7 +133,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfArrayObject(data.ObjectHandle);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
@@ -156,10 +156,6 @@ namespace vanillapdf.net.PdfSyntax
         #endregion
 
         #region IList<PdfObject>
-
-        /** \name IList<PdfObject>
-        *  @{
-        */
 
         public int Count => (int)GetSize();
         public bool IsReadOnly => false;
@@ -244,8 +240,6 @@ namespace vanillapdf.net.PdfSyntax
                 yield return GetValue(i);
             }
         }
-
-        /** @}*/
 
         #endregion
 

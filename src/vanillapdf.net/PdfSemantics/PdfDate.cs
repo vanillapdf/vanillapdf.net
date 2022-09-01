@@ -295,7 +295,7 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

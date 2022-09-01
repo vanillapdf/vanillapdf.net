@@ -15,7 +15,7 @@ namespace vanillapdf.net.PdfUtils
 
         internal PdfUnknownSafeHandle UnknownHandle { get; }
 
-        protected bool _disposed = false;
+        private protected bool _disposed = false;
 
         internal PdfUnknown(PdfUnknownSafeHandle handle)
         {
@@ -50,7 +50,7 @@ namespace vanillapdf.net.PdfUtils
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private protected virtual void Dispose(bool disposing)
         {
             if (_disposed) {
                 return;
@@ -64,12 +64,12 @@ namespace vanillapdf.net.PdfUtils
             DecrementCounter();
         }
 
-        protected virtual void DecrementCounter()
+        private protected virtual void DecrementCounter()
         {
             Interlocked.Decrement(ref _counter);
         }
 
-        protected virtual void DisposeCustomHandle()
+        private protected virtual void DisposeCustomHandle()
         {
             UnknownHandle?.Dispose();
         }

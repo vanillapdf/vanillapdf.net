@@ -62,7 +62,7 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperationTextShow(data.OperationHandle);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

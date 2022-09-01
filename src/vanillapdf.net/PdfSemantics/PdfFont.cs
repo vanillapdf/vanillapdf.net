@@ -49,7 +49,7 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfFontType>.CheckedCast(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             FontHandle?.Dispose();

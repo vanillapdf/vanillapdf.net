@@ -40,7 +40,7 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfAnnotationType>.CheckedCast(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

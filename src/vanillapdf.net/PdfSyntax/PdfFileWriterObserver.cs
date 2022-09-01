@@ -46,7 +46,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFileWriterObserver(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

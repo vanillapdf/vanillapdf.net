@@ -141,7 +141,7 @@ namespace vanillapdf.net.PdfSyntax
             throw new PdfManagedException($"Invalid object type: {pdfObject.GetObjectType()}");
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             ObjectHandle?.Dispose();

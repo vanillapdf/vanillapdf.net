@@ -82,7 +82,7 @@ namespace vanillapdf.net.PdfSyntax
 
         #region PdfUnknown
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             BaseEntryHandle?.Dispose();

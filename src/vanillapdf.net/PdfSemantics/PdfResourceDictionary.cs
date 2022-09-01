@@ -45,7 +45,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfFontMap(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

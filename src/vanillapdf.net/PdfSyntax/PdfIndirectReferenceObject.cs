@@ -101,7 +101,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIndirectReferenceObject(data.ObjectHandle);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

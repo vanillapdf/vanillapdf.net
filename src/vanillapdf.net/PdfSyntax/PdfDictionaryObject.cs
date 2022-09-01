@@ -133,17 +133,13 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObject(data.ObjectHandle);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
         }
 
         #region IDictionary<PdfNameObject, PdfObject>
-
-        /** \name IDictionary<PdfNameObject, PdfObject>
-        *  @{
-        */
 
         public ICollection<PdfNameObject> Keys
         {
@@ -237,8 +233,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             return GetIterator();
         }
-
-        /** @}*/
 
         #endregion
 

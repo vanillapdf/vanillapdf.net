@@ -38,7 +38,7 @@ namespace vanillapdf.net.PdfContents
             return EnumUtil<PdfContentInstructionType>.CheckedCast(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             InstructionHandle?.Dispose();

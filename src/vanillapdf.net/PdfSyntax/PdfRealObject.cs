@@ -97,7 +97,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfRealObject(data.ObjectHandle);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

@@ -93,7 +93,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBooleanObject(data.ObjectHandle);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

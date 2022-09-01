@@ -38,7 +38,7 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfCharacterMapType>.CheckedCast(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             CharacterMapHandle?.Dispose();

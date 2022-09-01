@@ -97,7 +97,7 @@ namespace vanillapdf.net.PdfUtils
 
         #region PdfUnknown
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

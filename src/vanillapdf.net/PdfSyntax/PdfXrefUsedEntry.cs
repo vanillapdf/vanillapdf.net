@@ -71,7 +71,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Convert object to compressed stream entry
         /// </summary>
-        /// <param name="data">Handle to \ref PdfXrefEntry to be converted</param>
+        /// <param name="entry">Handle to \ref PdfXrefEntry to be converted</param>
         /// <returns>A new instance of \ref PdfXrefUsedEntry if the object can be converted, throws exception on failure</returns>
         public static PdfXrefUsedEntry FromEntry(PdfXrefEntry entry)
         {
@@ -80,7 +80,7 @@ namespace vanillapdf.net.PdfSyntax
 
         #region PdfUnknown
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();

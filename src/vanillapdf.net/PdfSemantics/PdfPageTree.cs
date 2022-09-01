@@ -54,7 +54,7 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfPageObject(data);
         }
 
-        protected override void DisposeCustomHandle()
+        private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
