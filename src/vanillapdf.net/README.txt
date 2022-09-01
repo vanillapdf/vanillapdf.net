@@ -1,10 +1,5 @@
 # Vanilla.PDF .NET
 
-## IMPORTANT
-
-This package contains ready made examples on how to use the functionality.
-The contents are added to your solution in the "VanillaExamples" folder.
-
 ## About
 
 Vanilla PDF is a cross-platform SDK (Software development kit) for creating and modifying PDF documents.

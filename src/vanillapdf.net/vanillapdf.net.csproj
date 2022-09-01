@@ -28,22 +28,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Compile Remove="VanillaExamples\CustomFileWriterObserverContextExample.cs" />
-    <Compile Remove="VanillaExamples\CustomSigningContextExample.cs" />
-    <Compile Remove="VanillaExamples\DocumentMetadataExample.cs" />
-    <Compile Remove="VanillaExamples\DocumentObjectsExample.cs" />
-    <Compile Remove="VanillaExamples\DocumentPageContentsExample.cs" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="VanillaExamples\CustomFileWriterObserverContextExample.cs" Pack="True" />
-    <Content Include="VanillaExamples\CustomSigningContextExample.cs" Pack="True" />
-    <Content Include="VanillaExamples\DocumentMetadataExample.cs" Pack="True" />
-    <Content Include="VanillaExamples\DocumentObjectsExample.cs" Pack="True" />
-    <Content Include="VanillaExamples\DocumentPageContentsExample.cs" Pack="True" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.txt">
