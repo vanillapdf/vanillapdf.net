@@ -5,14 +5,14 @@
     <Platforms>AnyCPU;x86;x64</Platforms>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.5.3</Version>
-    <Title>vanillapdf.net 1.5.3</Title>
+    <Version>1.6.0</Version>
+    <Title>vanillapdf.net 1.6.0</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Vanilla.PDF is a cross-platform SDK for creating and modifying PDF documents</Description>
-    <Copyright>Copyright 2018-2021 Vanilla.PDF Labs s.r.o.</Copyright>
+    <Copyright>Copyright 2018-2022 Vanilla.PDF Labs s.r.o.</Copyright>
     <PackageTags>pdf parsing sign</PackageTags>
     <PackageIcon>vanilla_logo.png</PackageIcon>
   </PropertyGroup>
@@ -45,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="vanillapdf" Version="1.5.3" />
+    <PackageReference Include="vanillapdf" Version="1.6.0" />
   </ItemGroup>
 
 </Project>
