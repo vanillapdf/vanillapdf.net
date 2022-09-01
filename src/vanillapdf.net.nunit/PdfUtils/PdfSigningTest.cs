@@ -25,8 +25,9 @@ namespace vanillapdf.net.nunit.PdfUtils
                 return PdfReturnValues.ERROR_SUCCESS;
             }
 
-            public override void Cleanup()
+            public override uint Cleanup()
             {
+                return PdfReturnValues.ERROR_SUCCESS;
             }
         }
 
