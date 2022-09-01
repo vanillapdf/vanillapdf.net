@@ -26,7 +26,7 @@ namespace vanillapdf.net.Utils
             // Call the load library native function
             Handle = NativeMethods.LoadLibraryEx(libraryPath, IntPtr.Zero, NativeMethods.LoadLibraryFlags.LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | NativeMethods.LoadLibraryFlags.LOAD_LIBRARY_SEARCH_SYSTEM32);
 
-            // Could not library or it's dependencies
+            // Could not load library or it's dependencies
             if (Handle == IntPtr.Zero) {
                 int error = Marshal.GetLastWin32Error();
                 throw new Win32Exception(error);

@@ -25,7 +25,7 @@ namespace vanillapdf.net.Utils
             // Call the load library native function
             Handle = NativeMethods.dlopen(libraryPath, NativeMethods.RTLD_NOW_LINUX | NativeMethods.RTLD_LOCAL_LINUX);
 
-            // Could not library or it's dependencies
+            // Could not load library or it's dependencies
             if (Handle == IntPtr.Zero) {
                 IntPtr error = NativeMethods.dlerror();
                 if (error == IntPtr.Zero) {
