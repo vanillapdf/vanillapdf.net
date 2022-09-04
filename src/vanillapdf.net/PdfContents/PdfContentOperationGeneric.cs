@@ -70,6 +70,12 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
+        /// <summary>
+        /// Get operand at index in the current content stream operation
+        /// </summary>
+        /// <typeparam name="T">Type of object the result shall be converted to</typeparam>
+        /// <param name="index">Index of operand to be returned</param>
+        /// <returns>Operand at <p>index</p> on success, throws exception on failure</returns>
         public T GetOperandAtAs<T>(UInt64 index) where T : PdfObject
         {
             var result = GetOperandAt(index);

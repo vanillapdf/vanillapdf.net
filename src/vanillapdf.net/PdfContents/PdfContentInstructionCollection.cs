@@ -9,7 +9,7 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.PdfContents
 {
     /// <summary>
-    /// TODO
+    /// A sequence of content instructions to be rendered on a page
     /// </summary>
     public class PdfContentInstructionCollection : PdfUnknown, IEnumerable<PdfContentInstruction>
     {
@@ -26,6 +26,10 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionCollectionSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get contant instruction iterator
+        /// </summary>
+        /// <returns>Handle to iterator for enumerating content instructions on success, throws exception on failure</returns>
         public PdfContentInstructionCollectionIterator GetIterator()
         {
             UInt32 result = NativeMethods.ContentInstructionCollection_GetIterator(Handle, out var value);
@@ -44,6 +48,7 @@ namespace vanillapdf.net.PdfContents
 
         #region IEnumerable<PdfXref>
 
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         public IEnumerator<PdfContentInstruction> GetEnumerator()
         {
             return GetIterator();

@@ -25,7 +25,7 @@ namespace vanillapdf.net.PdfContents
         }
 
         public PdfContentOperationType OperationType
-        { 
+        {
             get { return GetOperationType(); }
         }
 

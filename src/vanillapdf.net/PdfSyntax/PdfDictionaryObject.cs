@@ -78,6 +78,10 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Get dictionary object iterator
+        /// </summary>
+        /// <returns>Handle to iterator for enumerating objects within dictionary on success, throws exception on failure</returns>
         public PdfDictionaryObjectIterator GetIterator()
         {
             UInt32 result = NativeMethods.DictionaryObject_GetIterator(Handle, out var value);
@@ -224,6 +228,7 @@ namespace vanillapdf.net.PdfSyntax
             return Remove(item.Key);
         }
 
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         public IEnumerator<KeyValuePair<PdfNameObject, PdfObject>> GetEnumerator()
         {
             return GetIterator();

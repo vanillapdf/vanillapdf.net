@@ -227,6 +227,7 @@ namespace vanillapdf.net.PdfSyntax
             return false;
         }
 
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         public IEnumerator<PdfObject> GetEnumerator()
         {
             for (int i = 0; i < Count; ++i) {

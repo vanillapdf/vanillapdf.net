@@ -55,6 +55,12 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfContentInstruction(data);
         }
 
+        /// <summary>
+        /// This function updates contents of the stream after any changes to the instruction
+        /// collection has been done. It has to be called to apply any change,
+        /// otherwise the changes will be LOST.
+        /// </summary>
+        /// <returns>True if the recalculation was successful, False in case no recalculation was needed, throws exception on failure</returns>
         public bool RecalculateStreamData()
         {
             UInt32 result = NativeMethods.PageContents_RecalculateStreamData(Handle, out var data);

@@ -80,6 +80,7 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IEnumerable<PdfXref>
 
+        /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         public IEnumerator<PdfXrefEntry> GetEnumerator()
         {
             return GetIterator();
