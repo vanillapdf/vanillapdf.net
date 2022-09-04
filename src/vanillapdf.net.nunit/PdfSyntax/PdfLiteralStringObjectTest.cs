@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using vanillapdf.net.PdfSyntax;
-using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfSyntax
 {
@@ -12,7 +11,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
         public void EncodedValue()
         {
             const string ENCODED_VALUE = "TEST_VALUE \\n \\r \\t \\b \\f \\( \\) \\\\ \\007";
-            const string DECODED_VALUE = "TEST_VALUE \n \r \t \b \f ( ) \\ \x07";
+            //const string DECODED_VALUE = "TEST_VALUE \n \r \t \b \f ( ) \\ \x07";
 
             var StringObject = PdfLiteralStringObject.CreateFromEncodedString(ENCODED_VALUE);
 
