@@ -103,7 +103,7 @@ namespace vanillapdf.net.PdfSyntax
             return CreateFromDecodedString(value);
         }
 
-        public override PdfObject ConvertTo<T>()
+        internal override PdfObject ConvertTo<T>()
         {
             if (typeof(T) == typeof(PdfHexadecimalStringObject)) {
                 return this;

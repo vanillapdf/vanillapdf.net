@@ -38,7 +38,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNullObject(data);
         }
 
-        public override PdfObject ConvertTo<T>()
+        internal override PdfObject ConvertTo<T>()
         {
             if (typeof(T) == typeof(PdfNullObject)) {
                 return this;

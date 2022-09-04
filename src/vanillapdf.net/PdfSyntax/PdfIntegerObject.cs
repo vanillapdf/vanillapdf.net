@@ -56,7 +56,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIntegerObject(data);
         }
 
-        public override PdfObject ConvertTo<T>()
+        internal override PdfObject ConvertTo<T>()
         {
             if (typeof(T) == typeof(PdfIntegerObject)) {
                 return this;

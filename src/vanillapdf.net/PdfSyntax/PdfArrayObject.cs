@@ -114,7 +114,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        public override PdfObject ConvertTo<T>()
+        internal override PdfObject ConvertTo<T>()
         {
             if (typeof(T) == typeof(PdfArrayObject)) {
                 return this;

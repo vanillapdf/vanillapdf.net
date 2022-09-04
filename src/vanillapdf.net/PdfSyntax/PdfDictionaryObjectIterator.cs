@@ -77,9 +77,9 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         object IEnumerator.Current => GetCurrent();
-        KeyValuePair<PdfNameObject, PdfObject> IEnumerator<KeyValuePair<PdfNameObject, PdfObject>>.Current => GetCurrent();
+        public KeyValuePair<PdfNameObject, PdfObject> Current => GetCurrent();
 
-        bool IEnumerator.MoveNext()
+        public bool MoveNext()
         {
             if (!IsValid()) {
                 return false;
@@ -95,7 +95,7 @@ namespace vanillapdf.net.PdfSyntax
             return IsValid();
         }
 
-        void IEnumerator.Reset()
+        public void Reset()
         {
             throw new NotImplementedException();
         }

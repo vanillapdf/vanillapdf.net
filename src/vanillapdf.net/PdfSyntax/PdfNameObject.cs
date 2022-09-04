@@ -93,7 +93,7 @@ namespace vanillapdf.net.PdfSyntax
             return result;
         }
 
-        public override PdfObject ConvertTo<T>()
+        internal override PdfObject ConvertTo<T>()
         {
             if (typeof(T) == typeof(PdfNameObject)) {
                 return this;

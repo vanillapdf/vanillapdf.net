@@ -80,17 +80,17 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(data);
         }
 
-        public virtual PdfObject ConvertTo<T>() where T : PdfObject
+        internal virtual PdfObject ConvertTo<T>() where T : PdfObject
         {
             throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
         }
 
-        public static PdfObject GetAsDerivedObject(PdfObject pdfObject)
+        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject)
         {
             return GetAsDerivedObject(pdfObject, true);
         }
 
-        public static PdfObject GetAsDerivedObject(PdfObject pdfObject, bool removeIndirection)
+        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject, bool removeIndirection)
         {
             if (pdfObject.GetObjectType() == PdfObjectType.Array) {
                 return PdfArrayObject.FromObject(pdfObject);

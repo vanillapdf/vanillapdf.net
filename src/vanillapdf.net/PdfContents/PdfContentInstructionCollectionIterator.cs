@@ -65,9 +65,9 @@ namespace vanillapdf.net.PdfContents
         private bool isFirst = true;
 
         object IEnumerator.Current => GetValue();
-        PdfContentInstruction IEnumerator<PdfContentInstruction>.Current => GetValue();
+        public PdfContentInstruction Current => GetValue();
 
-        bool IEnumerator.MoveNext()
+        public bool MoveNext()
         {
             if (!IsValid()) {
                 return false;
@@ -83,7 +83,7 @@ namespace vanillapdf.net.PdfContents
             return IsValid();
         }
 
-        void IEnumerator.Reset()
+        public void Reset()
         {
             throw new NotImplementedException();
         }
