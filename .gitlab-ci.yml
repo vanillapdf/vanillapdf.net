@@ -27,7 +27,7 @@ windows-test:       # This job runs in the build stage, which runs first.
 linux-job:   # This job runs in the test stage.
   image: mcr.microsoft.com/dotnet/sdk:6.0
   when: manual
-    tags:
+  tags:
     - linux
   script:
     - dotnet test src/vanillapdf.net.sln --configuration Release
