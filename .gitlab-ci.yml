@@ -26,10 +26,10 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   when: manual
   script:
-    - dotnet build
+    - dotnet build src/vanillapdf.net.sln --configuration Release
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   when: manual
   script:
-    - dotnet test
+    - dotnet test src/vanillapdf.net.sln --configuration Release
