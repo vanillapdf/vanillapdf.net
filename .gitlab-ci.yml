@@ -30,4 +30,4 @@ linux-test:   # This job runs in the test stage.
   tags:
     - linux
   script:
-    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
+    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
