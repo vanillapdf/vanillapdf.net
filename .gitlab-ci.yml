@@ -17,7 +17,7 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
 windows-test:       # This job runs in the build stage, which runs first.
-  image: mcr.microsoft.com/dotnet/nightly/sdk:6.0
+  image: mcr.microsoft.com/dotnet/sdk:6.0-nanoserver-ltsc2022
   when: manual
   tags:
     - windows
