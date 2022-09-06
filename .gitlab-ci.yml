@@ -22,7 +22,7 @@ windows-test:       # This job runs in the build stage, which runs first.
   tags:
     - windows
   script:
-    - dotnet test src/vanillapdf.net.sln --configuration Release
+    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
 
 linux-job:   # This job runs in the test stage.
   image: mcr.microsoft.com/dotnet/sdk:6.0
@@ -30,4 +30,4 @@ linux-job:   # This job runs in the test stage.
   tags:
     - linux
   script:
-    - dotnet test src/vanillapdf.net.sln --configuration Release
+    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
