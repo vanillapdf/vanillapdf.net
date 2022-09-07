@@ -12,6 +12,8 @@ namespace vanillapdf.net.nunit.PdfContents
     [TestFixture]
     public class PdfPageContentsTest
     {
+        const string LINE_SEPARATOR = "\r\n";
+
         [Test]
         public void TestDocumentContents()
         {
@@ -70,7 +72,7 @@ namespace vanillapdf.net.nunit.PdfContents
                                     var contentOperator = contentOperationGeneric.GetOperator();
 
                                     if (contentOperator.GetOperatorType() == PdfContentOperatorType.TextNextLine) {
-                                        stringBuilder.Append(Environment.NewLine);
+                                        stringBuilder.Append(LINE_SEPARATOR);
                                     }
 
                                     if (contentOperator.GetOperatorType() == PdfContentOperatorType.TextTranslate ||
@@ -93,7 +95,7 @@ namespace vanillapdf.net.nunit.PdfContents
 
                                         // If -258.67 - 10.92 Td, Append newline
                                         if (text_translate_y < -1.0f) {
-                                            stringBuilder.Append(Environment.NewLine);
+                                            stringBuilder.Append(LINE_SEPARATOR);
                                         }
                                     }
                                 }
@@ -119,7 +121,7 @@ namespace vanillapdf.net.nunit.PdfContents
                             }
 
                             // End of text object
-                            stringBuilder.Append(Environment.NewLine);
+                            stringBuilder.Append(LINE_SEPARATOR);
                         }
                     }
                 }
