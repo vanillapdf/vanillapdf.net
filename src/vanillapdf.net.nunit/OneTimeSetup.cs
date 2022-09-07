@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.nunit
@@ -12,8 +13,8 @@ namespace vanillapdf.net.nunit
         public static readonly UInt64 PLATFORM_MAXIMUM_VALUE;
 
         public static readonly List<string> TEST_DOCUMENTS = new List<string>() {
-            "Resources\\minimalist.pdf",
-            "Resources\\19005-1_FAQ.PDF"
+            Path.Combine("Resources", "minimalist.pdf"),
+            Path.Combine("Resources", "19005-1_FAQ.PDF")
         };
 
         static OneTimeSetup()

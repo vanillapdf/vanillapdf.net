@@ -15,16 +15,17 @@ namespace vanillapdf.net.nunit.PdfContents
         [Test]
         public void TestDocumentContents()
         {
-            string sourceFile = "Resources\\19005-1_FAQ.PDF";
+            //string testDirectory = TestContext.CurrentContext.TestDirectory;
+            string sourceFile = Path.Combine("Resources", "19005-1_FAQ.PDF");
             string[] comparePageFiles = new string[] {
-                "Resources\\19005-1_FAQ-1.txt",
-                "Resources\\19005-1_FAQ-2.txt",
-                "Resources\\19005-1_FAQ-3.txt",
-                "Resources\\19005-1_FAQ-4.txt",
-                "Resources\\19005-1_FAQ-5.txt",
-                "Resources\\19005-1_FAQ-6.txt",
-                "Resources\\19005-1_FAQ-7.txt",
-                "Resources\\19005-1_FAQ-8.txt",
+                Path.Combine("Resources", "19005-1_FAQ-1.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-2.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-3.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-4.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-5.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-6.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-7.txt"),
+                Path.Combine("Resources", "19005-1_FAQ-8.txt"),
             };
 
             CheckDocumentContents(sourceFile, comparePageFiles);
