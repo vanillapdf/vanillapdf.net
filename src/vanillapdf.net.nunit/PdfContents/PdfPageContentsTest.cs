@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
@@ -12,8 +13,6 @@ namespace vanillapdf.net.nunit.PdfContents
     [TestFixture]
     public class PdfPageContentsTest
     {
-        const string LINE_SEPARATOR = "\r\n";
-
         [Test]
         public void TestDocumentContents()
         {
@@ -72,7 +71,7 @@ namespace vanillapdf.net.nunit.PdfContents
                                     var contentOperator = contentOperationGeneric.GetOperator();
 
                                     if (contentOperator.GetOperatorType() == PdfContentOperatorType.TextNextLine) {
-                                        stringBuilder.Append(LINE_SEPARATOR);
+                                        stringBuilder.Append(Environment.NewLine);
                                     }
 
                                     if (contentOperator.GetOperatorType() == PdfContentOperatorType.TextTranslate ||
@@ -95,7 +94,7 @@ namespace vanillapdf.net.nunit.PdfContents
 
                                         // If -258.67 - 10.92 Td, Append newline
                                         if (text_translate_y < -1.0f) {
-                                            stringBuilder.Append(LINE_SEPARATOR);
+                                            stringBuilder.Append(Environment.NewLine);
                                         }
                                     }
                                 }
@@ -121,14 +120,18 @@ namespace vanillapdf.net.nunit.PdfContents
                             }
 
                             // End of text object
-                            stringBuilder.Append(LINE_SEPARATOR);
+                            stringBuilder.Append(Environment.NewLine);
                         }
                     }
                 }
 
                 //File.WriteAllText($"20131231103232738561744-{i}.txt", stringBuilder.ToString());
                 string compareResult = File.ReadAllText(comparePageFiles[i]);
-                Assert.AreEqual(compareResult, stringBuilder.ToString());
+
+                string normalizedActual = Regex.Replace(stringBuilder.ToString(), @"\s", "");
+                string normalizedExpected = Regex.Replace(compareResult, @"\s", "");
+
+                Assert.AreEqual(normalizedExpected, normalizedActual);
             }
         }
     }
