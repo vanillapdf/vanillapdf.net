@@ -70,6 +70,66 @@ namespace vanillapdf.net.Utils
             public const int RTLD_NOW_MACOSX = 0x02;
             public const int RTLD_LOCAL_MACOSX = 0x04;
 
+            public delegate IntPtr dlerror_delegate();
+            public delegate IntPtr dlopen_delegate(string filename, int flag);
+            public delegate int dlclose_delegate(IntPtr handle);
+            public delegate IntPtr dlsym_delegate(IntPtr handle, string symbol);
+
+            public static dlerror_delegate dlerror;
+            public static dlopen_delegate dlopen;
+            public static dlclose_delegate dlclose;
+            public static dlsym_delegate dlsym;
+
+            static NativeMethods()
+            {
+                try {
+                    Marshal.PrelinkAll(typeof(libc_NativeMethods));
+
+                    dlerror = libc_NativeMethods.dlerror;
+                    dlopen = libc_NativeMethods.dlopen;
+                    dlclose = libc_NativeMethods.dlclose;
+                    dlsym = libc_NativeMethods.dlsym;
+
+                    return;
+                } catch {
+
+                }
+
+                try {
+                    Marshal.PrelinkAll(typeof(libdl_NativeMethods));
+
+                    dlerror = libdl_NativeMethods.dlerror;
+                    dlopen = libdl_NativeMethods.dlopen;
+                    dlclose = libdl_NativeMethods.dlclose;
+                    dlsym = libdl_NativeMethods.dlsym;
+
+                    return;
+                }
+                catch {
+
+                }
+
+                throw new PdfManagedException("No valid dynamic link support library was found");
+            }
+        }
+
+        private static class libc_NativeMethods
+        {
+            [DllImport("libc", CallingConvention = CallingConvention.Cdecl)]
+            public static extern IntPtr dlerror();
+
+            [DllImport("libc", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            public static extern IntPtr dlopen(string filename, int flag);
+
+            [DllImport("libc", CallingConvention = CallingConvention.Cdecl)]
+            public static extern int dlclose(IntPtr handle);
+
+            [DllImport("libc", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            public static extern IntPtr dlsym(IntPtr handle, string symbol);
+        }
+
+        private static class libdl_NativeMethods
+        {
             [DllImport("libdl", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr dlerror();
 
