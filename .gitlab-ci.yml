@@ -24,8 +24,16 @@ windows-test:       # This job runs in the build stage, which runs first.
   script:
     - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
 
-linux-test:   # This job runs in the test stage.
-  image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:latest
+ubuntu-20.04-amd64-test:   # This job runs in the test stage.
+  image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:20.04
+  when: manual
+  tags:
+    - linux
+  script:
+    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
+ubuntu-22.04-amd64-test:   # This job runs in the test stage.
+  image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:22.04
   when: manual
   tags:
     - linux
