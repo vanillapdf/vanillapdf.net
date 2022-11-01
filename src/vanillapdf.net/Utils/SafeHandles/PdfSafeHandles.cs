@@ -26,13 +26,17 @@ namespace vanillapdf.net.Utils
 
         public override bool IsInvalid
         {
+#if NETSTANDARD2_0
             [PrePrepareMethod]
             [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+#endif
             get { return (handle == IntPtr.Zero); }
         }
 
+#if NETSTANDARD2_0
         [PrePrepareMethod]
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+#endif
         protected override bool ReleaseHandle()
         {
             if (ReleaseDelegate == null) {
