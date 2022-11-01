@@ -1,17 +1,38 @@
 # Vanilla.PDF .NET CI/CD file
 
+stages:
+  - build
+  - test
+  - deploy
+
 # Windows platform is still in development
+# ====================================
+
 windows-nanoserver-ltsc2022-test:
   image: mcr.microsoft.com/dotnet/sdk:6.0-nanoserver-ltsc2022
+  stage: test
   when: manual
   tags:
     - windows
   script:
     - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
 
+# Ubuntu 20.04 - build, test, deploy
+# ====================================
+
+ubuntu-20.04-amd64-build:
+  image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:20.04
+  stage: build
+  when: manual
+  tags:
+    - linux
+  script:
+    - dotnet build src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
 ubuntu-20.04-amd64-test:
   image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:20.04
-  when: manual
+  stage: test
+  needs: [ubuntu-20.04-amd64-build]
   tags:
     - linux
   script:
@@ -21,11 +42,25 @@ ubuntu-20.04-amd64-test:
     paths:
       - ${CI_PROJECT_DIR}/**/*.nupkg
 
+ubuntu-20.04-amd64-deploy:
+  image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:20.04
+  stage: test
+  needs: [ubuntu-20.04-amd64-test]
+  tags:
+    - linux
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    paths:
+      - ${CI_PROJECT_DIR}/**/*.nupkg
+
 
 # Currently the native libraries are built against OpenSSL 1.x,
 # which is not supported on Ubuntu 22.04
+# ====================================
+
 ubuntu-22.04-amd64-test-disabled:
   image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:22.04
+  stage: test
   when: manual
   tags:
     - linux
