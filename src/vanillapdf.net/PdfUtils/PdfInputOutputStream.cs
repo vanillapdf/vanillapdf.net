@@ -95,13 +95,10 @@ namespace vanillapdf.net.PdfUtils
         /// <returns>Binary data up to maximum <p>length</p> on success, throws exception on failure</returns>
         public byte[] Read(Int64 length)
         {
-            GCHandle pinnedArray;
+            byte[] allocatedBuffer = new byte[length];
+            GCHandle pinnedArray = GCHandle.Alloc(allocatedBuffer, GCHandleType.Pinned);
 
             try {
-                byte[] allocatedBuffer = new byte[length];
-
-                pinnedArray = GCHandle.Alloc(allocatedBuffer, GCHandleType.Pinned);
-
                 UInt32 result = NativeMethods.InputOutputStream_Read(Handle, length, pinnedArray.AddrOfPinnedObject(), out Int64 readLength);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
