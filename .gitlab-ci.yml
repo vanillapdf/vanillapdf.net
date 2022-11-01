@@ -37,21 +37,20 @@ ubuntu-20.04-amd64-test:
     - linux
   script:
     - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
+ubuntu-20.04-amd64-deploy:
+  stage: deploy
+  when: manual
+  needs: [ubuntu-20.04-amd64-test]
+  tags:
+    - linux
+  script:
+    - dotnet build src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
     paths:
       - ${CI_PROJECT_DIR}/**/*.nupkg
 
-ubuntu-20.04-amd64-deploy:
-  image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:20.04
-  stage: test
-  needs: [ubuntu-20.04-amd64-test]
-  tags:
-    - linux
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
-    paths:
-      - ${CI_PROJECT_DIR}/**/*.nupkg
 
 
 # Currently the native libraries are built against OpenSSL 1.x,
