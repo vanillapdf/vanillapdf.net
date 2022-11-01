@@ -19,7 +19,7 @@ ubuntu-20.04-amd64-test:
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
     paths:
-      - ./builds/**/*.nupkg
+      - ${CI_PROJECT_DIR}/**/*.nupkg
 
 
 # Currently the native libraries are built against OpenSSL 1.x,
@@ -34,4 +34,4 @@ ubuntu-22.04-amd64-test-disabled:
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
     paths:
-      - ./builds/**/*.nupkg
+      - ${CI_PROJECT_DIR}/**/*.nupkg
