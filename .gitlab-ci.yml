@@ -23,7 +23,6 @@ ubuntu-20.04-amd64-test:
   image: registry.gitlab.com/jurzik/vanillapdf-net/vanillapdf-ubuntu-amd64:20.04
   stage: test
   when: manual
-  needs: [ubuntu-20.04-amd64-build]
   tags:
     - linux
   script:
