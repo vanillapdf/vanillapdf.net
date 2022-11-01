@@ -16,6 +16,8 @@
     <PackageTags>pdf parsing sign</PackageTags>
     <PackageIcon>vanilla_logo.png</PackageIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
