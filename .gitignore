@@ -5,3 +5,4 @@
 
 # Local configuration
 launchSettings.json
+*.user
