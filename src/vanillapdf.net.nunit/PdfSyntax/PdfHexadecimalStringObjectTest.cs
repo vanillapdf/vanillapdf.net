@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
 using vanillapdf.net.PdfSyntax;
-using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfSyntax
 {

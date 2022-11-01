@@ -83,15 +83,15 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
         private void TestWriteInternal(string sourcePath)
         {
-            var sourceStream = PdfInputOutputStream.CreateFromFile(sourcePath);
-            var destinationStream = PdfInputOutputStream.CreateFromMemory();
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourcePath);
+            using var destinationStream = PdfInputOutputStream.CreateFromMemory();
 
-            var sourceFile = PdfFile.OpenStream(sourceStream, "sourceStream");
+            using var sourceFile = PdfFile.OpenStream(sourceStream, "sourceStream");
             sourceFile.Initialize();
 
-            var destinationFile = PdfFile.CreateStream(destinationStream, "destinationStream");
+            using var destinationFile = PdfFile.CreateStream(destinationStream, "destinationStream");
 
-            PdfFileWriter writer = PdfFileWriter.Create();
+            using var writer = PdfFileWriter.Create();
             writer.Write(sourceFile, destinationFile);
         }
     }
