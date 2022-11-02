@@ -5,13 +5,15 @@
     /// </summary>
     public enum PdfVersion
     {
-        PdfVersion_10 = 0,
-        PdfVersion_11 = 1,
-        PdfVersion_12 = 2,
-        PdfVersion_13 = 3,
-        PdfVersion_14 = 4,
-        PdfVersion_15 = 5,
-        PdfVersion_16 = 6,
-        PdfVersion_17 = 7
+        Undefined = 0,
+        PdfVersion_10,
+        PdfVersion_11,
+        PdfVersion_12,
+        PdfVersion_13,
+        PdfVersion_14,
+        PdfVersion_15,
+        PdfVersion_16,
+        PdfVersion_17,
+        PdfVersion_20
     }
 }
