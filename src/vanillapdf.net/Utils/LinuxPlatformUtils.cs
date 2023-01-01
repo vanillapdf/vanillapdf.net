@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace vanillapdf.net.Utils
@@ -104,24 +103,30 @@ namespace vanillapdf.net.Utils
             if (File.Exists("/etc/os-release")) {
                 var releaseString = File.ReadAllText("/etc/os-release");
 
-                bool isUbuntu = false;
-                foreach (Match match in Regex.Matches(releaseString, "ID=(.*)")) {
-                    if (match.Value == "ubuntu") {
-                        isUbuntu = true;
-                        break;
-                    }
-                }
+                Match idMatch = Regex.Match(releaseString, "ID=\"(.*)\"");
+                Match versionMatch = Regex.Match(releaseString, "VERSION_ID=\"(.*)\"");
 
-                // Current distro is not ubuntu
-                if (!isUbuntu) {
+                // Failed to find ID in os-release file
+                if (!idMatch.Success || idMatch.Groups.Count != 2 || idMatch.Groups[1].Captures.Count != 1) {
                     return false;
                 }
 
-                foreach (Match match in Regex.Matches(releaseString, "VERSION_ID=(.*)")) {
-                    int versionCompareResult = String.Compare(match.Value, "22.04", comparisonType: StringComparison.Ordinal);
-                    if (versionCompareResult >= 0) {
-                        return true;
-                    }
+                // Failed to find VERSION_ID in os-release file
+                if (!versionMatch.Success || versionMatch.Groups.Count != 2 || versionMatch.Groups[1].Captures.Count != 1) {
+                    return false;
+                }
+
+                string idValue = idMatch.Groups[1].Captures[0].Value;
+                string versionValue = versionMatch.Groups[1].Captures[0].Value;
+
+                // Current distro is not ubuntu
+                if (idValue != "ubuntu") {
+                    return false;
+                }
+
+                int versionCompareResult = String.Compare(versionValue, "22.04", comparisonType: StringComparison.Ordinal);
+                if (versionCompareResult >= 0) {
+                    return true;
                 }
 
             }
@@ -131,19 +136,35 @@ namespace vanillapdf.net.Utils
 
         private bool IsRhel()
         {
-            // Such file should be present only on RHEL
-            if (File.Exists("/etc/redhat-release")) {
-                return true;
-            }
-
             if (File.Exists("/etc/os-release")) {
                 var releaseString = File.ReadAllText("/etc/os-release");
 
-                foreach (Match match in Regex.Matches(releaseString, "ID=(.*)")) {
-                    if (match.Value == "rhel" || match.Value == "rocky") {
-                        return true;
-                    }
+                Match idMatch = Regex.Match(releaseString, "ID=\"(.*)\"");
+                Match versionMatch = Regex.Match(releaseString, "VERSION_ID=\"(.*)\"");
+
+                // Failed to find ID in os-release file
+                if (!idMatch.Success || idMatch.Groups.Count != 2 || idMatch.Groups[1].Captures.Count != 1) {
+                    return false;
                 }
+
+                // Failed to find VERSION_ID in os-release file
+                if (!versionMatch.Success || versionMatch.Groups.Count != 2 || versionMatch.Groups[1].Captures.Count != 1) {
+                    return false;
+                }
+
+                string idValue = idMatch.Groups[1].Captures[0].Value;
+                string versionValue = versionMatch.Groups[1].Captures[0].Value;
+
+                // Current distro is not ubuntu
+                if (idValue == "rhel" || idValue == "rocky") {
+                    return true;
+                }
+
+            }
+
+            // Such file should be present only on RHEL
+            if (File.Exists("/etc/redhat-release")) {
+                return true;
             }
 
             return false;
