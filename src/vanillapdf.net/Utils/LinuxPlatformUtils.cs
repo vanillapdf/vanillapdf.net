@@ -1,13 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace vanillapdf.net.Utils
 {
     internal class LinuxPlatformUtils : IPlatformUtils
     {
-        private const string LINUX_X86_LIBRARY_PATH = "runtimes/linux-x86/native/libvanillapdf.so";
-        private const string LINUX_X64_LIBRARY_PATH = "runtimes/linux-x64/native/libvanillapdf.so";
+        private const string ROCKY_8_X64_LIBRARY_PATH = "runtimes/rocky.8-x64/native/libvanillapdf.so";
+
+        private const string UBUTNTU_2004_X64_LIBRARY_PATH = "runtimes/ubuntu.20.04-x64/native/libvanillapdf.so";
+        private const string UBUTNTU_2004_ARM_LIBRARY_PATH = "runtimes/ubuntu.20.04-arm/native/libvanillapdf.so";
+        private const string UBUTNTU_2004_ARM64_LIBRARY_PATH = "runtimes/ubuntu.20.04-arm64/native/libvanillapdf.so";
+
+        private const string UBUTNTU_2204_X64_LIBRARY_PATH = "runtimes/ubuntu.22.04-x64/native/libvanillapdf.so";
+        private const string UBUTNTU_2204_ARM_LIBRARY_PATH = "runtimes/ubuntu.22.04-arm/native/libvanillapdf.so";
+        private const string UBUTNTU_2204_ARM64_LIBRARY_PATH = "runtimes/ubuntu.22.04-arm64/native/libvanillapdf.so";
 
         private IntPtr Handle { get; set; }
 
@@ -16,10 +25,37 @@ namespace vanillapdf.net.Utils
             // Ensure proper release of resources in subsequent calls
             ReleaseLibrary();
 
-            // Find the correct library path depending on the process
-            string libraryPath = Path.Combine(rootPath, LINUX_X86_LIBRARY_PATH);
-            if (Environment.Is64BitProcess) {
-                libraryPath = Path.Combine(rootPath, LINUX_X64_LIBRARY_PATH);
+            string libraryPath = null;
+            if (RuntimeInformation.ProcessArchitecture == Architecture.X64) {
+                libraryPath = UBUTNTU_2004_X64_LIBRARY_PATH;
+
+                if (IsUbuntu2204()) {
+                    libraryPath = UBUTNTU_2204_X64_LIBRARY_PATH;
+                }
+
+                if (IsRhel()) {
+                    libraryPath = ROCKY_8_X64_LIBRARY_PATH;
+                }
+            }
+
+            if (RuntimeInformation.ProcessArchitecture == Architecture.Arm) {
+                libraryPath = UBUTNTU_2004_ARM_LIBRARY_PATH;
+
+                if (IsUbuntu2204()) {
+                    libraryPath = UBUTNTU_2204_ARM_LIBRARY_PATH;
+                }
+            }
+
+            if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64) {
+                libraryPath = UBUTNTU_2004_ARM64_LIBRARY_PATH;
+
+                if (IsUbuntu2204()) {
+                    libraryPath = UBUTNTU_2204_ARM64_LIBRARY_PATH;
+                }
+            }
+
+            if (libraryPath == null) {
+                throw new PdfManagedException($"Process architecture {RuntimeInformation.ProcessArchitecture} is not supported");
             }
 
             // Call the load library native function
@@ -61,6 +97,56 @@ namespace vanillapdf.net.Utils
             }
 
             Handle = IntPtr.Zero;
+        }
+
+        private bool IsUbuntu2204()
+        {
+            if (File.Exists("/etc/os-release")) {
+                var releaseString = File.ReadAllText("/etc/os-release");
+
+                bool isUbuntu = false;
+                foreach (Match match in Regex.Matches(releaseString, "ID=(.*)")) {
+                    if (match.Value == "ubuntu") {
+                        isUbuntu = true;
+                        break;
+                    }
+                }
+
+                // Current distro is not ubuntu
+                if (!isUbuntu) {
+                    return false;
+                }
+
+                foreach (Match match in Regex.Matches(releaseString, "VERSION_ID=(.*)")) {
+                    int versionCompareResult = String.Compare(match.Value, "22.04", comparisonType: StringComparison.Ordinal);
+                    if (versionCompareResult >= 0) {
+                        return true;
+                    }
+                }
+
+            }
+
+            return false;
+        }
+
+        private bool IsRhel()
+        {
+            // Such file should be present only on RHEL
+            if (File.Exists("/etc/redhat-release")) {
+                return true;
+            }
+
+            if (File.Exists("/etc/os-release")) {
+                var releaseString = File.ReadAllText("/etc/os-release");
+
+                foreach (Match match in Regex.Matches(releaseString, "ID=(.*)")) {
+                    if (match.Value == "rhel" || match.Value == "rocky") {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private static class NativeMethods
