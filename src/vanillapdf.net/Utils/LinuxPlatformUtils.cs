@@ -108,12 +108,14 @@ namespace vanillapdf.net.Utils
 
                 // Failed to find ID in os-release file
                 if (!idMatch.Success || idMatch.Groups.Count != 2 || idMatch.Groups[1].Captures.Count != 1) {
-                    return false;
+                    throw new PdfManagedException("Failed to find ID in os-release file");
+                    //return false;
                 }
 
                 // Failed to find VERSION_ID in os-release file
                 if (!versionMatch.Success || versionMatch.Groups.Count != 2 || versionMatch.Groups[1].Captures.Count != 1) {
-                    return false;
+                    throw new PdfManagedException("Failed to find VERSION_ID in os-release file");
+                    //return false;
                 }
 
                 string idValue = idMatch.Groups[1].Captures[0].Value;
@@ -121,7 +123,8 @@ namespace vanillapdf.net.Utils
 
                 // Current distro is not ubuntu
                 if (idValue != "ubuntu") {
-                    return false;
+                    throw new PdfManagedException($"Current distro is not ubuntu, but {idValue}");
+                    //return false;
                 }
 
                 int versionCompareResult = String.Compare(versionValue, "22.04", comparisonType: StringComparison.Ordinal);
