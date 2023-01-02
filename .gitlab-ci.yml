@@ -7,6 +7,18 @@ stages:
 # Windows - build
 # ====================================
 
+windows-ltsc2022-x86:
+  image: registry.gitlab.com/vanillapdf-group/vanillapdf/vanillapdf-net-windows-amd64:ltsc2022
+  stage: test
+  when: manual
+  tags:
+    - windows
+    - private
+
+  script:
+    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0 --arch x86
+
 windows-ltsc2022-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf/vanillapdf-net-windows-amd64:ltsc2022
   stage: test
@@ -48,6 +60,17 @@ ubuntu-20.04-amd64:
 
 ubuntu-22.04-amd64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-amd64:22.04
+  stage: test
+  when: manual
+  tags:
+    - linux
+
+  script:
+    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
+test-rocky.8-x64:
+  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-rockylinux-amd64:8
   stage: test
   when: manual
   tags:
