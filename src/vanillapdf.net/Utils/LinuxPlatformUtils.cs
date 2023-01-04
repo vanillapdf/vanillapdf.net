@@ -103,7 +103,7 @@ namespace vanillapdf.net.Utils
             if (File.Exists("/etc/os-release")) {
                 var releaseString = File.ReadAllText("/etc/os-release");
 
-                Match idMatch = Regex.Match(releaseString, "^ID=(.*)$", RegexOptions.Multiline);
+                Match idMatch = Regex.Match(releaseString, "^ID=\"?(\\w*?)\"?$", RegexOptions.Multiline);
                 Match versionMatch = Regex.Match(releaseString, "^VERSION_ID=\"(.*)\"$", RegexOptions.Multiline);
 
                 // Failed to find ID in os-release file
@@ -139,7 +139,7 @@ namespace vanillapdf.net.Utils
             if (File.Exists("/etc/os-release")) {
                 var releaseString = File.ReadAllText("/etc/os-release");
 
-                Match idMatch = Regex.Match(releaseString, "^ID=(.*)$", RegexOptions.Multiline);
+                Match idMatch = Regex.Match(releaseString, "^ID=\"?(\\w*?)\"?$", RegexOptions.Multiline);
                 Match versionMatch = Regex.Match(releaseString, "^VERSION_ID=\"(.*)\"$", RegexOptions.Multiline);
 
                 // Failed to find ID in os-release file
