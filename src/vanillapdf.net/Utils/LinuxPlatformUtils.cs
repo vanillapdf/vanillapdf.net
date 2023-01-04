@@ -174,8 +174,6 @@ namespace vanillapdf.net.Utils
         {
             public const int RTLD_NOW_LINUX = 0x02;
             public const int RTLD_LOCAL_LINUX = 0;
-            public const int RTLD_NOW_MACOSX = 0x02;
-            public const int RTLD_LOCAL_MACOSX = 0x04;
 
             public delegate IntPtr dlerror_delegate();
             public delegate IntPtr dlopen_delegate(string filename, int flag);
