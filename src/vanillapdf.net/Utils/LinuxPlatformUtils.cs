@@ -237,16 +237,16 @@ namespace vanillapdf.net.Utils
 
         private static class libdl_NativeMethods
         {
-            [DllImport("libdl", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr dlerror();
 
-            [DllImport("libdl", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
             public static extern IntPtr dlopen(string filename, int flag);
 
-            [DllImport("libdl", CallingConvention = CallingConvention.Cdecl)]
+            [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl)]
             public static extern int dlclose(IntPtr handle);
 
-            [DllImport("libdl", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            [DllImport("libdl.so.2", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
             public static extern IntPtr dlsym(IntPtr handle, string symbol);
         }
     }
