@@ -17,7 +17,7 @@ windows-ltsc2022-x86:
 
   script:
     - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
-    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0 --arch x86
+    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0 --arch x86 -nowarn:CS1591
 
 windows-ltsc2022-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-windows-amd64:ltsc2022
@@ -29,7 +29,7 @@ windows-ltsc2022-x64:
 
   script:
     - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
-    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
+    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0 -nowarn:CS1591
 
 # OSX - build
 # ====================================
