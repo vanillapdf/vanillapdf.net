@@ -42,7 +42,7 @@ osx-x64:
 
   script:
     - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
-    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0
+    - dotnet test src/vanillapdf.net.sln --configuration Release --framework net6.0 -nowarn:CS1591
 
 # Ubuntu 20.04 - test, deploy
 # ====================================
