@@ -73,8 +73,11 @@ namespace vanillapdf.net.Utils
                 return;
             }
 
-            //if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-            //}
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+                m_handle = new MacPlatformUtils();
+                m_handle.LoadLibrary(rootPath);
+                return;
+            }
 
             throw new PdfManagedException("Unsupported platform");
         }
