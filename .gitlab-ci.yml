@@ -34,7 +34,7 @@ windows-ltsc2022-x64:
 # OSX - build
 # ====================================
 
-osx-x64:
+build-osx-x64:
   when: manual
   tags:
     - macos
@@ -46,7 +46,18 @@ osx-x64:
 # Ubuntu 20.04 - test, deploy
 # ====================================
 
-ubuntu-20.04-amd64:
+build-ubuntu.20.04-arm64:
+  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-arm64v8:20.04
+  stage: test
+  when: manual
+  tags:
+    - linux
+
+  script:
+    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
+build-ubuntu.20.04-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-amd64:20.04
   stage: test
   when: manual
@@ -57,7 +68,29 @@ ubuntu-20.04-amd64:
     - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
     - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
 
-ubuntu-22.04-amd64:
+build-ubuntu.22.04-arm:
+  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-arm32v7:22.04
+  stage: test
+  when: manual
+  tags:
+    - linux
+
+  script:
+    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
+build-ubuntu.22.04-arm64:
+  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-arm64v8:22.04
+  stage: test
+  when: manual
+  tags:
+    - linux
+
+  script:
+    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+
+build-ubuntu.22.04-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-amd64:22.04
   stage: test
   when: manual
@@ -68,7 +101,7 @@ ubuntu-22.04-amd64:
     - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
     - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
 
-test-rocky.8-x64:
+build-rocky.8-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-rockylinux-amd64:8
   stage: test
   when: manual
