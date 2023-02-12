@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="vanillapdf" Version="1.7.0-rc" />
+    <PackageReference Include="vanillapdf" Version="1.7.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>
