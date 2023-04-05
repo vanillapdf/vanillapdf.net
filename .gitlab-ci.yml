@@ -97,16 +97,18 @@ build-ubuntu.20.04-x64:
 #    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
 #    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
 
-build-ubuntu.22.04-arm64:
-  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-arm64v8:22.04
-  stage: test
-  when: manual
-  tags:
-    - linux
-
-  script:
-    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
-    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+# 28.3.2023 vcpkg cannot be built on arm
+# g++: fatal error: Killed signal terminated program cc1plus
+#build-ubuntu.22.04-arm64:
+#  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-arm64v8:22.04
+#  stage: test
+#  when: manual
+#  tags:
+#    - linux
+#
+#  script:
+#    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+#    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
 
 build-ubuntu.22.04-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-amd64:22.04
@@ -122,16 +124,18 @@ build-ubuntu.22.04-x64:
 # rockylinux.8 - test
 # ====================================
 
-build-rocky.8-arm64:
-  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-rockylinux-arm64v8:8
-  stage: test
-  when: manual
-  tags:
-    - linux
-
-  script:
-    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
-    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
+# 28.3.2023 vcpkg cannot be built on arm
+# g++: fatal error: Killed signal terminated program cc1plus
+#build-rocky.8-arm64:
+#  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-rockylinux-arm64v8:8
+#  stage: test
+#  when: manual
+#  tags:
+#    - linux
+#
+#  script:
+#    - dotnet nuget add source "${CI_API_V4_URL}/groups/61919871/-/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+#    - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
 
 build-rocky.8-x64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-rockylinux-amd64:8
