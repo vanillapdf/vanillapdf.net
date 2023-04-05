@@ -46,6 +46,10 @@ namespace vanillapdf.net.PdfSemantics
         public PdfPageContents GetContents()
         {
             UInt32 result = NativeMethods.PageObject_GetContents(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
