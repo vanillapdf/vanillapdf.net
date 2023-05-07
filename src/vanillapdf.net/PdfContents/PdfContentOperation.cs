@@ -53,6 +53,16 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperation(data.InstructionHandle);
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            var operationType = GetOperationType();
+            return operationType.ToString();
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();

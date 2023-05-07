@@ -52,6 +52,16 @@ namespace vanillapdf.net.PdfContents
             return new PdfBuffer(value);
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            var operatorType = GetOperatorType();
+            return operatorType.ToString();
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
