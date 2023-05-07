@@ -33,6 +33,14 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
+        /// Get the name of the current file on the physical filesystem
+        /// </summary>
+        public string Filename
+        {
+            get { return GetFilename(); }
+        }
+
+        /// <summary>
         /// Determines if the file is encrypted
         /// </summary>
         public bool Encrypted
@@ -132,6 +140,18 @@ namespace vanillapdf.net.PdfSyntax
             return EnumUtil<PdfVersion>.CheckedCast(data);
         }
 
+        private string GetFilename()
+        {
+            UInt32 result = NativeMethods.File_GetFilename(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            using (var buffer = new PdfBuffer(data)) {
+                return buffer.ToString();
+            }
+        }
+
         private bool IsEncrypted()
         {
             UInt32 result = NativeMethods.File_IsEncrypted(Handle, out bool data);
@@ -181,6 +201,15 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefChain(data);
         }
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+        {
+            return Filename;
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
@@ -195,6 +224,7 @@ namespace vanillapdf.net.PdfSyntax
             public static FileCreateStreamDelgate File_CreateStream = LibraryInstance.GetFunction<FileCreateStreamDelgate>("File_CreateStream");
             public static FileInitializeDelgate File_Initialize = LibraryInstance.GetFunction<FileInitializeDelgate>("File_Initialize");
             public static FileGetVersionDelgate File_GetVersion = LibraryInstance.GetFunction<FileGetVersionDelgate>("File_GetVersion");
+            public static FileGetFilenameDelgate File_GetFilename = LibraryInstance.GetFunction<FileGetFilenameDelgate>("File_GetFilename");
             public static FileIsEncryptedDelgate File_IsEncrypted = LibraryInstance.GetFunction<FileIsEncryptedDelgate>("File_IsEncrypted");
             public static FileSetEncryptionPasswordDelgate File_SetEncryptionPassword = LibraryInstance.GetFunction<FileSetEncryptionPasswordDelgate>("File_SetEncryptionPassword");
             public static FileAllocateNewEntryDelegate File_AllocateNewEntry = LibraryInstance.GetFunction<FileAllocateNewEntryDelegate>("File_AllocateNewEntry");
@@ -218,6 +248,9 @@ namespace vanillapdf.net.PdfSyntax
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FileGetVersionDelgate(PdfFileSafeHandle handle, out int data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 FileGetFilenameDelgate(PdfFileSafeHandle handle, out PdfBufferSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FileIsEncryptedDelgate(PdfFileSafeHandle handle, out bool data);
