@@ -12,6 +12,8 @@ namespace vanillapdf.net.Utils
     public static class LibraryInstance
     {
         private static IPlatformUtils m_handle;
+        private static object _handleLocker = new object();
+
         internal static IPlatformUtils Handle
         {
             get
@@ -61,25 +63,33 @@ namespace vanillapdf.net.Utils
                 return;
             }
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-                m_handle = new WindowsPlatformUtils();
-                m_handle.LoadLibrary(rootPath);
-                return;
-            }
+            lock (_handleLocker) {
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-                m_handle = new LinuxPlatformUtils();
-                m_handle.LoadLibrary(rootPath);
-                return;
-            }
+                // Already initialized
+                if (m_handle != null) {
+                    return;
+                }
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-                m_handle = new MacPlatformUtils();
-                m_handle.LoadLibrary(rootPath);
-                return;
-            }
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                    m_handle = new WindowsPlatformUtils();
+                    m_handle.LoadLibrary(rootPath);
+                    return;
+                }
 
-            throw new PdfManagedException("Unsupported platform");
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                    m_handle = new LinuxPlatformUtils();
+                    m_handle.LoadLibrary(rootPath);
+                    return;
+                }
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
+                    m_handle = new MacPlatformUtils();
+                    m_handle.LoadLibrary(rootPath);
+                    return;
+                }
+
+                throw new PdfManagedException("Unsupported platform");
+            }
         }
 
         /// <summary>
@@ -92,8 +102,16 @@ namespace vanillapdf.net.Utils
                 return;
             }
 
-            m_handle.ReleaseLibrary();
-            m_handle = null;
+            lock (_handleLocker) {
+
+                // Not yet initialized
+                if (m_handle == null) {
+                    return;
+                }
+
+                m_handle.ReleaseLibrary();
+                m_handle = null;
+            }
         }
 
         /// <summary>
@@ -104,12 +122,14 @@ namespace vanillapdf.net.Utils
         /// <returns>If the procedure is found the function returns delegate to specified function, otherwise throws Exception</returns>
         public static T GetFunction<T>(string procName)
         {
-            IntPtr procAddress = Handle.GetProcAddress(procName);
-            if (procAddress == IntPtr.Zero) {
-                throw new PdfManagedException($"Could not find procedure {procName}");
-            }
+            lock (_handleLocker) {
+                IntPtr procAddress = Handle.GetProcAddress(procName);
+                if (procAddress == IntPtr.Zero) {
+                    throw new PdfManagedException($"Could not find procedure {procName}");
+                }
 
-            return Marshal.GetDelegateForFunctionPointer<T>(procAddress);
+                return Marshal.GetDelegateForFunctionPointer<T>(procAddress);
+            }
         }
 
         /// <summary>
@@ -119,17 +139,19 @@ namespace vanillapdf.net.Utils
         /// <returns>If the constant is found the function returns it's numeric value, otherwise throws Exception</returns>
         public static UInt32 GetConstant(string constantName)
         {
-            IntPtr constantAddress = Handle.GetProcAddress(constantName);
-            if (constantAddress == IntPtr.Zero) {
-                throw new PdfManagedException($"Could not find procedure {constantName}");
-            }
+            lock (_handleLocker) {
+                IntPtr constantAddress = Handle.GetProcAddress(constantName);
+                if (constantAddress == IntPtr.Zero) {
+                    throw new PdfManagedException($"Could not find procedure {constantName}");
+                }
 
-            byte[] bytes = new byte[4];
-            for (int i = 0; i < 4; ++i) {
-                bytes[i] = Marshal.ReadByte(constantAddress, i);
-            }
+                byte[] bytes = new byte[4];
+                for (int i = 0; i < 4; ++i) {
+                    bytes[i] = Marshal.ReadByte(constantAddress, i);
+                }
 
-            return BitConverter.ToUInt32(bytes, 0);
+                return BitConverter.ToUInt32(bytes, 0);
+            }
         }
 
         public static int GetSafeHandleCounter()
