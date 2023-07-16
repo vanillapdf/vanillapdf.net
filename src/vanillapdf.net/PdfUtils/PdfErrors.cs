@@ -24,7 +24,7 @@ namespace vanillapdf.net.PdfUtils
         {
             UInt32 result = NativeMethods.Errors_GetLastError(out UInt32 code);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw new PdfManagedException("Could not get last error");
+                throw new PdfManagedException($"Could not get last error: {result}");
             }
 
             return code;
@@ -39,7 +39,7 @@ namespace vanillapdf.net.PdfUtils
         {
             UInt32 lengthResult = NativeMethods.Errors_GetPrintableErrorTextLength(error, out UInt32 length);
             if (lengthResult != PdfReturnValues.ERROR_SUCCESS) {
-                throw new PdfManagedException("Could not get last error message length");
+                throw new PdfManagedException($"Could not get last error message length: {lengthResult}");
             }
 
             int convertedLength = Convert.ToInt32(length);
@@ -47,7 +47,7 @@ namespace vanillapdf.net.PdfUtils
 
             UInt32 messageResult = NativeMethods.Errors_GetPrintableErrorText(error, sb, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
-                throw new PdfManagedException("Could not get last error message");
+                throw new PdfManagedException($"Could not get last error message: {messageResult}");
             }
 
             return sb.ToString();
