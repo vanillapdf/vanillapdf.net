@@ -1,5 +1,21 @@
 # Vanilla.PDF Release notes
 
+v1.8.0 - 24.9.2023
+  - NEW: Thread-safe access to single file
+  - NEW: Add cache for font dictionaries for performance reasons
+  - TWEAK: Update OpenSSL to v3 including license notices
+  - TWEAK: Align buffer size with memory page
+  - FIX: Added missing values to the library interface
+  - FIX: Handle differences between xref entry and the object numbering
+
+v1.7.0 - 5.2.2023
+ - FIX: Multiple issues with saving encrypted documents
+ - FIX: Name object hexadecimal notation padding
+ - TWEAK: Support for invalid generation number
+ - TWEAK: Extended support for cross-reference streams
+ - NEW: Support for multiple Linux distributions and OSX
+ - NEW: Basic support for PDF 2.0
+
 v1.6.0 - 14.8.2022
  - FIX: Multiple encryption issues with obsolete algorithms
  - TWEAK: Custom SigningKey interface revamped
