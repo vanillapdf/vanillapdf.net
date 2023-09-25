@@ -34,41 +34,41 @@ namespace vanillapdf.net.nunit.PdfContents
 
         private void CheckDocumentContents(string sourcePath, string[] comparePageFiles)
         {
-            var sourceStream = PdfInputOutputStream.CreateFromFile(sourcePath);
-            var sourceFile = PdfFile.OpenStream(sourceStream, "sourceStream");
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourcePath);
+            using var sourceFile = PdfFile.OpenStream(sourceStream, "sourceStream");
             //var sourceFile = PdfFile.Open(sourcePath);
 
             sourceFile.Initialize();
 
-            PdfDocument document = PdfDocument.OpenFile(sourceFile);
-            PdfCatalog catalog = document.GetCatalog();
-            PdfPageTree tree = catalog.GetPages();
+            using PdfDocument document = PdfDocument.OpenFile(sourceFile);
+            using PdfCatalog catalog = document.GetCatalog();
+            using PdfPageTree tree = catalog.GetPages();
 
             for (ulong i = 0; i < tree.GetPageCount(); ++i) {
-                var pageObject = tree.GetPage(i + 1);
-                var pageContents = pageObject.GetContents();
+                using var pageObject = tree.GetPage(i + 1);
+                using var pageContents = pageObject.GetContents();
 
                 StringBuilder stringBuilder = new StringBuilder();
 
                 for (ulong j = 0; j < pageContents.GetInstructionsSize(); ++j) {
-                    var contentInstruction = pageContents.GetInstructionAt(j);
+                    using var contentInstruction = pageContents.GetInstructionAt(j);
 
                     if (contentInstruction.GetInstructionType() == PdfContentInstructionType.Operation) {
 
                     }
 
                     if (contentInstruction.GetInstructionType() == PdfContentInstructionType.Object) {
-                        var contentObject = PdfContentObject.FromContentInstruction(contentInstruction);
+                        using var contentObject = PdfContentObject.FromContentInstruction(contentInstruction);
 
                         if (contentObject.GetObjectType() == PdfContentObjectType.Text) {
-                            var contentObjectText = PdfContentObjectText.FromContentObject(contentObject);
+                            using var contentObjectText = PdfContentObjectText.FromContentObject(contentObject);
 
                             for (ulong k = 0; k < contentObjectText.GetOperationsSize(); ++k) {
-                                var contentOperation = contentObjectText.GetOperationAt(k);
+                                using var contentOperation = contentObjectText.GetOperationAt(k);
 
                                 if (contentOperation.GetOperationType() == PdfContentOperationType.Generic) {
-                                    var contentOperationGeneric = PdfContentOperationGeneric.FromContentOperation(contentOperation);
-                                    var contentOperator = contentOperationGeneric.GetOperator();
+                                    using var contentOperationGeneric = PdfContentOperationGeneric.FromContentOperation(contentOperation);
+                                    using var contentOperator = contentOperationGeneric.GetOperator();
 
                                     if (contentOperator.GetOperatorType() == PdfContentOperatorType.TextNextLine) {
                                         stringBuilder.Append(Environment.NewLine);
@@ -76,19 +76,19 @@ namespace vanillapdf.net.nunit.PdfContents
 
                                     if (contentOperator.GetOperatorType() == PdfContentOperatorType.TextTranslate ||
                                         contentOperator.GetOperatorType() == PdfContentOperatorType.TextTranslateLeading) {
-                                        var operand_0 = contentOperationGeneric.GetOperandAt(0);
-                                        var operand_1 = contentOperationGeneric.GetOperandAt(1);
+                                        using var operand_0 = contentOperationGeneric.GetOperandAt(0);
+                                        using var operand_1 = contentOperationGeneric.GetOperandAt(1);
 
                                         //var text_translate_x = PdfRealObject.FromObject(operand_0);
 
                                         double text_translate_y = 0.0f;
                                         if (operand_1.GetObjectType() == PdfObjectType.Integer) {
-                                            var operand_1_integer = PdfIntegerObject.FromObject(operand_1);
+                                            using var operand_1_integer = PdfIntegerObject.FromObject(operand_1);
                                             text_translate_y = operand_1_integer.IntegerValue;
                                         }
 
                                         if (operand_1.GetObjectType() == PdfObjectType.Real) {
-                                            var operand_1_real = PdfRealObject.FromObject(operand_1);
+                                            using var operand_1_real = PdfRealObject.FromObject(operand_1);
                                             text_translate_y = operand_1_real.Value;
                                         }
 
@@ -100,17 +100,17 @@ namespace vanillapdf.net.nunit.PdfContents
                                 }
 
                                 if (contentOperation.GetOperationType() == PdfContentOperationType.TextShow) {
-                                    var contentOperationTextShow = PdfContentOperationTextShow.FromContentOperation(contentOperation);
+                                    using var contentOperationTextShow = PdfContentOperationTextShow.FromContentOperation(contentOperation);
                                     stringBuilder.Append(contentOperationTextShow.Value.Value.StringData);
                                     continue;
                                 }
 
                                 if (contentOperation.GetOperationType() == PdfContentOperationType.TextShowArray) {
-                                    var contentOperationTextShowArray = PdfContentOperationTextShowArray.FromContentOperation(contentOperation);
+                                    using var contentOperationTextShowArray = PdfContentOperationTextShowArray.FromContentOperation(contentOperation);
 
                                     foreach (var showItem in contentOperationTextShowArray.Value) {
                                         if (showItem.GetObjectType() == PdfObjectType.String) {
-                                            var showText = PdfStringObject.FromObject(showItem);
+                                            using var showText = PdfStringObject.FromObject(showItem);
                                             stringBuilder.Append(showText.Value.StringData);
                                         }
                                     }
