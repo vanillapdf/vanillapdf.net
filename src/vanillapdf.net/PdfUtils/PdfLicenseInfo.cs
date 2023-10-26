@@ -73,7 +73,7 @@ namespace vanillapdf.net.PdfUtils
             public static SetLicenseFileDelgate LicenseInfo_SetLicenseFile = LibraryInstance.GetFunction<SetLicenseFileDelgate>("LicenseInfo_SetLicenseFile");
             public static SetLicenseBufferDelgate LicenseInfo_SetLicenseBuffer = LibraryInstance.GetFunction<SetLicenseBufferDelgate>("LicenseInfo_SetLicenseBuffer");
             public static IsValidDelgate LicenseInfo_IsValid = LibraryInstance.GetFunction<IsValidDelgate>("LicenseInfo_IsValid");
-            public static IsTemporaryDelgate LicenseInfo_IsTemporary = LibraryInstance.GetFunction<IsTemporaryDelgate>("InputStream_SetInputPosition");
+            public static IsTemporaryDelgate LicenseInfo_IsTemporary = LibraryInstance.GetFunction<IsTemporaryDelgate>("LicenseInfo_IsTemporary");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 SetLicenseFileDelgate(string filename);
