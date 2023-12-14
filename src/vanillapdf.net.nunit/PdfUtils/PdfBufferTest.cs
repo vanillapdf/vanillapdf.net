@@ -11,7 +11,7 @@ namespace vanillapdf.net.nunit.PdfUtils
         [Test]
         public void TestData()
         {
-            var Buffer = PdfBuffer.Create();
+            using var Buffer = PdfBuffer.Create();
             var testData = new byte[1024];
 
             Buffer.Data = testData;
@@ -22,7 +22,7 @@ namespace vanillapdf.net.nunit.PdfUtils
         [Test]
         public void TestDataEmpty()
         {
-            var Buffer = PdfBuffer.Create();
+            using var Buffer = PdfBuffer.Create();
             var testData = new byte[0];
 
             Buffer.Data = testData;
@@ -35,7 +35,7 @@ namespace vanillapdf.net.nunit.PdfUtils
         {
             const string TEST_DATA = "TEST_DATA";
 
-            var Buffer = PdfBuffer.Create();
+            using var Buffer = PdfBuffer.Create();
             Buffer.StringData = TEST_DATA;
 
             Assert.AreEqual(TEST_DATA, Buffer.StringData);
@@ -46,8 +46,8 @@ namespace vanillapdf.net.nunit.PdfUtils
         {
             const string TEST_DATA = "TEST_DATA";
 
-            var buffer1 = PdfBuffer.Create();
-            var buffer2 = PdfBuffer.Create();
+            using var buffer1 = PdfBuffer.Create();
+            using var buffer2 = PdfBuffer.Create();
 
             buffer1.StringData = TEST_DATA;
             buffer2.StringData = TEST_DATA;
@@ -64,8 +64,8 @@ namespace vanillapdf.net.nunit.PdfUtils
             const string TEST_DATA1 = "TEST_DATA1";
             const string TEST_DATA2 = "TEST_DATA2";
 
-            var buffer1 = PdfBuffer.Create();
-            var buffer2 = PdfBuffer.Create();
+            using var buffer1 = PdfBuffer.Create();
+            using var buffer2 = PdfBuffer.Create();
 
             buffer1.StringData = TEST_DATA1;
             buffer2.StringData = TEST_DATA2;
