@@ -77,6 +77,18 @@ namespace vanillapdf.net.nunit.PdfUtils
         }
 
         [Test]
+        public void TestOffsetAccess()
+        {
+            using var buffer = PdfBuffer.Create();
+            buffer.Data = new byte[2];
+            buffer[0] = 0x01;
+            buffer[1] = 0x02;
+
+            Assert.AreEqual(0x01, buffer[0]);
+            Assert.AreEqual(0x02, buffer[1]);
+        }
+
+        [Test]
         public void TestStability()
         {
             for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
