@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using vanillapdf.net.Utils;
 
@@ -81,26 +82,20 @@ namespace vanillapdf.net.PdfUtils
 
         private void SetData(byte[] data)
         {
-            IntPtr allocator = IntPtr.Zero;
-            UInt32 result = PdfReturnValues.ERROR_GENERAL;
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
 
             try {
-                allocator = Marshal.AllocHGlobal(data.Length);
-                Marshal.Copy(data, 0, allocator, data.Length);
-
                 var dataSize = Convert.ToUInt64(data.Length);
-                result = NativeMethods.Buffer_SetData(Handle, allocator, new UIntPtr(dataSize));
 
-            }
-            finally {
-                if (allocator != IntPtr.Zero) {
-                    Marshal.FreeHGlobal(allocator);
-                    allocator = IntPtr.Zero;
+                UInt32 result = NativeMethods.Buffer_SetData(Handle, pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize));
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
                 }
             }
-
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
+            finally {
+                if (pinnedArray.IsAllocated) {
+                    pinnedArray.Free();
+                }
             }
         }
 
