@@ -36,6 +36,17 @@ namespace vanillapdf.net.PdfUtils
         }
 
         /// <summary>
+        /// Read and modify the values at the specific offset within the buffer
+        /// </summary>
+        /// <param name="i">Offset of the byte within the buffer</param>
+        /// <returns>Byte data representation of the value at the specific offset</returns>
+        public byte this[int i]
+        {
+            get { return GetData(i); }
+            set { SetData(i, value); }
+        }
+
+        /// <summary>
         /// ANSI string representation of the binary data
         /// </summary>
         public string StringData
@@ -80,6 +91,24 @@ namespace vanillapdf.net.PdfUtils
             return allocatedBuffer;
         }
 
+        private byte GetData(int offset)
+        {
+            UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            // TODO: might overflow
+            var rawSize = size.ToUInt64();
+            var sizeConverted = Convert.ToInt32(rawSize);
+
+            if (offset > sizeConverted) {
+                throw new PdfManagedException($"Index {offset} is out of bounds, data length {sizeConverted}");
+            }
+
+            return Marshal.ReadByte(data, offset);
+        }
+
         private void SetData(byte[] data)
         {
             GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
@@ -97,6 +126,21 @@ namespace vanillapdf.net.PdfUtils
                     pinnedArray.Free();
                 }
             }
+        }
+
+        private void SetData(int offset, byte value)
+        {
+            // Currently there is no native API for such functionality
+            // It's not really that big of a overhead, so let's use existing functions
+
+            // Read the existing data into buffer
+            var currentData = GetData();
+
+            // Adjust the value at the offset
+            currentData[offset] = value;
+
+            // Set the new data
+            SetData(currentData);
         }
 
         private string GetDataString()
