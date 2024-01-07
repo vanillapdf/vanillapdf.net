@@ -180,6 +180,41 @@ namespace vanillapdf.net.Utils
         }
     }
 
+    internal sealed class PdfDocumentEncryptionSettingsSafeHandle : PdfSafeHandle
+    {
+        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("DocumentEncryptionSettings_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("DocumentEncryptionSettings_ToUnknown");
+        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("DocumentEncryptionSettings_FromUnknown");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDocumentEncryptionSettingsSafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDocumentEncryptionSettingsSafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfDocumentEncryptionSettingsSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfDocumentEncryptionSettingsSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
+
     internal sealed class PdfPageAnnotationsSafeHandle : PdfSafeHandle
     {
         private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageAnnotations_Release");

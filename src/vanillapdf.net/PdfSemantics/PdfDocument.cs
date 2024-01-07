@@ -148,6 +148,22 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        public void AddEncryption(PdfDocumentEncryptionSettings settings)
+        {
+            UInt32 result = NativeMethods.Document_AddEncryption(Handle, settings.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        public void RemoveEncryption()
+        {
+            UInt32 result = NativeMethods.Document_RemoveEncryption(Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
@@ -156,42 +172,51 @@ namespace vanillapdf.net.PdfSemantics
 
         private static class NativeMethods
         {
-            public static DocumentOpenDelgate Document_Open = LibraryInstance.GetFunction<DocumentOpenDelgate>("Document_Open");
-            public static DocumentOpenFileDelgate Document_OpenFile = LibraryInstance.GetFunction<DocumentOpenFileDelgate>("Document_OpenFile");
-            public static DocumentCreateDelgate Document_Create = LibraryInstance.GetFunction<DocumentCreateDelgate>("Document_Create");
-            public static DocumentCreateFileDelgate Document_CreateFile = LibraryInstance.GetFunction<DocumentCreateFileDelgate>("Document_CreateFile");
-            public static DocumentAppendDocumentDelgate Document_AppendDocument = LibraryInstance.GetFunction<DocumentAppendDocumentDelgate>("Document_AppendDocument");
-            public static DocumentGetCatalogDelgate Document_GetCatalog = LibraryInstance.GetFunction<DocumentGetCatalogDelgate>("Document_GetCatalog");
-            public static DocumentSaveDelgate Document_Save = LibraryInstance.GetFunction<DocumentSaveDelgate>("Document_Save");
-            public static DocumentSaveFileDelgate Document_SaveFile = LibraryInstance.GetFunction<DocumentSaveFileDelgate>("Document_SaveFile");
-            public static DocumentSignDelgate Document_Sign = LibraryInstance.GetFunction<DocumentSignDelgate>("Document_Sign");
+            public static OpenDelgate Document_Open = LibraryInstance.GetFunction<OpenDelgate>("Document_Open");
+            public static OpenFileDelgate Document_OpenFile = LibraryInstance.GetFunction<OpenFileDelgate>("Document_OpenFile");
+            public static CreateDelgate Document_Create = LibraryInstance.GetFunction<CreateDelgate>("Document_Create");
+            public static CreateFileDelgate Document_CreateFile = LibraryInstance.GetFunction<CreateFileDelgate>("Document_CreateFile");
+            public static AppendDocumentDelgate Document_AppendDocument = LibraryInstance.GetFunction<AppendDocumentDelgate>("Document_AppendDocument");
+            public static GetCatalogDelgate Document_GetCatalog = LibraryInstance.GetFunction<GetCatalogDelgate>("Document_GetCatalog");
+            public static SaveDelgate Document_Save = LibraryInstance.GetFunction<SaveDelgate>("Document_Save");
+            public static SaveFileDelgate Document_SaveFile = LibraryInstance.GetFunction<SaveFileDelgate>("Document_SaveFile");
+            public static SignDelgate Document_Sign = LibraryInstance.GetFunction<SignDelgate>("Document_Sign");
+
+            public static AddEncryptionDelgate Document_AddEncryption = LibraryInstance.GetFunction<AddEncryptionDelgate>("Document_AddEncryption");
+            public static RemoveEncryptionDelgate Document_RemoveEncryption = LibraryInstance.GetFunction<RemoveEncryptionDelgate>("Document_RemoveEncryption");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentOpenDelgate(string filename, out PdfDocumentSafeHandle data);
+            public delegate UInt32 OpenDelgate(string filename, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentOpenFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
+            public delegate UInt32 OpenFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentCreateDelgate(string filename, out PdfDocumentSafeHandle data);
+            public delegate UInt32 CreateDelgate(string filename, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentCreateFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
+            public delegate UInt32 CreateFileDelgate(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentAppendDocumentDelgate(PdfDocumentSafeHandle handle, PdfDocumentSafeHandle source);
+            public delegate UInt32 AppendDocumentDelgate(PdfDocumentSafeHandle handle, PdfDocumentSafeHandle source);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentGetCatalogDelgate(PdfDocumentSafeHandle handle, out PdfCatalogSafeHandle data);
+            public delegate UInt32 GetCatalogDelgate(PdfDocumentSafeHandle handle, out PdfCatalogSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentSaveDelgate(PdfDocumentSafeHandle handle, string filename);
+            public delegate UInt32 SaveDelgate(PdfDocumentSafeHandle handle, string filename);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentSaveFileDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle file);
+            public delegate UInt32 SaveFileDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle file);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 DocumentSignDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle destination, PdfDocumentSignatureSettingsSafeHandle settings);
+            public delegate UInt32 SignDelgate(PdfDocumentSafeHandle handle, PdfFileSafeHandle destination, PdfDocumentSignatureSettingsSafeHandle settings);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 AddEncryptionDelgate(PdfDocumentSafeHandle handle, PdfDocumentEncryptionSettingsSafeHandle settings);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 RemoveEncryptionDelgate(PdfDocumentSafeHandle handle);
         }
     }
 }
