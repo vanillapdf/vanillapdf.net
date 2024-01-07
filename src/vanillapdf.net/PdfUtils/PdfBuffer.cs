@@ -69,6 +69,31 @@ namespace vanillapdf.net.PdfUtils
             return new PdfBuffer(handle);
         }
 
+        /// <summary>
+        /// Create a new instance of \ref PdfBuffer with specified data within a single call
+        /// </summary>
+        /// <returns>New instance of \ref PdfBuffer on success, throws exception on failure</returns>
+        public static PdfBuffer CreateFromData(byte[] data)
+        {
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+
+            try {
+                var dataSize = Convert.ToUInt64(data.Length);
+
+                UInt32 result = NativeMethods.Buffer_CreateFromData(out PdfBufferSafeHandle handle, pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize));
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
+                }
+
+                return new PdfBuffer(handle);
+            }
+            finally {
+                if (pinnedArray.IsAllocated) {
+                    pinnedArray.Free();
+                }
+            }
+        }
+
         private byte[] GetData()
         {
             UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
@@ -243,6 +268,7 @@ namespace vanillapdf.net.PdfUtils
         private static class NativeMethods
         {
             public static CreateDelgate Buffer_Create = LibraryInstance.GetFunction<CreateDelgate>("Buffer_Create");
+            public static CreateFromDataDelgate Buffer_CreateFromData = LibraryInstance.GetFunction<CreateFromDataDelgate>("Buffer_CreateFromData");
             public static GetDataDelgate Buffer_GetData = LibraryInstance.GetFunction<GetDataDelgate>("Buffer_GetData");
             public static SetDataDelgate Buffer_SetData = LibraryInstance.GetFunction<SetDataDelgate>("Buffer_SetData");
             public static ToInputStreamDelgate Buffer_ToInputStream = LibraryInstance.GetFunction<ToInputStreamDelgate>("Buffer_ToInputStream");
@@ -252,6 +278,9 @@ namespace vanillapdf.net.PdfUtils
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CreateDelgate(out PdfBufferSafeHandle handle);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 CreateFromDataDelgate(out PdfBufferSafeHandle handle, IntPtr data, UIntPtr size);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetDataDelgate(PdfBufferSafeHandle handle, out IntPtr data, out UIntPtr size);
