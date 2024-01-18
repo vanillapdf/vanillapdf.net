@@ -232,16 +232,16 @@ namespace vanillapdf.net.PdfSyntax
             public static FileXrefChainDelgate File_XrefChain = LibraryInstance.GetFunction<FileXrefChainDelgate>("File_XrefChain");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileOpenDelgate(string filename, out PdfFileSafeHandle data);
+            public delegate UInt32 FileOpenDelgate([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string filename, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileOpenStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, string name, out PdfFileSafeHandle data);
+            public delegate UInt32 FileOpenStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string name, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileCreateDelgate(string filename, out PdfFileSafeHandle data);
+            public delegate UInt32 FileCreateDelgate([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string filename, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileCreateStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, string name, out PdfFileSafeHandle data);
+            public delegate UInt32 FileCreateStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string name, out PdfFileSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FileInitializeDelgate(PdfFileSafeHandle handle);
