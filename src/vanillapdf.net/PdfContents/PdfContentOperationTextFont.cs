@@ -37,7 +37,7 @@ namespace vanillapdf.net.PdfContents
         /// <summary>
         /// Font scale
         /// </summary>
-        public PdfIntegerObject Scale
+        public PdfRealObject Scale
         {
             get { return GetScale(); }
             set { SetScale(value); }
@@ -61,17 +61,17 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
-        private PdfIntegerObject GetScale()
+        private PdfRealObject GetScale()
         {
             UInt32 result = NativeMethods.ContentOperationTextFont_GetScale(Handle, out var value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfIntegerObject(value);
+            return new PdfRealObject(value);
         }
 
-        private void SetScale(PdfIntegerObject value)
+        private void SetScale(PdfRealObject value)
         {
             UInt32 result = NativeMethods.ContentOperationTextFont_SetScale(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -110,10 +110,10 @@ namespace vanillapdf.net.PdfContents
             public delegate UInt32 SetNameDelgate(PdfContentOperationTextFontSafeHandle handle, PdfNameObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetScaleDelgate(PdfContentOperationTextFontSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+            public delegate UInt32 GetScaleDelgate(PdfContentOperationTextFontSafeHandle handle, out PdfRealObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetScaleDelgate(PdfContentOperationTextFontSafeHandle handle, PdfIntegerObjectSafeHandle data);
+            public delegate UInt32 SetScaleDelgate(PdfContentOperationTextFontSafeHandle handle, PdfRealObjectSafeHandle data);
         }
     }
 }
