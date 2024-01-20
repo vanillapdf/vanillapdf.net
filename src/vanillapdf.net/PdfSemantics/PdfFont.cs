@@ -49,6 +49,20 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfFontType>.CheckedCast(data);
         }
 
+        public PdfUnicodeCharacterMap GetUnicodeMap()
+        {
+            UInt32 result = NativeMethods.Font_GetUnicodeMap(FontHandle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfUnicodeCharacterMap(data);
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
@@ -59,12 +73,16 @@ namespace vanillapdf.net.PdfSemantics
         {
             public static CreateFromObjectDelgate Font_CreateFromObject = LibraryInstance.GetFunction<CreateFromObjectDelgate>("Font_CreateFromObject");
             public static GetFontTypeDelgate Font_GetFontType = LibraryInstance.GetFunction<GetFontTypeDelgate>("Font_GetFontType");
+            public static GetUnicodeMapDelgate Font_GetUnicodeMap = LibraryInstance.GetFunction<GetUnicodeMapDelgate>("Font_GetUnicodeMap");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CreateFromObjectDelgate(PdfDictionaryObjectSafeHandle handle, out PdfFontSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetFontTypeDelgate(PdfFontSafeHandle handle, out Int32 data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetUnicodeMapDelgate(PdfFontSafeHandle handle, out PdfUnicodeCharacterMapSafeHandle data);
         }
     }
 }

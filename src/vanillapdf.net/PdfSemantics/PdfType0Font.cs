@@ -24,20 +24,6 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfType0FontSafeHandle).TypeHandle);
         }
 
-        public PdfUnicodeCharacterMap GetUnicodeMap()
-        {
-            UInt32 result = NativeMethods.Type0Font_GetUnicodeMap(Handle, out var data);
-            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
-                return null;
-            }
-
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-
-            return new PdfUnicodeCharacterMap(data);
-        }
-
         /// <summary>
         /// Convert font to Type0 font object
         /// </summary>
@@ -56,10 +42,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private static class NativeMethods
         {
-            public static GetUnicodeMapDelgate Type0Font_GetUnicodeMap = LibraryInstance.GetFunction<GetUnicodeMapDelgate>("Type0Font_GetUnicodeMap");
 
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetUnicodeMapDelgate(PdfType0FontSafeHandle handle, out PdfUnicodeCharacterMapSafeHandle data);
         }
     }
 }
