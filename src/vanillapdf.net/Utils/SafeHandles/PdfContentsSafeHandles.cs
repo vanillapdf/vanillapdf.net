@@ -7,11 +7,11 @@ namespace vanillapdf.net.Utils
 {
     internal sealed class PdfContentInstructionSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentInstruction_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentInstruction_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentInstruction_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentInstruction_FromUnknown");
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentInstruction_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentInstruction_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToUnknownDelegate(PdfContentInstructionSafeHandle handle, out PdfUnknownSafeHandle data);
@@ -42,11 +42,11 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentInstructionCollectionSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentInstructionCollection_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentInstructionCollection_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentInstructionCollection_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentInstructionCollection_FromUnknown");
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentInstructionCollection_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentInstructionCollection_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToUnknownDelegate(PdfContentInstructionCollectionSafeHandle handle, out PdfUnknownSafeHandle data);
@@ -77,11 +77,11 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentInstructionCollectionIteratorSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentInstructionCollectionIterator_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentInstructionCollectionIterator_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentInstructionCollectionIterator_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentInstructionCollectionIterator_FromUnknown");
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentInstructionCollectionIterator_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentInstructionCollectionIterator_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToUnknownDelegate(PdfContentInstructionCollectionIteratorSafeHandle handle, out PdfUnknownSafeHandle data);
@@ -114,11 +114,11 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentOperatorSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperator_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperator_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperator_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentOperator_FromUnknown");
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperator_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentOperator_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToUnknownDelegate(PdfContentOperatorSafeHandle handle, out PdfUnknownSafeHandle data);
@@ -151,7 +151,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentObjectSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentObject_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentObject_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate Convert_ToInstruction = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentObject_ToInstruction");
@@ -196,7 +196,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentObjectTextSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentObjectText_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentObjectText_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate ContentObjectText_ToContentObject = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentObjectText_ToContentObject");
@@ -251,7 +251,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentOperationSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperation_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperation_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate Convert_ToInstruction = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperation_ToInstruction");
@@ -286,7 +286,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentOperationGenericSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationGeneric_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationGeneric_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate ContentOperationGeneric_ToContentOperation = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperationGeneric_ToContentOperation");
@@ -321,7 +321,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentOperationTextShowSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextShow_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextShow_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate ContentOperationTextShow_ToContentOperation = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperationTextShow_ToContentOperation");
@@ -356,7 +356,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentOperationTextShowArraySafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextShowArray_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextShowArray_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate ContentOperationShowText_ToContentOperation = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperationTextShowArray_ToContentOperation");
@@ -391,7 +391,7 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentOperationTextFontSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextFont_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentOperationTextFont_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
         private static ConvertToUnknownDelegate ContentOperationTextFont_ToContentOperation = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentOperationTextFont_ToContentOperation");
@@ -426,11 +426,11 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfContentParserSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentParser_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ContentParser_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentParser_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentParser_FromUnknown");
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ContentParser_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ContentParser_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToUnknownDelegate(PdfContentParserSafeHandle handle, out PdfUnknownSafeHandle data);
@@ -463,11 +463,11 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfBaseFontRangeSafeHandle : PdfSafeHandle
     {
-        private static GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("BaseFontRange_Release");
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("BaseFontRange_Release");
         protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
 
-        private static ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("BaseFontRange_ToUnknown");
-        private static ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("BaseFontRange_FromUnknown");
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("BaseFontRange_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("BaseFontRange_FromUnknown");
 
         [UnmanagedFunctionPointer(LibraryCallingConvention)]
         private delegate UInt32 ConvertToUnknownDelegate(PdfBaseFontRangeSafeHandle handle, out PdfUnknownSafeHandle data);
