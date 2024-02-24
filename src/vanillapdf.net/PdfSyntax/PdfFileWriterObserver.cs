@@ -270,7 +270,7 @@ namespace vanillapdf.net.PdfSyntax
         // We prevent cleaning up the delegates by having static references.
 
         private static NativeMethods.OnInitializingDelegate onInitializingDelegate = OnInitializing;
-        private static NativeMethods.OnFinalizingDelegate onFinalizingDelegate = OnInitializing;
+        private static NativeMethods.OnFinalizingDelegate onFinalizingDelegate = OnFinalizing;
         private static NativeMethods.OnBeforeObjectWriteDelegate onBeforeObjectWriteDelegate = OnBeforeObjectWrite;
         private static NativeMethods.OnAfterObjectWriteDelegate onAfterObjectWriteDelegate = OnAfterObjectWrite;
         private static NativeMethods.OnBeforeObjectOffsetRecalculationDelegate onBeforeObjectOffsetRecalculationDelgate = OnBeforeObjectOffsetRecalculation;
