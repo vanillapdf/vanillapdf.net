@@ -40,9 +40,7 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        /// <summary>
-        /// Release all unmanaged resources
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);

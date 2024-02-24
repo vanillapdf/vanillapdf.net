@@ -227,11 +227,7 @@ namespace vanillapdf.net.PdfUtils
             return new PdfInputStream(handle);
         }
 
-        /// <summary>
-        /// Custom equality operator to support \ref PdfBuffer
-        /// </summary>
-        /// <param name="obj">Other object to be compared</param>
-        /// <returns>True if the compared objects are equal, false if not equal, throws exception on failure</returns>
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is PdfBuffer) {
@@ -241,19 +237,13 @@ namespace vanillapdf.net.PdfUtils
             return base.Equals(obj);
         }
 
-        /// <summary>
-        /// Custom hash value calculation
-        /// </summary>
-        /// <returns>Integral value representing hash of the binary data</returns>
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return (int)Hash();
         }
 
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <returns>A string that represents the current object.</returns>
+        /// <inheritdoc/>
         public override string ToString()
         {
             return StringData;

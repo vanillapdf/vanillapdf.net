@@ -130,6 +130,7 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNameObject(data.ObjectHandle);
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is PdfNameObject) {
@@ -139,6 +140,7 @@ namespace vanillapdf.net.PdfSyntax
             return base.Equals(obj);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return (int)Hash();

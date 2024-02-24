@@ -157,10 +157,16 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IList<PdfObject>
 
+        /// <inheritdoc/>
         public int Count => (int)GetSize();
+
+        /// <inheritdoc/>
         public bool IsReadOnly => false;
+
+        /// <inheritdoc/>
         public PdfObject this[int index] { get => GetValue(index); set => SetValue(index, value); }
 
+        /// <inheritdoc/>
         public int IndexOf(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
@@ -174,23 +180,27 @@ namespace vanillapdf.net.PdfSyntax
             return -1;
         }
 
+        /// <inheritdoc/>
         public void Insert(int index, PdfObject item)
         {
             UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(index);
             Insert(indexConverted, item);
         }
 
+        /// <inheritdoc/>
         public void RemoveAt(int index)
         {
             UInt64 indexConverted = MiscUtils.PlatformIntegerConversion(index);
             Remove(indexConverted);
         }
 
+        /// <inheritdoc/>
         public void Add(PdfObject item)
         {
             Append(item);
         }
 
+        /// <inheritdoc/>
         public bool Contains(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {
@@ -205,6 +215,7 @@ namespace vanillapdf.net.PdfSyntax
             return false;
         }
 
+        /// <inheritdoc/>
         public void CopyTo(PdfObject[] array, int arrayIndex)
         {
             for (int i = 0; i < Count; ++i) {
@@ -212,6 +223,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <inheritdoc/>
         public bool Remove(PdfObject item)
         {
             for (int i = 0; i < Count; ++i) {

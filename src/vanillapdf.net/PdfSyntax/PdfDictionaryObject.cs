@@ -145,6 +145,7 @@ namespace vanillapdf.net.PdfSyntax
 
         #region IDictionary<PdfNameObject, PdfObject>
 
+        /// <inheritdoc/>
         public ICollection<PdfNameObject> Keys
         {
             get
@@ -157,6 +158,8 @@ namespace vanillapdf.net.PdfSyntax
                 return result;
             }
         }
+
+        /// <inheritdoc/>
         public ICollection<PdfObject> Values
         {
             get
@@ -170,21 +173,28 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <inheritdoc/>
         public int Count => (int)GetSize();
+
+        /// <inheritdoc/>
         public bool IsReadOnly => false;
 
+        /// <inheritdoc/>
         public PdfObject this[PdfNameObject key] { get => Find(key); set => Insert(key, value, true); }
 
+        /// <inheritdoc/>
         public void Add(PdfNameObject key, PdfObject value)
         {
             Insert(key, value);
         }
 
+        /// <inheritdoc/>
         public bool ContainsKey(PdfNameObject key)
         {
             return Contains(key);
         }
 
+        /// <inheritdoc/>
         public bool TryGetValue(PdfNameObject key, out PdfObject value)
         {
             if (Contains(key)) {
@@ -196,11 +206,13 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <inheritdoc/>
         public void Add(KeyValuePair<PdfNameObject, PdfObject> item)
         {
             Insert(item.Key, item.Value);
         }
 
+        /// <inheritdoc/>
         public bool Contains(KeyValuePair<PdfNameObject, PdfObject> item)
         {
             if (!Contains(item.Key)) {
@@ -211,6 +223,7 @@ namespace vanillapdf.net.PdfSyntax
             return value.Equals(item.Value);
         }
 
+        /// <inheritdoc/>
         public void CopyTo(KeyValuePair<PdfNameObject, PdfObject>[] array, int arrayIndex)
         {
             int currentIndex = arrayIndex;
@@ -219,6 +232,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <inheritdoc/>
         public bool Remove(KeyValuePair<PdfNameObject, PdfObject> item)
         {
             if (Contains(item)) {
