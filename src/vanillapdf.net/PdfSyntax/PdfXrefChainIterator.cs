@@ -80,8 +80,11 @@ namespace vanillapdf.net.PdfSyntax
         private bool isFirst = true;
 
         object IEnumerator.Current => GetValue();
+
+        /// <inheritdoc/>
         public PdfXref Current => GetValue();
 
+        /// <inheritdoc/>
         public bool MoveNext()
         {
             if (!IsValid()) {
@@ -98,6 +101,7 @@ namespace vanillapdf.net.PdfSyntax
             return IsValid();
         }
 
+        /// <inheritdoc/>
         public void Reset()
         {
             throw new NotImplementedException();
