@@ -77,6 +77,10 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageAnnotations).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstruction).TypeHandle);
 
+            RuntimeHelpers.RunClassConstructor(typeof(PdfOutlineBase).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfOutline).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfOutlineItem).TypeHandle);
+
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentObject).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectText).TypeHandle);
 

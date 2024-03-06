@@ -602,8 +602,7 @@ namespace vanillapdf.net.Utils
         public static implicit operator PdfUnknownSafeHandle(PdfRectangleSafeHandle handle)
         {
             UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS)
-            {
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
@@ -613,12 +612,136 @@ namespace vanillapdf.net.Utils
         public static implicit operator PdfRectangleSafeHandle(PdfUnknownSafeHandle handle)
         {
             UInt32 result = Convert_FromUnknown(handle, out PdfRectangleSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS)
-            {
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
             return data;
+        }
+    }
+
+    internal sealed class PdfOutlineBaseSafeHandle : PdfSafeHandle
+    {
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("OutlineBase_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("OutlineBase_ToUnknown");
+        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("OutlineBase_FromUnknown");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToUnknownDelegate(PdfOutlineBaseSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfOutlineBaseSafeHandle data);
+
+        public static implicit operator PdfUnknownSafeHandle(PdfOutlineBaseSafeHandle handle)
+        {
+            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfOutlineBaseSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = Convert_FromUnknown(handle, out PdfOutlineBaseSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+    }
+
+    internal sealed class PdfOutlineSafeHandle : PdfSafeHandle
+    {
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Outline_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static readonly ConvertToOutlineBaseDelegate Convert_ToOutlineBase = LibraryInstance.GetFunction<ConvertToOutlineBaseDelegate>("Outline_ToOutlineBase");
+        private static readonly ConvertFromOutlineBaseDelegate Convert_FromOutlineBase = LibraryInstance.GetFunction<ConvertFromOutlineBaseDelegate>("Outline_FromOutlineBase");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToOutlineBaseDelegate(PdfOutlineSafeHandle handle, out PdfOutlineBaseSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromOutlineBaseDelegate(PdfOutlineBaseSafeHandle handle, out PdfOutlineSafeHandle data);
+
+        public static implicit operator PdfOutlineBaseSafeHandle(PdfOutlineSafeHandle handle)
+        {
+            UInt32 result = Convert_ToOutlineBase(handle, out PdfOutlineBaseSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfOutlineSafeHandle(PdfOutlineBaseSafeHandle handle)
+        {
+            UInt32 result = Convert_FromOutlineBase(handle, out PdfOutlineSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfOutlineSafeHandle handle)
+        {
+            return (PdfOutlineBaseSafeHandle)handle;
+        }
+
+        public static implicit operator PdfOutlineSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfOutlineBaseSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfOutlineItemSafeHandle : PdfSafeHandle
+    {
+        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("OutlineItem_Release");
+        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
+
+        private static readonly ConvertToOutlineBaseDelegate Convert_ToOutlineBase = LibraryInstance.GetFunction<ConvertToOutlineBaseDelegate>("OutlineItem_ToOutlineBase");
+        private static readonly ConvertFromOutlineBaseDelegate Convert_FromOutlineBase = LibraryInstance.GetFunction<ConvertFromOutlineBaseDelegate>("OutlineItem_FromOutlineBase");
+
+        [UnmanagedFunctionPointer(LibraryCallingConvention)]
+        private delegate UInt32 ConvertToOutlineBaseDelegate(PdfOutlineItemSafeHandle handle, out PdfOutlineBaseSafeHandle data);
+
+        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+        private delegate UInt32 ConvertFromOutlineBaseDelegate(PdfOutlineBaseSafeHandle handle, out PdfOutlineItemSafeHandle data);
+
+        public static implicit operator PdfOutlineBaseSafeHandle(PdfOutlineItemSafeHandle handle)
+        {
+            UInt32 result = Convert_ToOutlineBase(handle, out PdfOutlineBaseSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfOutlineItemSafeHandle(PdfOutlineBaseSafeHandle handle)
+        {
+            UInt32 result = Convert_FromOutlineBase(handle, out PdfOutlineItemSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfOutlineItemSafeHandle handle)
+        {
+            return (PdfOutlineBaseSafeHandle)handle;
+        }
+
+        public static implicit operator PdfOutlineItemSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfOutlineBaseSafeHandle)handle;
         }
     }
 }

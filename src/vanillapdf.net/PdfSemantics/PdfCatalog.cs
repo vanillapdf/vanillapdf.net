@@ -68,6 +68,20 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfPageTree(data);
         }
 
+        public PdfOutline GetOutlines()
+        {
+            UInt32 result = NativeMethods.Catalog_GetOutlines(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfOutline(data);
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
@@ -78,12 +92,16 @@ namespace vanillapdf.net.PdfSemantics
         {
             public static CatalogGetPagesDelgate Catalog_GetPages = LibraryInstance.GetFunction<CatalogGetPagesDelgate>("Catalog_GetPages");
             public static CatalogGetVersionDelgate Catalog_GetVersion = LibraryInstance.GetFunction<CatalogGetVersionDelgate>("Catalog_GetVersion");
+            public static GetOutlinesDelgate Catalog_GetOutlines = LibraryInstance.GetFunction<GetOutlinesDelgate>("Catalog_GetOutlines");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CatalogGetPagesDelgate(PdfCatalogSafeHandle handle, out PdfPageTreeSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 CatalogGetVersionDelgate(PdfCatalogSafeHandle handle, out int data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetOutlinesDelgate(PdfCatalogSafeHandle handle, out PdfOutlineSafeHandle data);
         }
     }
 }
