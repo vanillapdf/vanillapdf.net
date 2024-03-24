@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using vanillapdf.net.PdfSyntax;
 
 namespace vanillapdf.net.nunit.PdfSyntax
@@ -10,7 +11,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
         [Test]
         public void TestIterator()
         {
-            var DictionaryObject = PdfDictionaryObject.Create();
+            using var DictionaryObject = PdfDictionaryObject.Create();
 
             Assert.AreEqual(DictionaryObject.Count, 0);
             Assert.AreEqual(DictionaryObject.Keys.Count, 0);
@@ -39,6 +40,30 @@ namespace vanillapdf.net.nunit.PdfSyntax
             Assert.AreEqual(DictionaryObject.Count, 0);
             Assert.AreEqual(DictionaryObject.Keys.Count, 0);
             Assert.AreEqual(DictionaryObject.Values.Count, 0);
+        }
+
+        [Test]
+        public void TestKeyValuePair()
+        {
+            using var dictionaryObject = PdfDictionaryObject.Create();
+
+            using PdfNameObject key = PdfNameObject.Create();
+            using PdfIntegerObject value = PdfIntegerObject.Create();
+
+            key.Value.StringData = "TEST";
+            value.IntegerValue = 1;
+
+            dictionaryObject.Add(new KeyValuePair<PdfNameObject,PdfObject>(key, value));
+
+            Assert.AreEqual(dictionaryObject.Count, 1);
+
+            bool contains = dictionaryObject.Contains(new KeyValuePair<PdfNameObject, PdfObject>(key, value));
+            Assert.IsTrue(contains);
+
+            bool removed = dictionaryObject.Remove(new KeyValuePair<PdfNameObject, PdfObject>(key, value));
+            Assert.IsTrue(removed);
+
+            Assert.AreEqual(dictionaryObject.Count, 0);
         }
 
         [Test]

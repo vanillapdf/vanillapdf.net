@@ -100,6 +100,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <inheritdoc/>
         public bool Remove(PdfNameObject key)
         {
             UInt32 result = NativeMethods.DictionaryObject_Remove(Handle, key.ObjectHandle, out var data);
@@ -110,6 +111,7 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <inheritdoc/>
         public void Clear()
         {
             UInt32 result = NativeMethods.DictionaryObject_Clear(Handle);
@@ -215,12 +217,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <inheritdoc/>
         public bool Contains(KeyValuePair<PdfNameObject, PdfObject> item)
         {
-            if (!Contains(item.Key)) {
-                return false;
-            }
-
-            var value = Find(item.Key);
-            return value.Equals(item.Value);
+            return Contains(item.Key);
         }
 
         /// <inheritdoc/>
@@ -235,10 +232,6 @@ namespace vanillapdf.net.PdfSyntax
         /// <inheritdoc/>
         public bool Remove(KeyValuePair<PdfNameObject, PdfObject> item)
         {
-            if (Contains(item)) {
-                return false;
-            }
-
             return Remove(item.Key);
         }
 
