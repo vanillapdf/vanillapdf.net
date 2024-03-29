@@ -73,18 +73,30 @@ namespace vanillapdf.net.Utils
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                     m_handle = new WindowsPlatformUtils();
                     m_handle.LoadLibrary(rootPath);
+
+                    // Enforce all classes are immedialy available
+                    MiscUtils.InitializeClasses();
+
                     return;
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
                     m_handle = new LinuxPlatformUtils();
                     m_handle.LoadLibrary(rootPath);
+
+                    // Enforce all classes are immedialy available
+                    MiscUtils.InitializeClasses();
+
                     return;
                 }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
                     m_handle = new MacPlatformUtils();
                     m_handle.LoadLibrary(rootPath);
+
+                    // Enforce all classes are immedialy available
+                    MiscUtils.InitializeClasses();
+
                     return;
                 }
 
