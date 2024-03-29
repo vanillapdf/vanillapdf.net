@@ -63,6 +63,10 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObject).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfHexadecimalStringObject).TypeHandle);
 
+            RuntimeHelpers.RunClassConstructor(typeof(PdfBaseObjectAttribute).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfImageMetadataObjectAttribute).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfObjectAttributeList).TypeHandle);
+
             // Semtantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfDate).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfRectangle).TypeHandle);
