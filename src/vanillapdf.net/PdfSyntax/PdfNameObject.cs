@@ -30,6 +30,11 @@ namespace vanillapdf.net.PdfSyntax
             set { SetValue(value); }
         }
 
+        public UInt64 Hash
+        {
+            get { return GetHash(); }
+        }
+
         /// <summary>
         /// Create a new instance of \ref PdfNameObject with default value
         /// </summary>
@@ -82,21 +87,7 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        public bool Equals(PdfNameObject other)
-        {
-            if (other == null) {
-                return false;
-            }
-
-            UInt32 result = NativeMethods.NameObject_Equals(Handle, other.Handle, out var data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-
-            return data;
-        }
-
-        public UInt64 Hash()
+        private UInt64 GetHash()
         {
             UInt32 result = NativeMethods.NameObject_Hash(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -109,6 +100,11 @@ namespace vanillapdf.net.PdfSyntax
         public static implicit operator PdfNameObject(string data)
         {
             return CreateFromDecodedString(data);
+        }
+
+        public static implicit operator string(PdfNameObject data)
+        {
+            return data.ToString();
         }
 
         internal override PdfObject ConvertTo<T>()
@@ -130,6 +126,27 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNameObject(data.ObjectHandle);
         }
 
+        #region IEquatable<PdfNameObject>
+
+        /// <inheritdoc/>
+        public bool Equals(PdfNameObject other)
+        {
+            if (other == null) {
+                return false;
+            }
+
+            UInt32 result = NativeMethods.NameObject_Equals(Handle, other.Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data;
+        }
+
+        #endregion
+
+        #region object
+
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
@@ -143,8 +160,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return (int)Hash();
+            return (int)GetHash();
         }
+
+        #endregion
 
         #region PdfUnknown
 
