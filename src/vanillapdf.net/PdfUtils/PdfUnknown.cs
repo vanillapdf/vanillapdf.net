@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Threading;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -20,8 +19,7 @@ namespace vanillapdf.net.PdfUtils
         internal PdfUnknown(PdfUnknownSafeHandle handle)
         {
             UnknownHandle = handle;
-
-            Interlocked.Increment(ref _counter);
+            IncrementCounter();
         }
 
         internal void AddRef()
@@ -62,9 +60,18 @@ namespace vanillapdf.net.PdfUtils
             DecrementCounter();
         }
 
-        private protected virtual void DecrementCounter()
+        private void IncrementCounter()
         {
-            Interlocked.Decrement(ref _counter);
+#if DEBUG || TRACE_SAFE_HANDLES
+            System.Threading.Interlocked.Increment(ref _counter);
+#endif
+        }
+
+        private void DecrementCounter()
+        {
+#if DEBUG || TRACE_SAFE_HANDLES
+            System.Threading.Interlocked.Decrement(ref _counter);
+#endif
         }
 
         private protected virtual void DisposeCustomHandle()
@@ -72,6 +79,9 @@ namespace vanillapdf.net.PdfUtils
             UnknownHandle?.Dispose();
         }
 
+        /// <summary>
+        /// Finalizer of the class, ensures the proper release of resources
+        /// </summary>
         ~PdfUnknown()
         {
             Dispose(false);

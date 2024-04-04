@@ -2,7 +2,6 @@
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Threading;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.Utils
@@ -12,11 +11,13 @@ namespace vanillapdf.net.Utils
         internal static int _counter;
         internal static int Counter { get => _counter; private set => _counter = value; }
 
+        private protected bool _disposed = false;
+
         protected abstract GenericReleaseDelgate ReleaseDelegate { get; }
 
         public PdfSafeHandle() : base(IntPtr.Zero, true)
         {
-            Interlocked.Increment(ref _counter);
+            IncrementCounter();
         }
 
         internal void DangerousSetHandle(IntPtr newHandle)
@@ -43,9 +44,45 @@ namespace vanillapdf.net.Utils
                 return false;
             }
 
-            Interlocked.Decrement(ref _counter);
-
             return (ReleaseDelegate(handle) == PdfReturnValues.ERROR_SUCCESS);
+        }
+
+        #region IDisposable
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_disposed) {
+                return;
+            }
+
+            base.Dispose(disposing);
+
+            _disposed = true;
+            DecrementCounter();
+        }
+
+        /// <summary>
+        /// Finalizer of the class, ensures the proper release of resources
+        /// </summary>
+        ~PdfSafeHandle()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+
+        private void IncrementCounter()
+        {
+#if DEBUG || TRACE_SAFE_HANDLES
+            System.Threading.Interlocked.Increment(ref _counter);
+#endif
+        }
+
+        private void DecrementCounter()
+        {
+#if DEBUG || TRACE_SAFE_HANDLES
+            System.Threading.Interlocked.Decrement(ref _counter);
+#endif
         }
 
         [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention), SuppressUnmanagedCodeSecurity]
