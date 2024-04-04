@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -148,7 +149,7 @@ namespace vanillapdf.net.PdfSyntax
             }
 
             using (var buffer = new PdfBuffer(data)) {
-                return buffer.ToString();
+                return Encoding.UTF8.GetString(buffer.Data);
             }
         }
 
