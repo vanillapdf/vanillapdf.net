@@ -1051,7 +1051,7 @@ namespace vanillapdf.net.Utils
         [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
         private delegate UInt32 ConvertFromBaseAttributeDelegate(PdfBaseObjectAttributeSafeHandle handle, out PdfImageMetadataObjectAttributeSafeHandle data);
 
-        public static implicit operator PdfImageMetadataObjectAttributeSafeHandle(PdfBaseObjectAttributeSafeHandle handle)
+        public static implicit operator PdfBaseObjectAttributeSafeHandle(PdfImageMetadataObjectAttributeSafeHandle handle)
         {
             UInt32 result = Convert_ToBaseAttribute(handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -1061,7 +1061,7 @@ namespace vanillapdf.net.Utils
             return data;
         }
 
-        public static implicit operator PdfBaseObjectAttributeSafeHandle(PdfImageMetadataObjectAttributeSafeHandle handle)
+        public static implicit operator PdfImageMetadataObjectAttributeSafeHandle(PdfBaseObjectAttributeSafeHandle handle)
         {
             UInt32 result = Convert_FromBaseAttribute(handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
