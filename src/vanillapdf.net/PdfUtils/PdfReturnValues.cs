@@ -50,6 +50,10 @@ namespace vanillapdf.net.PdfUtils
                 return VANILLAPDF_ERROR_INVALID_PASSWORD;
             }
 
+            if (value == ERROR_DUPLICATE_KEY) {
+                return VANILLAPDF_ERROR_DUPLICATE_KEY;
+            }
+
             throw new PdfManagedException($"Unknown return value: {value}");
         }
 
