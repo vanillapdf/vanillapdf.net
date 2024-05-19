@@ -126,6 +126,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfStreamObject if the object can be converted, throws exception on failure</returns>
         public static PdfStreamObject FromObject(PdfObject data)
         {
+            if (data is PdfStreamObject pdfStreamObject) {
+                return pdfStreamObject;
+            }
+
             return new PdfStreamObject(data.ObjectHandle);
         }
 

@@ -90,6 +90,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfBooleanObject if the object can be converted, throws exception on failure</returns>
         public static PdfBooleanObject FromObject(PdfObject data)
         {
+            if (data is PdfBooleanObject pdfBooleanObject) {
+                return pdfBooleanObject;
+            }
+
             return new PdfBooleanObject(data.ObjectHandle);
         }
 

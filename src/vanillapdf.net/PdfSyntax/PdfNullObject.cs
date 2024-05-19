@@ -54,6 +54,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfNullObject if the object can be converted, throws exception on failure</returns>
         public static PdfNullObject FromObject(PdfObject data)
         {
+            if (data is PdfNullObject pdfNullObject) {
+                return pdfNullObject;
+            }
+
             return new PdfNullObject(data.ObjectHandle);
         }
 

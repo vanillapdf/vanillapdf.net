@@ -130,6 +130,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfArrayObject if the object can be converted, throws exception on failure</returns>
         public static PdfArrayObject FromObject(PdfObject data)
         {
+            if (data is PdfArrayObject pdfArrayObject) {
+                return pdfArrayObject;
+            }
+
             return new PdfArrayObject(data.ObjectHandle);
         }
 

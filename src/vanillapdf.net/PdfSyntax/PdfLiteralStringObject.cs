@@ -119,6 +119,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfLiteralStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfLiteralStringObject FromString(PdfStringObject data)
         {
+            if (data is PdfLiteralStringObject pdfLiteralStringObject) {
+                return pdfLiteralStringObject;
+            }
+
             return new PdfLiteralStringObject(data.StringHandle);
         }
 

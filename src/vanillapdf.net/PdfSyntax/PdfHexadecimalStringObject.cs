@@ -119,6 +119,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfHexadecimalStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfHexadecimalStringObject FromString(PdfStringObject data)
         {
+            if (data is PdfHexadecimalStringObject pdfHexadecimalStringObject) {
+                return pdfHexadecimalStringObject;
+            }
+
             return new PdfHexadecimalStringObject(data.StringHandle);
         }
 
