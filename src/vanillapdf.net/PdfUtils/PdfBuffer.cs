@@ -31,7 +31,7 @@ namespace vanillapdf.net.PdfUtils
         /// </summary>
         public byte[] Data
         {
-            get { return GetData(); }
+            get { return GetData2(); }
             set { SetData(value); }
         }
 
@@ -116,6 +116,26 @@ namespace vanillapdf.net.PdfUtils
             return allocatedBuffer;
         }
 
+        private byte[] GetData2()
+        {
+            UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            // TODO: might overflow
+            var rawSize = size.ToUInt64();
+            var sizeConverted = Convert.ToInt32(rawSize);
+
+            byte[] allocatedBuffer = new byte[sizeConverted];
+
+            // Use CopyTo instead of Marshal.Copy as if the Buffer data changes
+            // we do get a segmentation fault.
+            CopyTo(allocatedBuffer);
+
+            return allocatedBuffer;
+        }
+
         private byte GetData(int offset)
         {
             UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
@@ -178,6 +198,25 @@ namespace vanillapdf.net.PdfUtils
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
             SetData(bytes);
+        }
+
+        private void CopyTo(byte[] data)
+        {
+            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+
+            try {
+                var dataSize = Convert.ToUInt64(data.Length);
+
+                UInt32 result = NativeMethods.Buffer_CopyTo(Handle, pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize));
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
+                }
+            }
+            finally {
+                if (pinnedArray.IsAllocated) {
+                    pinnedArray.Free();
+                }
+            }
         }
 
         /// <summary>
@@ -261,6 +300,7 @@ namespace vanillapdf.net.PdfUtils
             public static CreateFromDataDelgate Buffer_CreateFromData = LibraryInstance.GetFunction<CreateFromDataDelgate>("Buffer_CreateFromData");
             public static GetDataDelgate Buffer_GetData = LibraryInstance.GetFunction<GetDataDelgate>("Buffer_GetData");
             public static SetDataDelgate Buffer_SetData = LibraryInstance.GetFunction<SetDataDelgate>("Buffer_SetData");
+            public static CopyToDelgate Buffer_CopyTo = LibraryInstance.GetFunction<CopyToDelgate>("Buffer_CopyTo");
             public static ToInputStreamDelgate Buffer_ToInputStream = LibraryInstance.GetFunction<ToInputStreamDelgate>("Buffer_ToInputStream");
 
             public static EqualsDelgate Buffer_Equals = LibraryInstance.GetFunction<EqualsDelgate>("Buffer_Equals");
@@ -277,6 +317,9 @@ namespace vanillapdf.net.PdfUtils
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 SetDataDelgate(PdfBufferSafeHandle handle, IntPtr data, UIntPtr size);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 CopyToDelgate(PdfBufferSafeHandle handle, IntPtr data, UIntPtr size);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 ToInputStreamDelgate(PdfBufferSafeHandle handle, out PdfInputStreamSafeHandle data);
