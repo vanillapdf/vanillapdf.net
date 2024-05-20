@@ -10,6 +10,7 @@ namespace vanillapdf.net.PdfUtils
     {
         internal static string GetValueName(uint value)
         {
+            // Global
             if (value == ERROR_SUCCESS) {
                 return VANILLAPDF_ERROR_SUCCESS;
             }
@@ -22,10 +23,31 @@ namespace vanillapdf.net.PdfUtils
                 return VANILLAPDF_ERROR_NOT_SUPPORTED;
             }
 
+            if (value == ERROR_USER_CANCELLED) {
+                return VANILLAPDF_ERROR_USER_CANCELLED;
+            }
+
+            if (value == ERROR_ZLIB_DATA) {
+                return VANILLAPDF_ERROR_ZLIB_DATA;
+            }
+
+            if (value == ERROR_INVALID_LICENSE) {
+                return VANILLAPDF_ERROR_INVALID_LICENSE;
+            }
+
+            if (value == ERROR_LICENSE_REQUIRED) {
+                return VANILLAPDF_ERROR_LICENSE_REQUIRED;
+            }
+
+            if (value == ERROR_INSUFFICIENT_SPACE) {
+                return VANILLAPDF_ERROR_INSUFFICIENT_SPACE;
+            }
+
             if (value == ERROR_GENERAL) {
                 return VANILLAPDF_ERROR_GENERAL;
             }
 
+            // Syntax
             if (value == ERROR_CONVERSION) {
                 return VANILLAPDF_ERROR_CONVERSION;
             }
@@ -52,6 +74,16 @@ namespace vanillapdf.net.PdfUtils
 
             if (value == ERROR_DUPLICATE_KEY) {
                 return VANILLAPDF_ERROR_DUPLICATE_KEY;
+            }
+
+            // Semantics
+
+            if (value == ERROR_OPTIONAL_ENTRY_MISSING) {
+                return VANILLAPDF_ERROR_OPTIONAL_ENTRY_MISSING;
+            }
+
+            if (value == ERROR_SEMANTIC_CONTEXT) {
+                return VANILLAPDF_ERROR_SEMANTIC_CONTEXT;
             }
 
             throw new PdfManagedException($"Unknown return value: {value}");
@@ -93,6 +125,11 @@ namespace vanillapdf.net.PdfUtils
         /// Error accessing licensed feature without a valid license file.
         /// </summary>
         public static UInt32 ERROR_LICENSE_REQUIRED = LibraryInstance.GetConstant(VANILLAPDF_ERROR_LICENSE_REQUIRED);
+
+        /// <summary>
+        /// The space usually for buffer was not sufficient for requested operation.
+        /// </summary>
+        public static UInt32 ERROR_INSUFFICIENT_SPACE = LibraryInstance.GetConstant(VANILLAPDF_ERROR_INSUFFICIENT_SPACE);
 
         /// <summary>
         /// An unknown error has occurred.
@@ -145,6 +182,16 @@ namespace vanillapdf.net.PdfUtils
         /// </summary>
         public static UInt32 ERROR_DUPLICATE_KEY = LibraryInstance.GetConstant(VANILLAPDF_ERROR_DUPLICATE_KEY);
 
+        /// <summary>
+        /// The requested object is empty or missing.
+        /// </summary>
+        public static UInt32 ERROR_OPTIONAL_ENTRY_MISSING = LibraryInstance.GetConstant(VANILLAPDF_ERROR_OPTIONAL_ENTRY_MISSING);
+
+        /// <summary>
+        /// The underlying type of the object was different than expected.
+        /// </summary>
+        public static UInt32 ERROR_SEMANTIC_CONTEXT = LibraryInstance.GetConstant(VANILLAPDF_ERROR_SEMANTIC_CONTEXT);
+
         #endregion
 
         private const string VANILLAPDF_ERROR_SUCCESS = "VANILLAPDF_ERROR_SUCCESS";
@@ -154,6 +201,7 @@ namespace vanillapdf.net.PdfUtils
         private const string VANILLAPDF_ERROR_ZLIB_DATA = "VANILLAPDF_ERROR_ZLIB_DATA";
         private const string VANILLAPDF_ERROR_INVALID_LICENSE = "VANILLAPDF_ERROR_INVALID_LICENSE";
         private const string VANILLAPDF_ERROR_LICENSE_REQUIRED = "VANILLAPDF_ERROR_LICENSE_REQUIRED";
+        private const string VANILLAPDF_ERROR_INSUFFICIENT_SPACE = "VANILLAPDF_ERROR_INSUFFICIENT_SPACE";
         private const string VANILLAPDF_ERROR_GENERAL = "VANILLAPDF_ERROR_GENERAL";
 
         private const string VANILLAPDF_ERROR_CONVERSION = "VANILLAPDF_ERROR_CONVERSION";
@@ -164,5 +212,7 @@ namespace vanillapdf.net.PdfUtils
         private const string VANILLAPDF_ERROR_INVALID_PASSWORD = "VANILLAPDF_ERROR_INVALID_PASSWORD";
         private const string VANILLAPDF_ERROR_DUPLICATE_KEY = "VANILLAPDF_ERROR_DUPLICATE_KEY";
 
+        private const string VANILLAPDF_ERROR_OPTIONAL_ENTRY_MISSING = "VANILLAPDF_ERROR_OPTIONAL_ENTRY_MISSING";
+        private const string VANILLAPDF_ERROR_SEMANTIC_CONTEXT = "VANILLAPDF_ERROR_SEMANTIC_CONTEXT";
     }
 }

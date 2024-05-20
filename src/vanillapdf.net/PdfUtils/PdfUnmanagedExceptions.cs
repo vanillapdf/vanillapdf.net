@@ -21,6 +21,7 @@ namespace vanillapdf.net.PdfUtils
 
         internal static PdfUnmanagedException GetException(uint value, string errorMessage = null)
         {
+            // Global errors
             if (value == PdfReturnValues.ERROR_PARAMETER_VALUE) {
                 return PdfParameterValueException.Create(errorMessage);
             }
@@ -45,10 +46,15 @@ namespace vanillapdf.net.PdfUtils
                 return PdfLicenseRequiredException.Create(errorMessage);
             }
 
+            if (value == PdfReturnValues.ERROR_INSUFFICIENT_SPACE) {
+                // TODO
+            }
+
             if (value == PdfReturnValues.ERROR_GENERAL) {
                 return PdfGeneralException.Create(errorMessage);
             }
 
+            // Syntax errors
             if (value == PdfReturnValues.ERROR_CONVERSION) {
                 return PdfConversionException.Create(errorMessage);
             }
@@ -65,16 +71,26 @@ namespace vanillapdf.net.PdfUtils
                 return PdfObjectMissingException.Create(errorMessage);
             }
 
-            if (value == PdfReturnValues.ERROR_OBJECT_MISSING) {
-                return PdfObjectMissingException.Create(errorMessage);
-            }
-
             if (value == PdfReturnValues.ERROR_PARSE_EXCEPTION) {
                 return PdfParseException.Create(errorMessage);
             }
 
             if (value == PdfReturnValues.ERROR_INVALID_PASSWORD) {
                 return PdfInvalidPasswordException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ERROR_DUPLICATE_KEY) {
+                // TODO
+            }
+
+            // Semantic errors
+
+            if (value == PdfReturnValues.ERROR_OPTIONAL_ENTRY_MISSING) {
+                // TODO
+            }
+
+            if (value == PdfReturnValues.ERROR_SEMANTIC_CONTEXT) {
+                // TODO
             }
 
             throw new PdfManagedException($"Unknown return value: {value}");
