@@ -25,6 +25,11 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfFontSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Create instance of PdfFont from associated PdfDictionaryObject
+        /// </summary>
+        /// <param name="dictionary">Backend PdfDictionaryObject containing the data for PdfFont</param>
+        /// <returns>New instance of PdfFont on success, throws exception on failure</returns>
         public static PdfFont CreateFromObject(PdfDictionaryObject dictionary)
         {
             UInt32 result = NativeMethods.Font_CreateFromObject(dictionary.Handle, out var data);
@@ -49,6 +54,11 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfFontType>.CheckedCast(data);
         }
 
+        /// <summary>
+        /// A stream containing a CMap file that maps character codes to Unicode values
+        /// (see 9.10, "Extraction of Text Content").
+        /// </summary>
+        /// <returns>New instance of PdfUnicodeCharacterMap on success, throws exception on failure</returns>
         public PdfUnicodeCharacterMap GetUnicodeMap()
         {
             UInt32 result = NativeMethods.Font_GetUnicodeMap(FontHandle, out var data);
