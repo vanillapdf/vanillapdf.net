@@ -208,7 +208,7 @@ namespace vanillapdf.net.PdfSyntax
             public delegate UInt32 EqualsDelgate(PdfNameObjectSafeHandle handle, PdfNameObjectSafeHandle other, out bool data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 HashDelgate(PdfNameObjectSafeHandle handle,  out UIntPtr data);
+            public delegate UInt32 HashDelgate(PdfNameObjectSafeHandle handle, out UIntPtr data);
         }
     }
 }
