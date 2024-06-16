@@ -80,7 +80,7 @@ namespace vanillapdf.net.PdfUtils
             try {
                 var dataSize = Convert.ToUInt64(data.Length);
 
-                UInt32 result = NativeMethods.Buffer_CreateFromData(out PdfBufferSafeHandle handle, pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize));
+                UInt32 result = NativeMethods.Buffer_CreateFromData(pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize), out PdfBufferSafeHandle handle);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -310,7 +310,7 @@ namespace vanillapdf.net.PdfUtils
             public delegate UInt32 CreateDelgate(out PdfBufferSafeHandle handle);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromDataDelgate(out PdfBufferSafeHandle handle, IntPtr data, UIntPtr size);
+            public delegate UInt32 CreateFromDataDelgate(IntPtr data, UIntPtr size, out PdfBufferSafeHandle handle);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 GetDataDelgate(PdfBufferSafeHandle handle, out IntPtr data, out UIntPtr size);
