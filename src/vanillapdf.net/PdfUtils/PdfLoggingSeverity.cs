@@ -5,10 +5,13 @@
     /// </summary>
     public enum PdfLoggingSeverity
     {
-        Debug = 0,
+        Undefined = 0,
+        Trace,
+        Debug,
         Info,
         Warning,
         Error,
-        Fatal
+        Critical,
+        Off
     };
 }
