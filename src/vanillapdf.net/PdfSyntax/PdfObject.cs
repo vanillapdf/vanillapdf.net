@@ -71,6 +71,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(data);
         }
 
+        /// <summary>
+        /// Get a PDF data representation of the current object
+        /// </summary>
+        /// <returns>A new isntance of PdfBuffer with PDF data representation, throws exception on failure</returns>
         public PdfBuffer ToPdf()
         {
             UInt32 result = NativeMethods.Object_ToPdf(ObjectHandle, out var data);
@@ -81,6 +85,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBuffer(data);
         }
 
+        /// <summary>
+        /// Get object attribute list attached to this PDF object
+        /// </summary>
+        /// <returns>A new instance of PdfObjectAttributeList attached to the PDF object, throws exception on failure</returns>
         public PdfObjectAttributeList GetAttributeList()
         {
             UInt32 result = NativeMethods.Object_GetAttributeList(ObjectHandle, out var data);
