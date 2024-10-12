@@ -62,10 +62,40 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        public bool TryFind(PdfNameObject key, out PdfObject value)
+        {
+            UInt32 result = NativeMethods.DictionaryObject_TryFind(Handle, key.ObjectHandle, out var contains, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            if (!contains) {
+                value = null;
+                return false;
+            }
+
+            using (var baseObject = new PdfObject(data)) {
+                value = GetAsDerivedObject(baseObject);
+                return true;
+            }
+        }
+
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
             var result = Find(key);
             return (T)result.ConvertTo<T>();
+        }
+
+        public bool TryFindAs<T>(PdfNameObject key, out T value) where T : PdfObject
+        {
+            var contains = TryFind(key, out var pdfObject);
+            if (!contains) {
+                value = null;
+                return false;
+            }
+
+            value = (T)pdfObject.ConvertTo<T>();
+            return true;
         }
 
         public bool Contains(PdfNameObject key)
@@ -203,13 +233,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <inheritdoc/>
         public bool TryGetValue(PdfNameObject key, out PdfObject value)
         {
-            if (Contains(key)) {
-                value = Find(key);
-                return true;
-            } else {
-                value = null;
-                return false;
-            }
+            return TryFind(key, out value);
         }
 
         /// <inheritdoc/>
@@ -257,6 +281,7 @@ namespace vanillapdf.net.PdfSyntax
             public static CreateDelgate DictionaryObject_Create = LibraryInstance.GetFunction<CreateDelgate>("DictionaryObject_Create");
             public static GetSizeDelgate DictionaryObject_GetSize = LibraryInstance.GetFunction<GetSizeDelgate>("DictionaryObject_GetSize");
             public static FindDelgate DictionaryObject_Find = LibraryInstance.GetFunction<FindDelgate>("DictionaryObject_Find");
+            public static TryFindDelgate DictionaryObject_TryFind = LibraryInstance.GetFunction<TryFindDelgate>("DictionaryObject_TryFind");
             public static ContainsDelgate DictionaryObject_Contains = LibraryInstance.GetFunction<ContainsDelgate>("DictionaryObject_Contains");
             public static GetIteratorDelgate DictionaryObject_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("DictionaryObject_GetIterator");
             public static RemoveDelgate DictionaryObject_Remove = LibraryInstance.GetFunction<RemoveDelgate>("DictionaryObject_Remove");
@@ -271,6 +296,9 @@ namespace vanillapdf.net.PdfSyntax
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 FindDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out PdfObjectSafeHandle data);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 TryFindDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool contains, out PdfObjectSafeHandle data);
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 ContainsDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool data);
