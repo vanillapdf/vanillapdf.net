@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 
@@ -15,7 +16,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var StringObject = PdfHexadecimalStringObject.CreateFromEncodedString(ENCODED_VALUE);
 
-            Assert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
+            ClassicAssert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
         }
 
         [Test]
@@ -25,7 +26,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var StringObject = PdfHexadecimalStringObject.CreateFromDecodedString(DECODED_VALUE);
 
-            Assert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
+            ClassicAssert.AreEqual(DECODED_VALUE, StringObject.Value.StringData);
         }
 
         [Test]

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Linq;
 using vanillapdf.net.PdfUtils;
@@ -16,7 +17,7 @@ namespace vanillapdf.net.nunit.PdfUtils
 
             Buffer.Data = testData;
 
-            Assert.IsTrue(testData.SequenceEqual(Buffer.Data));
+            ClassicAssert.IsTrue(testData.SequenceEqual(Buffer.Data));
         }
 
         [Test]
@@ -27,7 +28,7 @@ namespace vanillapdf.net.nunit.PdfUtils
 
             Buffer.Data = testData;
 
-            Assert.IsTrue(testData.SequenceEqual(Buffer.Data));
+            ClassicAssert.IsTrue(testData.SequenceEqual(Buffer.Data));
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace vanillapdf.net.nunit.PdfUtils
             using var Buffer = PdfBuffer.Create();
             Buffer.StringData = TEST_DATA;
 
-            Assert.AreEqual(TEST_DATA, Buffer.StringData);
+            ClassicAssert.AreEqual(TEST_DATA, Buffer.StringData);
         }
 
         [Test]
@@ -52,10 +53,10 @@ namespace vanillapdf.net.nunit.PdfUtils
             buffer1.StringData = TEST_DATA;
             buffer2.StringData = TEST_DATA;
 
-            Assert.IsTrue(buffer1.Equals(buffer2));
-            Assert.IsTrue(buffer2.Equals(buffer1));
+            ClassicAssert.IsTrue(buffer1.Equals(buffer2));
+            ClassicAssert.IsTrue(buffer2.Equals(buffer1));
 
-            Assert.AreEqual(buffer1.GetHashCode(), buffer2.GetHashCode());
+            ClassicAssert.AreEqual(buffer1.GetHashCode(), buffer2.GetHashCode());
         }
 
         [Test]
@@ -70,10 +71,10 @@ namespace vanillapdf.net.nunit.PdfUtils
             buffer1.StringData = TEST_DATA1;
             buffer2.StringData = TEST_DATA2;
 
-            Assert.IsFalse(buffer1.Equals(buffer2));
-            Assert.IsFalse(buffer2.Equals(buffer1));
+            ClassicAssert.IsFalse(buffer1.Equals(buffer2));
+            ClassicAssert.IsFalse(buffer2.Equals(buffer1));
 
-            Assert.AreNotEqual(buffer1.GetHashCode(), buffer2.GetHashCode());
+            ClassicAssert.AreNotEqual(buffer1.GetHashCode(), buffer2.GetHashCode());
         }
 
         [Test]
@@ -84,8 +85,8 @@ namespace vanillapdf.net.nunit.PdfUtils
             buffer[0] = 0x01;
             buffer[1] = 0x02;
 
-            Assert.AreEqual(0x01, buffer[0]);
-            Assert.AreEqual(0x02, buffer[1]);
+            ClassicAssert.AreEqual(0x01, buffer[0]);
+            ClassicAssert.AreEqual(0x02, buffer[1]);
         }
 
         [Test]

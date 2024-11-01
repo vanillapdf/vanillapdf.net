@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 
@@ -16,10 +17,10 @@ namespace vanillapdf.net.nunit.PdfSyntax
             var IntegerObject = PdfIntegerObject.Create();
 
             IntegerObject.IntegerValue = TEST_VALUE_SIGNED;
-            Assert.AreEqual(TEST_VALUE_SIGNED, IntegerObject.IntegerValue);
+            ClassicAssert.AreEqual(TEST_VALUE_SIGNED, IntegerObject.IntegerValue);
 
             IntegerObject.UnsignedIntegerValue = TEST_VALUE_UNSIGNED;
-            Assert.AreEqual(TEST_VALUE_UNSIGNED, IntegerObject.UnsignedIntegerValue);
+            ClassicAssert.AreEqual(TEST_VALUE_UNSIGNED, IntegerObject.UnsignedIntegerValue);
         }
 
         [Test]

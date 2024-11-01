@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
@@ -17,7 +18,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
                 // Cannot point to direct object
                 IndirectReferenceObject.ReferencedObject = PdfIntegerObject.Create();
             } catch (Exception ex) {
-                Assert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfGeneralException);
             }
         }
 

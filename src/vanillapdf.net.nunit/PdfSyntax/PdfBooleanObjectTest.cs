@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 
@@ -16,10 +17,10 @@ namespace vanillapdf.net.nunit.PdfSyntax
             var BooleanObject = PdfBooleanObject.Create();
 
             BooleanObject.Value = TEST_VALUE_POSITIVE;
-            Assert.AreEqual(TEST_VALUE_POSITIVE, BooleanObject.Value);
+            ClassicAssert.AreEqual(TEST_VALUE_POSITIVE, BooleanObject.Value);
 
             BooleanObject.Value = TEST_VALUE_NEGATIVE;
-            Assert.AreEqual(TEST_VALUE_NEGATIVE, BooleanObject.Value);
+            ClassicAssert.AreEqual(TEST_VALUE_NEGATIVE, BooleanObject.Value);
         }
 
         [Test]

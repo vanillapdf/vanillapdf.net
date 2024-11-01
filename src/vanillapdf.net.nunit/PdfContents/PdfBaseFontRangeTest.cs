@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfSyntax;
@@ -40,7 +41,7 @@ namespace vanillapdf.net.nunit.PdfContents
 
             using var map1 = fontRange.GetMappedValue(key1);
 
-            Assert.AreEqual(map1, check1);
+            ClassicAssert.AreEqual(map1, check1);
 
             using var key2 = PdfBuffer.Create();
             using var check2 = PdfBuffer.Create();
@@ -50,7 +51,7 @@ namespace vanillapdf.net.nunit.PdfContents
 
             using var map2 = fontRange.GetMappedValue(key2);
 
-            Assert.AreEqual(map2, check2);
+            ClassicAssert.AreEqual(map2, check2);
         }
     }
 }

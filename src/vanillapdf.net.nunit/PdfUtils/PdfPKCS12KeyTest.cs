@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfUtils;
 
@@ -14,7 +15,7 @@ namespace vanillapdf.net.nunit.PdfUtils
                 var buffer = PdfBuffer.Create();
                 var key = PdfPKCS12Key.CreateFromBuffer(buffer, null);
             } catch (Exception ex) {
-                Assert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfGeneralException);
             }
         }
 
@@ -27,7 +28,7 @@ namespace vanillapdf.net.nunit.PdfUtils
             buffer.Data = Convert.FromBase64String(BUFFER_ENCODED);
 
             var key = PdfPKCS12Key.CreateFromBuffer(buffer, null);
-            Assert.NotNull(key);
+            ClassicAssert.NotNull(key);
         }
     }
 }

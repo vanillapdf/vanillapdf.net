@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.IO;
 using System.Text;
@@ -131,7 +132,7 @@ namespace vanillapdf.net.nunit.PdfContents
                 string normalizedActual = Regex.Replace(stringBuilder.ToString(), @"\s", "");
                 string normalizedExpected = Regex.Replace(compareResult, @"\s", "");
 
-                Assert.AreEqual(normalizedExpected, normalizedActual);
+                ClassicAssert.AreEqual(normalizedExpected, normalizedActual);
             }
         }
     }

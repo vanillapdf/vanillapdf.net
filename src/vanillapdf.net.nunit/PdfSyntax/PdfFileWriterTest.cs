@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
@@ -77,7 +78,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
                 PdfFileWriterObserver fileWriterObserver = PdfFileWriterObserver.CreateCustom(observerContext);
             }
             catch (Exception ex) {
-                Assert.IsTrue(ex is PdfLicenseRequiredException);
+                ClassicAssert.IsTrue(ex is PdfLicenseRequiredException);
             }
         }
 

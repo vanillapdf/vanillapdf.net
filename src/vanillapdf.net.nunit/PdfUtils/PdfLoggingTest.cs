@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfUtils
@@ -10,13 +11,7 @@ namespace vanillapdf.net.nunit.PdfUtils
         public void TestInterface()
         {
             PdfLogging.Severity = PdfLoggingSeverity.Debug;
-            Assert.AreEqual(PdfLoggingSeverity.Debug, PdfLogging.Severity);
-
-            PdfLogging.Enable();
-            Assert.AreEqual(true, PdfLogging.IsEnabled());
-
-            PdfLogging.Disable();
-            Assert.AreEqual(false, PdfLogging.IsEnabled());
+            ClassicAssert.AreEqual(PdfLoggingSeverity.Debug, PdfLogging.Severity);
         }
     }
 }

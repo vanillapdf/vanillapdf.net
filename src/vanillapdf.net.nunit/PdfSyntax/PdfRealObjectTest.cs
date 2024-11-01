@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 
@@ -16,10 +17,10 @@ namespace vanillapdf.net.nunit.PdfSyntax
             var RealObject = PdfRealObject.Create();
 
             RealObject.Value = TEST_VALUE_MIN;
-            Assert.AreEqual(TEST_VALUE_MIN, RealObject.Value);
+            ClassicAssert.AreEqual(TEST_VALUE_MIN, RealObject.Value);
 
             RealObject.Value = TEST_VALUE_MAX;
-            Assert.AreEqual(TEST_VALUE_MAX, RealObject.Value);
+            ClassicAssert.AreEqual(TEST_VALUE_MAX, RealObject.Value);
         }
 
         [Test]

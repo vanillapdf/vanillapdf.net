@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
@@ -22,7 +23,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             var checkBuffer = NameObject.Value;
 
-            Assert.AreEqual(TEST_VALUE, checkBuffer.StringData);
+            ClassicAssert.AreEqual(TEST_VALUE, checkBuffer.StringData);
         }
 
         [Test]

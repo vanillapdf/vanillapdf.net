@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfUtils
@@ -18,7 +19,7 @@ namespace vanillapdf.net.nunit.PdfUtils
 
                     var checkBuffer = Stream.ToBuffer();
 
-                    Assert.AreEqual(Buffer, checkBuffer);
+                    ClassicAssert.AreEqual(Buffer, checkBuffer);
                 }
             }
         }
