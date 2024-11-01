@@ -48,11 +48,12 @@ namespace vanillapdf.net.nunit.PdfContents
             for (ulong i = 0; i < tree.GetPageCount(); ++i) {
                 using var pageObject = tree.GetPage(i + 1);
                 using var pageContents = pageObject.GetContents();
+                using var pageContentsInstructionColletion = pageContents.GetInstructionCollection();
 
                 StringBuilder stringBuilder = new StringBuilder();
 
-                for (ulong j = 0; j < pageContents.GetInstructionsSize(); ++j) {
-                    using var contentInstruction = pageContents.GetInstructionAt(j);
+                for (ulong j = 0; j < pageContentsInstructionColletion.GetInstructionsSize(); ++j) {
+                    using var contentInstruction = pageContentsInstructionColletion.At(j);
 
                     if (contentInstruction.GetInstructionType() == PdfContentInstructionType.Operation) {
 
