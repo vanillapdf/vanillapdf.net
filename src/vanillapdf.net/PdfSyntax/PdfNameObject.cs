@@ -123,9 +123,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfNameObject if the object can be converted, throws exception on failure</returns>
         public static PdfNameObject FromObject(PdfObject data)
         {
-            if (data is PdfNameObject pdfNameObject) {
-                return pdfNameObject;
-            }
+            // This optimization does have severe side-effects and it's not worth it
+            //if (data is PdfNameObject pdfNameObject) {
+            //    return pdfNameObject;
+            //}
 
             return new PdfNameObject(data.ObjectHandle);
         }

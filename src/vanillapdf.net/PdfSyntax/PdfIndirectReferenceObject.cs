@@ -98,9 +98,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIndirectReferenceObject if the object can be converted, throws exception on failure</returns>
         public static PdfIndirectReferenceObject FromObject(PdfObject data)
         {
-            if (data is PdfIndirectReferenceObject pdfIndirectReferenceObject) {
-                return pdfIndirectReferenceObject;
-            }
+            // This optimization does have severe side-effects and it's not worth it
+            //if (data is PdfIndirectReferenceObject pdfIndirectReferenceObject) {
+            //    return pdfIndirectReferenceObject;
+            //}
 
             return new PdfIndirectReferenceObject(data.ObjectHandle);
         }

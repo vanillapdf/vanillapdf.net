@@ -130,9 +130,10 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIntegerObject if the object can be converted, throws exception on failure</returns>
         public static PdfIntegerObject FromObject(PdfObject data)
         {
-            if (data is PdfIntegerObject pdfIntegerObject) {
-                return pdfIntegerObject;
-            }
+            // This optimization does have severe side-effects and it's not worth it
+            //if (data is PdfIntegerObject pdfIntegerObject) {
+            //    return pdfIntegerObject;
+            //}
 
             return new PdfIntegerObject(data.ObjectHandle);
         }
