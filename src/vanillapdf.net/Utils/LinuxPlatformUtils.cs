@@ -7,15 +7,8 @@ namespace vanillapdf.net.Utils
 {
     internal class LinuxPlatformUtils : IPlatformUtils
     {
-        private const string ROCKY_8_X64_LIBRARY_PATH = "runtimes/rocky.8-x64/native/libvanillapdf.so";
-        //private const string ROCKY_8_ARM64_LIBRARY_PATH = "runtimes/rocky.8-arm64/native/libvanillapdf.so";
-
-        private const string UBUTNTU_2004_X64_LIBRARY_PATH = "runtimes/ubuntu.20.04-x64/native/libvanillapdf.so";
-        //private const string UBUTNTU_2004_ARM64_LIBRARY_PATH = "runtimes/ubuntu.20.04-arm64/native/libvanillapdf.so";
-
-        private const string UBUTNTU_2204_X64_LIBRARY_PATH = "runtimes/ubuntu.22.04-x64/native/libvanillapdf.so";
-        //private const string UBUTNTU_2204_ARM_LIBRARY_PATH = "runtimes/ubuntu.22.04-arm/native/libvanillapdf.so";
-        //private const string UBUTNTU_2204_ARM64_LIBRARY_PATH = "runtimes/ubuntu.22.04-arm64/native/libvanillapdf.so";
+        private const string LINUX_X64_LIBRARY_PATH = "runtimes/linux-x64/native/libvanillapdf.so";
+        private const string LINUX_ARM64_LIBRARY_PATH = "runtimes/linux-arm64/native/libvanillapdf.so";
 
         private IntPtr Handle { get; set; }
 
@@ -26,15 +19,17 @@ namespace vanillapdf.net.Utils
 
             string libraryPath = null;
             if (RuntimeInformation.ProcessArchitecture == Architecture.X64) {
-                libraryPath = UBUTNTU_2004_X64_LIBRARY_PATH;
+                libraryPath = LINUX_X64_LIBRARY_PATH;
 
-                if (IsUbuntu2204()) {
-                    libraryPath = UBUTNTU_2204_X64_LIBRARY_PATH;
-                }
+                // Since .NET 8, using distro-specific dependencies is deprecated
 
-                if (IsRhel()) {
-                    libraryPath = ROCKY_8_X64_LIBRARY_PATH;
-                }
+                //if (IsUbuntu2204()) {
+                //    libraryPath = UBUTNTU_2204_X64_LIBRARY_PATH;
+                //}
+                //
+                //if (IsRhel()) {
+                //    libraryPath = ROCKY_8_X64_LIBRARY_PATH;
+                //}
             }
 
             if (RuntimeInformation.ProcessArchitecture == Architecture.Arm) {
@@ -42,7 +37,9 @@ namespace vanillapdf.net.Utils
             }
 
             if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64) {
-                //libraryPath = UBUTNTU_2004_ARM64_LIBRARY_PATH;
+                libraryPath = LINUX_ARM64_LIBRARY_PATH;
+
+                // Since .NET 8, using distro-specific dependencies is deprecated
 
                 //if (IsUbuntu2204()) {
                 //    libraryPath = UBUTNTU_2204_ARM64_LIBRARY_PATH;
