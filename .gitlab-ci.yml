@@ -177,7 +177,7 @@ build-rocky.9-x64:
     - dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
 
 nuget-deploy-staging:
-  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-amd64:24.04
+  image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-amd64:22.04
   stage: deploy
   when: manual
 
