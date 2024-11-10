@@ -46,7 +46,13 @@ build-osx-x64:
 # Ubuntu 22.04
 # ====================================
 
-build-ubuntu.22.04-arm64:
+# Update 10.11.2024:
+# Compilation ubuntu 22.04 arm64 under WSL on Windows fails with qemu segmentation fault, disabling for now
+# https://github.com/docker/buildx/issues/1170
+# https://github.com/docker/for-mac/issues/6657
+# qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+
+.build-ubuntu.22.04-arm64:
   image: registry.gitlab.com/vanillapdf-group/vanillapdf-net/vanillapdf-net-ubuntu-arm64v8:22.04
   stage: test
   when: manual
