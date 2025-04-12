@@ -25,4 +25,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build and test with .NET 8
-        run: dotnet test src/vanillapdf.net.sln --configuration Release --framework net8.0 --arch x86 -nowarn:CS1591
+        run: dotnet test src/vanillapdf.net.sln --configuration Release --framework net8.0 -nowarn:CS1591
