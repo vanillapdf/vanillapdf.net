@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Build ubuntu.22.04-x64
+name: Sanity check
 
 # Controls when the workflow will run
 on:
@@ -9,6 +9,7 @@ on:
 
   push:
     branches: [ "master" ]
+
   pull_request:
     branches: [ "master" ]
 
@@ -19,13 +20,14 @@ permissions:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-22.04
+  sanity-check:
+    name: sanity-check-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        dotnet-version: [ '6.0.x', '8.0.x' ]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet-version: [ '6.x', '8.x' ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,6 +40,14 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      # https://github.com/actions/setup-dotnet
+      # Matrix testing with temporary global.json creation
+      # Note: Unless a concrete version is specified in the global.json file, the latest .NET version installed on the runner
+      # (including preinstalled versions) will be used by default.
+      # To control this behavior you may want to use temporary global.json files
+      - name: Create temporary global.json
+        run: echo '{"sdk":{"version": "${{ steps.stepid.outputs.dotnet-version }}"}}' > ./global.json
+
       # Build and test for current dotnet version
-      - name: Build and test with ${{ matrix.dotnet-version }}
+      - name: Build and test with ${{ matrix.dotnet-version }} on ${{ matrix.os }}
         run: dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
