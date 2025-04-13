@@ -46,7 +46,7 @@ jobs:
       # (including preinstalled versions) will be used by default.
       # To control this behavior you may want to use temporary global.json files
       - name: Create temporary global.json
-        run: echo '{"sdk":{"version": "${{ steps.stepid.outputs.dotnet-version }}"}}' > ./global.json
+        run: echo '{"sdk":{"version": "${{ matrix.dotnet-version }}"}}' > ./global.json
 
       # Build and test for current dotnet version
       - name: Build and test with ${{ matrix.dotnet-version }} on ${{ matrix.os }}
