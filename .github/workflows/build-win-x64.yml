@@ -7,6 +7,11 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
 # Enable only minimum required permissions
 permissions:
   contents: read
@@ -18,11 +23,21 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x', '8.0.x' ]
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Build and test with .NET 8
-        run: dotnet test src/vanillapdf.net.sln --configuration Release --framework net8.0 -nowarn:CS1591
+      # Prepare specific version of dotnet to be used
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      # Build and test for current dotnet version
+      - name: Build and test with ${{ matrix.dotnet-version }}
+        run: dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
