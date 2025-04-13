@@ -27,7 +27,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        dotnet-version: [ '6.x', '8.x' ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -37,18 +36,11 @@ jobs:
       # Prepare specific version of dotnet to be used
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
-        id: stepid
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: |
+            6.x
+            8.x
 
-      # https://github.com/actions/setup-dotnet
-      # Matrix testing with temporary global.json creation
-      # Note: Unless a concrete version is specified in the global.json file, the latest .NET version installed on the runner
-      # (including preinstalled versions) will be used by default.
-      # To control this behavior you may want to use temporary global.json files
-      - name: Create temporary global.json
-        run: echo '{"sdk":{"version": "${{ steps.stepid.outputs.dotnet-version }}"}}' > ./global.json
-
-      # Build and test for current dotnet version
-      - name: Build and test with ${{ matrix.dotnet-version }} on ${{ matrix.os }}
+      # Build and test on current OS
+      - name: Build and test on ${{ matrix.os }}
         run: dotnet test src/vanillapdf.net.sln --configuration Release -nowarn:CS1591
