@@ -40,6 +40,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfArrayObject(data);
         }
 
+        /// <summary>
+        /// Get the number of elements contained in the array.
+        /// </summary>
+        /// <returns>Number of items in the array.</returns>
         public UInt64 GetSize()
         {
             UInt32 result = NativeMethods.ArrayObject_GetSize(Handle, out UIntPtr data);
@@ -50,6 +54,11 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Retrieve the element located at the specified index.
+        /// </summary>
+        /// <param name="index">Zero based position of the element.</param>
+        /// <returns>The element at the provided index.</returns>
         public PdfObject GetValue(UInt64 index)
         {
             UInt32 result = NativeMethods.ArrayObject_GetValue(Handle, new UIntPtr(index), out var data);
@@ -62,12 +71,23 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Retrieve an element as a specific derived type.
+        /// </summary>
+        /// <typeparam name="T">Expected object type.</typeparam>
+        /// <param name="index">Zero based position of the element.</param>
+        /// <returns>The element converted to <typeparamref name="T"/>.</returns>
         public T GetValueAs<T>(UInt64 index) where T : PdfObject
         {
             var result = GetValue(index);
             return (T)result.ConvertTo<T>();
         }
 
+        /// <summary>
+        /// Replace the element at the specified index.
+        /// </summary>
+        /// <param name="index">Zero based index to replace.</param>
+        /// <param name="item">Object to store.</param>
         public void SetValue(UInt64 index, PdfObject item)
         {
             UInt32 result = NativeMethods.ArrayObject_SetValue(Handle, new UIntPtr(index), item.ObjectHandle);
@@ -76,6 +96,10 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Append an element to the end of the array.
+        /// </summary>
+        /// <param name="item">Object to append.</param>
         public void Append(PdfObject item)
         {
             UInt32 result = NativeMethods.ArrayObject_Append(Handle, item.ObjectHandle);
@@ -84,6 +108,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Insert an element at the specified index.
+        /// </summary>
+        /// <param name="index">Zero based index where the item is inserted.</param>
+        /// <param name="item">Object to insert.</param>
         public void Insert(UInt64 index, PdfObject item)
         {
             UInt32 result = NativeMethods.ArrayObject_Insert(Handle, new UIntPtr(index), item.ObjectHandle);
@@ -92,6 +121,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Remove the element at the given index.
+        /// </summary>
+        /// <param name="index">Zero based index of the element to remove.</param>
+        /// <returns><c>true</c> if the element existed and was removed.</returns>
         public bool Remove(UInt64 index)
         {
             UInt32 result = NativeMethods.ArrayObject_Remove(Handle, new UIntPtr(index));
@@ -106,6 +140,9 @@ namespace vanillapdf.net.PdfSyntax
             return true;
         }
 
+        /// <summary>
+        /// Remove all elements from the array.
+        /// </summary>
         public void Clear()
         {
             UInt32 result = NativeMethods.ArrayObject_Clear(Handle);

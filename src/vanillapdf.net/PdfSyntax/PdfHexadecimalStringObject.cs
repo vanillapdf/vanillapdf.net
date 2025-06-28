@@ -98,6 +98,9 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfHexadecimalStringObject(data);
         }
 
+        /// <summary>
+        /// Implicit conversion from <see cref="string"/> to <see cref="PdfHexadecimalStringObject"/>.
+        /// </summary>
         public static implicit operator PdfHexadecimalStringObject(string value)
         {
             return CreateFromDecodedString(value);

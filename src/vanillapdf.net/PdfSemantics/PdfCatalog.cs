@@ -68,6 +68,10 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfPageTree(data);
         }
 
+        /// <summary>
+        /// Retrieve the outline hierarchy of the document.
+        /// </summary>
+        /// <returns>The root <see cref="PdfOutline"/> object or <c>null</c> if none exists.</returns>
         public PdfOutline GetOutlines()
         {
             UInt32 result = NativeMethods.Catalog_GetOutlines(Handle, out var data);

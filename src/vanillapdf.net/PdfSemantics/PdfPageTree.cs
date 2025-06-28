@@ -54,6 +54,11 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfPageObject(data);
         }
 
+        /// <summary>
+        /// Insert a page into the tree at the given index.
+        /// </summary>
+        /// <param name="index">Zero based position where the page should be inserted.</param>
+        /// <param name="data">Page object to insert.</param>
         public void InsertPage(UInt64 index, PdfPageObject data)
         {
             UInt32 result = NativeMethods.PageTree_InsertPage(Handle, new UIntPtr(index), data.Handle);
@@ -62,6 +67,10 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Append a page to the end of the page tree.
+        /// </summary>
+        /// <param name="data">Page object to append.</param>
         public void AppendPage(PdfPageObject data)
         {
             UInt32 result = NativeMethods.PageTree_AppendPage(Handle, data.Handle);
@@ -70,6 +79,10 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Remove the page at the specified index from the tree.
+        /// </summary>
+        /// <param name="index">Zero based index of the page to remove.</param>
         public void RemovePage(UInt64 index)
         {
             UInt32 result = NativeMethods.PageTree_RemovePage(Handle, new UIntPtr(index));

@@ -25,6 +25,11 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfFontMapSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Determine whether a font with the given name exists in the map.
+        /// </summary>
+        /// <param name="key">Name of the font resource.</param>
+        /// <returns><c>true</c> if the font is present; otherwise <c>false</c>.</returns>
         public bool Contains(PdfNameObject key)
         {
             UInt32 result = NativeMethods.FontMap_Contains(Handle, key.Handle, out var data);
@@ -35,6 +40,11 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
+        /// <summary>
+        /// Retrieve the font associated with the specified name.
+        /// </summary>
+        /// <param name="key">Name of the font resource.</param>
+        /// <returns>A <see cref="PdfFont"/> instance when found.</returns>
         public PdfFont Find(PdfNameObject key)
         {
             UInt32 result = NativeMethods.FontMap_Find(Handle, key.Handle, out var data);

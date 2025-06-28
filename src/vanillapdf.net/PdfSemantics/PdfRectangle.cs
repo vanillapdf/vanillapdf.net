@@ -45,6 +45,10 @@ namespace vanillapdf.net.PdfSemantics
             set { SetUpperRightY(value); }
         }
 
+        /// <summary>
+        /// Create a new <see cref="PdfRectangle"/> instance.
+        /// </summary>
+        /// <returns>Handle to the newly created rectangle.</returns>
         public static PdfRectangle Create()
         {
             UInt32 result = NativeMethods.Rectangle_Create(out var data);

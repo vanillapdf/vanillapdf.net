@@ -23,6 +23,10 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectIteratorSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get the key of the current dictionary entry.
+        /// </summary>
+        /// <returns><see cref="PdfNameObject"/> representing the key.</returns>
         public PdfNameObject GetKey()
         {
             UInt32 result = NativeMethods.DictionaryObjectIterator_GetKey(Handle, out var data);
@@ -33,6 +37,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNameObject(data);
         }
 
+        /// <summary>
+        /// Get the value of the current dictionary entry.
+        /// </summary>
+        /// <returns>The current entry value.</returns>
         public PdfObject GetValue()
         {
             UInt32 result = NativeMethods.DictionaryObjectIterator_GetValue(Handle, out var data);
@@ -45,6 +53,9 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Advance the iterator to the next dictionary entry.
+        /// </summary>
         public void Next()
         {
             UInt32 result = NativeMethods.DictionaryObjectIterator_Next(Handle);
@@ -53,6 +64,10 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Determine whether the iterator points to a valid entry.
+        /// </summary>
+        /// <returns><c>true</c> when the iterator is valid.</returns>
         public bool IsValid()
         {
             UInt32 result = NativeMethods.DictionaryObjectIterator_IsValid(Handle, out var data);

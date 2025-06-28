@@ -182,6 +182,10 @@ namespace vanillapdf.net.PdfSyntax
             return true;
         }
 
+        /// <summary>
+        /// Allocate a new cross reference table entry for the file.
+        /// </summary>
+        /// <returns>The newly allocated <see cref="PdfXrefUsedEntry"/>.</returns>
         public PdfXrefUsedEntry AllocateNewEntry()
         {
             UInt32 result = NativeMethods.File_AllocateNewEntry(Handle, out var data);
