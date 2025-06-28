@@ -9,7 +9,11 @@
         /// Undefined unitialized default value, triggers error when used
         /// </summary>
         Undefined = 0,
+
+        /// <summary>Embedded character map.</summary>
         Embedded,
+
+        /// <summary>Unicode character map.</summary>
         Unicode
     };
 }

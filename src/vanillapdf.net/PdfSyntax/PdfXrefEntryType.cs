@@ -5,6 +5,9 @@
     /// </summary>
     public enum PdfXrefEntryType
     {
+        /// <summary>
+        /// Represents a null cross-reference entry.
+        /// </summary>
         Null = 0,
 
         /// <summary>
