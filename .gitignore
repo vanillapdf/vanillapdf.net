@@ -6,3 +6,14 @@
 # Local configuration
 launchSettings.json
 *.user
+
+# NuGet packages
+*.nupkg
+*.snupkg
+
+# Log files
+*.log
+
+# IDE settings
+.idea/
+.vscode/
