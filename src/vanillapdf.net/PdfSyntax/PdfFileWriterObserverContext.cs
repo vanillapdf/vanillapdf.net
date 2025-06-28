@@ -105,6 +105,14 @@ namespace vanillapdf.net.PdfSyntax
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Destructor for <c>PdfFileWriterObserverContext</c>.
+        /// Ensures that all unmanaged resources held by this context are properly released.
+        /// </summary>
+        /// <remarks>
+        /// Invokes <see cref="ReleaseUnmanagedResources"/> to clean up native handles,
+        /// memory allocations, or file streams before the object is reclaimed.
+        /// </remarks>
         ~PdfFileWriterObserverContext()
         {
             ReleaseUnmanagedResources();

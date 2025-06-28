@@ -58,6 +58,15 @@ namespace vanillapdf.net.PdfUtils
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Destructor for <c>PdfSigningKeyContext</c>.
+        /// Ensures that any unmanaged resources associated with the signing key are released.
+        /// </summary>
+        /// <remarks>
+        /// Calls <see cref="ReleaseUnmanagedResources"/> to free native handles,
+        /// clear sensitive key data from memory, and close any underlying streams
+        /// before the object is destroyed.
+        /// </remarks>
         ~PdfSigningKeyContext()
         {
             ReleaseUnmanagedResources();
