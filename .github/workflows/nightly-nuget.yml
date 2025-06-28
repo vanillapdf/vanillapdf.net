@@ -1,0 +1,73 @@
+name: Nightly NuGet Packages
+
+on:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Run workflow on any push into main branch
+  # only there was a change in the workflow file
+  push:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/nightly-nuget.yml'
+
+  # Run workflow when there is a pull request towards main branch
+  # only there was a change in the workflow file
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/nightly-nuget.yml'
+
+  schedule:
+    - cron: '0 3 * * *'  # Every day at 03:00 UTC
+
+permissions:
+  contents: write  # Needed for future GitHub release or content access
+  packages: write  # Needed for publishing NuGet packages within organization
+
+jobs:
+
+  prepare-suffix:
+    runs-on: ubuntu-latest
+    outputs:
+      nightly_suffix: ${{ steps.set-suffix.outputs.nightly_suffix }}
+
+    steps:
+      - name: Set nightly version suffix
+        id: set-suffix
+        run: |
+          # Prefer GITHUB_HEAD_REF (for PRs or workflow_dispatch), fallback to ref name
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF##*/}}"
+          
+          # Clean it up for suffix use (remove slashes, lowercase)
+          CLEAN_NAME=$(echo "$BRANCH_NAME" | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+          DATE=$(date +'%Y%m%d')
+          
+          echo "nightly_suffix=nightly-${CLEAN_NAME}-${DATE}" >> "$GITHUB_OUTPUT"
+
+  build-nuget:
+    needs: prepare-suffix
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      build_suffix: ${{ needs.prepare-suffix.outputs.nightly_suffix }}
+
+  push-nuget-staging:
+    name: Push NuGet Packages
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+
+    needs: build-nuget
+    steps:
+      - name: Download all NuGet artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./nupkgs
+
+      - name: Push all .nupkg to GitHub Packages
+        run: |
+          dotnet nuget push nupkgs/**/*.nupkg \
+            --source "${{ vars.NUGET_SOURCE }}" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate

@@ -1,0 +1,90 @@
+name: Build NuGet Packages
+
+on:
+  workflow_call:
+    inputs:
+      build_suffix:
+        required: false
+        type: string
+        default: ""
+
+  # Allow triggering manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      build_suffix:
+        description: "Optional build suffix for version"
+        required: false
+        default: ""
+
+  # Run package build on code changes
+  push:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/build-nuget.yml'
+
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '.github/workflows/build-nuget.yml'
+
+permissions:
+  contents: read  # Needed for future GitHub release or content access
+  packages: read  # Needed for publishing NuGet packages within organization
+
+jobs:
+
+  sanity-check:
+    name: Sanity check - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-13, macos-latest]
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Prepare specific version of dotnet to be used
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+
+      # Build and test on current OS
+      - name: Build and test on ${{ matrix.os }}
+        run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
+
+  build-nuget:
+    name: Build nuget package
+    runs-on: ubuntu-latest
+
+    # Ensure we pass tests on all platforms
+    needs: sanity-check
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
+
+      - name: Restore NuGet packages
+        run: dotnet restore src/vanillapdf.net.sln
+
+      - name: Build NuGet packages
+        run: dotnet build src/vanillapdf.net.sln --configuration Release --nologo
+
+      - name: Test project before packing
+        run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
+
+      - name: Execute nuget packaging
+        run: dotnet pack src/vanillapdf.net/vanillapdf.net.csproj --no-build --nologo --output nupkgs --version-suffix "${{ inputs.build_suffix }}"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vanillapdf.net
+          path: nupkgs/*.nupkg
