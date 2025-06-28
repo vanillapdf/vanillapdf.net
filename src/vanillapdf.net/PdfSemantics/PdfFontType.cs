@@ -20,7 +20,7 @@
         /// </summary>
         Type1,
 
-        /// <summary>Multiple master Type&nbsp;1 font.</summary>
+        /// <summary>Multiple master Type 1 font.</summary>
         MMType1,
 
         /// <summary>
@@ -32,10 +32,10 @@
         /// <summary>A TrueType font.</summary>
         TrueType,
 
-        /// <summary>CIDFont Type&nbsp;0 font.</summary>
+        /// <summary>CIDFont Type 0 font.</summary>
         CIDFontType0,
 
-        /// <summary>CIDFont Type&nbsp;2 font.</summary>
+        /// <summary>CIDFont Type 2 font.</summary>
         CIDFontType2
     };
 }

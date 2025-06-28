@@ -5,6 +5,9 @@
     /// </summary>
     public enum PdfVersion
     {
+        /// <summary>
+        /// Undefined unitialized default value, triggers error when used
+        /// </summary>
         Undefined = 0,
 
         /// <summary>PDF 1.0.</summary>

@@ -5,6 +5,9 @@
     /// </summary>
     public enum PdfLoggingSeverity
     {
+        /// <summary>
+        /// Undefined unitialized default value, triggers error when used
+        /// </summary>
         Undefined = 0,
 
         /// <summary>Trace level logs.</summary>
