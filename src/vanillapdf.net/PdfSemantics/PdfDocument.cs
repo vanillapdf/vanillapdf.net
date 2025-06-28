@@ -148,6 +148,10 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Enable encryption on the current document using the specified settings.
+        /// </summary>
+        /// <param name="settings">Encryption parameters.</param>
         public void AddEncryption(PdfDocumentEncryptionSettings settings)
         {
             UInt32 result = NativeMethods.Document_AddEncryption(Handle, settings.Handle);
@@ -156,6 +160,9 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Remove any encryption from the current document.
+        /// </summary>
         public void RemoveEncryption()
         {
             UInt32 result = NativeMethods.Document_RemoveEncryption(Handle);

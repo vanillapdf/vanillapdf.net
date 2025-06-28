@@ -26,6 +26,10 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionCollectionIteratorSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Get the current instruction pointed to by the iterator.
+        /// </summary>
+        /// <returns>The current <see cref="PdfContentInstruction"/>.</returns>
         public PdfContentInstruction GetValue()
         {
             UInt32 result = NativeMethods.ContentInstructionCollectionIterator_GetValue(Handle, out var data);
@@ -36,6 +40,9 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentInstruction(data);
         }
 
+        /// <summary>
+        /// Advance the iterator to the next instruction.
+        /// </summary>
         public void Next()
         {
             UInt32 result = NativeMethods.ContentInstructionCollectionIterator_Next(Handle);
@@ -44,6 +51,10 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
+        /// <summary>
+        /// Determine whether the iterator points to a valid instruction.
+        /// </summary>
+        /// <returns><c>true</c> if valid.</returns>
         public bool IsValid()
         {
             UInt32 result = NativeMethods.ContentInstructionCollectionIterator_IsValid(Handle, out var data);
@@ -67,6 +78,7 @@ namespace vanillapdf.net.PdfContents
         object IEnumerator.Current => GetValue();
         public PdfContentInstruction Current => GetValue();
 
+        /// <inheritdoc />
         public bool MoveNext()
         {
             if (!IsValid()) {
@@ -83,6 +95,7 @@ namespace vanillapdf.net.PdfContents
             return IsValid();
         }
 
+        /// <inheritdoc />
         public void Reset()
         {
             throw new NotImplementedException();

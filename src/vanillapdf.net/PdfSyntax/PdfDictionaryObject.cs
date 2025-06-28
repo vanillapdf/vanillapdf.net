@@ -40,6 +40,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObject(data);
         }
 
+        /// <summary>
+        /// Get the number of entries in the dictionary.
+        /// </summary>
+        /// <returns>Total count of items.</returns>
         public UInt64 GetSize()
         {
             UInt32 result = NativeMethods.DictionaryObject_GetSize(Handle, out UIntPtr data);
@@ -50,6 +54,11 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Retrieve the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">Dictionary key.</param>
+        /// <returns>The stored <see cref="PdfObject"/>.</returns>
         public PdfObject Find(PdfNameObject key)
         {
             UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.ObjectHandle, out var data);
@@ -62,6 +71,12 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Try to get a value for the given key.
+        /// </summary>
+        /// <param name="key">Dictionary key.</param>
+        /// <param name="value">Value if found.</param>
+        /// <returns><c>true</c> if the key exists.</returns>
         public bool TryFind(PdfNameObject key, out PdfObject value)
         {
             UInt32 result = NativeMethods.DictionaryObject_TryFind(Handle, key.ObjectHandle, out var contains, out var data);
@@ -80,12 +95,25 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <summary>
+        /// Retrieve the value for a key converted to a specific type.
+        /// </summary>
+        /// <typeparam name="T">Expected object type.</typeparam>
+        /// <param name="key">Dictionary key.</param>
+        /// <returns>Object converted to <typeparamref name="T"/>.</returns>
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
             var result = Find(key);
             return (T)result.ConvertTo<T>();
         }
 
+        /// <summary>
+        /// Attempt to retrieve a value for a key converted to a given type.
+        /// </summary>
+        /// <typeparam name="T">Expected object type.</typeparam>
+        /// <param name="key">Dictionary key.</param>
+        /// <param name="value">Converted value when found.</param>
+        /// <returns><c>true</c> when the key exists and conversion succeeded.</returns>
         public bool TryFindAs<T>(PdfNameObject key, out T value) where T : PdfObject
         {
             var contains = TryFind(key, out var pdfObject);
@@ -98,6 +126,11 @@ namespace vanillapdf.net.PdfSyntax
             return true;
         }
 
+        /// <summary>
+        /// Check if the dictionary contains an entry for the given key.
+        /// </summary>
+        /// <param name="key">Dictionary key.</param>
+        /// <returns><c>true</c> when the key is present.</returns>
         public bool Contains(PdfNameObject key)
         {
             UInt32 result = NativeMethods.DictionaryObject_Contains(Handle, key.ObjectHandle, out var data);
@@ -122,6 +155,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObjectIterator(value);
         }
 
+        /// <summary>
+        /// Insert a key/value pair into the dictionary.
+        /// </summary>
+        /// <param name="key">Dictionary key.</param>
+        /// <param name="data">Value to insert.</param>
+        /// <param name="overwrite">Overwrite existing entry when <c>true</c>.</param>
         public void Insert(PdfNameObject key, PdfObject data, bool overwrite = false)
         {
             UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.ObjectHandle, data.ObjectHandle, overwrite);

@@ -12,6 +12,10 @@ namespace vanillapdf.net.Utils
 
         private IntPtr Handle { get; set; }
 
+        /// <summary>
+        /// Load the native library from the specified root path.
+        /// </summary>
+        /// <param name="rootPath">Base directory of the library.</param>
         public void LoadLibrary(string rootPath)
         {
             // Ensure proper release of resources in subsequent calls
@@ -33,11 +37,19 @@ namespace vanillapdf.net.Utils
             }
         }
 
+        /// <summary>
+        /// Get a function pointer from the loaded library.
+        /// </summary>
+        /// <param name="procName">Name of the exported symbol.</param>
+        /// <returns>Pointer to the requested function.</returns>
         public IntPtr GetProcAddress(string procName)
         {
             return NativeMethods.GetProcAddress(Handle, procName);
         }
 
+        /// <summary>
+        /// Unload the previously loaded native library.
+        /// </summary>
         public void ReleaseLibrary()
         {
             // Not yet initialized
