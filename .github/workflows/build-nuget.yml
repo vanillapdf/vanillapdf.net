@@ -81,7 +81,7 @@ jobs:
         run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
 
       - name: Execute nuget packaging
-        run: dotnet pack src/vanillapdf.net/vanillapdf.net.csproj --no-build --nologo --output nupkgs --version-suffix ${{ inputs.build_suffix }}
+        run: dotnet pack src/vanillapdf.net/vanillapdf.net.csproj --no-build --nologo --output nupkgs --version-suffix "${{ inputs.build_suffix }}"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
