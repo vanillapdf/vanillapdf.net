@@ -6,6 +6,7 @@ namespace vanillapdf.net.Utils
     internal class MacPlatformUtils : IPlatformUtils
     {
         private const string MAC_X64_LIBRARY_PATH = "runtimes/osx-x64/native/libvanillapdf.dylib";
+        private const string MAC_ARM64_LIBRARY_PATH = "runtimes/osx-arm64/native/libvanillapdf.dylib";
 
         private IntPtr Handle { get; set; }
 
@@ -17,6 +18,10 @@ namespace vanillapdf.net.Utils
             string libraryPath = null;
             if (RuntimeInformation.ProcessArchitecture == Architecture.X64) {
                 libraryPath = MAC_X64_LIBRARY_PATH;
+            }
+
+            if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64) {
+                libraryPath = MAC_ARM64_LIBRARY_PATH;
             }
 
             if (libraryPath == null) {
