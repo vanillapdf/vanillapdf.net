@@ -43,4 +43,4 @@ jobs:
 
       # Build and test on current OS
       - name: Build and test on ${{ matrix.os }}
-        run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo -nowarn:CS1591
+        run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
