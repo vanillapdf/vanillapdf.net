@@ -10,8 +10,13 @@
         /// </summary>
         Undefined = 0,
 
+        /// <summary>Device gray color space.</summary>
         GRAY,
+
+        /// <summary>Device RGB color space.</summary>
         RGB,
+
+        /// <summary>Device CMYK color space.</summary>
         CMYK,
     };
 }

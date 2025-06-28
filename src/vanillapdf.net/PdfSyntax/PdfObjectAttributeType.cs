@@ -10,9 +10,16 @@
         /// </summary>
         Undefined = 0,
 
+        /// <summary>Attribute without specific semantics.</summary>
         Empty,
+
+        /// <summary>Attribute used to override serialization.</summary>
         SerializationOverride,
+
+        /// <summary>Identifier used for tracking purposes.</summary>
         TrackingIdentifier,
+
+        /// <summary>Attribute holding image metadata.</summary>
         ImageMetadata
     };
 }

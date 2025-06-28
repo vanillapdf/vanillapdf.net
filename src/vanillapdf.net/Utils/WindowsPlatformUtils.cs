@@ -81,16 +81,37 @@ namespace vanillapdf.net.Utils
             [Flags]
             public enum LoadLibraryFlags : uint
             {
+                /// <summary>Do not resolve DLL references.</summary>
                 DONT_RESOLVE_DLL_REFERENCES = 0x00000001,
+
+                /// <summary>Ignore the code authorization level.</summary>
                 LOAD_IGNORE_CODE_AUTHZ_LEVEL = 0x00000010,
+
+                /// <summary>Load the DLL as a data file.</summary>
                 LOAD_LIBRARY_AS_DATAFILE = 0x00000002,
+
+                /// <summary>Load the DLL as a data file exclusively.</summary>
                 LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE = 0x00000040,
+
+                /// <summary>Load the DLL as an image resource.</summary>
                 LOAD_LIBRARY_AS_IMAGE_RESOURCE = 0x00000020,
+
+                /// <summary>Search the application directory.</summary>
                 LOAD_LIBRARY_SEARCH_APPLICATION_DIR = 0x00000200,
+
+                /// <summary>Use default search directories.</summary>
                 LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000,
+
+                /// <summary>Search the directory of the DLL being loaded.</summary>
                 LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x00000100,
+
+                /// <summary>Search the system32 directory.</summary>
                 LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800,
+
+                /// <summary>Search user directories.</summary>
                 LOAD_LIBRARY_SEARCH_USER_DIRS = 0x00000400,
+
+                /// <summary>Alter the search path.</summary>
                 LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
             }
         }
