@@ -27,12 +27,18 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfPageObjectSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// The media box defining the visible region of the page.
+        /// </summary>
         public PdfRectangle MediaBox
         {
             get { return GetMediaBox(); }
             set { SetMediaBox(value); }
         }
 
+        /// <summary>
+        /// Underlying page dictionary object.
+        /// </summary>
         public PdfDictionaryObject BaseObject
         {
             get => GetBaseObject();

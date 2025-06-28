@@ -8,6 +8,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
+    /// <summary>
+    /// Iterator over the key-value pairs of a PDF dictionary object.
+    /// </summary>
     public class PdfDictionaryObjectIterator : PdfUnknown, IEnumerator<KeyValuePair<PdfNameObject, PdfObject>>
     {
         internal PdfDictionaryObjectIteratorSafeHandle Handle { get; }
