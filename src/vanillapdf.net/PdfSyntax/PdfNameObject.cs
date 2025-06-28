@@ -24,12 +24,18 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfNameObjectSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Raw encoded value of the name.
+        /// </summary>
         public PdfBuffer Value
         {
             get { return GetValue(); }
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// Hash value calculated from the name string.
+        /// </summary>
         public UInt64 Hash
         {
             get { return GetHash(); }

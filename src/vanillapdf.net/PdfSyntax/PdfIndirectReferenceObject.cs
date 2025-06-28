@@ -24,6 +24,9 @@ namespace vanillapdf.net.PdfSyntax
             RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectReferenceObjectSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Object referenced by this indirect reference.
+        /// </summary>
         public PdfObject ReferencedObject
         {
             get { return GetReferencedObject(); }

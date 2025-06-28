@@ -76,6 +76,7 @@ namespace vanillapdf.net.PdfContents
         private bool isFirst = true;
 
         object IEnumerator.Current => GetValue();
+        /// <inheritdoc />
         public PdfContentInstruction Current => GetValue();
 
         /// <inheritdoc />

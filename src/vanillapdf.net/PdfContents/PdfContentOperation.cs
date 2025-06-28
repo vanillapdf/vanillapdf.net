@@ -24,6 +24,9 @@ namespace vanillapdf.net.PdfContents
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Derived type of the operation represented by this instance.
+        /// </summary>
         public PdfContentOperationType OperationType
         {
             get { return GetOperationType(); }

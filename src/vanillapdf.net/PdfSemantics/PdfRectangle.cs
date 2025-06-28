@@ -6,6 +6,9 @@ using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
 {
+    /// <summary>
+    /// Represents a rectangular region using integer coordinates.
+    /// </summary>
     public class PdfRectangle : PdfUnknown
     {
         internal PdfRectangleSafeHandle Handle { get; }
@@ -21,24 +24,36 @@ namespace vanillapdf.net.PdfSemantics
             RuntimeHelpers.RunClassConstructor(typeof(PdfRectangleSafeHandle).TypeHandle);
         }
 
+        /// <summary>
+        /// Lower-left X coordinate of the rectangle.
+        /// </summary>
         public Int64 LowerLeftX
         {
             get { return GetLowerLeftX(); }
             set { SetLowerLeftX(value); }
         }
 
+        /// <summary>
+        /// Lower-left Y coordinate of the rectangle.
+        /// </summary>
         public Int64 LowerLeftY
         {
             get { return GetLowerLeftY(); }
             set { SetLowerLeftY(value); }
         }
 
+        /// <summary>
+        /// Upper-right X coordinate of the rectangle.
+        /// </summary>
         public Int64 UpperRightX
         {
             get { return GetUpperRightX(); }
             set { SetUpperRightX(value); }
         }
 
+        /// <summary>
+        /// Upper-right Y coordinate of the rectangle.
+        /// </summary>
         public Int64 UpperRightY
         {
             get { return GetUpperRightY(); }
