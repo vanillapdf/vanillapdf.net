@@ -49,6 +49,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNameObject(data);
         }
 
+        /// <summary>
+        /// Create a <see cref="PdfNameObject"/> from a raw encoded string value.
+        /// </summary>
+        /// <param name="data">Encoded string representation.</param>
+        /// <returns>Newly created name object.</returns>
         public static PdfNameObject CreateFromEncodedString(string data)
         {
             UInt32 result = NativeMethods.NameObject_CreateFromEncodedString(data, out var handle);
@@ -59,6 +64,11 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNameObject(handle);
         }
 
+        /// <summary>
+        /// Create a <see cref="PdfNameObject"/> from a decoded string value.
+        /// </summary>
+        /// <param name="data">Decoded string representation.</param>
+        /// <returns>Newly created name object.</returns>
         public static PdfNameObject CreateFromDecodedString(string data)
         {
             UInt32 result = NativeMethods.NameObject_CreateFromDecodedString(data, out var handle);
@@ -97,11 +107,17 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToUInt64();
         }
 
+        /// <summary>
+        /// Implicit conversion from <see cref="string"/> to <see cref="PdfNameObject"/>.
+        /// </summary>
         public static implicit operator PdfNameObject(string data)
         {
             return CreateFromDecodedString(data);
         }
 
+        /// <summary>
+        /// Implicit conversion from <see cref="PdfNameObject"/> to <see cref="string"/>.
+        /// </summary>
         public static implicit operator string(PdfNameObject data)
         {
             return data.ToString();

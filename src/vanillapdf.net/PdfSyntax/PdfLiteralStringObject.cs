@@ -98,6 +98,9 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfLiteralStringObject(data);
         }
 
+        /// <summary>
+        /// Implicit conversion from <see cref="string"/> to <see cref="PdfLiteralStringObject"/>.
+        /// </summary>
         public static implicit operator PdfLiteralStringObject(string value)
         {
             return CreateFromDecodedString(value);

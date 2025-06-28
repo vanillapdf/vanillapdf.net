@@ -22,6 +22,9 @@ namespace vanillapdf.net.Utils
         //[UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
         //internal delegate UInt32 ConvertFromDelegate<T, U>(U handle, out T data);
 
+        /// <summary>
+        /// Force initialization of all native wrapper classes.
+        /// </summary>
         public static void InitializeClasses()
         {
             // Utils
@@ -93,6 +96,11 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationTextShowArray).TypeHandle);
         }
 
+        /// <summary>
+        /// Convert a 32-bit integer to the platform specific unsigned size.
+        /// </summary>
+        /// <param name="value">Value to convert.</param>
+        /// <returns>Converted value as 32 or 64 bit depending on platform.</returns>
         public static UInt64 PlatformIntegerConversion(int value)
         {
             if (Environment.Is64BitProcess) {

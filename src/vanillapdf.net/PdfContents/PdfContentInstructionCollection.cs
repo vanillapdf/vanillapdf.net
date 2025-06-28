@@ -55,6 +55,10 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentInstruction(data);
         }
 
+        /// <summary>
+        /// Append a new instruction to the end of the collection.
+        /// </summary>
+        /// <param name="instruction">Instruction to append.</param>
         public void Append(PdfContentInstruction instruction)
         {
             UInt32 result = NativeMethods.ContentInstructionCollection_Append(Handle, instruction.InstructionHandle);
@@ -63,6 +67,11 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
+        /// <summary>
+        /// Insert a new instruction at the given index.
+        /// </summary>
+        /// <param name="index">Position where the instruction is inserted.</param>
+        /// <param name="instruction">Instruction to insert.</param>
         public void Insert(UInt64 index, PdfContentInstruction instruction)
         {
             UInt32 result = NativeMethods.ContentInstructionCollection_Insert(Handle, new UIntPtr(index), instruction.InstructionHandle);
@@ -71,6 +80,10 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
+        /// <summary>
+        /// Remove the instruction at the specified index.
+        /// </summary>
+        /// <param name="index">Index of the instruction to remove.</param>
         public void Remove(UInt64 index)
         {
             UInt32 result = NativeMethods.ContentInstructionCollection_Remove(Handle, new UIntPtr(index));
@@ -79,6 +92,9 @@ namespace vanillapdf.net.PdfContents
             }
         }
 
+        /// <summary>
+        /// Remove all instructions from the collection.
+        /// </summary>
         public void Clear()
         {
             UInt32 result = NativeMethods.ContentInstructionCollection_Clear(Handle);

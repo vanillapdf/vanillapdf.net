@@ -12,6 +12,10 @@ namespace vanillapdf.net.Utils
 
         private IntPtr Handle { get; set; }
 
+        /// <summary>
+        /// Load the native library for Linux platforms.
+        /// </summary>
+        /// <param name="rootPath">Base directory of the library.</param>
         public void LoadLibrary(string rootPath)
         {
             // Ensure proper release of resources in subsequent calls
@@ -69,11 +73,19 @@ namespace vanillapdf.net.Utils
             }
         }
 
+        /// <summary>
+        /// Resolve a symbol from the loaded library.
+        /// </summary>
+        /// <param name="procName">Symbol name.</param>
+        /// <returns>Pointer to the symbol.</returns>
         public IntPtr GetProcAddress(string procName)
         {
             return NativeMethods.dlsym(Handle, procName);
         }
 
+        /// <summary>
+        /// Unload the native library.
+        /// </summary>
         public void ReleaseLibrary()
         {
             // Not yet initialized

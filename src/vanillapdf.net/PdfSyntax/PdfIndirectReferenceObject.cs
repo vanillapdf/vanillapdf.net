@@ -44,6 +44,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIndirectReferenceObject(data);
         }
 
+        /// <summary>
+        /// Get the object number referenced by this indirect reference.
+        /// </summary>
+        /// <returns>The referenced object number.</returns>
         public UInt64 GetReferencedObjectNumber()
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_GetReferencedObjectNumber(Handle, out var data);
@@ -54,6 +58,10 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <summary>
+        /// Get the generation number of the referenced object.
+        /// </summary>
+        /// <returns>The referenced generation number.</returns>
         public UInt16 GetReferencedGenerationNumber()
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_GetReferencedGenerationNumber(Handle, out var data);
