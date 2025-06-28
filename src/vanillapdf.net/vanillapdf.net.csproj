@@ -12,7 +12,6 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Vanilla.PDF is a cross-platform SDK for creating and modifying PDF documents</Description>
-    <Copyright>Copyright 2018-2024 Vanilla.PDF Labs s.r.o.</Copyright>
     <Copyright>Copyright 2018-2025 Vanilla.PDF Labs s.r.o.</Copyright>
     <PackageTags>pdf parsing sign</PackageTags>
     <PackageIcon>vanilla_logo.png</PackageIcon>
