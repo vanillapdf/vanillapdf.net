@@ -1,22 +1,91 @@
 # Vanilla.PDF .NET
 
-[![pipeline status](https://gitlab.com/jurzik/vanillapdf-net/badges/master/pipeline.svg)](https://gitlab.com/jurzik/vanillapdf-net/commits/master)
+[![NuGet Version](https://img.shields.io/nuget/v/vanillapdf.net.svg)](https://www.nuget.org/packages/vanillapdf.net/) [![CI Status](https://github.com/vanillapdf/vanillapdf.net/actions/workflows/ci.yml/badge.svg)](https://github.com/vanillapdf/vanillapdf.net/actions) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-## About
+The official .NET binding for the core [Vanilla.PDF](https://github.com/vanillapdf/vanillapdf) C++17 library. Exposes a high‑performance API to create, inspect, edit and sign PDF documents from any .NET Standard 2.0+ application.
 
-Vanilla PDF is a cross-platform SDK (Software development kit) for creating and modifying PDF documents.
-While offering supreme control over the document structure, it is blazingly fast with extremely small memory footprint.
-Integration is very easy with pre-packaged binaries for multiple operating systems such as Windows, Linux and Mac.
-Full interface documentation, detailed guide and code samples are available at the product website.
-Automated build and test process eliminates most of the common defects.
-Support, such as bug reports is free and available at your service.
+---
 
-Please visit [vanillapdf.com](http://vanillapdf.com) for more information.
+## 📋 Table of Contents
 
-## FAQ
+1. [Key Features](#key-features)
+2. [Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
+3. [Usage](#usage)
+4. [Samples & Local Docs](#samples--local-docs)
+5. [Building & Testing](#building--testing)
+6. [Contributing](#contributing)
+7. [Support](#support)
+8. [License](#license)
 
-Frequently asked questions are discussed on our [website](https://vanillapdf.com/faq/).
+---
 
-## Contact
+## 🔑 Key Features
 
-In case of any questions do not hesitate to [Contact us](https://vanillapdf.com/contact/).
+- Cross‑platform: Windows, Linux, macOS (.NET Standard 2.0+)
+- Native performance via a thin interop layer
+- Comprehensive PDF model with digital signatures
+- Lightweight with no large dependencies
+- Thread‑safe API for concurrent use
+- CI/CD ready with GitHub Actions
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- .NET SDK 8.0 or newer
+
+### Installation
+```bash
+dotnet add package vanillapdf.net
+```
+
+---
+
+## ✍️ Usage
+```csharp
+using vanillapdf.net.PdfSemantics;
+using vanillapdf.net.PdfSyntax;
+
+using var file = PdfFile.Open("input.pdf");
+file.Initialize();
+using var document = PdfDocument.OpenFile(file);
+using var catalog = document.GetCatalog();
+ulong pageCount = catalog.GetPages().GetPageCount();
+Console.WriteLine($"Pages: {pageCount}");
+```
+
+---
+
+## 📁 Samples & Local Docs
+- Browse `samples/` for practical examples.
+- See [CHANGELOG](CHANGELOG.txt) and [LICENSE](LICENSE.txt).
+
+---
+
+## 🚧 Building & Testing
+```bash
+git clone https://github.com/vanillapdf/vanillapdf.net.git
+cd vanillapdf.net
+dotnet restore
+dotnet build
+dotnet test src/vanillapdf.net.sln
+```
+
+---
+
+## 👍 Contributing
+Contributions are welcome. Please open issues or pull requests on GitHub.
+
+---
+
+## 💬 Support
+Use the [issue tracker](https://github.com/vanillapdf/vanillapdf.net/issues) or [contact us](https://vanillapdf.com/contact).
+
+---
+
+## 📜 License
+Apache-2.0. See [LICENSE](LICENSE.txt) for details.
+
