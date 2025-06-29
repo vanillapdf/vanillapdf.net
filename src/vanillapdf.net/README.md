@@ -1,6 +1,6 @@
 # Vanilla.PDF .NET
 
-[![Repo size](https://img.shields.io/github/repo-size/vanillapdf/vanillapdf.net?label=size)](https://github.com/vanillapdf/vanillapdf.net) [![NuGet version](https://img.shields.io/nuget/v/vanillapdf.net.svg)](https://www.nuget.org/packages/vanillapdf.net/) [![NuGet downloads](https://img.shields.io/nuget/dt/vanillapdf.net.svg)](https://www.nuget.org/packages/vanillapdf.net/) [![Nightly build](https://github.com/vanillapdf/vanillapdf.net/actions/workflows/nightly-nuget.yml/badge.svg)](https://github.com/vanillapdf/vanillapdf.net/actions/workflows/nightly-nuget.yml) [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![NuGet](https://img.shields.io/nuget/v/vanillapdf.net?color=blue)](https://www.nuget.org/packages/vanillapdf.net) [![Downloads](https://img.shields.io/nuget/dt/vanillapdf.net?color=blue)](https://www.nuget.org/packages/vanillapdf.net) [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE.txt) [![Build](https://github.com/vanillapdf/vanillapdf.net/actions/workflows/nightly-nuget.yml/badge.svg)](https://github.com/vanillapdf/vanillapdf.net/actions/workflows/nightly-nuget.yml) [![Repo Size](https://img.shields.io/github/repo-size/vanillapdf/vanillapdf.net)](https://github.com/vanillapdf/vanillapdf.net)
 
 The official .NET binding for the core [Vanilla.PDF](https://github.com/vanillapdf/vanillapdf) C++17 library. Exposes a high-performance API to create, inspect, edit and sign PDF documents from any .NET Standard 2.0+ application.
 
