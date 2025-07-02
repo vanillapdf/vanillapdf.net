@@ -72,6 +72,8 @@ cd vanillapdf.net
 dotnet restore
 dotnet build
 dotnet test src/vanillapdf.net.sln
+# verify native libraries are published correctly
+./scripts/test_dotnet_publish.sh
 ```
 
 ---
