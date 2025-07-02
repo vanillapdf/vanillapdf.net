@@ -41,7 +41,7 @@ OUTPUT_DIR=$(mktemp -d)
 
 echo "Publishing $PROJECT for $RID..."
 
-dotnet publish "$PROJECT" -c Release -r "$RID" -o "$OUTPUT_DIR" --no-self-contained --nologo
+dotnet publish "$PROJECT" -c Release -f netstandard2.0 -r "$RID" -o "$OUTPUT_DIR" --no-self-contained --nologo
 
 NATIVE_DIR="$OUTPUT_DIR/runtimes/$RID/native"
 
