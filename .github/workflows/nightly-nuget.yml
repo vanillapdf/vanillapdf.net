@@ -10,7 +10,7 @@ on:
   push:
     branches:
       - "main"
-      - "release/**"
+      - "release/*"
     paths:
       - '.github/workflows/nightly-nuget.yml'
 
@@ -19,7 +19,7 @@ on:
   pull_request:
     branches:
       - "main"
-      - "release/**"
+      - "release/*"
     paths:
       - '.github/workflows/nightly-nuget.yml'
 
