@@ -16,6 +16,7 @@ on:
 # Enable only minimum required permissions
 permissions:
   contents: read
+  packages: read
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -40,7 +41,14 @@ jobs:
           dotnet-version: |
             8.x
             9.x
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Build and test on current OS
       - name: Build and test on ${{ matrix.os }}
         run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
+
+      - name: Verify publish on ${{ matrix.os }}
+        shell: bash
+        run: ./scripts/test_dotnet_publish.sh
