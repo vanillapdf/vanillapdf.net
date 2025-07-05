@@ -71,7 +71,17 @@ git clone https://github.com/vanillapdf/vanillapdf.net.git
 cd vanillapdf.net
 dotnet restore
 dotnet build
+# run tests
 dotnet test src/vanillapdf.net.sln
+# verify native libraries are published correctly using CI script
+./scripts/test_dotnet_publish.sh
+
+# Restore from GitHub Packages when testing unreleased versions
+export NUGET_AUTH_TOKEN=<your-token>
+dotnet nuget add source "https://nuget.pkg.github.com/<owner>/index.json" \
+  --name github --username <username> --password "$NUGET_AUTH_TOKEN" \
+  --store-password-in-clear-text
+# nuget.org remains configured, so packages restore from both sources
 ```
 
 ---
