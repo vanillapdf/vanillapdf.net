@@ -57,12 +57,12 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Build and test on current OS
-        - name: Build and test on ${{ matrix.os }}
-          run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
+      - name: Build and test on ${{ matrix.os }}
+        run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
 
-        - name: Verify publish on ${{ matrix.os }}
-          shell: bash
-          run: ./scripts/test_dotnet_publish.sh
+      - name: Verify publish on ${{ matrix.os }}
+        shell: bash
+        run: ./scripts/test_dotnet_publish.sh
 
   build-nuget:
     name: Build nuget package
