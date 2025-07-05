@@ -18,12 +18,16 @@ on:
 
   # Run package build on code changes
   push:
-    branches: [ "main" ]
+    branches:
+      - "main"
+      - "release/*"
     paths:
       - '.github/workflows/build-nuget.yml'
 
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
+      - "release/*"
     paths:
       - '.github/workflows/build-nuget.yml'
 
@@ -52,10 +56,17 @@ jobs:
           dotnet-version: |
             8.x
             9.x
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Build and test on current OS
       - name: Build and test on ${{ matrix.os }}
         run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
+
+      - name: Verify publish on ${{ matrix.os }}
+        shell: bash
+        run: ./scripts/test_dotnet_publish.sh
 
   build-nuget:
     name: Build nuget package
@@ -70,6 +81,9 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.x
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore NuGet packages
         run: dotnet restore src/vanillapdf.net.sln

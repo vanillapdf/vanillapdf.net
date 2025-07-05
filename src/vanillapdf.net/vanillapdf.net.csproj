@@ -5,7 +5,7 @@
     <Platforms>AnyCPU;x86;x64</Platforms>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <VersionPrefix>2.1.0</VersionPrefix>
+    <VersionPrefix>2.1.1</VersionPrefix>
     <VersionSuffix>dev</VersionSuffix>
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="vanillapdf" Version="2.1.0" />
+    <PackageReference Include="vanillapdf" Version="2.1.1" />
   </ItemGroup>
 
 </Project>
