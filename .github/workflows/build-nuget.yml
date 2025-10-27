@@ -98,7 +98,7 @@ jobs:
         run: dotnet pack src/vanillapdf.net/vanillapdf.net.csproj --no-build --nologo --output nupkgs --version-suffix "${{ inputs.build_suffix }}"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: vanillapdf.net
           path: nupkgs/*.nupkg
