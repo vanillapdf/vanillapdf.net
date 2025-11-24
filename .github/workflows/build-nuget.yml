@@ -47,7 +47,7 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       # Prepare specific version of dotnet to be used
       - name: Setup dotnet
@@ -76,7 +76,7 @@ jobs:
     needs: sanity-check
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-dotnet@v5
         with:
