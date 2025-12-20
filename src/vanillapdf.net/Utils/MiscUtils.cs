@@ -75,6 +75,7 @@ namespace vanillapdf.net.Utils
             RuntimeHelpers.RunClassConstructor(typeof(PdfRectangle).TypeHandle);
 
             RuntimeHelpers.RunClassConstructor(typeof(PdfDocument).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentInfo).TypeHandle);
             RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSignatureSettings).TypeHandle);
 
             RuntimeHelpers.RunClassConstructor(typeof(PdfCatalog).TypeHandle);
