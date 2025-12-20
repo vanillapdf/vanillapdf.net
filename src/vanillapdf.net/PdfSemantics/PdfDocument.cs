@@ -171,6 +171,20 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
+        /// <summary>
+        /// Get document information dictionary containing metadata about the PDF document.
+        /// </summary>
+        /// <returns>Handle to existing \ref PdfDocumentInfo instance on success, throws exception on failure</returns>
+        public PdfDocumentInfo GetDocumentInfo()
+        {
+            UInt32 result = NativeMethods.Document_GetDocumentInfo(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDocumentInfo(data);
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
@@ -191,6 +205,7 @@ namespace vanillapdf.net.PdfSemantics
 
             public static AddEncryptionDelgate Document_AddEncryption = LibraryInstance.GetFunction<AddEncryptionDelgate>("Document_AddEncryption");
             public static RemoveEncryptionDelgate Document_RemoveEncryption = LibraryInstance.GetFunction<RemoveEncryptionDelgate>("Document_RemoveEncryption");
+            public static GetDocumentInfoDelgate Document_GetDocumentInfo = LibraryInstance.GetFunction<GetDocumentInfoDelgate>("Document_GetDocumentInfo");
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 OpenDelgate(string filename, out PdfDocumentSafeHandle data);
@@ -224,6 +239,9 @@ namespace vanillapdf.net.PdfSemantics
 
             [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
             public delegate UInt32 RemoveEncryptionDelgate(PdfDocumentSafeHandle handle);
+
+            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
+            public delegate UInt32 GetDocumentInfoDelgate(PdfDocumentSafeHandle handle, out PdfDocumentInfoSafeHandle data);
         }
     }
 }
