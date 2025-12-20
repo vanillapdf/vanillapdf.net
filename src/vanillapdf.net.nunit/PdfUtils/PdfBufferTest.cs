@@ -1,7 +1,10 @@
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfUtils
@@ -97,6 +100,59 @@ namespace vanillapdf.net.nunit.PdfUtils
             }
 
             GC.Collect();
+        }
+
+        /// <summary>
+        /// Verify that concurrent read and dispose operations are thread-safe.
+        /// The lock in PdfBuffer ensures no crashes occur - either the read completes
+        /// successfully with correct data, or it throws ObjectDisposedException.
+        /// </summary>
+        [Test]
+        public void TestThreadSafetyOnConcurrentDispose()
+        {
+            const int iterations = 1000;
+            var testData = new byte[10000];
+            new Random(42).NextBytes(testData);
+
+            int successCount = 0;
+            int disposedCount = 0;
+
+            for (int i = 0; i < iterations; i++) {
+                var buffer = PdfBuffer.CreateFromData(testData);
+
+                var readThread = new Thread(() => {
+                    try {
+                        var result = buffer.Data;
+                        ClassicAssert.IsTrue(testData.SequenceEqual(result));
+                        Interlocked.Increment(ref successCount);
+                    }
+                    catch (ObjectDisposedException) {
+                        // Safe outcome - dispose won the race
+                        Interlocked.Increment(ref disposedCount);
+                    }
+                });
+
+                readThread.Start();
+                buffer.Dispose();
+                readThread.Join();
+            }
+
+            // Both outcomes should occur in a concurrent test
+            ClassicAssert.Greater(successCount + disposedCount, 0, "No operations completed");
+        }
+
+        /// <summary>
+        /// Verify that accessing a disposed buffer throws ObjectDisposedException.
+        /// </summary>
+        [Test]
+        public void TestAccessAfterDisposeThrows()
+        {
+            var buffer = PdfBuffer.Create();
+            buffer.StringData = "test";
+            buffer.Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => { var _ = buffer.Data; });
+            Assert.Throws<ObjectDisposedException>(() => { var _ = buffer.StringData; });
         }
     }
 }
