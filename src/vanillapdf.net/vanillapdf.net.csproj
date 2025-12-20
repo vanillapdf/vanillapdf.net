@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>2.1.0</VersionPrefix>
@@ -56,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.6.0" />
     <PackageReference Include="vanillapdf" Version="2.2.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>

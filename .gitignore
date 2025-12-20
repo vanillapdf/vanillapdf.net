@@ -14,6 +14,9 @@ launchSettings.json
 # Log files
 *.log
 
+# BenchmarkDotNet artifacts
+**/BenchmarkDotNet.Artifacts/
+
 # IDE settings
 .idea/
 .vscode/
