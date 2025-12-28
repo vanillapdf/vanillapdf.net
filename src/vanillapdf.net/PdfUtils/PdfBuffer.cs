@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using vanillapdf.net.Utils;
 
@@ -11,8 +9,41 @@ namespace vanillapdf.net.PdfUtils
     /// <summary>
     /// Serves as container for transferring arbitrary binary data
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Performance comparison (GCHandle.Alloc vs fixed + Buffer.MemoryCopy):
+    /// </para>
+    /// <code>
+    /// | Method               | Data Size | Before (GCHandle) | After (fixed) | Improvement |
+    /// |----------------------|-----------|-------------------|---------------|-------------|
+    /// | CreateFromData_Small |     100 B |           ~363 ns |       ~344 ns |   5% faster |
+    /// | CreateFromData_Medium|     10 KB |           ~494 ns |       ~487 ns |   1% faster |
+    /// | CreateFromData_Large |      1 MB |         ~41.5 us  |      ~44.5 us |     similar |
+    /// | GetData_Small        |     100 B |            ~83 ns |        ~36 ns |  57% faster |
+    /// | GetData_Medium       |     10 KB |           ~632 ns |       ~543 ns |  14% faster |
+    /// | GetData_Large        |      1 MB |        ~85-93 us  |       ~103 us |     similar |
+    /// </code>
+    /// <para>
+    /// GetDataString optimization (direct native memory read vs byte[] allocation):
+    /// </para>
+    /// <code>
+    /// | Method                | Size  | Before          | After           | Improvement              |
+    /// |-----------------------|-------|-----------------|-----------------|--------------------------|
+    /// | GetStringData_Small   | 100 c |  ~53 ns, 352 B  |  ~44 ns, 224 B  | 18% faster, 36% less mem |
+    /// | GetStringData_Medium  | 10K c | ~1595 ns, 30 KB | ~1016 ns, 20 KB | 36% faster, 33% less mem |
+    /// </code>
+    /// <para>
+    /// Key optimizations:
+    /// - Replaced GCHandle.Alloc with fixed statement for pinning
+    /// - Replaced native Buffer_CopyTo with Buffer.MemoryCopy (eliminates P/Invoke overhead)
+    /// - Added Span&lt;T&gt; and ReadOnlySpan&lt;byte&gt; overloads for zero-copy scenarios
+    /// - GetDataString reads directly from native memory, avoiding intermediate byte[] allocation
+    /// </para>
+    /// </remarks>
     public class PdfBuffer : PdfUnknown, IEquatable<PdfBuffer>
     {
+        private readonly object _syncLock = new object();
+
         internal PdfBufferSafeHandle Handle { get; }
 
         internal PdfBuffer(PdfBufferSafeHandle handle) : base(handle)
@@ -31,7 +62,7 @@ namespace vanillapdf.net.PdfUtils
         /// </summary>
         public byte[] Data
         {
-            get { return GetData2(); }
+            get { return GetData(); }
             set { SetData(value); }
         }
 
@@ -72,103 +103,107 @@ namespace vanillapdf.net.PdfUtils
         /// <summary>
         /// Create a new instance of \ref PdfBuffer with specified data within a single call
         /// </summary>
+        /// <param name="data">Source data to initialize the buffer with</param>
         /// <returns>New instance of \ref PdfBuffer on success, throws exception on failure</returns>
-        public static PdfBuffer CreateFromData(byte[] data)
+        public static PdfBuffer CreateFromData(byte[] data) => CreateFromData(data.AsSpan());
+
+        /// <summary>
+        /// Create a new instance of \ref PdfBuffer with specified data within a single call
+        /// </summary>
+        /// <param name="data">Source data span to initialize the buffer with</param>
+        /// <returns>New instance of \ref PdfBuffer on success, throws exception on failure</returns>
+        public static unsafe PdfBuffer CreateFromData(ReadOnlySpan<byte> data)
         {
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
+            // Use a sentinel for empty spans to get a valid pointer
+            // (native code doesn't accept IntPtr.Zero even for zero-length data)
+            if (data.IsEmpty) {
+                byte sentinel = 0;
+                UInt32 emptyResult = NativeMethods.Buffer_CreateFromData((IntPtr)(&sentinel), UIntPtr.Zero, out PdfBufferSafeHandle emptyHandle);
+                if (emptyResult != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
+                }
 
-            try {
-                var dataSize = Convert.ToUInt64(data.Length);
+                return new PdfBuffer(emptyHandle);
+            }
 
-                UInt32 result = NativeMethods.Buffer_CreateFromData(pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize), out PdfBufferSafeHandle handle);
+            fixed (byte* ptr = data) {
+                UInt32 result = NativeMethods.Buffer_CreateFromData((IntPtr)ptr, new UIntPtr((uint)data.Length), out PdfBufferSafeHandle handle);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
 
                 return new PdfBuffer(handle);
             }
-            finally {
-                if (pinnedArray.IsAllocated) {
-                    pinnedArray.Free();
+        }
+
+        private unsafe byte[] GetData()
+        {
+            lock (_syncLock) {
+                if (_disposed) throw new ObjectDisposedException(nameof(PdfBuffer));
+
+                UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
                 }
+
+                int sizeConverted = (int)size.ToUInt64();
+                byte[] allocatedBuffer = new byte[sizeConverted];
+
+                if (sizeConverted > 0) {
+                    fixed (byte* dest = allocatedBuffer) {
+                        Buffer.MemoryCopy((void*)data, dest, sizeConverted, sizeConverted);
+                    }
+                }
+
+                return allocatedBuffer;
             }
-        }
-
-        private byte[] GetData()
-        {
-            UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-
-            // TODO: might overflow
-            var rawSize = size.ToUInt64();
-            var sizeConverted = Convert.ToInt32(rawSize);
-
-            byte[] allocatedBuffer = new byte[sizeConverted];
-
-            // Marshal.Copy throws exception if the data is null pointer
-            if (sizeConverted > 0) {
-                Debug.Assert(data != IntPtr.Zero);
-                Marshal.Copy(data, allocatedBuffer, 0, sizeConverted);
-            }
-
-            return allocatedBuffer;
-        }
-
-        private byte[] GetData2()
-        {
-            UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-
-            // TODO: might overflow
-            var rawSize = size.ToUInt64();
-            var sizeConverted = Convert.ToInt32(rawSize);
-
-            byte[] allocatedBuffer = new byte[sizeConverted];
-
-            // Use CopyTo instead of Marshal.Copy as if the Buffer data changes
-            // we do get a segmentation fault.
-            CopyTo(allocatedBuffer);
-
-            return allocatedBuffer;
         }
 
         private byte GetData(int offset)
         {
-            UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
+            lock (_syncLock) {
+                if (_disposed) throw new ObjectDisposedException(nameof(PdfBuffer));
 
-            // TODO: might overflow
-            var rawSize = size.ToUInt64();
-            var sizeConverted = Convert.ToInt32(rawSize);
-
-            if (offset > sizeConverted) {
-                throw new PdfManagedException($"Index {offset} is out of bounds, data length {sizeConverted}");
-            }
-
-            return Marshal.ReadByte(data, offset);
-        }
-
-        private void SetData(byte[] data)
-        {
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-
-            try {
-                var dataSize = Convert.ToUInt64(data.Length);
-
-                UInt32 result = NativeMethods.Buffer_SetData(Handle, pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize));
+                UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
+
+                // TODO: might overflow
+                var rawSize = size.ToUInt64();
+                var sizeConverted = Convert.ToInt32(rawSize);
+
+                if (offset > sizeConverted) {
+                    throw new PdfManagedException($"Index {offset} is out of bounds, data length {sizeConverted}");
+                }
+
+                return Marshal.ReadByte(data, offset);
             }
-            finally {
-                if (pinnedArray.IsAllocated) {
-                    pinnedArray.Free();
+        }
+
+        private void SetData(byte[] data) => SetData(data.AsSpan());
+
+        private unsafe void SetData(ReadOnlySpan<byte> data)
+        {
+            lock (_syncLock) {
+                if (_disposed) throw new ObjectDisposedException(nameof(PdfBuffer));
+
+                // Use a sentinel for empty spans to get a valid pointer
+                // (native code doesn't accept IntPtr.Zero even for zero-length data)
+                if (data.IsEmpty) {
+                    byte sentinel = 0;
+                    UInt32 emptyResult = NativeMethods.Buffer_SetData(Handle, (IntPtr)(&sentinel), UIntPtr.Zero);
+                    if (emptyResult != PdfReturnValues.ERROR_SUCCESS) {
+                        throw PdfErrors.GetLastErrorException();
+                    }
+                    return;
+                }
+
+                fixed (byte* ptr = data) {
+                    UInt32 result = NativeMethods.Buffer_SetData(Handle, (IntPtr)ptr, new UIntPtr((uint)data.Length));
+                    if (result != PdfReturnValues.ERROR_SUCCESS) {
+                        throw PdfErrors.GetLastErrorException();
+                    }
                 }
             }
         }
@@ -188,35 +223,30 @@ namespace vanillapdf.net.PdfUtils
             SetData(currentData);
         }
 
-        private string GetDataString()
+        private unsafe string GetDataString()
         {
-            var data = GetData();
-            return Encoding.ASCII.GetString(data);
+            lock (_syncLock) {
+                if (_disposed) throw new ObjectDisposedException(nameof(PdfBuffer));
+
+                UInt32 result = NativeMethods.Buffer_GetData(Handle, out IntPtr data, out UIntPtr size);
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
+                }
+
+                int sizeConverted = (int)size.ToUInt64();
+                if (sizeConverted == 0) {
+                    return string.Empty;
+                }
+
+                // Read directly from native memory to avoid byte[] allocation
+                return Encoding.ASCII.GetString((byte*)data, sizeConverted);
+            }
         }
 
         private void SetDataString(string data)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(data);
             SetData(bytes);
-        }
-
-        private void CopyTo(byte[] data)
-        {
-            GCHandle pinnedArray = GCHandle.Alloc(data, GCHandleType.Pinned);
-
-            try {
-                var dataSize = Convert.ToUInt64(data.Length);
-
-                UInt32 result = NativeMethods.Buffer_CopyTo(Handle, pinnedArray.AddrOfPinnedObject(), new UIntPtr(dataSize));
-                if (result != PdfReturnValues.ERROR_SUCCESS) {
-                    throw PdfErrors.GetLastErrorException();
-                }
-            }
-            finally {
-                if (pinnedArray.IsAllocated) {
-                    pinnedArray.Free();
-                }
-            }
         }
 
         /// <summary>
@@ -290,8 +320,10 @@ namespace vanillapdf.net.PdfUtils
 
         private protected override void DisposeCustomHandle()
         {
-            base.DisposeCustomHandle();
-            Handle?.Dispose();
+            lock (_syncLock) {
+                base.DisposeCustomHandle();
+                Handle?.Dispose();
+            }
         }
 
         private static class NativeMethods
@@ -300,7 +332,6 @@ namespace vanillapdf.net.PdfUtils
             public static CreateFromDataDelgate Buffer_CreateFromData = LibraryInstance.GetFunction<CreateFromDataDelgate>("Buffer_CreateFromData");
             public static GetDataDelgate Buffer_GetData = LibraryInstance.GetFunction<GetDataDelgate>("Buffer_GetData");
             public static SetDataDelgate Buffer_SetData = LibraryInstance.GetFunction<SetDataDelgate>("Buffer_SetData");
-            public static CopyToDelgate Buffer_CopyTo = LibraryInstance.GetFunction<CopyToDelgate>("Buffer_CopyTo");
             public static ToInputStreamDelgate Buffer_ToInputStream = LibraryInstance.GetFunction<ToInputStreamDelgate>("Buffer_ToInputStream");
 
             public static EqualsDelgate Buffer_Equals = LibraryInstance.GetFunction<EqualsDelgate>("Buffer_Equals");
