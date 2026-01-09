@@ -16,4 +16,10 @@
     <ProjectReference Include="..\vanillapdf.net\vanillapdf.net.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\vanillapdf.net.nunit\Resources\minimalist.pdf" Link="Resources\minimalist.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

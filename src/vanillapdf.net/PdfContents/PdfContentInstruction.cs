@@ -13,6 +13,8 @@ namespace vanillapdf.net.PdfContents
     {
         internal PdfContentInstructionSafeHandle InstructionHandle { get; }
 
+        private PdfContentInstructionType? _cachedInstructionType;
+
         internal PdfContentInstruction(PdfContentInstructionSafeHandle handle) : base(handle)
         {
             InstructionHandle = handle;
@@ -30,12 +32,17 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of current content instruction on success, throws exception on failure</returns>
         public PdfContentInstructionType GetInstructionType()
         {
+            if (_cachedInstructionType.HasValue) {
+                return _cachedInstructionType.Value;
+            }
+
             UInt32 result = NativeMethods.ContentInstruction_GetInstructionType(InstructionHandle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return EnumUtil<PdfContentInstructionType>.CheckedCast(data);
+            _cachedInstructionType = EnumUtil<PdfContentInstructionType>.CheckedCast(data);
+            return _cachedInstructionType.Value;
         }
 
         private protected override void DisposeCustomHandle()

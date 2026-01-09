@@ -66,3 +66,18 @@ Tests use NUnit (`vanillapdf.net.nunit` project). The `OneTimeSetup.cs` initiali
 
 - Main library: .NET Standard 2.0 (broad compatibility)
 - Test project: .NET 8.0, .NET 9.0, and .NET 10.0
+
+## Code Style
+
+- Opening braces `{` go on the same line for `for`, `foreach`, `if`/`else`, and `using` statements
+- Prefer `using` declarations (without braces) when possible to simplify control flow:
+  ```csharp
+  // Preferred
+  using var file = PdfFile.Open("input.pdf");
+  using var document = PdfDocument.OpenFile(file);
+
+  // Avoid when using declaration works
+  using (var file = PdfFile.Open("input.pdf")) {
+      // ...
+  }
+  ```

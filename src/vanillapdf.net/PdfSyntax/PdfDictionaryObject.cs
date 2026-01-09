@@ -66,9 +66,7 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            using (var baseObject = new PdfObject(data)) {
-                return GetAsDerivedObject(baseObject);
-            }
+            return new PdfObject(data);
         }
 
         /// <summary>
@@ -89,10 +87,8 @@ namespace vanillapdf.net.PdfSyntax
                 return false;
             }
 
-            using (var baseObject = new PdfObject(data)) {
-                value = GetAsDerivedObject(baseObject);
-                return true;
-            }
+            value = new PdfObject(data);
+            return true;
         }
 
         /// <summary>

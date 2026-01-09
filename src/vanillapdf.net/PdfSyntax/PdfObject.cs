@@ -13,6 +13,8 @@ namespace vanillapdf.net.PdfSyntax
     {
         internal PdfObjectSafeHandle ObjectHandle { get; }
 
+        private PdfObjectType? _cachedObjectType;
+
         internal PdfObject(PdfObjectSafeHandle handle) : base(handle)
         {
             ObjectHandle = handle;
@@ -35,12 +37,17 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfObjectType GetObjectType()
         {
+            if (_cachedObjectType.HasValue) {
+                return _cachedObjectType.Value;
+            }
+
             UInt32 result = NativeMethods.Object_GetObjectType(ObjectHandle, out PdfObjectType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return EnumUtil<PdfObjectType>.CheckedCast(data);
+            _cachedObjectType = EnumUtil<PdfObjectType>.CheckedCast(data);
+            return _cachedObjectType.Value;
         }
 
         /// <inheritdoc/>
@@ -104,60 +111,41 @@ namespace vanillapdf.net.PdfSyntax
             throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
         }
 
-        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject)
+        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject, bool removeIndirection = true)
         {
-            return GetAsDerivedObject(pdfObject, true);
-        }
-
-        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject, bool removeIndirection)
-        {
-            if (pdfObject.GetObjectType() == PdfObjectType.Array) {
-                return PdfArrayObject.FromObject(pdfObject);
+            // Loop instead of recursion to resolve indirection
+            while (removeIndirection && pdfObject.GetObjectType() == PdfObjectType.IndirectReference) {
+                using (var reference = PdfIndirectReferenceObject.FromObject(pdfObject)) {
+                    pdfObject = reference.ReferencedObject;
+                }
             }
 
-            if (pdfObject.GetObjectType() == PdfObjectType.Boolean) {
-                return PdfBooleanObject.FromObject(pdfObject);
-            }
+            var objectType = pdfObject.GetObjectType();
 
-            if (pdfObject.GetObjectType() == PdfObjectType.Dictionary) {
-                return PdfDictionaryObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.IndirectReference) {
-                if (!removeIndirection) {
+            switch (objectType) {
+                case PdfObjectType.Array:
+                    return PdfArrayObject.FromObject(pdfObject);
+                case PdfObjectType.Boolean:
+                    return PdfBooleanObject.FromObject(pdfObject);
+                case PdfObjectType.Dictionary:
+                    return PdfDictionaryObject.FromObject(pdfObject);
+                case PdfObjectType.IndirectReference:
                     return PdfIndirectReferenceObject.FromObject(pdfObject);
-                }
-
-                using (var pdfReference = PdfIndirectReferenceObject.FromObject(pdfObject)) {
-                    return GetAsDerivedObject(pdfReference.ReferencedObject);
-                }
+                case PdfObjectType.Integer:
+                    return PdfIntegerObject.FromObject(pdfObject);
+                case PdfObjectType.Name:
+                    return PdfNameObject.FromObject(pdfObject);
+                case PdfObjectType.Null:
+                    return PdfNullObject.FromObject(pdfObject);
+                case PdfObjectType.Real:
+                    return PdfRealObject.FromObject(pdfObject);
+                case PdfObjectType.Stream:
+                    return PdfStreamObject.FromObject(pdfObject);
+                case PdfObjectType.String:
+                    return PdfStringObject.FromObject(pdfObject);
+                default:
+                    throw new PdfManagedException($"Invalid object type: {objectType}");
             }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Integer) {
-                return PdfIntegerObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Name) {
-                return PdfNameObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Null) {
-                return PdfNullObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Real) {
-                return PdfRealObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Stream) {
-                return PdfStreamObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.String) {
-                return PdfStringObject.FromObject(pdfObject);
-            }
-
-            throw new PdfManagedException($"Invalid object type: {pdfObject.GetObjectType()}");
         }
 
         private protected override void DisposeCustomHandle()

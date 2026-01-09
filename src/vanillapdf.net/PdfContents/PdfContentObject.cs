@@ -13,6 +13,8 @@ namespace vanillapdf.net.PdfContents
     {
         internal PdfContentObjectSafeHandle ObjectHandle { get; }
 
+        private PdfContentObjectType? _cachedObjectType;
+
         internal PdfContentObject(PdfContentObjectSafeHandle handle) : base(handle)
         {
             ObjectHandle = handle;
@@ -30,12 +32,17 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfContentObjectType GetObjectType()
         {
+            if (_cachedObjectType.HasValue) {
+                return _cachedObjectType.Value;
+            }
+
             UInt32 result = NativeMethods.ContentObject_GetObjectType(ObjectHandle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return EnumUtil<PdfContentObjectType>.CheckedCast(data);
+            _cachedObjectType = EnumUtil<PdfContentObjectType>.CheckedCast(data);
+            return _cachedObjectType.Value;
         }
 
         /// <summary>

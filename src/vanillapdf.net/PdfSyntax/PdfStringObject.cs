@@ -13,6 +13,8 @@ namespace vanillapdf.net.PdfSyntax
     {
         internal PdfStringObjectSafeHandle StringHandle { get; }
 
+        private PdfStringType? _cachedStringType;
+
         internal PdfStringObject(PdfStringObjectSafeHandle handle) : base(handle)
         {
             StringHandle = handle;
@@ -39,12 +41,17 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfStringType GetStringType()
         {
+            if (_cachedStringType.HasValue) {
+                return _cachedStringType.Value;
+            }
+
             UInt32 result = NativeMethods.StringObject_GetStringType(StringHandle, out PdfStringType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return EnumUtil<PdfStringType>.CheckedCast(data);
+            _cachedStringType = EnumUtil<PdfStringType>.CheckedCast(data);
+            return _cachedStringType.Value;
         }
 
         private PdfBuffer GetValue()
