@@ -19,6 +19,42 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Document_FromUnknown(PdfUnknownSafeHandle handle, out PdfDocumentSafeHandle data);
 
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 Document_Open(string filename, out PdfDocumentSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_OpenFile(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 Document_Create(string filename, out PdfDocumentSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_CreateFile(PdfFileSafeHandle file, out PdfDocumentSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_AppendDocument(PdfDocumentSafeHandle handle, PdfDocumentSafeHandle source);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_GetCatalog(PdfDocumentSafeHandle handle, out PdfCatalogSafeHandle data);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 Document_Save(PdfDocumentSafeHandle handle, string filename);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_SaveFile(PdfDocumentSafeHandle handle, PdfFileSafeHandle file);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_Sign(PdfDocumentSafeHandle handle, PdfFileSafeHandle destination, PdfDocumentSignatureSettingsSafeHandle settings);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_AddEncryption(PdfDocumentSafeHandle handle, PdfDocumentEncryptionSettingsSafeHandle settings);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_RemoveEncryption(PdfDocumentSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Document_GetDocumentInfo(PdfDocumentSafeHandle handle, out PdfDocumentInfoSafeHandle data);
+
         #endregion
 
         #region DocumentInfo
@@ -31,6 +67,30 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 DocumentInfo_FromUnknown(PdfUnknownSafeHandle handle, out PdfDocumentInfoSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetTitle(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetAuthor(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetSubject(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetKeywords(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetCreator(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetProducer(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetCreationDate(PdfDocumentInfoSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DocumentInfo_GetModificationDate(PdfDocumentInfoSafeHandle handle, out PdfDateSafeHandle data);
 
         #endregion
 
@@ -71,6 +131,15 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Catalog_FromUnknown(PdfUnknownSafeHandle handle, out PdfCatalogSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_GetPages(PdfCatalogSafeHandle handle, out PdfPageTreeSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_GetVersion(PdfCatalogSafeHandle handle, out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_GetOutlines(PdfCatalogSafeHandle handle, out PdfOutlineSafeHandle data);
+
         #endregion
 
         #region PageTree
@@ -83,6 +152,21 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 PageTree_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageTreeSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageTree_GetPage(PdfPageTreeSafeHandle handle, UIntPtr at, out PdfPageObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageTree_GetPageCount(PdfPageTreeSafeHandle handle, out UIntPtr count);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageTree_InsertPage(PdfPageTreeSafeHandle handle, UIntPtr at, PdfPageObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageTree_AppendPage(PdfPageTreeSafeHandle handle, PdfPageObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageTree_RemovePage(PdfPageTreeSafeHandle handle, UIntPtr at);
 
         #endregion
 
@@ -97,6 +181,24 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 PageObject_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageObjectSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageObject_GetContents(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageObject_GetAnnotations(PdfPageObjectSafeHandle handle, out PdfPageAnnotationsSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageObject_GetResources(PdfPageObjectSafeHandle handle, out PdfResourceDictionarySafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageObject_GetMediaBox(PdfPageObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageObject_SetMediaBox(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageObject_GetBaseObject(PdfPageObjectSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
+
         #endregion
 
         #region PageContents
@@ -109,6 +211,12 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 PageContents_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageContentsSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageContents_GetInstructionCollection(PdfPageContentsSafeHandle handle, out PdfContentInstructionCollectionSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageContents_RecalculateStreamData(PdfPageContentsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         #endregion
 
@@ -136,6 +244,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Annotation_FromUnknown(PdfUnknownSafeHandle handle, out PdfAnnotationSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_GetAnnotationType(PdfAnnotationSafeHandle handle, out Int32 data);
+
         #endregion
 
         #region Rectangle
@@ -149,6 +260,33 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Rectangle_FromUnknown(PdfUnknownSafeHandle handle, out PdfRectangleSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_Create(out PdfRectangleSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_GetLowerLeftX(PdfRectangleSafeHandle handle, out Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_SetLowerLeftX(PdfRectangleSafeHandle handle, Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_GetLowerLeftY(PdfRectangleSafeHandle handle, out Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_SetLowerLeftY(PdfRectangleSafeHandle handle, Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_GetUpperRightX(PdfRectangleSafeHandle handle, out Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_SetUpperRightX(PdfRectangleSafeHandle handle, Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_GetUpperRightY(PdfRectangleSafeHandle handle, out Int64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Rectangle_SetUpperRightY(PdfRectangleSafeHandle handle, Int64 data);
+
         #endregion
 
         #region Date
@@ -161,6 +299,66 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_FromUnknown(PdfUnknownSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_CreateEmpty(out PdfDateSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_CreateCurrent(out PdfDateSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetYear(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetYear(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetMonth(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetMonth(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetDay(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetDay(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetHour(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetHour(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetMinute(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetMinute(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetSecond(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetSecond(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetTimezone(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetTimezone(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetHourOffset(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetHourOffset(PdfDateSafeHandle handle, Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_GetMinuteOffset(PdfDateSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Date_SetMinuteOffset(PdfDateSafeHandle handle, Int32 data);
 
         #endregion
 

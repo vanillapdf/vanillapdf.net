@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfDocumentInfo(PdfDocumentInfoSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfDocumentInfo()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentInfoSafeHandle).TypeHandle);
         }
 
         // TODO: Add setters when native API is available
@@ -171,42 +164,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetTitleDelegate DocumentInfo_GetTitle = LibraryInstance.GetFunction<GetTitleDelegate>("DocumentInfo_GetTitle");
-            public static GetAuthorDelegate DocumentInfo_GetAuthor = LibraryInstance.GetFunction<GetAuthorDelegate>("DocumentInfo_GetAuthor");
-            public static GetSubjectDelegate DocumentInfo_GetSubject = LibraryInstance.GetFunction<GetSubjectDelegate>("DocumentInfo_GetSubject");
-            public static GetKeywordsDelegate DocumentInfo_GetKeywords = LibraryInstance.GetFunction<GetKeywordsDelegate>("DocumentInfo_GetKeywords");
-            public static GetCreatorDelegate DocumentInfo_GetCreator = LibraryInstance.GetFunction<GetCreatorDelegate>("DocumentInfo_GetCreator");
-            public static GetProducerDelegate DocumentInfo_GetProducer = LibraryInstance.GetFunction<GetProducerDelegate>("DocumentInfo_GetProducer");
-            public static GetCreationDateDelegate DocumentInfo_GetCreationDate = LibraryInstance.GetFunction<GetCreationDateDelegate>("DocumentInfo_GetCreationDate");
-            public static GetModificationDateDelegate DocumentInfo_GetModificationDate = LibraryInstance.GetFunction<GetModificationDateDelegate>("DocumentInfo_GetModificationDate");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTitleDelegate(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetAuthorDelegate(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSubjectDelegate(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetKeywordsDelegate(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCreatorDelegate(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetProducerDelegate(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCreationDateDelegate(PdfDocumentInfoSafeHandle handle, out PdfDateSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetModificationDateDelegate(PdfDocumentInfoSafeHandle handle, out PdfDateSafeHandle data);
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfRectangle(PdfRectangleSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfRectangle()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfRectangleSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -150,28 +143,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate Rectangle_Create = LibraryInstance.GetFunction<CreateDelgate>("Rectangle_Create");
-            public static GetValueDelgate Rectangle_GetLowerLeftX = LibraryInstance.GetFunction<GetValueDelgate>("Rectangle_GetLowerLeftX");
-            public static SetValueDelgate Rectangle_SetLowerLeftX = LibraryInstance.GetFunction<SetValueDelgate>("Rectangle_SetLowerLeftX");
-            public static GetValueDelgate Rectangle_GetLowerLeftY = LibraryInstance.GetFunction<GetValueDelgate>("Rectangle_GetLowerLeftY");
-            public static SetValueDelgate Rectangle_SetLowerLeftY = LibraryInstance.GetFunction<SetValueDelgate>("Rectangle_SetLowerLeftY");
-            public static GetValueDelgate Rectangle_GetUpperRightX = LibraryInstance.GetFunction<GetValueDelgate>("Rectangle_GetUpperRightX");
-            public static SetValueDelgate Rectangle_SetUpperRightX = LibraryInstance.GetFunction<SetValueDelgate>("Rectangle_SetUpperRightX");
-            public static GetValueDelgate Rectangle_GetUpperRightY = LibraryInstance.GetFunction<GetValueDelgate>("Rectangle_GetUpperRightY");
-            public static SetValueDelgate Rectangle_SetUpperRightY = LibraryInstance.GetFunction<SetValueDelgate>("Rectangle_SetUpperRightY");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfRectangleSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfRectangleSafeHandle handle, out Int64 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfRectangleSafeHandle handle, Int64 data);
         }
     }
 }
