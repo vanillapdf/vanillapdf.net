@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
-using System.Security;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.Utils
@@ -12,8 +11,6 @@ namespace vanillapdf.net.Utils
         internal static int Counter { get => _counter; private set => _counter = value; }
 
         private protected bool _disposed = false;
-
-        protected abstract GenericReleaseDelgate ReleaseDelegate { get; }
 
         public PdfSafeHandle() : base(IntPtr.Zero, true)
         {
@@ -32,19 +29,6 @@ namespace vanillapdf.net.Utils
             [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
 #endif
             get { return (handle == IntPtr.Zero); }
-        }
-
-#if NETSTANDARD2_0
-        [PrePrepareMethod]
-        [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-#endif
-        protected override bool ReleaseHandle()
-        {
-            if (ReleaseDelegate == null) {
-                return false;
-            }
-
-            return (ReleaseDelegate(handle) == PdfReturnValues.ERROR_SUCCESS);
         }
 
         #region IDisposable
@@ -84,8 +68,5 @@ namespace vanillapdf.net.Utils
             System.Threading.Interlocked.Decrement(ref _counter);
 #endif
         }
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention), SuppressUnmanagedCodeSecurity]
-        protected delegate UInt32 GenericReleaseDelgate(IntPtr handle);
     }
 }

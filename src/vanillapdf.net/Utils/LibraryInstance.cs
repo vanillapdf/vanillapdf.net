@@ -3,6 +3,9 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using vanillapdf.net.PdfUtils;
+#if NET7_0_OR_GREATER
+using vanillapdf.net.Interop;
+#endif
 
 namespace vanillapdf.net.Utils
 {
@@ -13,6 +16,38 @@ namespace vanillapdf.net.Utils
     {
         private static IPlatformUtils m_handle;
         private static object _handleLocker = new object();
+
+#if NET7_0_OR_GREATER
+        private static bool _resolverSet = false;
+        private static DllImportResolver _customResolver;
+
+        /// <summary>
+        /// Set custom DllImportResolver for loading vanillapdf native library.
+        /// Must be called before any native method is invoked.
+        /// </summary>
+        /// <param name="resolver">Custom resolver delegate that handles library loading.</param>
+        /// <exception cref="InvalidOperationException">Thrown if a resolver is already set.</exception>
+        public static void SetDllImportResolver(DllImportResolver resolver)
+        {
+            if (_resolverSet)
+            {
+                throw new InvalidOperationException("DllImportResolver already set");
+            }
+
+            _customResolver = resolver;
+            NativeLibrary.SetDllImportResolver(typeof(NativeMethods).Assembly, ResolveNativeLibrary);
+            _resolverSet = true;
+        }
+
+        private static IntPtr ResolveNativeLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            if (libraryName == NativeMethods.LibraryName)
+            {
+                return _customResolver(libraryName, assembly, searchPath);
+            }
+            return IntPtr.Zero;
+        }
+#endif
 
         internal static IPlatformUtils Handle
         {
