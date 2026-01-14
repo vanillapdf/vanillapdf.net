@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfUnicodeCharacterMap(PdfUnicodeCharacterMapSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfUnicodeCharacterMap()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfUnicodeCharacterMapSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -44,14 +37,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetMappedValueDelgate UnicodeCharacterMap_GetMappedValue = LibraryInstance.GetFunction<GetMappedValueDelgate>("UnicodeCharacterMap_GetMappedValue");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetMappedValueDelgate(PdfUnicodeCharacterMapSafeHandle handle, PdfBufferSafeHandle key, out PdfBufferSafeHandle data);
         }
     }
 }

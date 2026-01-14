@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -19,12 +18,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfResourceDictionary(PdfResourceDictionarySafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfResourceDictionary()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfResourceDictionarySafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -49,14 +42,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetFontMapDelgate ResourceDictionary_GetFontMap = LibraryInstance.GetFunction<GetFontMapDelgate>("ResourceDictionary_GetFontMap");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetFontMapDelgate(PdfResourceDictionarySafeHandle handle, out PdfFontMapSafeHandle data);
         }
     }
 }
