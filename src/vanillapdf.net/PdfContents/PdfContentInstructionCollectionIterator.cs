@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfContents
         internal PdfContentInstructionCollectionIterator(PdfContentInstructionCollectionIteratorSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfContentInstructionCollectionIterator()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionCollectionIteratorSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -103,21 +96,5 @@ namespace vanillapdf.net.PdfContents
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetValueDelgate ContentInstructionCollectionIterator_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("ContentInstructionCollectionIterator_GetValue");
-            public static NextDelgate ContentInstructionCollectionIterator_Next = LibraryInstance.GetFunction<NextDelgate>("ContentInstructionCollectionIterator_Next");
-            public static IsValidDelgate ContentInstructionCollectionIterator_IsValid = LibraryInstance.GetFunction<IsValidDelgate>("ContentInstructionCollectionIterator_IsValid");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfContentInstructionCollectionIteratorSafeHandle handle, out PdfContentInstructionSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 NextDelgate(PdfContentInstructionCollectionIteratorSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IsValidDelgate(PdfContentInstructionCollectionIteratorSafeHandle handle, out bool data);
-        }
     }
 }

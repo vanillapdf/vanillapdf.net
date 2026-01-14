@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfContents
         internal PdfContentInstruction(PdfContentInstructionSafeHandle handle) : base(handle)
         {
             InstructionHandle = handle;
-        }
-
-        static PdfContentInstruction()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -42,14 +35,6 @@ namespace vanillapdf.net.PdfContents
         {
             base.DisposeCustomHandle();
             InstructionHandle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetInstructionTypeDelgate ContentInstruction_GetInstructionType = LibraryInstance.GetFunction<GetInstructionTypeDelgate>("ContentInstruction_GetInstructionType");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetInstructionTypeDelgate(PdfContentInstructionSafeHandle handle, out Int32 data);
         }
     }
 }
