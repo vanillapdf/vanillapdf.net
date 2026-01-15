@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using vanillapdf.net.Utils;
+using vanillapdf.net.PdfSyntax;
 
 namespace vanillapdf.net.nunit
 {
@@ -18,6 +19,8 @@ namespace vanillapdf.net.nunit
             Path.Combine("Resources", "19005-1_FAQ.PDF")
         };
 
+        private static string _testDirectory;
+
         static OneTimeSetup()
         {
             if (Environment.Is64BitProcess) {
@@ -30,20 +33,19 @@ namespace vanillapdf.net.nunit
         [OneTimeSetUp]
         public static void InitializeLibrary()
         {
-            var testDirectory = TestContext.CurrentContext.TestDirectory;
+            _testDirectory = TestContext.CurrentContext.TestDirectory;
 
-            // For .NET 7+, set up the DllImportResolver to load from test directory
-            LibraryInstance.SetDllImportResolver((libraryName, assembly, searchPath) =>
-            {
-                string libraryPath = GetLibraryPath(testDirectory, libraryName);
-                if (File.Exists(libraryPath)) {
-                    return NativeLibrary.Load(libraryPath);
-                }
-                return IntPtr.Zero;
-            });
+            // Set up the DllImportResolver to load native library from test directory
+            NativeLibrary.SetDllImportResolver(typeof(PdfFile).Assembly, ResolveNativeLibrary);
+        }
 
-            // Still need to initialize for constants and other platform-specific setup
-            LibraryInstance.Initialize(testDirectory);
+        private static IntPtr ResolveNativeLibrary(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            string libraryPath = GetLibraryPath(_testDirectory, libraryName);
+            if (File.Exists(libraryPath)) {
+                return NativeLibrary.Load(libraryPath);
+            }
+            return IntPtr.Zero;
         }
 
         private static string GetLibraryPath(string rootPath, string libraryName)

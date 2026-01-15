@@ -11,7 +11,7 @@ namespace vanillapdf.net.Interop
         /// <summary>
         /// Name of the native library.
         /// </summary>
-        public const string LibraryName = "vanillapdf";
+        public const string LibraryName = "libvanillapdf";
 
         /// <summary>
         /// Calling convention used by all native methods.

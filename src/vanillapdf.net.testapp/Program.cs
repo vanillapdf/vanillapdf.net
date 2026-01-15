@@ -1,6 +1,5 @@
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfSemantics;
-using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.testapp;
 
@@ -27,8 +26,6 @@ class Program
         {
             Console.WriteLine($"Opening PDF: {pdfPath}");
 
-            LibraryInstance.Initialize(AppContext.BaseDirectory);
-
             using var file = PdfFile.Open(pdfPath);
             file.Initialize();
 
@@ -43,7 +40,7 @@ class Program
 
             if (pageCount > 0)
             {
-                using var firstPage = pages.GetPage(0);
+                using var firstPage = pages.GetPage(1);
                 using var resources = firstPage.GetResources();
                 Console.WriteLine($"  First page has resources: {resources != null}");
             }
