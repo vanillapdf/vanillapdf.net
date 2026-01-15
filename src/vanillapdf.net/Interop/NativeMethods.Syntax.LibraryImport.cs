@@ -65,6 +65,21 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 FileWriter_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileWriterSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileWriter_Create(out PdfFileWriterSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileWriter_Write(PdfFileWriterSafeHandle handle, PdfFileSafeHandle source, PdfFileSafeHandle destination);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileWriter_WriteIncremental(PdfFileWriterSafeHandle handle, PdfFileSafeHandle source, PdfFileSafeHandle destination);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileWriter_Subscribe(PdfFileWriterSafeHandle handle, PdfFileWriterObserverSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileWriter_Unsubscribe(PdfFileWriterSafeHandle handle, PdfFileWriterObserverSafeHandle data);
+
         #endregion
 
         #region FileWriterObserver
@@ -77,6 +92,22 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 FileWriterObserver_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileWriterObserverSafeHandle data);
+
+        // Using DllImport instead of LibraryImport because LibraryImport source generator doesn't support delegate parameters
+        [System.Runtime.InteropServices.DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FileWriterObserver_CreateCustom(
+            OnInitializingDelegate on_initializing,
+            OnFinalizingDelegate on_finalizing,
+            OnBeforeObjectWriteDelegate on_before_object_write,
+            OnAfterObjectWriteDelegate on_after_object_write,
+            OnBeforeObjectOffsetRecalculationDelegate on_before_object_offset_recalculation,
+            OnAfterObjectOffsetRecalculationDelegate on_after_object_offset_recalculation,
+            OnBeforeEntryOffsetRecalculationDelegate on_before_entry_offset_recalculation,
+            OnAfterEntryOffsetRecalculationDelegate on_after_entry_offset_recalculation,
+            OnBeforeOutputFlushDelegate on_before_output_flush,
+            OnAfterOutputFlushDelegate on_after_output_flush,
+            IntPtr userdata,
+            out PdfFileWriterObserverSafeHandle data);
 
         #endregion
 
@@ -365,6 +396,21 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 LiteralStringObject_FromStringObject(PdfStringObjectSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LiteralStringObject_Create(out PdfLiteralStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LiteralStringObject_CreateFromEncodedBuffer(PdfBufferSafeHandle value, out PdfLiteralStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 LiteralStringObject_CreateFromEncodedString(string value, out PdfLiteralStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LiteralStringObject_CreateFromDecodedBuffer(PdfBufferSafeHandle value, out PdfLiteralStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 LiteralStringObject_CreateFromDecodedString(string value, out PdfLiteralStringObjectSafeHandle handle);
+
         #endregion
 
         #region HexadecimalStringObject
@@ -377,6 +423,21 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 HexadecimalStringObject_FromStringObject(PdfStringObjectSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HexadecimalStringObject_Create(out PdfHexadecimalStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HexadecimalStringObject_CreateFromEncodedBuffer(PdfBufferSafeHandle value, out PdfHexadecimalStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 HexadecimalStringObject_CreateFromEncodedString(string value, out PdfHexadecimalStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HexadecimalStringObject_CreateFromDecodedBuffer(PdfBufferSafeHandle value, out PdfHexadecimalStringObjectSafeHandle handle);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 HexadecimalStringObject_CreateFromDecodedString(string value, out PdfHexadecimalStringObjectSafeHandle handle);
 
         #endregion
 
@@ -450,6 +511,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 BaseObjectAttribute_FromUnknown(PdfUnknownSafeHandle handle, out PdfBaseObjectAttributeSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 BaseObjectAttribute_GetAttributeType(PdfBaseObjectAttributeSafeHandle handle, out PdfSyntax.PdfObjectAttributeType data);
+
         #endregion
 
         #region ImageMetadataObjectAttribute
@@ -463,6 +527,33 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 ImageMetadataObjectAttribute_FromBaseAttribute(PdfBaseObjectAttributeSafeHandle handle, out PdfImageMetadataObjectAttributeSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_Create(out PdfImageMetadataObjectAttributeSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_GetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_SetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_GetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_SetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_GetWidth(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_SetWidth(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_GetHeight(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ImageMetadataObjectAttribute_SetHeight(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
+
         #endregion
 
         #region ObjectAttributeList
@@ -475,6 +566,24 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ObjectAttributeList_FromUnknown(PdfUnknownSafeHandle handle, out PdfObjectAttributeListSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectAttributeList_Create(out PdfObjectAttributeListSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectAttributeList_Add(PdfObjectAttributeListSafeHandle handle, PdfBaseObjectAttributeSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectAttributeList_Remove(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectAttributeList_Contains(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key, [MarshalAs(UnmanagedType.U1)] out bool result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectAttributeList_Get(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key, out PdfBaseObjectAttributeSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectAttributeList_Clear(PdfObjectAttributeListSafeHandle handle);
 
         #endregion
     }

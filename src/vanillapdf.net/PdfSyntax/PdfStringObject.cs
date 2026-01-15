@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfStringObject(PdfStringObjectSafeHandle handle) : base(handle)
         {
             StringHandle = handle;
-        }
-
-        static PdfStringObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfStringObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -93,22 +86,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             StringHandle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetStringTypeDelgate StringObject_GetStringType = LibraryInstance.GetFunction<GetStringTypeDelgate>("StringObject_GetStringType");
-            public static GetValueDelgate StringObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("StringObject_GetValue");
-            public static SetValueDelgate StringObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("StringObject_SetValue");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetStringTypeDelgate(PdfStringObjectSafeHandle handle, out PdfStringType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfStringObjectSafeHandle handle, out PdfBufferSafeHandle value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfStringObjectSafeHandle handle, PdfBufferSafeHandle value);
         }
     }
 }

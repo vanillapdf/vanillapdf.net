@@ -154,6 +154,12 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 XrefUsedEntry_SetReferencedObject(PdfXrefUsedEntrySafeHandle handle, PdfObjectSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XrefUsedEntry_GetReference(PdfXrefUsedEntrySafeHandle handle, out PdfObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XrefUsedEntry_SetReference(PdfXrefUsedEntrySafeHandle handle, PdfObjectSafeHandle data);
+
         #endregion
 
         #region XrefCompressedEntry
@@ -172,6 +178,15 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 XrefCompressedEntry_GetObjectIndexWithinStream(PdfXrefCompressedEntrySafeHandle handle, out UInt64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XrefCompressedEntry_GetReference(PdfXrefCompressedEntrySafeHandle handle, out PdfObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XrefCompressedEntry_SetReference(PdfXrefCompressedEntrySafeHandle handle, PdfObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XrefCompressedEntry_GetIndex(PdfXrefCompressedEntrySafeHandle handle, out UIntPtr data);
 
         #endregion
     }

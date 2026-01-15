@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXrefUsedEntry(PdfXrefUsedEntrySafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfXrefUsedEntry()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefUsedEntrySafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -45,7 +38,7 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return data;
+            return (Int64)data;
         }
 
         private PdfObject GetReference()
@@ -87,21 +80,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetOffsetDelgate XrefUsedEntry_GetOffset = LibraryInstance.GetFunction<GetOffsetDelgate>("XrefUsedEntry_GetOffset");
-            public static GetReferenceDelgate XrefUsedEntry_GetReference = LibraryInstance.GetFunction<GetReferenceDelgate>("XrefUsedEntry_GetReference");
-            public static SetReferenceDelgate XrefUsedEntry_SetReference = LibraryInstance.GetFunction<SetReferenceDelgate>("XrefUsedEntry_SetReference");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOffsetDelgate(PdfXrefEntrySafeHandle handle, out Int64 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetReferenceDelgate(PdfXrefEntrySafeHandle handle, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetReferenceDelgate(PdfXrefEntrySafeHandle handle, PdfObjectSafeHandle data);
-        }
     }
 }

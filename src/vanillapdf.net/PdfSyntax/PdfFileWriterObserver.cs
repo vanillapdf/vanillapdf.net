@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +16,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfFileWriterObserver(PdfFileWriterObserverSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfFileWriterObserver()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfFileWriterObserverSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -279,55 +273,5 @@ namespace vanillapdf.net.PdfSyntax
         private static NativeMethods.OnAfterEntryOffsetRecalculationDelegate onAfterEntryOffsetRecalculationDelgate = OnAfterEntryOffsetRecalculation;
         private static NativeMethods.OnBeforeOutputFlushDelegate onBeforeOutputFlushDelegate = OnBeforeOutputFlush;
         private static NativeMethods.OnAfterOutputFlushDelegate onAfterOutputFlushDelegate = OnAfterOutputFlush;
-
-        private static class NativeMethods
-        {
-            public static CreateCustomDelgate FileWriterObserver_CreateCustom = LibraryInstance.GetFunction<CreateCustomDelgate>("FileWriterObserver_CreateCustom");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateCustomDelgate(
-                OnInitializingDelegate on_initializing,
-                OnFinalizingDelegate on_finalizing,
-                OnBeforeObjectWriteDelegate on_before_object_write,
-                OnAfterObjectWriteDelegate on_after_object_write,
-                OnBeforeObjectOffsetRecalculationDelegate on_before_object_offset_recalculation,
-                OnAfterObjectOffsetRecalculationDelegate on_after_object_offset_recalculation,
-                OnBeforeEntryOffsetRecalculationDelegate on_before_entry_offset_recalculation,
-                OnAfterEntryOffsetRecalculationDelegate on_after_entry_offset_recalculation,
-                OnBeforeOutputFlushDelegate on_before_output_flush,
-                OnAfterOutputFlushDelegate on_after_output_flush,
-                IntPtr userdata,
-                out PdfFileWriterObserverSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnInitializingDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnFinalizingDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeObjectWriteDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterObjectWriteDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeObjectOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterObjectOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeEntryOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterEntryOffsetRecalculationDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnBeforeOutputFlushDelegate(IntPtr userdata, IntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 OnAfterOutputFlushDelegate(IntPtr userdata, IntPtr data);
-        }
     }
 }

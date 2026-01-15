@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.Interop
@@ -15,6 +16,71 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 IUnknown_Release(IntPtr handle);
+
+        #endregion
+
+        #region Errors
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Errors_GetLastError(out UInt32 code);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Errors_GetPrintableErrorTextLength(UInt32 code, out UInt32 size);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 Errors_GetPrintableErrorText(UInt32 code, StringBuilder buffer, UInt32 size);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Errors_GetLastErrorMessageLength(out UInt32 size);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 Errors_GetLastErrorMessage(StringBuilder buffer, UInt32 size);
+
+        #endregion
+
+        #region LicenseInfo
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 LicenseInfo_SetLicenseFile(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string filename);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 LicenseInfo_SetLicenseBuffer(PdfBufferSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 LicenseInfo_IsValid(out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 LicenseInfo_IsTemporary(out bool data);
+
+        #endregion
+
+        #region Logging
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Logging_SetCallbackLogger(SinkLogDelegate sinkLog, SinkFlushDelegate sinkFlush, IntPtr userdata);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Logging_SetRotatingFileLogger(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string filename,
+            int maxFileSize,
+            int maxFiles);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Logging_Shutdown();
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Logging_SetPattern(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string pattern);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Logging_GetSeverity(out int severity);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Logging_SetSeverity(PdfUtils.PdfLoggingSeverity severity);
 
         #endregion
 
@@ -63,6 +129,21 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 InputStream_FromUnknown(PdfUnknownSafeHandle handle, out PdfInputStreamSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 InputStream_CreateFromFile(string filename, out PdfInputStreamSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputStream_CreateFromBuffer(PdfBufferSafeHandle buffer, out PdfInputStreamSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputStream_ToBuffer(PdfInputStreamSafeHandle handle, out PdfBufferSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputStream_GetInputPosition(PdfInputStreamSafeHandle handle, out Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputStream_SetInputPosition(PdfInputStreamSafeHandle handle, Int64 data);
+
         #endregion
 
         #region OutputStream
@@ -75,6 +156,24 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 OutputStream_FromUnknown(PdfUnknownSafeHandle handle, out PdfOutputStreamSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 OutputStream_CreateFromFile(string filename, out PdfOutputStreamSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 OutputStream_GetOutputPosition(PdfOutputStreamSafeHandle handle, out Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 OutputStream_SetOutputPosition(PdfOutputStreamSafeHandle handle, Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 OutputStream_WriteString(PdfOutputStreamSafeHandle handle, string data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 OutputStream_WriteBuffer(PdfOutputStreamSafeHandle handle, PdfBufferSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 OutputStream_Flush(PdfOutputStreamSafeHandle handle);
 
         #endregion
 
@@ -101,6 +200,39 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 InputOutputStream_FromOutputStream(PdfOutputStreamSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 InputOutputStream_CreateFromFile(string filename, out PdfInputOutputStreamSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_CreateFromMemory(out PdfInputOutputStreamSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_Read(PdfInputOutputStreamSafeHandle handle, Int64 length, IntPtr data, out Int64 readLength);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_ReadBuffer(PdfInputOutputStreamSafeHandle handle, Int64 length, out PdfBufferSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_GetInputPosition(PdfInputOutputStreamSafeHandle handle, out Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_SetInputPosition(PdfInputOutputStreamSafeHandle handle, Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_GetOutputPosition(PdfInputOutputStreamSafeHandle handle, out Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_SetOutputPosition(PdfInputOutputStreamSafeHandle handle, Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 InputOutputStream_WriteString(PdfInputOutputStreamSafeHandle handle, string data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_WriteBuffer(PdfInputOutputStreamSafeHandle handle, PdfBufferSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InputOutputStream_Flush(PdfInputOutputStreamSafeHandle handle);
+
         #endregion
 
         #region SigningKey
@@ -114,6 +246,15 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SigningKey_FromUnknown(PdfUnknownSafeHandle handle, out PdfSigningKeySafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SigningKey_CreateCustom(
+            InitializeDelegate initialize,
+            UpdateDelegate update,
+            FinalDelegate final,
+            CleanupDelegate cleanup,
+            IntPtr userdata,
+            out PdfSigningKeySafeHandle data);
+
         #endregion
 
         #region PKCS12Key
@@ -126,6 +267,21 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PKCS12Key_FromSigningKey(PdfSigningKeySafeHandle handle, out PdfPKCS12KeySafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PKCS12Key_CreateFromFile(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string filename,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string password,
+            out PdfPKCS12KeySafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PKCS12Key_CreateFromBuffer(
+            PdfBufferSafeHandle buffer,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string password,
+            out PdfPKCS12KeySafeHandle data);
 
         #endregion
     }

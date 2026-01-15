@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfNameObject(PdfNameObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfNameObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfNameObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -201,37 +194,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate NameObject_Create = LibraryInstance.GetFunction<CreateDelgate>("NameObject_Create");
-            public static CreateFromEncodedStringDelgate NameObject_CreateFromEncodedString = LibraryInstance.GetFunction<CreateFromEncodedStringDelgate>("NameObject_CreateFromEncodedString");
-            public static CreateFromDecodedStringDelgate NameObject_CreateFromDecodedString = LibraryInstance.GetFunction<CreateFromDecodedStringDelgate>("NameObject_CreateFromDecodedString");
-            public static GetValueDelgate NameObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("NameObject_GetValue");
-            public static SetValueDelgate NameObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("NameObject_SetValue");
-            public static EqualsDelgate NameObject_Equals = LibraryInstance.GetFunction<EqualsDelgate>("NameObject_Equals");
-            public static HashDelgate NameObject_Hash = LibraryInstance.GetFunction<HashDelgate>("NameObject_Hash");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfNameObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromEncodedStringDelgate(string data, out PdfNameObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromDecodedStringDelgate(string data, out PdfNameObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfNameObjectSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfNameObjectSafeHandle handle, PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 EqualsDelgate(PdfNameObjectSafeHandle handle, PdfNameObjectSafeHandle other, out bool data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 HashDelgate(PdfNameObjectSafeHandle handle, out UIntPtr data);
-        }
     }
 }
