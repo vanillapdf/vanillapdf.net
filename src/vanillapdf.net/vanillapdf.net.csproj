@@ -4,9 +4,12 @@
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x86;x64</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <!-- AOT is only supported on net8.0+, suppress AOT validation for netstandard2.0 -->
+    <!-- AOT and trimming are only supported on net8.0+ -->
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+    <IsTrimmable Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsTrimmable>
+    <EnableTrimAnalyzer Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</EnableTrimAnalyzer>
     <PublishAot Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishAot>
+    <PublishTrimmed Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishTrimmed>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>2.1.0</VersionPrefix>
