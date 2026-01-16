@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfPageTree(PdfPageTreeSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfPageTree()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfPageTreeSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -95,30 +88,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static PageTreeGetPageDelgate PageTree_GetPage = LibraryInstance.GetFunction<PageTreeGetPageDelgate>("PageTree_GetPage");
-            public static PageTreeGetPageCountDelgate PageTree_GetPageCount = LibraryInstance.GetFunction<PageTreeGetPageCountDelgate>("PageTree_GetPageCount");
-            public static InsertPageDelgate PageTree_InsertPage = LibraryInstance.GetFunction<InsertPageDelgate>("PageTree_InsertPage");
-            public static AppendPageDelgate PageTree_AppendPage = LibraryInstance.GetFunction<AppendPageDelgate>("PageTree_AppendPage");
-            public static RemovePageDelgate PageTree_RemovePage = LibraryInstance.GetFunction<RemovePageDelgate>("PageTree_RemovePage");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 PageTreeGetPageDelgate(PdfPageTreeSafeHandle handle, UIntPtr at, out PdfPageObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 PageTreeGetPageCountDelgate(PdfPageTreeSafeHandle handle, out UIntPtr count);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InsertPageDelgate(PdfPageTreeSafeHandle handle, UIntPtr at, PdfPageObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AppendPageDelgate(PdfPageTreeSafeHandle handle, PdfPageObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 RemovePageDelgate(PdfPageTreeSafeHandle handle, UIntPtr at);
         }
     }
 }

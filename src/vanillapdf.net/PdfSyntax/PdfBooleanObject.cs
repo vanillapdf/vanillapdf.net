@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfBooleanObject(PdfBooleanObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfBooleanObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfBooleanObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -102,22 +95,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate BooleanObject_Create = LibraryInstance.GetFunction<CreateDelgate>("BooleanObject_Create");
-            public static GetValueDelgate BooleanObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("BooleanObject_GetValue");
-            public static SetValueDelgate BooleanObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("BooleanObject_SetValue");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfBooleanObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfBooleanObjectSafeHandle handle, out bool data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfBooleanObjectSafeHandle handle, bool data);
         }
     }
 }

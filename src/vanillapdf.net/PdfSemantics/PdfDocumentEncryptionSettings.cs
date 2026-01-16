@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfDocumentEncryptionSettings(PdfDocumentEncryptionSettingsSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfDocumentEncryptionSettings()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentEncryptionSettingsSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -97,7 +90,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetAlgorithm(PdfEncryptionAlgorithmType data)
         {
-            UInt32 result = NativeMethods.DocumentEncryptionSettings_SetAlgorithm(Handle, data);
+            UInt32 result = NativeMethods.DocumentEncryptionSettings_SetAlgorithm(Handle, (Int32)data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -128,12 +121,12 @@ namespace vanillapdf.net.PdfSemantics
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return data;
+            return (PdfUserAccessPermissionFlags)data;
         }
 
         private void SetUserAccessPermissions(PdfUserAccessPermissionFlags data)
         {
-            UInt32 result = NativeMethods.DocumentEncryptionSettings_SetUserAccessPermissions(Handle, data);
+            UInt32 result = NativeMethods.DocumentEncryptionSettings_SetUserAccessPermissions(Handle, (Int32)data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -181,59 +174,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate DocumentEncryptionSettings_Create = LibraryInstance.GetFunction<CreateDelgate>("DocumentEncryptionSettings_Create");
-
-            public static GetAlgorithmDelgate DocumentEncryptionSettings_GetAlgorithm = LibraryInstance.GetFunction<GetAlgorithmDelgate>("DocumentEncryptionSettings_GetAlgorithm");
-            public static SetAlgorithmDelgate DocumentEncryptionSettings_SetAlgorithm = LibraryInstance.GetFunction<SetAlgorithmDelgate>("DocumentEncryptionSettings_SetAlgorithm");
-
-            public static GetKeyLengthDelgate DocumentEncryptionSettings_GetKeyLength = LibraryInstance.GetFunction<GetKeyLengthDelgate>("DocumentEncryptionSettings_GetKeyLength");
-            public static SetKeyLengthDelgate DocumentEncryptionSettings_SetKeyLength = LibraryInstance.GetFunction<SetKeyLengthDelgate>("DocumentEncryptionSettings_SetKeyLength");
-
-            public static GetUserAccessPermissionsDelgate DocumentEncryptionSettings_GetUserAccessPermissions = LibraryInstance.GetFunction<GetUserAccessPermissionsDelgate>("DocumentEncryptionSettings_GetUserAccessPermissions");
-            public static SetUserAccessPermissionsDelgate DocumentEncryptionSettings_SetUserAccessPermissions = LibraryInstance.GetFunction<SetUserAccessPermissionsDelgate>("DocumentEncryptionSettings_SetUserAccessPermissions");
-
-            public static GetUserPasswordDelgate DocumentEncryptionSettings_GetUserPassword = LibraryInstance.GetFunction<GetUserPasswordDelgate>("DocumentEncryptionSettings_GetUserPassword");
-            public static SetUserPasswordDelgate DocumentEncryptionSettings_SetUserPassword = LibraryInstance.GetFunction<SetUserPasswordDelgate>("DocumentEncryptionSettings_SetUserPassword");
-
-            public static GetOwnerPasswordDelgate DocumentEncryptionSettings_GetOwnerPassword = LibraryInstance.GetFunction<GetOwnerPasswordDelgate>("DocumentEncryptionSettings_GetOwnerPassword");
-            public static SetOwnerPasswordDelgate DocumentEncryptionSettings_SetOwnerPassword = LibraryInstance.GetFunction<SetOwnerPasswordDelgate>("DocumentEncryptionSettings_SetOwnerPassword");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfDocumentEncryptionSettingsSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetAlgorithmDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfEncryptionAlgorithmType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetAlgorithmDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, PdfEncryptionAlgorithmType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetKeyLengthDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetKeyLengthDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetUserAccessPermissionsDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfUserAccessPermissionFlags data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetUserAccessPermissionsDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, PdfUserAccessPermissionFlags data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetUserPasswordDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetUserPasswordDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOwnerPasswordDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetOwnerPasswordDelgate(PdfDocumentEncryptionSettingsSafeHandle handle, PdfBufferSafeHandle data);
         }
     }
 }

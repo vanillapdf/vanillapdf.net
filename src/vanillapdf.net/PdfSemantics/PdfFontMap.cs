@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfFontMap(PdfFontMapSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfFontMap()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfFontMapSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -59,18 +52,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static ContainsDelgate FontMap_Contains = LibraryInstance.GetFunction<ContainsDelgate>("FontMap_Contains");
-            public static FindDelgate FontMap_Find = LibraryInstance.GetFunction<FindDelgate>("FontMap_Find");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ContainsDelgate(PdfFontMapSafeHandle handle, PdfNameObjectSafeHandle key, out bool data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FindDelgate(PdfFontMapSafeHandle handle, PdfNameObjectSafeHandle key, out PdfFontSafeHandle data);
         }
     }
 }

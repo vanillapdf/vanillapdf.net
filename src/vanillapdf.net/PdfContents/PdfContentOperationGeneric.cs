@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfContents
         internal PdfContentOperationGeneric(PdfContentOperationGenericSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfContentOperationGeneric()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContentOperationGenericSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -96,22 +89,6 @@ namespace vanillapdf.net.PdfContents
         {
             base.DisposeCustomHandle();
             Handle.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetOperatorDelgate ContentOperationGeneric_GetOperator = LibraryInstance.GetFunction<GetOperatorDelgate>("ContentOperationGeneric_GetOperator");
-            public static GetOperandsSizeDelgate ContentOperationGeneric_GetOperandsSize = LibraryInstance.GetFunction<GetOperandsSizeDelgate>("ContentOperationGeneric_GetOperandsSize");
-            public static GetOperandAtDelgate ContentOperationGeneric_GetOperandAt = LibraryInstance.GetFunction<GetOperandAtDelgate>("ContentOperationGeneric_GetOperandAt");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOperatorDelgate(PdfContentOperationGenericSafeHandle handle, out PdfContentOperatorSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOperandsSizeDelgate(PdfContentOperationGenericSafeHandle handle, out UIntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOperandAtDelgate(PdfContentOperationGenericSafeHandle handle, UIntPtr at, out PdfObjectSafeHandle data);
         }
     }
 }

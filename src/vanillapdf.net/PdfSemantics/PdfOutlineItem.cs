@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfOutlineItem(PdfOutlineItemSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfOutlineItem()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfOutlineItemSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -163,37 +156,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetTitleDelegate OutlineItem_GetTitle = LibraryInstance.GetFunction<GetTitleDelegate>("OutlineItem_GetTitle");
-            public static GetCountDelegate OutlineItem_GetParent = LibraryInstance.GetFunction<GetCountDelegate>("OutlineItem_GetParent");
-            public static GetPrevDelegate OutlineItem_GetPrev = LibraryInstance.GetFunction<GetPrevDelegate>("OutlineItem_GetPrev");
-            public static GetNextDelegate OutlineItem_GetNext = LibraryInstance.GetFunction<GetNextDelegate>("OutlineItem_GetNext");
-            public static GetFirstDelegate OutlineItem_GetFirst = LibraryInstance.GetFunction<GetFirstDelegate>("OutlineItem_GetFirst");
-            public static GetLastDelegate OutlineItem_GetLast = LibraryInstance.GetFunction<GetLastDelegate>("OutlineItem_GetLast");
-            public static GetCountDelegate OutlineItem_GetCount = LibraryInstance.GetFunction<GetCountDelegate>("OutlineItem_GetCount");
-            //public static GetCountDelegate OutlineItem_GetColor = LibraryInstance.GetFunction<GetCountDelegate>("OutlineItem_GetColor");
-            //public static GetCountDelegate OutlineItem_GetFlags = LibraryInstance.GetFunction<GetCountDelegate>("OutlineItem_GetFlags");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTitleDelegate(PdfOutlineItemSafeHandle handle, out PdfStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCountDelegate(PdfOutlineItemSafeHandle handle, out PdfIntegerObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetFirstDelegate(PdfOutlineItemSafeHandle handle, out PdfOutlineItemSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetLastDelegate(PdfOutlineItemSafeHandle handle, out PdfOutlineItemSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetPrevDelegate(PdfOutlineItemSafeHandle handle, out PdfOutlineItemSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetNextDelegate(PdfOutlineItemSafeHandle handle, out PdfOutlineItemSafeHandle data);
         }
     }
 }

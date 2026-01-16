@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfContents
         internal PdfBaseFontRange(PdfBaseFontRangeSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfBaseFontRange()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfBaseFontRangeSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -154,47 +147,6 @@ namespace vanillapdf.net.PdfContents
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate BaseFontRange_Create = LibraryInstance.GetFunction<CreateDelgate>("BaseFontRange_Create");
-            public static GetRangeLowDelgate BaseFontRange_GetRangeLow = LibraryInstance.GetFunction<GetRangeLowDelgate>("BaseFontRange_GetRangeLow");
-            public static SetRangeLowDelgate BaseFontRange_SetRangeLow = LibraryInstance.GetFunction<SetRangeLowDelgate>("BaseFontRange_SetRangeLow");
-            public static GetRangeHighDelgate BaseFontRange_GetRangeHigh = LibraryInstance.GetFunction<GetRangeHighDelgate>("BaseFontRange_GetRangeHigh");
-            public static SetRangeHighDelgate BaseFontRange_SetRangeHigh = LibraryInstance.GetFunction<SetRangeHighDelgate>("BaseFontRange_SetRangeHigh");
-            public static GetDestinationDelgate BaseFontRange_GetDestination = LibraryInstance.GetFunction<GetDestinationDelgate>("BaseFontRange_GetDestination");
-            public static SetDestinationDelgate BaseFontRange_SetDestination = LibraryInstance.GetFunction<SetDestinationDelgate>("BaseFontRange_SetDestination");
-
-            public static ContainsDelgate BaseFontRange_Contains = LibraryInstance.GetFunction<ContainsDelgate>("BaseFontRange_Contains");
-            public static GetMappedValueDelgate BaseFontRange_GetMappedValue = LibraryInstance.GetFunction<GetMappedValueDelgate>("BaseFontRange_GetMappedValue");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfBaseFontRangeSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetRangeLowDelgate(PdfBaseFontRangeSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetRangeLowDelgate(PdfBaseFontRangeSafeHandle handle, PdfHexadecimalStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetRangeHighDelgate(PdfBaseFontRangeSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetRangeHighDelgate(PdfBaseFontRangeSafeHandle handle, PdfHexadecimalStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetDestinationDelgate(PdfBaseFontRangeSafeHandle handle, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetDestinationDelgate(PdfBaseFontRangeSafeHandle handle, PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ContainsDelgate(PdfBaseFontRangeSafeHandle handle, PdfBufferSafeHandle data, out bool result);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetMappedValueDelgate(PdfBaseFontRangeSafeHandle handle, PdfBufferSafeHandle data, out PdfBufferSafeHandle result);
         }
     }
 }

@@ -20,3 +20,6 @@ launchSettings.json
 # IDE settings
 .idea/
 .vscode/
+
+# Claude Code
+.claude/

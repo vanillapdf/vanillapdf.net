@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfIntegerObject(PdfIntegerObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfIntegerObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfIntegerObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -142,31 +135,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate IntegerObject_Create = LibraryInstance.GetFunction<CreateDelgate>("IntegerObject_Create");
-            public static GetIntegerValueDelgate IntegerObject_GetIntegerValue = LibraryInstance.GetFunction<GetIntegerValueDelgate>("IntegerObject_GetIntegerValue");
-            public static SetIntegerValueDelgate IntegerObject_SetIntegerValue = LibraryInstance.GetFunction<SetIntegerValueDelgate>("IntegerObject_SetIntegerValue");
-
-            public static GetUnsignedIntegerValueDelgate IntegerObject_GetUnsignedIntegerValue = LibraryInstance.GetFunction<GetUnsignedIntegerValueDelgate>("IntegerObject_GetUnsignedIntegerValue");
-            public static SetUnsignedIntegerValueDelgate IntegerObject_SetUnsignedIntegerValue = LibraryInstance.GetFunction<SetUnsignedIntegerValueDelgate>("IntegerObject_SetUnsignedIntegerValue");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfIntegerObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetIntegerValueDelgate(PdfIntegerObjectSafeHandle handle, out Int64 value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetIntegerValueDelgate(PdfIntegerObjectSafeHandle handle, Int64 value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetUnsignedIntegerValueDelgate(PdfIntegerObjectSafeHandle handle, out UInt64 value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetUnsignedIntegerValueDelgate(PdfIntegerObjectSafeHandle handle, UInt64 value);
         }
     }
 }

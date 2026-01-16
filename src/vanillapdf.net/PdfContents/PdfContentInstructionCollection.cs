@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfContents
         internal PdfContentInstructionCollection(PdfContentInstructionCollectionSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfContentInstructionCollection()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContentInstructionCollectionSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -137,37 +130,5 @@ namespace vanillapdf.net.PdfContents
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetSizeDelgate ContentInstructionCollection_GetSize = LibraryInstance.GetFunction<GetSizeDelgate>("ContentInstructionCollection_GetSize");
-            public static AtDelgate ContentInstructionCollection_At = LibraryInstance.GetFunction<AtDelgate>("ContentInstructionCollection_At");
-            public static AppendDelgate ContentInstructionCollection_Append = LibraryInstance.GetFunction<AppendDelgate>("ContentInstructionCollection_Append");
-            public static InsertDelgate ContentInstructionCollection_Insert = LibraryInstance.GetFunction<InsertDelgate>("ContentInstructionCollection_Insert");
-            public static RemoveDelgate ContentInstructionCollection_Remove = LibraryInstance.GetFunction<RemoveDelgate>("ContentInstructionCollection_Remove");
-            public static ClearDelgate ContentInstructionCollection_Clear = LibraryInstance.GetFunction<ClearDelgate>("ContentInstructionCollection_Clear");
-            public static GetIteratorDelgate ContentInstructionCollection_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("ContentInstructionCollection_GetIterator");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSizeDelgate(PdfContentInstructionCollectionSafeHandle handle, out UIntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AtDelgate(PdfContentInstructionCollectionSafeHandle handle, UIntPtr at, out PdfContentInstructionSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AppendDelgate(PdfContentInstructionCollectionSafeHandle handle, PdfContentInstructionSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InsertDelgate(PdfContentInstructionCollectionSafeHandle handle, UIntPtr at, PdfContentInstructionSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 RemoveDelgate(PdfContentInstructionCollectionSafeHandle handle, UIntPtr at);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ClearDelgate(PdfContentInstructionCollectionSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetIteratorDelgate(PdfContentInstructionCollectionSafeHandle handle, out PdfContentInstructionCollectionIteratorSafeHandle data);
-        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfContents
         internal PdfContentObject(PdfContentObjectSafeHandle handle) : base(handle)
         {
             ObjectHandle = handle;
-        }
-
-        static PdfContentObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfContentObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -52,14 +45,6 @@ namespace vanillapdf.net.PdfContents
         {
             base.DisposeCustomHandle();
             ObjectHandle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetTypeDelgate ContentObject_GetObjectType = LibraryInstance.GetFunction<GetTypeDelgate>("ContentObject_GetObjectType");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTypeDelgate(PdfContentObjectSafeHandle handle, out Int32 data);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -15,12 +14,6 @@ namespace vanillapdf.net.PdfUtils
         internal PdfInputStream(PdfInputStreamSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfInputStream()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfInputStreamSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -104,29 +97,5 @@ namespace vanillapdf.net.PdfUtils
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static InputStreamCreateFromFileDelgate InputStream_CreateFromFile = LibraryInstance.GetFunction<InputStreamCreateFromFileDelgate>("InputStream_CreateFromFile");
-            public static InputStreamCreateFromBufferDelgate InputStream_CreateFromBuffer = LibraryInstance.GetFunction<InputStreamCreateFromBufferDelgate>("InputStream_CreateFromBuffer");
-            public static InputStreamToBufferDelgate InputStream_ToBuffer = LibraryInstance.GetFunction<InputStreamToBufferDelgate>("InputStream_ToBuffer");
-            public static InputStreamGetInputPositionDelgate InputStream_GetInputPosition = LibraryInstance.GetFunction<InputStreamGetInputPositionDelgate>("InputStream_GetInputPosition");
-            public static InputStreamSetInputPositionDelgate InputStream_SetInputPosition = LibraryInstance.GetFunction<InputStreamSetInputPositionDelgate>("InputStream_SetInputPosition");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InputStreamCreateFromFileDelgate(string filename, out PdfInputStreamSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InputStreamCreateFromBufferDelgate(PdfBufferSafeHandle buffer, out PdfInputStreamSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InputStreamToBufferDelgate(PdfInputStreamSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InputStreamGetInputPositionDelgate(PdfInputStreamSafeHandle handle, out Int64 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InputStreamSetInputPositionDelgate(PdfInputStreamSafeHandle handle, Int64 data);
-        }
     }
 }

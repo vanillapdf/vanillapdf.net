@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfOutline(PdfOutlineSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfOutline()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfOutlineSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -97,22 +90,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetFirstDelegate Outline_GetFirst = LibraryInstance.GetFunction<GetFirstDelegate>("Outline_GetFirst");
-            public static GetLastDelegate Outline_GetLast = LibraryInstance.GetFunction<GetLastDelegate>("Outline_GetLast");
-            public static GetCountDelegate Outline_GetCount = LibraryInstance.GetFunction<GetCountDelegate>("Outline_GetCount");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetFirstDelegate(PdfOutlineSafeHandle handle, out PdfOutlineItemSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetLastDelegate(PdfOutlineSafeHandle handle, out PdfOutlineItemSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCountDelegate(PdfOutlineSafeHandle handle, out PdfIntegerObjectSafeHandle data);
         }
     }
 }

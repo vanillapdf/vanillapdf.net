@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -32,7 +32,7 @@ namespace vanillapdf.net.PdfUtils
 
         internal void Release()
         {
-            UInt32 result = NativeMethods.IUnknown_Release(UnknownHandle);
+            UInt32 result = NativeMethods.IUnknown_Release(UnknownHandle.DangerousGetHandle());
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -87,16 +87,5 @@ namespace vanillapdf.net.PdfUtils
             Dispose(false);
         }
 
-        private static class NativeMethods
-        {
-            public static AddRefDelegate IUnknown_AddRef = LibraryInstance.GetFunction<AddRefDelegate>("IUnknown_AddRef");
-            public static ReleaseRefDelegate IUnknown_Release = LibraryInstance.GetFunction<ReleaseRefDelegate>("IUnknown_Release");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AddRefDelegate(PdfUnknownSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ReleaseRefDelegate(PdfUnknownSafeHandle handle);
-        }
     }
 }

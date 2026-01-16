@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfIndirectReferenceObject(PdfIndirectReferenceObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfIndirectReferenceObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfIndirectReferenceObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -121,31 +114,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate IndirectReferenceObject_Create = LibraryInstance.GetFunction<CreateDelgate>("IndirectReferenceObject_Create");
-            public static GetReferencedObjectNumberDelgate IndirectReferenceObject_GetReferencedObjectNumber = LibraryInstance.GetFunction<GetReferencedObjectNumberDelgate>("IndirectReferenceObject_GetReferencedObjectNumber");
-            public static GetReferencedGenerationNumberDelgate IndirectReferenceObject_GetReferencedGenerationNumber = LibraryInstance.GetFunction<GetReferencedGenerationNumberDelgate>("IndirectReferenceObject_GetReferencedGenerationNumber");
-
-            public static GetReferencedObjectDelgate IndirectReferenceObject_GetReferencedObject = LibraryInstance.GetFunction<GetReferencedObjectDelgate>("IndirectReferenceObject_GetReferencedObject");
-            public static SetReferencedObjectDelgate IndirectReferenceObject_SetReferencedObject = LibraryInstance.GetFunction<SetReferencedObjectDelgate>("IndirectReferenceObject_SetReferencedObject");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfIndirectReferenceObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetReferencedObjectNumberDelgate(PdfIndirectReferenceObjectSafeHandle handle, out UInt64 value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetReferencedGenerationNumberDelgate(PdfIndirectReferenceObjectSafeHandle handle, out UInt16 value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetReferencedObjectDelgate(PdfIndirectReferenceObjectSafeHandle handle, out PdfObjectSafeHandle value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetReferencedObjectDelgate(PdfIndirectReferenceObjectSafeHandle handle, PdfObjectSafeHandle value);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfBaseObjectAttribute(PdfBaseObjectAttributeSafeHandle handle) : base(handle)
         {
             BaseAttributeHandle = handle;
-        }
-
-        static PdfBaseObjectAttribute()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfBaseObjectAttributeSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -47,13 +40,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetObjectAttributeType BaseObjectAttribute_GetAttributeType = LibraryInstance.GetFunction<GetObjectAttributeType>("BaseObjectAttribute_GetAttributeType");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint GetObjectAttributeType(PdfBaseObjectAttributeSafeHandle handle, out PdfObjectAttributeType data);
-        }
     }
 }

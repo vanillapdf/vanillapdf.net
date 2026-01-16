@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfDocumentSignatureSettings(PdfDocumentSignatureSettingsSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfDocumentSignatureSettings()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfDocumentSignatureSettingsSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -120,7 +113,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetDigest(PdfMessageDigestAlgorithmType data)
         {
-            UInt32 result = NativeMethods.DocumentSignatureSettings_SetDigest(Handle, data);
+            UInt32 result = NativeMethods.DocumentSignatureSettings_SetDigest(Handle, (Int32)data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -238,77 +231,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate DocumentSignatureSettings_Create = LibraryInstance.GetFunction<CreateDelgate>("DocumentSignatureSettings_Create");
-
-            public static GetDigestDelgate DocumentSignatureSettings_GetDigest = LibraryInstance.GetFunction<GetDigestDelgate>("DocumentSignatureSettings_GetDigest");
-            public static SetDigestDelgate DocumentSignatureSettings_SetDigest = LibraryInstance.GetFunction<SetDigestDelgate>("DocumentSignatureSettings_SetDigest");
-
-            public static GetSigningKeyDelgate DocumentSignatureSettings_GetSigningKey = LibraryInstance.GetFunction<GetSigningKeyDelgate>("DocumentSignatureSettings_GetSigningKey");
-            public static SetSigningKeyDelgate DocumentSignatureSettings_SetSigningKey = LibraryInstance.GetFunction<SetSigningKeyDelgate>("DocumentSignatureSettings_SetSigningKey");
-
-            public static GetNameDelgate DocumentSignatureSettings_GetName = LibraryInstance.GetFunction<GetNameDelgate>("DocumentSignatureSettings_GetName");
-            public static SetNameDelgate DocumentSignatureSettings_SetName = LibraryInstance.GetFunction<SetNameDelgate>("DocumentSignatureSettings_SetName");
-
-            public static GetLocationDelgate DocumentSignatureSettings_GetLocation = LibraryInstance.GetFunction<GetLocationDelgate>("DocumentSignatureSettings_GetLocation");
-            public static SetLocationDelgate DocumentSignatureSettings_SetLocation = LibraryInstance.GetFunction<SetLocationDelgate>("DocumentSignatureSettings_SetLocation");
-
-            public static GetReasonDelgate DocumentSignatureSettings_GetReason = LibraryInstance.GetFunction<GetReasonDelgate>("DocumentSignatureSettings_GetReason");
-            public static SetReasonDelgate DocumentSignatureSettings_SetReason = LibraryInstance.GetFunction<SetReasonDelgate>("DocumentSignatureSettings_SetReason");
-
-            public static GetSigningTimeDelgate DocumentSignatureSettings_GetSigningTime = LibraryInstance.GetFunction<GetSigningTimeDelgate>("DocumentSignatureSettings_GetSigningTime");
-            public static SetSigningTimeDelgate DocumentSignatureSettings_SetSigningTime = LibraryInstance.GetFunction<SetSigningTimeDelgate>("DocumentSignatureSettings_SetSigningTime");
-
-            public static GetCertificateDelgate DocumentSignatureSettings_GetCertificate = LibraryInstance.GetFunction<GetCertificateDelgate>("DocumentSignatureSettings_GetCertificate");
-            public static SetCertificateDelgate DocumentSignatureSettings_SetCertificate = LibraryInstance.GetFunction<SetCertificateDelgate>("DocumentSignatureSettings_SetCertificate");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfDocumentSignatureSettingsSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetDigestDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfMessageDigestAlgorithmType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetDigestDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfMessageDigestAlgorithmType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSigningKeyDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfSigningKeySafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetSigningKeyDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfSigningKeySafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetNameDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetNameDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfLiteralStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetLocationDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetLocationDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfLiteralStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetReasonDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetReasonDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfLiteralStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSigningTimeDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfDateSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetSigningTimeDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfDateSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCertificateDelgate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetCertificateDelgate(PdfDocumentSignatureSettingsSafeHandle handle, PdfHexadecimalStringObjectSafeHandle data);
         }
     }
 }

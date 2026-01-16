@@ -64,5 +64,9 @@ Tests use NUnit (`vanillapdf.net.nunit` project). The `OneTimeSetup.cs` initiali
 
 ## Target Frameworks
 
-- Main library: .NET Standard 2.0 (broad compatibility)
+- Main library: .NET Standard 2.0 and .NET 8.0 (multi-targeting)
 - Test project: .NET 8.0, .NET 9.0, and .NET 10.0
+
+## Coding Style
+
+- **Lambda functions**: Keep lambdas to 3 lines or fewer. Never use inline lambdas with multiple parameters - extract to a named method instead.

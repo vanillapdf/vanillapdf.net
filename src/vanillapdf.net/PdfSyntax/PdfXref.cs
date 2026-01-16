@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXref(PdfXrefSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfXref()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -92,21 +85,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetTrailerDictionaryDelgate Xref_GetTrailerDictionary = LibraryInstance.GetFunction<GetTrailerDictionaryDelgate>("Xref_GetTrailerDictionary");
-            public static GetLastXrefOffsetDelgate Xref_GetLastXrefOffset = LibraryInstance.GetFunction<GetLastXrefOffsetDelgate>("Xref_GetLastXrefOffset");
-            public static GetIteratorDelgate Xref_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("Xref_GetIterator");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTrailerDictionaryDelgate(PdfXrefSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetLastXrefOffsetDelgate(PdfXrefSafeHandle handle, out Int64 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetIteratorDelgate(PdfXrefSafeHandle handle, out PdfXrefIteratorSafeHandle data);
-        }
     }
 }

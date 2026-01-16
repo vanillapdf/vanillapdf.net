@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXrefFreeEntry(PdfXrefFreeEntrySafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfXrefFreeEntry()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefFreeEntrySafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -58,13 +51,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetNextFreeObjectNumberDelgate XrefFreeEntry_GetNextFreeObjectNumber = LibraryInstance.GetFunction<GetNextFreeObjectNumberDelgate>("XrefFreeEntry_GetNextFreeObjectNumber");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetNextFreeObjectNumberDelgate(PdfXrefEntrySafeHandle handle, out UInt64 data);
-        }
     }
 }

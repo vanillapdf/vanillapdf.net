@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -10,11 +10,6 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public static class PdfLogging
     {
-        static PdfLogging()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-        }
-
         /// <summary>
         /// Current level of debug traces
         /// </summary>
@@ -127,39 +122,5 @@ namespace vanillapdf.net.PdfUtils
 
         private static NativeMethods.SinkLogDelegate onSinkLogDelegate = OnSinkLog;
         private static NativeMethods.SinkFlushDelegate onSinkFlushDelegate = OnSinkFlush;
-
-        private static class NativeMethods
-        {
-            public static SetCallbackLoggerDelegate Logging_SetCallbackLogger = LibraryInstance.GetFunction<SetCallbackLoggerDelegate>("Logging_SetCallbackLogger");
-            public static SetRotatingFileLoggerDelegate Logging_SetRotatingFileLogger = LibraryInstance.GetFunction<SetRotatingFileLoggerDelegate>("Logging_SetRotatingFileLogger");
-            public static LoggingGetSeverityDelgate Logging_GetSeverity = LibraryInstance.GetFunction<LoggingGetSeverityDelgate>("Logging_GetSeverity");
-            public static LoggingSetSeverityDelgate Logging_SetSeverity = LibraryInstance.GetFunction<LoggingSetSeverityDelgate>("Logging_SetSeverity");
-            public static LoggingSetPatternDelgate Logging_SetPattern = LibraryInstance.GetFunction<LoggingSetPatternDelgate>("Logging_SetPattern");
-            public static LoggingShutdownDelgate Logging_Shutdown = LibraryInstance.GetFunction<LoggingShutdownDelgate>("Logging_Shutdown");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate void SinkLogDelegate(IntPtr userdata, PdfLoggingSeverity severity, IntPtr payload, UIntPtr length);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate void SinkFlushDelegate(IntPtr userdata);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetCallbackLoggerDelegate(SinkLogDelegate sinkLogDelegate, SinkFlushDelegate sinkFlushDelegate, IntPtr userdata);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetRotatingFileLoggerDelegate(string filename, int max_file_size, int max_files);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoggingGetSeverityDelgate(out PdfLoggingSeverity severity);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoggingSetSeverityDelgate(PdfLoggingSeverity severity);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoggingSetPatternDelgate(string pattern);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoggingShutdownDelgate();
-        }
     }
 }

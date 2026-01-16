@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfFile(PdfFileSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfFile()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfFileSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -219,55 +212,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static FileOpenDelgate File_Open = LibraryInstance.GetFunction<FileOpenDelgate>("File_Open");
-            public static FileOpenStreamDelgate File_OpenStream = LibraryInstance.GetFunction<FileOpenStreamDelgate>("File_OpenStream");
-            public static FileCreateDelgate File_Create = LibraryInstance.GetFunction<FileCreateDelgate>("File_Create");
-            public static FileCreateStreamDelgate File_CreateStream = LibraryInstance.GetFunction<FileCreateStreamDelgate>("File_CreateStream");
-            public static FileInitializeDelgate File_Initialize = LibraryInstance.GetFunction<FileInitializeDelgate>("File_Initialize");
-            public static FileGetVersionDelgate File_GetVersion = LibraryInstance.GetFunction<FileGetVersionDelgate>("File_GetVersion");
-            public static FileGetFilenameDelgate File_GetFilename = LibraryInstance.GetFunction<FileGetFilenameDelgate>("File_GetFilename");
-            public static FileIsEncryptedDelgate File_IsEncrypted = LibraryInstance.GetFunction<FileIsEncryptedDelgate>("File_IsEncrypted");
-            public static FileSetEncryptionPasswordDelgate File_SetEncryptionPassword = LibraryInstance.GetFunction<FileSetEncryptionPasswordDelgate>("File_SetEncryptionPassword");
-            public static FileAllocateNewEntryDelegate File_AllocateNewEntry = LibraryInstance.GetFunction<FileAllocateNewEntryDelegate>("File_AllocateNewEntry");
-
-            public static FileXrefChainDelgate File_XrefChain = LibraryInstance.GetFunction<FileXrefChainDelgate>("File_XrefChain");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileOpenDelgate([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string filename, out PdfFileSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileOpenStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string name, out PdfFileSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileCreateDelgate([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string filename, out PdfFileSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileCreateStreamDelgate(PdfInputOutputStreamSafeHandle input_stream, [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string name, out PdfFileSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileInitializeDelgate(PdfFileSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileGetVersionDelgate(PdfFileSafeHandle handle, out int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileGetFilenameDelgate(PdfFileSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileIsEncryptedDelgate(PdfFileSafeHandle handle, out bool data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileSetEncryptionPasswordDelgate(PdfFileSafeHandle handle, string password);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileXrefChainDelgate(PdfFileSafeHandle handle, out PdfXrefChainSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FileAllocateNewEntryDelegate(PdfFileSafeHandle handle, out PdfXrefUsedEntrySafeHandle data);
         }
     }
 }
