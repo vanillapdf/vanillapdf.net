@@ -1,68 +1,80 @@
+using System;
+using System.IO;
+using System.Linq;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfSemantics;
 
-namespace vanillapdf.net.testapp;
-
-class Program
+namespace vanillapdf.net.testapp
 {
-    static int Main(string[] args)
+    class Program
     {
-        string? pdfPath = args.Length > 0 ? args[0] : FindTestPdf();
-
-        if (pdfPath == null)
+        static int Main(string[] args)
         {
-            Console.Error.WriteLine("No PDF file specified and no test PDF found.");
-            Console.Error.WriteLine("Usage: vanillapdf.net.testapp <pdf-file>");
-            return 1;
-        }
+            // Initialize native library resolution (workaround for .NET Framework)
+            NativeLibraryHelper.Initialize();
 
-        if (!File.Exists(pdfPath))
-        {
-            Console.Error.WriteLine($"File not found: {pdfPath}");
-            return 1;
-        }
+            var pdfPath = args.Length > 0 ? args[0] : FindTestPdf();
 
-        try
-        {
-            Console.WriteLine($"Opening PDF: {pdfPath}");
-
-            using var file = PdfFile.Open(pdfPath);
-            file.Initialize();
-
-            Console.WriteLine($"  PDF Version: {file.Version}");
-
-            using var document = PdfDocument.OpenFile(file);
-            using var catalog = document.GetCatalog();
-            using var pages = catalog.GetPages();
-
-            var pageCount = pages.GetPageCount();
-            Console.WriteLine($"  Page Count: {pageCount}");
-
-            if (pageCount > 0)
+            if (pdfPath == null)
             {
-                using var firstPage = pages.GetPage(1);
-                using var resources = firstPage.GetResources();
-                Console.WriteLine($"  First page has resources: {resources != null}");
+                Console.Error.WriteLine("No PDF file specified and no test PDF found.");
+                Console.Error.WriteLine("Usage: vanillapdf.net.testapp <pdf-file>");
+                return 1;
             }
 
-            Console.WriteLine("PDF operations completed successfully.");
-            return 0;
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"Error: {ex.Message}");
-            return 1;
-        }
-    }
+            if (!File.Exists(pdfPath))
+            {
+                Console.Error.WriteLine($"File not found: {pdfPath}");
+                return 1;
+            }
 
-    static string? FindTestPdf()
-    {
-        var resourcesPath = Path.Combine(AppContext.BaseDirectory, "Resources");
-        if (Directory.Exists(resourcesPath))
-        {
-            var pdfFiles = Directory.GetFiles(resourcesPath, "*.pdf", SearchOption.AllDirectories);
-            return pdfFiles.FirstOrDefault();
+            try
+            {
+                Console.WriteLine($"Opening PDF: {pdfPath}");
+
+                using (var file = PdfFile.Open(pdfPath))
+                {
+                    file.Initialize();
+
+                    Console.WriteLine($"  PDF Version: {file.Version}");
+
+                    using (var document = PdfDocument.OpenFile(file))
+                    using (var catalog = document.GetCatalog())
+                    using (var pages = catalog.GetPages())
+                    {
+                        var pageCount = pages.GetPageCount();
+                        Console.WriteLine($"  Page Count: {pageCount}");
+
+                        if (pageCount > 0)
+                        {
+                            using (var firstPage = pages.GetPage(1))
+                            using (var resources = firstPage.GetResources())
+                            {
+                                Console.WriteLine($"  First page has resources: {resources != null}");
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine("PDF operations completed successfully.");
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error: {ex.Message}");
+                return 1;
+            }
         }
-        return null;
+
+        static string? FindTestPdf()
+        {
+            var resourcesPath = Path.Combine(AppContext.BaseDirectory, "Resources");
+            if (Directory.Exists(resourcesPath))
+            {
+                var pdfFiles = Directory.GetFiles(resourcesPath, "*.pdf", SearchOption.AllDirectories);
+                return pdfFiles.FirstOrDefault();
+            }
+            return null;
+        }
     }
 }

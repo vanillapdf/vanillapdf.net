@@ -54,8 +54,8 @@ OUTPUT_DIR=$(mktemp -d)
 
 echo "Publishing Native AOT for $RID..."
 
-# Publish with AOT (PublishAot is already set in the project file)
-dotnet publish "$PROJECT" -c Release -r "$RID" -o "$OUTPUT_DIR" --nologo
+# Publish with AOT (PublishAot is already set in the project file for net10.0)
+dotnet publish "$PROJECT" -c Release -r "$RID" -f net10.0 -o "$OUTPUT_DIR" --nologo
 
 # Check that the executable was created
 EXE_PATH="$OUTPUT_DIR/$EXE_NAME"

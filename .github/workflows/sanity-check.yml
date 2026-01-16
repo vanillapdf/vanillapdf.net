@@ -62,3 +62,7 @@ jobs:
       - name: Verify Native AOT publish on ${{ matrix.os }}
         shell: bash
         run: ./scripts/test_native_aot.sh
+
+      - name: Verify .NET Framework on ${{ matrix.os }}
+        shell: bash
+        run: ./scripts/test_net_framework.sh
