@@ -22,6 +22,7 @@ namespace vanillapdf.net.PdfUtils
             IncrementCounter();
         }
 
+#if DEBUG_REFCOUNT
         internal void AddRef()
         {
             UInt32 result = NativeMethods.IUnknown_AddRef(UnknownHandle);
@@ -37,6 +38,7 @@ namespace vanillapdf.net.PdfUtils
                 throw PdfErrors.GetLastErrorException();
             }
         }
+#endif
 
         /// <inheritdoc/>
         public void Dispose()
