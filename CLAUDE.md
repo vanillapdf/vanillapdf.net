@@ -34,9 +34,9 @@ dotnet test src/vanillapdf.net.sln --filter "FullyQualifiedName~TestMethodName"
 
 The library wraps a native C++17 library (`vanillapdf` NuGet package) using P/Invoke. Key components:
 
-- **`Utils/LibraryInstance.cs`**: Manages native library loading per platform (Windows/Linux/macOS). Provides `GetFunction<T>()` to resolve native symbols at runtime.
-- **`Utils/PlatformUtils.cs`**: Platform-specific implementations for loading native libraries (`WindowsPlatformUtils`, `LinuxPlatformUtils`, `MacPlatformUtils`).
+- **`Interop/NativeMethods.*.cs`**: Centralized P/Invoke declarations using `DllImport` (for .NET Standard 2.0) and `LibraryImport` (for .NET 7+). The library is AOT-compatible on modern .NET.
 - **`Utils/SafeHandles/`**: SafeHandle wrappers for native pointers, ensuring proper cleanup.
+- **`Utils/LibraryInstance.cs`**: Diagnostics for tracking active SafeHandle and PdfUnknown object counts.
 
 ### Object Hierarchy
 
@@ -60,7 +60,7 @@ using var catalog = document.GetCatalog();
 
 ### Test Project
 
-Tests use NUnit (`vanillapdf.net.nunit` project). The `OneTimeSetup.cs` initializes the native library via `LibraryInstance.Initialize(TestContext.CurrentContext.TestDirectory)`. Test resources are in `src/vanillapdf.net.nunit/Resources/`.
+Tests use NUnit (`vanillapdf.net.nunit` project). Test resources are in `src/vanillapdf.net.nunit/Resources/`.
 
 ## Target Frameworks
 
