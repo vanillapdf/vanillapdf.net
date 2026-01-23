@@ -28,7 +28,7 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 File_OpenStream(
             PdfInputOutputStreamSafeHandle inputStream,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            [MarshalAs(UnmanagedType.LPStr)]
             string name,
             out PdfFileSafeHandle data);
 
@@ -41,7 +41,7 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 File_CreateStream(
             PdfInputOutputStreamSafeHandle inputStream,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            [MarshalAs(UnmanagedType.LPStr)]
             string name,
             out PdfFileSafeHandle data);
 
@@ -60,7 +60,7 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 File_SetEncryptionPassword(
             PdfFileSafeHandle handle,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            [MarshalAs(UnmanagedType.LPStr)]
             string password);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -359,17 +359,11 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 NameObject_Create(out PdfNameObjectSafeHandle handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 NameObject_CreateFromEncodedString(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string data,
-            out PdfNameObjectSafeHandle handle);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 NameObject_CreateFromEncodedString(string data, out PdfNameObjectSafeHandle handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 NameObject_CreateFromDecodedString(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string data,
-            out PdfNameObjectSafeHandle handle);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 NameObject_CreateFromDecodedString(string data, out PdfNameObjectSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 NameObject_GetValue(PdfNameObjectSafeHandle handle, out PdfBufferSafeHandle data);
@@ -424,20 +418,14 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 LiteralStringObject_CreateFromEncodedBuffer(PdfBufferSafeHandle value, out PdfLiteralStringObjectSafeHandle handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 LiteralStringObject_CreateFromEncodedString(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string value,
-            out PdfLiteralStringObjectSafeHandle handle);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 LiteralStringObject_CreateFromEncodedString(string value, out PdfLiteralStringObjectSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 LiteralStringObject_CreateFromDecodedBuffer(PdfBufferSafeHandle value, out PdfLiteralStringObjectSafeHandle handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 LiteralStringObject_CreateFromDecodedString(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string value,
-            out PdfLiteralStringObjectSafeHandle handle);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 LiteralStringObject_CreateFromDecodedString(string value, out PdfLiteralStringObjectSafeHandle handle);
 
         #endregion
 
@@ -458,20 +446,14 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 HexadecimalStringObject_CreateFromEncodedBuffer(PdfBufferSafeHandle value, out PdfHexadecimalStringObjectSafeHandle handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 HexadecimalStringObject_CreateFromEncodedString(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string value,
-            out PdfHexadecimalStringObjectSafeHandle handle);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 HexadecimalStringObject_CreateFromEncodedString(string value, out PdfHexadecimalStringObjectSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 HexadecimalStringObject_CreateFromDecodedBuffer(PdfBufferSafeHandle value, out PdfHexadecimalStringObjectSafeHandle handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 HexadecimalStringObject_CreateFromDecodedString(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string value,
-            out PdfHexadecimalStringObjectSafeHandle handle);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 HexadecimalStringObject_CreateFromDecodedString(string value, out PdfHexadecimalStringObjectSafeHandle handle);
 
         #endregion
 

@@ -68,8 +68,8 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Logging_Shutdown();
 
-        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
-        public static partial UInt32 Logging_SetPattern(string pattern);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 Logging_SetPattern(string pattern);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Logging_GetSeverity(out int severity);
@@ -264,11 +264,15 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 PKCS12Key_FromSigningKey(PdfSigningKeySafeHandle handle, out PdfPKCS12KeySafeHandle data);
 
-        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
-        public static partial UInt32 PKCS12Key_CreateFromFile(string filename, string password, out PdfPKCS12KeySafeHandle data);
+        // Using DllImport because filename needs UTF-8 but password needs ANSI
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PKCS12Key_CreateFromFile(
+            [MarshalAs(UnmanagedType.LPUTF8Str)] string filename,
+            [MarshalAs(UnmanagedType.LPStr)] string password,
+            out PdfPKCS12KeySafeHandle data);
 
-        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
-        public static partial UInt32 PKCS12Key_CreateFromBuffer(PdfBufferSafeHandle buffer, string password, out PdfPKCS12KeySafeHandle data);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 PKCS12Key_CreateFromBuffer(PdfBufferSafeHandle buffer, string password, out PdfPKCS12KeySafeHandle data);
 
         #endregion
     }

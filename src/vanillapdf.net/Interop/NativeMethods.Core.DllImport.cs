@@ -71,10 +71,8 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Logging_Shutdown();
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Logging_SetPattern(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
-            string pattern);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
+        public static extern UInt32 Logging_SetPattern(string pattern);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Logging_GetSeverity(out int severity);
@@ -272,14 +270,14 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 PKCS12Key_CreateFromFile(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
             string filename,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            [MarshalAs(UnmanagedType.LPStr)]
             string password,
             out PdfPKCS12KeySafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PKCS12Key_CreateFromBuffer(
             PdfBufferSafeHandle buffer,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            [MarshalAs(UnmanagedType.LPStr)]
             string password,
             out PdfPKCS12KeySafeHandle data);
 
