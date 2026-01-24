@@ -2,7 +2,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Runtime.InteropServices.Marshalling;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.Interop
@@ -27,16 +27,14 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Errors_GetPrintableErrorTextLength(UInt32 code, out UInt32 size);
 
-        // Using DllImport because LibraryImport doesn't support StringBuilder
-        [System.Runtime.InteropServices.DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
-        public static extern UInt32 Errors_GetPrintableErrorText(UInt32 code, StringBuilder buffer, UInt32 size);
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Errors_GetPrintableErrorText(UInt32 code, byte[] buffer, UInt32 size);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Errors_GetLastErrorMessageLength(out UInt32 size);
 
-        // Using DllImport because LibraryImport doesn't support StringBuilder
-        [System.Runtime.InteropServices.DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
-        public static extern UInt32 Errors_GetLastErrorMessage(StringBuilder buffer, UInt32 size);
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Errors_GetLastErrorMessage(byte[] buffer, UInt32 size);
 
         #endregion
 
@@ -58,9 +56,8 @@ namespace vanillapdf.net.Interop
 
         #region Logging
 
-        // Using DllImport because LibraryImport source generator doesn't support delegate parameters
-        [System.Runtime.InteropServices.DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Logging_SetCallbackLogger(SinkLogDelegate sinkLog, SinkFlushDelegate sinkFlush, IntPtr userdata);
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Logging_SetCallbackLogger(IntPtr sinkLog, IntPtr sinkFlush, IntPtr userdata);
 
         [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
         public static partial UInt32 Logging_SetRotatingFileLogger(string filename, int maxFileSize, int maxFiles);
@@ -68,8 +65,8 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Logging_Shutdown();
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
-        public static extern UInt32 Logging_SetPattern(string pattern);
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Custom, StringMarshallingCustomType = typeof(AnsiStringMarshaller))]
+        public static partial UInt32 Logging_SetPattern(string pattern);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Logging_GetSeverity(out int severity);
@@ -241,13 +238,12 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 SigningKey_FromUnknown(PdfUnknownSafeHandle handle, out PdfSigningKeySafeHandle data);
 
-        // Using DllImport because LibraryImport source generator doesn't support delegate parameters
-        [System.Runtime.InteropServices.DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SigningKey_CreateCustom(
-            InitializeDelegate initialize,
-            UpdateDelegate update,
-            FinalDelegate final,
-            CleanupDelegate cleanup,
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SigningKey_CreateCustom(
+            IntPtr initialize,
+            IntPtr update,
+            IntPtr final,
+            IntPtr cleanup,
             IntPtr userdata,
             out PdfSigningKeySafeHandle data);
 
@@ -264,15 +260,14 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 PKCS12Key_FromSigningKey(PdfSigningKeySafeHandle handle, out PdfPKCS12KeySafeHandle data);
 
-        // Using DllImport because filename needs UTF-8 but password needs ANSI
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PKCS12Key_CreateFromFile(
-            [MarshalAs(UnmanagedType.LPUTF8Str)] string filename,
-            [MarshalAs(UnmanagedType.LPStr)] string password,
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 PKCS12Key_CreateFromFile(
+            string filename,
+            [MarshalUsing(typeof(AnsiStringMarshaller))] string password,
             out PdfPKCS12KeySafeHandle data);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
-        public static extern UInt32 PKCS12Key_CreateFromBuffer(PdfBufferSafeHandle buffer, string password, out PdfPKCS12KeySafeHandle data);
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Custom, StringMarshallingCustomType = typeof(AnsiStringMarshaller))]
+        public static partial UInt32 PKCS12Key_CreateFromBuffer(PdfBufferSafeHandle buffer, string password, out PdfPKCS12KeySafeHandle data);
 
         #endregion
     }

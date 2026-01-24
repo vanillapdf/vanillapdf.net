@@ -33,7 +33,10 @@ namespace vanillapdf.net.PdfUtils
         /// <param name="context">Context object holding the references to callback methods</param>
         public static void SetCallbackLogger(PdfCallbackLoggerContext context)
         {
-            UInt32 result = NativeMethods.Logging_SetCallbackLogger(onSinkLogDelegate, onSinkFlushDelegate, GCHandle.ToIntPtr(context.Handle));
+            UInt32 result = NativeMethods.Logging_SetCallbackLogger(
+                Marshal.GetFunctionPointerForDelegate(onSinkLogDelegate),
+                Marshal.GetFunctionPointerForDelegate(onSinkFlushDelegate),
+                GCHandle.ToIntPtr(context.Handle));
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

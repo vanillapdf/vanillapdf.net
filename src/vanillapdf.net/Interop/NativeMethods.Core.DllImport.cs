@@ -27,14 +27,14 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Errors_GetPrintableErrorTextLength(UInt32 code, out UInt32 size);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
-        public static extern UInt32 Errors_GetPrintableErrorText(UInt32 code, StringBuilder buffer, UInt32 size);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Errors_GetPrintableErrorText(UInt32 code, byte[] buffer, UInt32 size);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Errors_GetLastErrorMessageLength(out UInt32 size);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention, CharSet = CharSet.Ansi)]
-        public static extern UInt32 Errors_GetLastErrorMessage(StringBuilder buffer, UInt32 size);
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Errors_GetLastErrorMessage(byte[] buffer, UInt32 size);
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace vanillapdf.net.Interop
         #region Logging
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Logging_SetCallbackLogger(SinkLogDelegate sinkLog, SinkFlushDelegate sinkFlush, IntPtr userdata);
+        public static extern UInt32 Logging_SetCallbackLogger(IntPtr sinkLog, IntPtr sinkFlush, IntPtr userdata);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Logging_SetRotatingFileLogger(
@@ -246,10 +246,10 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SigningKey_CreateCustom(
-            InitializeDelegate initialize,
-            UpdateDelegate update,
-            FinalDelegate final,
-            CleanupDelegate cleanup,
+            IntPtr initialize,
+            IntPtr update,
+            IntPtr final,
+            IntPtr cleanup,
             IntPtr userdata,
             out PdfSigningKeySafeHandle data);
 

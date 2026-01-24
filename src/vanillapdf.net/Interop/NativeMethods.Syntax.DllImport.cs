@@ -112,16 +112,16 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 FileWriterObserver_CreateCustom(
-            OnInitializingDelegate on_initializing,
-            OnFinalizingDelegate on_finalizing,
-            OnBeforeObjectWriteDelegate on_before_object_write,
-            OnAfterObjectWriteDelegate on_after_object_write,
-            OnBeforeObjectOffsetRecalculationDelegate on_before_object_offset_recalculation,
-            OnAfterObjectOffsetRecalculationDelegate on_after_object_offset_recalculation,
-            OnBeforeEntryOffsetRecalculationDelegate on_before_entry_offset_recalculation,
-            OnAfterEntryOffsetRecalculationDelegate on_after_entry_offset_recalculation,
-            OnBeforeOutputFlushDelegate on_before_output_flush,
-            OnAfterOutputFlushDelegate on_after_output_flush,
+            IntPtr on_initializing,
+            IntPtr on_finalizing,
+            IntPtr on_before_object_write,
+            IntPtr on_after_object_write,
+            IntPtr on_before_object_offset_recalculation,
+            IntPtr on_after_object_offset_recalculation,
+            IntPtr on_before_entry_offset_recalculation,
+            IntPtr on_after_entry_offset_recalculation,
+            IntPtr on_before_output_flush,
+            IntPtr on_after_output_flush,
             IntPtr userdata,
             out PdfFileWriterObserverSafeHandle data);
 

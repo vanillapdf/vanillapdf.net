@@ -26,11 +26,16 @@ namespace vanillapdf.net.PdfSyntax
         public static PdfFileWriterObserver CreateCustom(PdfFileWriterObserverContext context)
         {
             UInt32 result = NativeMethods.FileWriterObserver_CreateCustom(
-                onInitializingDelegate, onFinalizingDelegate,
-                onBeforeObjectWriteDelegate, onAfterObjectWriteDelegate,
-                onBeforeObjectOffsetRecalculationDelgate, onAfterObjectOffsetRecalculationDelgate,
-                onBeforeEntryOffsetRecalculationDelgate, onAfterEntryOffsetRecalculationDelgate,
-                onBeforeOutputFlushDelegate, onAfterOutputFlushDelegate,
+                Marshal.GetFunctionPointerForDelegate(onInitializingDelegate),
+                Marshal.GetFunctionPointerForDelegate(onFinalizingDelegate),
+                Marshal.GetFunctionPointerForDelegate(onBeforeObjectWriteDelegate),
+                Marshal.GetFunctionPointerForDelegate(onAfterObjectWriteDelegate),
+                Marshal.GetFunctionPointerForDelegate(onBeforeObjectOffsetRecalculationDelgate),
+                Marshal.GetFunctionPointerForDelegate(onAfterObjectOffsetRecalculationDelgate),
+                Marshal.GetFunctionPointerForDelegate(onBeforeEntryOffsetRecalculationDelgate),
+                Marshal.GetFunctionPointerForDelegate(onAfterEntryOffsetRecalculationDelgate),
+                Marshal.GetFunctionPointerForDelegate(onBeforeOutputFlushDelegate),
+                Marshal.GetFunctionPointerForDelegate(onAfterOutputFlushDelegate),
                 GCHandle.ToIntPtr(context.Handle), out var data);
 
             if (result != PdfReturnValues.ERROR_SUCCESS) {

@@ -24,7 +24,13 @@ namespace vanillapdf.net.PdfUtils
         /// <returns>New instance of \ref PdfSigningKey</returns>
         public static PdfSigningKey CreateCustom(PdfSigningKeyContext context)
         {
-            UInt32 result = NativeMethods.SigningKey_CreateCustom(initializeDelgate, updateDelgate, finalDelgate, cleanupDelgate, GCHandle.ToIntPtr(context.Handle), out var data);
+            UInt32 result = NativeMethods.SigningKey_CreateCustom(
+                Marshal.GetFunctionPointerForDelegate(initializeDelgate),
+                Marshal.GetFunctionPointerForDelegate(updateDelgate),
+                Marshal.GetFunctionPointerForDelegate(finalDelgate),
+                Marshal.GetFunctionPointerForDelegate(cleanupDelgate),
+                GCHandle.ToIntPtr(context.Handle),
+                out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

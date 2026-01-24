@@ -37,14 +37,17 @@ namespace vanillapdf.net.PdfUtils
             }
 
             int convertedLength = Convert.ToInt32(length);
-            StringBuilder sb = new StringBuilder(convertedLength);
+            byte[] buffer = new byte[convertedLength];
 
-            UInt32 messageResult = NativeMethods.Errors_GetPrintableErrorText(error, sb, length);
+            UInt32 messageResult = NativeMethods.Errors_GetPrintableErrorText(error, buffer, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
                 throw new PdfManagedException($"Could not get last error message: {messageResult}");
             }
 
-            return sb.ToString();
+            // Find null terminator and create string
+            int actualLength = Array.IndexOf(buffer, (byte)0);
+            if (actualLength < 0) actualLength = convertedLength;
+            return Encoding.ASCII.GetString(buffer, 0, actualLength);
         }
 
         /// <summary>
@@ -59,14 +62,17 @@ namespace vanillapdf.net.PdfUtils
             }
 
             int convertedLength = Convert.ToInt32(length);
-            StringBuilder sb = new StringBuilder(convertedLength);
+            byte[] buffer = new byte[convertedLength];
 
-            UInt32 messageResult = NativeMethods.Errors_GetLastErrorMessage(sb, length);
+            UInt32 messageResult = NativeMethods.Errors_GetLastErrorMessage(buffer, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
                 throw new PdfManagedException("Could not get last error message");
             }
 
-            return sb.ToString();
+            // Find null terminator and create string
+            int actualLength = Array.IndexOf(buffer, (byte)0);
+            if (actualLength < 0) actualLength = convertedLength;
+            return Encoding.ASCII.GetString(buffer, 0, actualLength);
         }
 
         internal static PdfUnmanagedException GetLastErrorException()
