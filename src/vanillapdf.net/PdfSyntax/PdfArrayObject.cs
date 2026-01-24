@@ -50,6 +50,7 @@ namespace vanillapdf.net.PdfSyntax
 
         /// <summary>
         /// Retrieve the element located at the specified index.
+        /// Returns the upgraded (typed) object with indirect references resolved.
         /// </summary>
         /// <param name="index">Zero based position of the element.</param>
         /// <returns>The element at the provided index.</returns>
@@ -60,7 +61,9 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfObject(data);
+            using (var obj = new PdfObject(data)) {
+                return obj.Upgrade();
+            }
         }
 
         /// <summary>
@@ -69,15 +72,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="index">Zero based position of the element.</param>
         /// <returns>The element converted to <typeparamref name="T"/>.</returns>
+        /// <exception cref="InvalidCastException">Thrown if the element is not of the expected type.</exception>
         public T GetValueAs<T>(UInt64 index) where T : PdfObject
         {
-            var result = GetValue(index);
-            return PdfObjectConverter<T>.Convert(result);
+            var pdfObject = GetValue(index);
+            if (pdfObject is T result) {
+                return result;
+            }
+            pdfObject.Dispose();
+            throw new InvalidCastException($"Element at index {index} is not of type {typeof(T).Name}.");
         }
 
         /// <summary>
         /// Attempt to retrieve an element as a specific derived type.
-        /// Resolves indirect references and validates type.
         /// </summary>
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="index">Zero based position of the element.</param>
@@ -85,12 +92,14 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns><c>true</c> if the element is of the expected type.</returns>
         public bool TryGetValueAs<T>(UInt64 index, out T value) where T : PdfObject
         {
-            using (var pdfObject = GetValue(index)) {
-                using (var upgraded = pdfObject.Upgrade()) {
-                    value = PdfObjectConverter<T>.TryConvert(upgraded);
-                    return value != null;
-                }
+            var pdfObject = GetValue(index);
+            if (pdfObject is T result) {
+                value = result;
+                return true;
             }
+            pdfObject.Dispose();
+            value = null;
+            return false;
         }
 
         /// <summary>

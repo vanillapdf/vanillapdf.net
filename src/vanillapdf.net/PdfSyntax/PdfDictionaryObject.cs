@@ -50,6 +50,7 @@ namespace vanillapdf.net.PdfSyntax
 
         /// <summary>
         /// Retrieve the value associated with the specified key.
+        /// Returns the upgraded (typed) object with indirect references resolved.
         /// </summary>
         /// <param name="key">Dictionary key.</param>
         /// <returns>The stored <see cref="PdfObject"/>.</returns>
@@ -60,11 +61,14 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfObject(data);
+            using (var obj = new PdfObject(data)) {
+                return obj.Upgrade();
+            }
         }
 
         /// <summary>
         /// Try to get a value for the given key.
+        /// Returns the upgraded (typed) object with indirect references resolved.
         /// </summary>
         /// <param name="key">Dictionary key.</param>
         /// <param name="value">Value if found.</param>
@@ -81,7 +85,9 @@ namespace vanillapdf.net.PdfSyntax
                 return false;
             }
 
-            value = new PdfObject(data);
+            using (var obj = new PdfObject(data)) {
+                value = obj.Upgrade();
+            }
             return true;
         }
 
@@ -91,15 +97,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="key">Dictionary key.</param>
         /// <returns>Object converted to <typeparamref name="T"/>.</returns>
+        /// <exception cref="InvalidCastException">Thrown if the value is not of the expected type.</exception>
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
-            var result = Find(key);
-            return PdfObjectConverter<T>.Convert(result);
+            var pdfObject = Find(key);
+            if (pdfObject is T result) {
+                return result;
+            }
+            pdfObject.Dispose();
+            throw new InvalidCastException($"Value for key is not of type {typeof(T).Name}.");
         }
 
         /// <summary>
         /// Attempt to retrieve a value for a key converted to a given type.
-        /// Resolves indirect references and validates type.
         /// </summary>
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="key">Dictionary key.</param>
@@ -112,12 +122,13 @@ namespace vanillapdf.net.PdfSyntax
                 return false;
             }
 
-            using (pdfObject) {
-                using (var upgraded = pdfObject.Upgrade()) {
-                    value = PdfObjectConverter<T>.TryConvert(upgraded);
-                    return value != null;
-                }
+            if (pdfObject is T result) {
+                value = result;
+                return true;
             }
+            pdfObject.Dispose();
+            value = null;
+            return false;
         }
 
         /// <summary>
