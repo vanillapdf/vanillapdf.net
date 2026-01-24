@@ -18,15 +18,25 @@ namespace vanillapdf.net.PdfSyntax
         {
             // Register converters for all PDF object types
             PdfObjectConverter<PdfArrayObject>.FromObject = PdfArrayObject.FromObject;
+            PdfObjectConverter<PdfArrayObject>.TryFromObject = PdfArrayObject.TryFromObject;
             PdfObjectConverter<PdfBooleanObject>.FromObject = PdfBooleanObject.FromObject;
+            PdfObjectConverter<PdfBooleanObject>.TryFromObject = PdfBooleanObject.TryFromObject;
             PdfObjectConverter<PdfDictionaryObject>.FromObject = PdfDictionaryObject.FromObject;
+            PdfObjectConverter<PdfDictionaryObject>.TryFromObject = PdfDictionaryObject.TryFromObject;
             PdfObjectConverter<PdfIndirectReferenceObject>.FromObject = PdfIndirectReferenceObject.FromObject;
+            PdfObjectConverter<PdfIndirectReferenceObject>.TryFromObject = PdfIndirectReferenceObject.TryFromObject;
             PdfObjectConverter<PdfIntegerObject>.FromObject = PdfIntegerObject.FromObject;
+            PdfObjectConverter<PdfIntegerObject>.TryFromObject = PdfIntegerObject.TryFromObject;
             PdfObjectConverter<PdfNameObject>.FromObject = PdfNameObject.FromObject;
+            PdfObjectConverter<PdfNameObject>.TryFromObject = PdfNameObject.TryFromObject;
             PdfObjectConverter<PdfNullObject>.FromObject = PdfNullObject.FromObject;
+            PdfObjectConverter<PdfNullObject>.TryFromObject = PdfNullObject.TryFromObject;
             PdfObjectConverter<PdfRealObject>.FromObject = PdfRealObject.FromObject;
+            PdfObjectConverter<PdfRealObject>.TryFromObject = PdfRealObject.TryFromObject;
             PdfObjectConverter<PdfStreamObject>.FromObject = PdfStreamObject.FromObject;
+            PdfObjectConverter<PdfStreamObject>.TryFromObject = PdfStreamObject.TryFromObject;
             PdfObjectConverter<PdfStringObject>.FromObject = PdfStringObject.FromObject;
+            PdfObjectConverter<PdfStringObject>.TryFromObject = PdfStringObject.TryFromObject;
         }
     }
 
@@ -39,8 +49,14 @@ namespace vanillapdf.net.PdfSyntax
     {
         /// <summary>
         /// Converter delegate registered by PdfObjectConverters static constructor.
+        /// Does not validate type - use for performance when type is known.
         /// </summary>
         public static Func<PdfObject, T> FromObject { get; set; }
+
+        /// <summary>
+        /// Safe converter delegate that validates type and returns null on mismatch.
+        /// </summary>
+        public static Func<PdfObject, T> TryFromObject { get; set; }
 
         /// <summary>
         /// Converts a PdfObject to the target type using the registered converter.
@@ -58,6 +74,24 @@ namespace vanillapdf.net.PdfSyntax
             }
 
             return FromObject(obj);
+        }
+
+        /// <summary>
+        /// Tries to convert a PdfObject to the target type, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="obj">The object to convert.</param>
+        /// <returns>The converted object, or null if type doesn't match.</returns>
+        /// <exception cref="PdfManagedException">Thrown if no converter is registered for this type.</exception>
+        public static T TryConvert(PdfObject obj)
+        {
+            // Triggers PdfObjectConverters static constructor if not already initialized
+            _ = PdfObjectConverters.Initialized;
+
+            if (TryFromObject == null) {
+                throw new PdfManagedException($"No converter registered for type {typeof(T).Name}.");
+            }
+
+            return TryFromObject(obj);
         }
     }
 }

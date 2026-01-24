@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfSyntax.Extensions;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -72,6 +73,24 @@ namespace vanillapdf.net.PdfSyntax
         {
             var result = GetValue(index);
             return PdfObjectConverter<T>.Convert(result);
+        }
+
+        /// <summary>
+        /// Attempt to retrieve an element as a specific derived type.
+        /// Resolves indirect references and validates type.
+        /// </summary>
+        /// <typeparam name="T">Expected object type.</typeparam>
+        /// <param name="index">Zero based position of the element.</param>
+        /// <param name="value">The element converted to <typeparamref name="T"/> if type matches.</param>
+        /// <returns><c>true</c> if the element is of the expected type.</returns>
+        public bool TryGetValueAs<T>(UInt64 index, out T value) where T : PdfObject
+        {
+            using (var pdfObject = GetValue(index)) {
+                using (var upgraded = pdfObject.Upgrade()) {
+                    value = PdfObjectConverter<T>.TryConvert(upgraded);
+                    return value != null;
+                }
+            }
         }
 
         /// <summary>
@@ -149,10 +168,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfArrayObject if the object can be converted, throws exception on failure</returns>
         public static PdfArrayObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfArrayObject pdfArrayObject) {
-            //    return pdfArrayObject;
-            //}
+            return new PdfArrayObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to array object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfArrayObject if the object is an array, null otherwise</returns>
+        public static PdfArrayObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Array) {
+                return null;
+            }
 
             return new PdfArrayObject(data.ObjectHandle);
         }

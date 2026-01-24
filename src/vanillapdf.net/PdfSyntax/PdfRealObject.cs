@@ -74,11 +74,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfRealObject if the object can be converted, throws exception on failure</returns>
         public static PdfRealObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfRealObject pdfRealObject) {
-            //    return pdfRealObject;
-            //}
+            return new PdfRealObject(data.ObjectHandle);
+        }
 
+        /// <summary>
+        /// Try to convert object to real object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfRealObject if the object is a real, null otherwise</returns>
+        public static PdfRealObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Real) {
+                return null;
+            }
             return new PdfRealObject(data.ObjectHandle);
         }
 

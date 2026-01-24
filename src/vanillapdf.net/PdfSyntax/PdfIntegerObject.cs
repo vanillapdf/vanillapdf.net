@@ -110,10 +110,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIntegerObject if the object can be converted, throws exception on failure</returns>
         public static PdfIntegerObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfIntegerObject pdfIntegerObject) {
-            //    return pdfIntegerObject;
-            //}
+            return new PdfIntegerObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to integer object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfIntegerObject if the object is an integer, null otherwise</returns>
+        public static PdfIntegerObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Integer) {
+                return null;
+            }
 
             return new PdfIntegerObject(data.ObjectHandle);
         }
