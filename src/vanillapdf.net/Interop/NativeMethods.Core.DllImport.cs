@@ -2,7 +2,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.Interop
