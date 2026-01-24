@@ -85,13 +85,11 @@ namespace vanillapdf.net.nunit.PdfContents
                                         //var text_translate_x = PdfRealObject.FromObject(operand_0);
 
                                         double text_translate_y = 0.0f;
-                                        if (operand_1.IsInteger()) {
-                                            using var operand_1_integer = operand_1.AsInteger();
+                                        if (operand_1.GetObjectType() == PdfObjectType.Integer) {
+                                            using var operand_1_integer = PdfIntegerObject.FromObject(operand_1);
                                             text_translate_y = operand_1_integer.IntegerValue;
-                                        }
-
-                                        if (operand_1.IsReal()) {
-                                            using var operand_1_real = operand_1.AsReal();
+                                        } else if (operand_1.GetObjectType() == PdfObjectType.Real) {
+                                            using var operand_1_real = PdfRealObject.FromObject(operand_1);
                                             text_translate_y = operand_1_real.Value;
                                         }
 
@@ -112,8 +110,8 @@ namespace vanillapdf.net.nunit.PdfContents
                                     using var contentOperationTextShowArray = PdfContentOperationTextShowArray.FromContentOperation(contentOperation);
 
                                     foreach (var showItem in contentOperationTextShowArray.Value) {
-                                        if (showItem.IsString()) {
-                                            using var showText = showItem.AsString();
+                                        if (showItem.GetObjectType() == PdfObjectType.String) {
+                                            using var showText = PdfStringObject.FromObject(showItem);
                                             stringBuilder.Append(showText.Value.StringData);
                                         }
                                     }

@@ -97,16 +97,16 @@ namespace vanillapdf.net.benchmark
         }
 
         /// <summary>
-        /// Is/As pattern: check type, then convert if match.
+        /// GetObjectType + FromObject pattern: check type, then convert if match.
         /// </summary>
         [Benchmark]
-        public int IsAsPattern()
+        public int TypeCheckPattern()
         {
             int count = 0;
             for (int i = 0; i < Iterations; i++) {
                 using var obj = _trailerDictionary.Find("Size");
-                if (obj.IsInteger()) {
-                    using var intObj = obj.AsInteger();
+                if (obj.GetObjectType() == PdfObjectType.Integer) {
+                    using var intObj = PdfIntegerObject.FromObject(obj);
                     count++;
                 }
             }
