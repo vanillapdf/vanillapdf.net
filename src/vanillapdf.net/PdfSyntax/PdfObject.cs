@@ -13,8 +13,6 @@ namespace vanillapdf.net.PdfSyntax
     {
         internal PdfObjectSafeHandle ObjectHandle { get; }
 
-        private PdfObjectType? _cachedObjectType;
-
         internal PdfObject(PdfObjectSafeHandle handle) : base(handle)
         {
             ObjectHandle = handle;
@@ -37,17 +35,12 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfObjectType GetObjectType()
         {
-            if (_cachedObjectType.HasValue) {
-                return _cachedObjectType.Value;
-            }
-
             UInt32 result = NativeMethods.Object_GetObjectType(ObjectHandle, out PdfObjectType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            _cachedObjectType = EnumUtil<PdfObjectType>.CheckedCast(data);
-            return _cachedObjectType.Value;
+            return EnumUtil<PdfObjectType>.CheckedCast(data);
         }
 
         /// <inheritdoc/>

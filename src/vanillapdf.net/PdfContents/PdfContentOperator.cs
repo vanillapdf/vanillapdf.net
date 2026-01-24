@@ -13,8 +13,6 @@ namespace vanillapdf.net.PdfContents
     {
         internal PdfContentOperatorSafeHandle Handle { get; }
 
-        private PdfContentOperatorType? _cachedOperatorType;
-
         internal PdfContentOperator(PdfContentOperatorSafeHandle handle) : base(handle)
         {
             Handle = handle;
@@ -32,17 +30,12 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfContentOperatorType GetOperatorType()
         {
-            if (_cachedOperatorType.HasValue) {
-                return _cachedOperatorType.Value;
-            }
-
             UInt32 result = NativeMethods.ContentOperator_GetOperatorType(Handle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            _cachedOperatorType = EnumUtil<PdfContentOperatorType>.CheckedCast(data);
-            return _cachedOperatorType.Value;
+            return EnumUtil<PdfContentOperatorType>.CheckedCast(data);
         }
 
         /// <summary>

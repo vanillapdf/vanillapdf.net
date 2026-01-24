@@ -8,13 +8,13 @@ using vanillapdf.net.Utils;
 namespace vanillapdf.net.benchmark
 {
     /// <summary>
-    /// Benchmarks for GetAsDerivedObject which is called on every dictionary/array access.
-    /// This measures the impact of caching GetObjectType.
+    /// Benchmarks comparing auto-upgrade vs explicit upgrade costs.
     /// </summary>
     [MemoryDiagnoser]
     public class PdfObjectTypeBenchmarks
     {
         private const string PdfFileName = "Resources/minimalist.pdf";
+        private const int Iterations = 1000;
 
         private PdfFile _file;
         private PdfDocument _document;
@@ -55,31 +55,62 @@ namespace vanillapdf.net.benchmark
         }
 
         /// <summary>
-        /// Traverse page tree - each GetPage calls GetAsDerivedObject internally.
+        /// Baseline: Return base PdfObject without upgrading.
         /// </summary>
-        [Benchmark]
-        public int TraversePages()
+        [Benchmark(Baseline = true)]
+        public int DictionaryAccess_NoUpgrade()
         {
             int count = 0;
-            var pageCount = _pageTree.GetPageCount();
-            for (ulong i = 1; i <= pageCount; i++) {
-                using var page = _pageTree.GetPage(i);
+            for (int i = 0; i < Iterations; i++) {
+                using var obj = _trailerDictionary.Find("Size");
                 count++;
             }
             return count;
         }
 
         /// <summary>
-        /// Iterate dictionary entries - each access calls GetAsDerivedObject.
+        /// Call Upgrade() explicitly after access.
         /// </summary>
         [Benchmark]
-        public int IterateDictionary()
+        public int DictionaryAccess_ExplicitUpgrade()
         {
             int count = 0;
-            foreach (var kvp in _trailerDictionary) {
-                kvp.Key.Dispose();
-                kvp.Value.Dispose();
+            for (int i = 0; i < Iterations; i++) {
+                using var obj = _trailerDictionary.Find("Size");
+                using var upgraded = obj.Upgrade();
                 count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Auto-upgrade on every access (old behavior).
+        /// </summary>
+        [Benchmark]
+        public int DictionaryAccess_AutoUpgrade()
+        {
+            int count = 0;
+            for (int i = 0; i < Iterations; i++) {
+                using var obj = _trailerDictionary.Find("Size");
+                using var upgraded = PdfObject.GetAsDerivedObject(obj);
+                count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Is/As pattern: check type, then convert if match.
+        /// </summary>
+        [Benchmark]
+        public int IsAsPattern()
+        {
+            int count = 0;
+            for (int i = 0; i < Iterations; i++) {
+                using var obj = _trailerDictionary.Find("Size");
+                if (obj.IsInteger()) {
+                    using var intObj = obj.AsInteger();
+                    count++;
+                }
             }
             return count;
         }

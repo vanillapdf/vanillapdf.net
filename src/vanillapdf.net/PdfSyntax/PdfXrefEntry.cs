@@ -13,8 +13,6 @@ namespace vanillapdf.net.PdfSyntax
     {
         internal PdfXrefEntrySafeHandle BaseEntryHandle { get; }
 
-        private PdfXrefEntryType? _cachedEntryType;
-
         internal PdfXrefEntry(PdfXrefEntrySafeHandle handle) : base(handle)
         {
             BaseEntryHandle = handle;
@@ -32,17 +30,12 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfXrefEntryType GetEntryType()
         {
-            if (_cachedEntryType.HasValue) {
-                return _cachedEntryType.Value;
-            }
-
             UInt32 result = NativeMethods.XrefEntry_GetType(BaseEntryHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            _cachedEntryType = EnumUtil<PdfXrefEntryType>.CheckedCast(data);
-            return _cachedEntryType.Value;
+            return EnumUtil<PdfXrefEntryType>.CheckedCast(data);
         }
 
         /// <summary>
