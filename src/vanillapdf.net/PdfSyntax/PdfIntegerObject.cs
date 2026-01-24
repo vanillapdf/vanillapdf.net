@@ -49,19 +49,6 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIntegerObject(data);
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfIntegerObject)) {
-                return this;
-            }
-
-            if (typeof(T) == typeof(PdfRealObject)) {
-                return PdfRealObject.FromObject(this);
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         private Int64 GetIntegerValue()
         {
             UInt32 result = NativeMethods.IntegerObject_GetIntegerValue(Handle, out var value);

@@ -58,19 +58,6 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfRealObject)) {
-                return this;
-            }
-
-            if (typeof(T) == typeof(PdfIntegerObject)) {
-                return PdfIntegerObject.FromObject(this);
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Custom conversion to double
         /// </summary>

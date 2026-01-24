@@ -99,15 +99,6 @@ namespace vanillapdf.net.PdfSyntax
             return CreateFromDecodedString(value);
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfLiteralStringObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert string object to literal string object
         /// </summary>

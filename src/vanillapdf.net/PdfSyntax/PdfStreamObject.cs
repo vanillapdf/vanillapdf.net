@@ -103,15 +103,6 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfStreamObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to stream object
         /// </summary>

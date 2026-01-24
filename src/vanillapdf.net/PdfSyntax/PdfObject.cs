@@ -92,48 +92,6 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfObjectAttributeList(data);
         }
 
-        internal virtual PdfObject ConvertTo<T>() where T : PdfObject
-        {
-            throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
-        }
-
-        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject, bool removeIndirection = true)
-        {
-            // Loop instead of recursion to resolve indirection
-            while (removeIndirection && pdfObject.GetObjectType() == PdfObjectType.IndirectReference) {
-                using (var reference = PdfIndirectReferenceObject.FromObject(pdfObject)) {
-                    pdfObject = reference.ReferencedObject;
-                }
-            }
-
-            var objectType = pdfObject.GetObjectType();
-
-            switch (objectType) {
-                case PdfObjectType.Array:
-                    return PdfArrayObject.FromObject(pdfObject);
-                case PdfObjectType.Boolean:
-                    return PdfBooleanObject.FromObject(pdfObject);
-                case PdfObjectType.Dictionary:
-                    return PdfDictionaryObject.FromObject(pdfObject);
-                case PdfObjectType.IndirectReference:
-                    return PdfIndirectReferenceObject.FromObject(pdfObject);
-                case PdfObjectType.Integer:
-                    return PdfIntegerObject.FromObject(pdfObject);
-                case PdfObjectType.Name:
-                    return PdfNameObject.FromObject(pdfObject);
-                case PdfObjectType.Null:
-                    return PdfNullObject.FromObject(pdfObject);
-                case PdfObjectType.Real:
-                    return PdfRealObject.FromObject(pdfObject);
-                case PdfObjectType.Stream:
-                    return PdfStreamObject.FromObject(pdfObject);
-                case PdfObjectType.String:
-                    return PdfStringObject.FromObject(pdfObject);
-                default:
-                    throw new PdfManagedException($"Invalid object type: {objectType}");
-            }
-        }
-
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();

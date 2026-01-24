@@ -93,7 +93,7 @@ namespace vanillapdf.net.PdfSyntax
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
             var result = Find(key);
-            return (T)result.ConvertTo<T>();
+            return PdfObjectConverter<T>.Convert(result);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace vanillapdf.net.PdfSyntax
                 return false;
             }
 
-            value = (T)pdfObject.ConvertTo<T>();
+            value = PdfObjectConverter<T>.Convert(pdfObject);
             return true;
         }
 
@@ -176,15 +176,6 @@ namespace vanillapdf.net.PdfSyntax
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-        }
-
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfDictionaryObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
         }
 
         /// <summary>

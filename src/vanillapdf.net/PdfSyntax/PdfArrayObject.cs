@@ -71,7 +71,7 @@ namespace vanillapdf.net.PdfSyntax
         public T GetValueAs<T>(UInt64 index) where T : PdfObject
         {
             var result = GetValue(index);
-            return (T)result.ConvertTo<T>();
+            return PdfObjectConverter<T>.Convert(result);
         }
 
         /// <summary>
@@ -140,15 +140,6 @@ namespace vanillapdf.net.PdfSyntax
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-        }
-
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfArrayObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
         }
 
         /// <summary>

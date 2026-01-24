@@ -3,7 +3,6 @@ using System.IO;
 using BenchmarkDotNet.Attributes;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
-using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.benchmark
 {
@@ -25,8 +24,6 @@ namespace vanillapdf.net.benchmark
         [GlobalSetup]
         public void Setup()
         {
-            LibraryInstance.Initialize();
-
             var pdfPath = Path.Combine(AppContext.BaseDirectory, PdfFileName);
             _file = PdfFile.Open(pdfPath);
             _file.Initialize();
@@ -84,7 +81,7 @@ namespace vanillapdf.net.benchmark
         }
 
         /// <summary>
-        /// Auto-upgrade on every access (old behavior).
+        /// Auto-upgrade on every access (old behavior) - now same as ExplicitUpgrade.
         /// </summary>
         [Benchmark]
         public int DictionaryAccess_AutoUpgrade()
@@ -92,7 +89,7 @@ namespace vanillapdf.net.benchmark
             int count = 0;
             for (int i = 0; i < Iterations; i++) {
                 using var obj = _trailerDictionary.Find("Size");
-                using var upgraded = PdfObject.GetAsDerivedObject(obj);
+                using var upgraded = obj.Upgrade();
                 count++;
             }
             return count;

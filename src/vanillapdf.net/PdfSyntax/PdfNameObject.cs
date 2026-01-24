@@ -122,15 +122,6 @@ namespace vanillapdf.net.PdfSyntax
             return data.ToString();
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfNameObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to name object
         /// </summary>
