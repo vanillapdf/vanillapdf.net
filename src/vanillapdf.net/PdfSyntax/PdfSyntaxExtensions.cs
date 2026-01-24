@@ -1,4 +1,4 @@
-using System;
+using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax
 {
@@ -11,46 +11,43 @@ namespace vanillapdf.net.PdfSyntax
         /// Upgrades to most derived type. Resolves indirect references.
         /// For strings, returns PdfStringObject (use UpgradeString() to get Literal/Hexadecimal).
         /// </summary>
-        /// <param name="obj">The PDF object to upgrade.</param>
-        /// <returns>The upgraded PDF object.</returns>
+        /// <remarks>
+        /// Always creates a new wrapper object. Callers should check if upgrade is needed
+        /// before calling (e.g., use Is* methods or check the object type directly).
+        /// </remarks>
+        /// <exception cref="PdfManagedException">Thrown if the object type is unknown.</exception>
         public static PdfObject Upgrade(this PdfObject obj)
         {
-            // Loop instead of recursion to resolve indirection
-            while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
-                using (var reference = PdfIndirectReferenceObject.FromObject(obj)) {
-                    obj = reference.ReferencedObject;
-                }
-            }
+            var resolved = obj.ResolveIndirection();
+            var objectType = resolved.GetObjectType();
 
-            switch (obj.GetObjectType()) {
+            switch (objectType) {
                 case PdfObjectType.Array:
-                    return PdfArrayObject.FromObject(obj);
+                    return PdfArrayObject.FromObject(resolved);
                 case PdfObjectType.Boolean:
-                    return PdfBooleanObject.FromObject(obj);
+                    return PdfBooleanObject.FromObject(resolved);
                 case PdfObjectType.Dictionary:
-                    return PdfDictionaryObject.FromObject(obj);
+                    return PdfDictionaryObject.FromObject(resolved);
                 case PdfObjectType.Integer:
-                    return PdfIntegerObject.FromObject(obj);
+                    return PdfIntegerObject.FromObject(resolved);
                 case PdfObjectType.Name:
-                    return PdfNameObject.FromObject(obj);
+                    return PdfNameObject.FromObject(resolved);
                 case PdfObjectType.Null:
-                    return PdfNullObject.FromObject(obj);
+                    return PdfNullObject.FromObject(resolved);
                 case PdfObjectType.Real:
-                    return PdfRealObject.FromObject(obj);
+                    return PdfRealObject.FromObject(resolved);
                 case PdfObjectType.Stream:
-                    return PdfStreamObject.FromObject(obj);
+                    return PdfStreamObject.FromObject(resolved);
                 case PdfObjectType.String:
-                    return PdfStringObject.FromObject(obj);
+                    return PdfStringObject.FromObject(resolved);
                 default:
-                    return obj;
+                    throw new PdfManagedException($"Cannot upgrade object with unknown type: {objectType}");
             }
         }
 
         /// <summary>
         /// Resolves indirect references without upgrading to derived type.
         /// </summary>
-        /// <param name="obj">The PDF object to resolve.</param>
-        /// <returns>The resolved PDF object (may be the same object if not an indirect reference).</returns>
         public static PdfObject ResolveIndirection(this PdfObject obj)
         {
             while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
@@ -61,30 +58,81 @@ namespace vanillapdf.net.PdfSyntax
             return obj;
         }
 
-        // Type-specific Is/As methods (no generics, no reflection)
+        #region Type checking (Is*)
 
         /// <summary>
         /// Checks if the object is a dictionary (resolves indirect references).
         /// </summary>
-        public static bool IsDictionary(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Dictionary;
-        }
+        public static bool IsDictionary(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Dictionary;
+
+        /// <summary>
+        /// Checks if the object is an array (resolves indirect references).
+        /// </summary>
+        public static bool IsArray(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Array;
+
+        /// <summary>
+        /// Checks if the object is an integer (resolves indirect references).
+        /// </summary>
+        public static bool IsInteger(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Integer;
+
+        /// <summary>
+        /// Checks if the object is a string (resolves indirect references).
+        /// </summary>
+        public static bool IsString(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.String;
+
+        /// <summary>
+        /// Checks if the object is a boolean (resolves indirect references).
+        /// </summary>
+        public static bool IsBoolean(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Boolean;
+
+        /// <summary>
+        /// Checks if the object is a name (resolves indirect references).
+        /// </summary>
+        public static bool IsName(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Name;
+
+        /// <summary>
+        /// Checks if the object is null (resolves indirect references).
+        /// </summary>
+        public static bool IsNull(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Null;
+
+        /// <summary>
+        /// Checks if the object is a real number (resolves indirect references).
+        /// </summary>
+        public static bool IsReal(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Real;
+
+        /// <summary>
+        /// Checks if the object is a stream (resolves indirect references).
+        /// </summary>
+        public static bool IsStream(this PdfObject obj) =>
+            obj.GetResolvedType() == PdfObjectType.Stream;
+
+        /// <summary>
+        /// Checks if the object is an indirect reference.
+        /// </summary>
+        public static bool IsIndirectReference(this PdfObject obj) =>
+            obj.GetObjectType() == PdfObjectType.IndirectReference;
+
+        #endregion
+
+        #region Type conversion (As*)
 
         /// <summary>
         /// Returns the object as a dictionary, or null if not a dictionary.
         /// </summary>
         public static PdfDictionaryObject AsDictionary(this PdfObject obj)
         {
-            return obj.IsDictionary() ? PdfDictionaryObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is an array (resolves indirect references).
-        /// </summary>
-        public static bool IsArray(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Array;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Dictionary)
+                return null;
+            return PdfDictionaryObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -92,15 +140,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfArrayObject AsArray(this PdfObject obj)
         {
-            return obj.IsArray() ? PdfArrayObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is an integer (resolves indirect references).
-        /// </summary>
-        public static bool IsInteger(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Integer;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Array)
+                return null;
+            return PdfArrayObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -108,15 +151,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfIntegerObject AsInteger(this PdfObject obj)
         {
-            return obj.IsInteger() ? PdfIntegerObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is a string (resolves indirect references).
-        /// </summary>
-        public static bool IsString(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.String;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Integer)
+                return null;
+            return PdfIntegerObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -124,15 +162,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfStringObject AsString(this PdfObject obj)
         {
-            return obj.IsString() ? PdfStringObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is a boolean (resolves indirect references).
-        /// </summary>
-        public static bool IsBoolean(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Boolean;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.String)
+                return null;
+            return PdfStringObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -140,15 +173,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfBooleanObject AsBoolean(this PdfObject obj)
         {
-            return obj.IsBoolean() ? PdfBooleanObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is a name (resolves indirect references).
-        /// </summary>
-        public static bool IsName(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Name;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Boolean)
+                return null;
+            return PdfBooleanObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -156,15 +184,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfNameObject AsName(this PdfObject obj)
         {
-            return obj.IsName() ? PdfNameObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is null (resolves indirect references).
-        /// </summary>
-        public static bool IsNull(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Null;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Name)
+                return null;
+            return PdfNameObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -172,15 +195,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfNullObject AsNull(this PdfObject obj)
         {
-            return obj.IsNull() ? PdfNullObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is a real number (resolves indirect references).
-        /// </summary>
-        public static bool IsReal(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Real;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Null)
+                return null;
+            return PdfNullObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -188,15 +206,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfRealObject AsReal(this PdfObject obj)
         {
-            return obj.IsReal() ? PdfRealObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is a stream (resolves indirect references).
-        /// </summary>
-        public static bool IsStream(this PdfObject obj)
-        {
-            return obj.ResolveIndirection().GetObjectType() == PdfObjectType.Stream;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Real)
+                return null;
+            return PdfRealObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -204,15 +217,10 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfStreamObject AsStream(this PdfObject obj)
         {
-            return obj.IsStream() ? PdfStreamObject.FromObject(obj.ResolveIndirection()) : null;
-        }
-
-        /// <summary>
-        /// Checks if the object is an indirect reference.
-        /// </summary>
-        public static bool IsIndirectReference(this PdfObject obj)
-        {
-            return obj.GetObjectType() == PdfObjectType.IndirectReference;
+            var resolved = obj.ResolveIndirection();
+            if (resolved.GetObjectType() != PdfObjectType.Stream)
+                return null;
+            return PdfStreamObject.FromObject(resolved);
         }
 
         /// <summary>
@@ -220,8 +228,22 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         public static PdfIndirectReferenceObject AsIndirectReference(this PdfObject obj)
         {
-            return obj.IsIndirectReference() ? PdfIndirectReferenceObject.FromObject(obj) : null;
+            if (obj.GetObjectType() != PdfObjectType.IndirectReference)
+                return null;
+            return PdfIndirectReferenceObject.FromObject(obj);
         }
+
+        #endregion
+
+        #region Private helpers
+
+        /// <summary>
+        /// Gets the object type after resolving any indirect references.
+        /// </summary>
+        private static PdfObjectType GetResolvedType(this PdfObject obj) =>
+            obj.ResolveIndirection().GetObjectType();
+
+        #endregion
     }
 
     /// <summary>
@@ -232,17 +254,22 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Upgrades to PdfLiteralStringObject or PdfHexadecimalStringObject.
         /// </summary>
-        /// <param name="obj">The string object to upgrade.</param>
-        /// <returns>The upgraded string object.</returns>
+        /// <remarks>
+        /// Always creates a new wrapper object. Callers should check if upgrade is needed
+        /// before calling (e.g., use Is* methods or check the string type directly).
+        /// </remarks>
+        /// <exception cref="PdfManagedException">Thrown if the string type is unknown.</exception>
         public static PdfStringObject UpgradeString(this PdfStringObject obj)
         {
-            switch (obj.GetStringType()) {
+            var stringType = obj.GetStringType();
+
+            switch (stringType) {
                 case PdfStringType.Literal:
                     return PdfLiteralStringObject.FromString(obj);
                 case PdfStringType.Hexadecimal:
                     return PdfHexadecimalStringObject.FromString(obj);
                 default:
-                    return obj;
+                    throw new PdfManagedException($"Cannot upgrade string with unknown type: {stringType}");
             }
         }
 
@@ -287,11 +314,16 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Upgrades to the most derived entry type.
         /// </summary>
-        /// <param name="entry">The entry to upgrade.</param>
-        /// <returns>The upgraded entry.</returns>
+        /// <remarks>
+        /// Always creates a new wrapper object. Callers should check if upgrade is needed
+        /// before calling (e.g., use Is* methods or check the entry type directly).
+        /// </remarks>
+        /// <exception cref="PdfManagedException">Thrown if the entry type is unknown.</exception>
         public static PdfXrefEntry Upgrade(this PdfXrefEntry entry)
         {
-            switch (entry.GetEntryType()) {
+            var entryType = entry.GetEntryType();
+
+            switch (entryType) {
                 case PdfXrefEntryType.Free:
                     return PdfXrefFreeEntry.FromEntry(entry);
                 case PdfXrefEntryType.Used:
@@ -299,7 +331,7 @@ namespace vanillapdf.net.PdfSyntax
                 case PdfXrefEntryType.Compressed:
                     return PdfXrefCompressedEntry.FromEntry(entry);
                 default:
-                    return entry;
+                    throw new PdfManagedException($"Cannot upgrade entry with unknown type: {entryType}");
             }
         }
 
