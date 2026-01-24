@@ -120,7 +120,8 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIntegerObject if the object is an integer, null otherwise</returns>
         public static PdfIntegerObject TryFromObject(PdfObject data)
         {
-            if (data.GetObjectType() != PdfObjectType.Integer) {
+            var objectType = data.GetObjectType();
+            if (objectType != PdfObjectType.Integer && objectType != PdfObjectType.Real) {
                 return null;
             }
 

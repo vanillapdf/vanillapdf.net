@@ -32,5 +32,19 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             GC.Collect();
         }
+
+        [Test]
+        public void TryFromObject_WithIntegerObject_ReturnsReal()
+        {
+            // PDF spec allows integers and reals to be used interchangeably
+            // e.g., MediaBox can contain [0 0 612 792] where 612 is an Integer
+            using var integerObject = PdfIntegerObject.Create();
+            integerObject.IntegerValue = 612;
+
+            using var realFromInteger = PdfRealObject.TryFromObject(integerObject);
+
+            ClassicAssert.IsNotNull(realFromInteger, "TryFromObject should accept Integer objects");
+            ClassicAssert.AreEqual(612.0, realFromInteger.Value);
+        }
     }
 }

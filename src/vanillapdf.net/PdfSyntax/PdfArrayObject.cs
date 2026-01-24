@@ -76,10 +76,20 @@ namespace vanillapdf.net.PdfSyntax
         public T GetValueAs<T>(UInt64 index) where T : PdfObject
         {
             var pdfObject = GetValue(index);
+
+            // Fast path: exact type match - transfer ownership to caller
             if (pdfObject is T result) {
                 return result;
             }
-            pdfObject.Dispose();
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                var converted = PdfObjectConverter<T>.TryConvert(pdfObject);
+                if (converted != null) {
+                    return converted;
+                }
+            }
+
             throw new InvalidCastException($"Element at index {index} is not of type {typeof(T).Name}.");
         }
 
@@ -93,13 +103,18 @@ namespace vanillapdf.net.PdfSyntax
         public bool TryGetValueAs<T>(UInt64 index, out T value) where T : PdfObject
         {
             var pdfObject = GetValue(index);
+
+            // Fast path: exact type match - transfer ownership to caller
             if (pdfObject is T result) {
                 value = result;
                 return true;
             }
-            pdfObject.Dispose();
-            value = null;
-            return false;
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                value = PdfObjectConverter<T>.TryConvert(pdfObject);
+                return value != null;
+            }
         }
 
         /// <summary>

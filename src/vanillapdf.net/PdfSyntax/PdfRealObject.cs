@@ -84,7 +84,8 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfRealObject if the object is a real, null otherwise</returns>
         public static PdfRealObject TryFromObject(PdfObject data)
         {
-            if (data.GetObjectType() != PdfObjectType.Real) {
+            var objectType = data.GetObjectType();
+            if (objectType != PdfObjectType.Real && objectType != PdfObjectType.Integer) {
                 return null;
             }
             return new PdfRealObject(data.ObjectHandle);

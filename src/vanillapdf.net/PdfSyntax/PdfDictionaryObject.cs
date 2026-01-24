@@ -101,10 +101,20 @@ namespace vanillapdf.net.PdfSyntax
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
             var pdfObject = Find(key);
+
+            // Fast path: exact type match - transfer ownership to caller
             if (pdfObject is T result) {
                 return result;
             }
-            pdfObject.Dispose();
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                var converted = PdfObjectConverter<T>.TryConvert(pdfObject);
+                if (converted != null) {
+                    return converted;
+                }
+            }
+
             throw new InvalidCastException($"Value for key is not of type {typeof(T).Name}.");
         }
 
@@ -122,13 +132,17 @@ namespace vanillapdf.net.PdfSyntax
                 return false;
             }
 
+            // Fast path: exact type match - transfer ownership to caller
             if (pdfObject is T result) {
                 value = result;
                 return true;
             }
-            pdfObject.Dispose();
-            value = null;
-            return false;
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                value = PdfObjectConverter<T>.TryConvert(pdfObject);
+                return value != null;
+            }
         }
 
         /// <summary>
