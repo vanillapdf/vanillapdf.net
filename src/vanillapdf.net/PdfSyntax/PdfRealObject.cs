@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfRealObject(PdfRealObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfRealObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfRealObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -106,22 +99,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate RealObject_Create = LibraryInstance.GetFunction<CreateDelgate>("RealObject_Create");
-            public static GetValueDelgate RealObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("RealObject_GetValue");
-            public static SetValueDelgate RealObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("RealObject_SetValue");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfRealObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfRealObjectSafeHandle handle, out double value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfRealObjectSafeHandle handle, double value);
         }
     }
 }

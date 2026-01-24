@@ -1,426 +1,281 @@
-﻿using System;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
-using static vanillapdf.net.Utils.MiscUtils;
 
 namespace vanillapdf.net.Utils
 {
     internal sealed class PdfAnnotationSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Annotation_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Annotation_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Annotation_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfAnnotationSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfAnnotationSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Annotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfAnnotationSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.Annotation_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfAnnotationSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfAnnotationSafeHandle data);
+            UInt32 result = NativeMethods.Annotation_FromUnknown(handle, out PdfAnnotationSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfCatalogSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Catalog_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Catalog_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Catalog_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfCatalogSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfCatalogSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Catalog_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfCatalogSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.Catalog_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfCatalogSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfCatalogSafeHandle data);
+            UInt32 result = NativeMethods.Catalog_FromUnknown(handle, out PdfCatalogSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfPageContentsSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageContents_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("PageContents_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("PageContents_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfPageContentsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfPageContentsSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.PageContents_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfPageContentsSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.PageContents_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfPageContentsSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfPageContentsSafeHandle data);
+            UInt32 result = NativeMethods.PageContents_FromUnknown(handle, out PdfPageContentsSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfDocumentSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Document_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Document_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Document_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfDocumentSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDocumentSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Document_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfDocumentSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.Document_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfDocumentSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfDocumentSafeHandle data);
+            UInt32 result = NativeMethods.Document_FromUnknown(handle, out PdfDocumentSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfDocumentSignatureSettingsSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("DocumentSignatureSettings_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("DocumentSignatureSettings_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("DocumentSignatureSettings_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfDocumentSignatureSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDocumentSignatureSettingsSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.DocumentSignatureSettings_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfDocumentSignatureSettingsSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.DocumentSignatureSettings_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfDocumentSignatureSettingsSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfDocumentSignatureSettingsSafeHandle data);
+            UInt32 result = NativeMethods.DocumentSignatureSettings_FromUnknown(handle, out PdfDocumentSignatureSettingsSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfDocumentInfoSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("DocumentInfo_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("DocumentInfo_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("DocumentInfo_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfDocumentInfoSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDocumentInfoSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.DocumentInfo_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfDocumentInfoSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.DocumentInfo_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfDocumentInfoSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfDocumentInfoSafeHandle data);
+            UInt32 result = NativeMethods.DocumentInfo_FromUnknown(handle, out PdfDocumentInfoSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfDocumentEncryptionSettingsSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("DocumentEncryptionSettings_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("DocumentEncryptionSettings_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("DocumentEncryptionSettings_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDocumentEncryptionSettingsSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.DocumentEncryptionSettings_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfDocumentEncryptionSettingsSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.DocumentEncryptionSettings_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfDocumentEncryptionSettingsSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfDocumentEncryptionSettingsSafeHandle data);
+            UInt32 result = NativeMethods.DocumentEncryptionSettings_FromUnknown(handle, out PdfDocumentEncryptionSettingsSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfPageAnnotationsSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageAnnotations_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("PageAnnotations_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("PageAnnotations_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfPageAnnotationsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfPageAnnotationsSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.PageAnnotations_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfPageAnnotationsSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.PageAnnotations_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfPageAnnotationsSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfPageAnnotationsSafeHandle data);
+            UInt32 result = NativeMethods.PageAnnotations_FromUnknown(handle, out PdfPageAnnotationsSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfResourceDictionarySafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("ResourceDictionary_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("ResourceDictionary_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("ResourceDictionary_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfResourceDictionarySafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfResourceDictionarySafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.ResourceDictionary_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfResourceDictionarySafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.ResourceDictionary_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfResourceDictionarySafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfResourceDictionarySafeHandle data);
+            UInt32 result = NativeMethods.ResourceDictionary_FromUnknown(handle, out PdfResourceDictionarySafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfFontMapSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("FontMap_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("FontMap_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("FontMap_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfFontMapSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfFontMapSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.FontMap_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfFontMapSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.FontMap_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfFontMapSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfFontMapSafeHandle data);
+            UInt32 result = NativeMethods.FontMap_FromUnknown(handle, out PdfFontMapSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfFontSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Font_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Font_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Font_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfFontSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfFontSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Font_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfFontSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.Font_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfFontSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfFontSafeHandle data);
+            UInt32 result = NativeMethods.Font_FromUnknown(handle, out PdfFontSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfType0FontSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Type0Font_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToFontDelegate Convert_ToFont = LibraryInstance.GetFunction<ConvertToFontDelegate>("Type0Font_ToFont");
-        private static readonly ConvertFromFontDelegate Convert_FromFont = LibraryInstance.GetFunction<ConvertFromFontDelegate>("Type0Font_FromFont");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToFontDelegate(PdfType0FontSafeHandle handle, out PdfFontSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromFontDelegate(PdfFontSafeHandle handle, out PdfType0FontSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Type0Font_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfFontSafeHandle(PdfType0FontSafeHandle handle)
         {
-            UInt32 result = Convert_ToFont(handle, out PdfFontSafeHandle data);
+            UInt32 result = NativeMethods.Type0Font_ToFont(handle, out PdfFontSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfType0FontSafeHandle(PdfFontSafeHandle handle)
         {
-            UInt32 result = Convert_FromFont(handle, out PdfType0FontSafeHandle data);
+            UInt32 result = NativeMethods.Type0Font_FromFont(handle, out PdfType0FontSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
@@ -437,70 +292,46 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfCharacterMapSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("CharacterMap_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("CharacterMap_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("CharacterMap_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfCharacterMapSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfCharacterMapSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.CharacterMap_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfCharacterMapSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.CharacterMap_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfCharacterMapSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfCharacterMapSafeHandle data);
+            UInt32 result = NativeMethods.CharacterMap_FromUnknown(handle, out PdfCharacterMapSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfUnicodeCharacterMapSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("UnicodeCharacterMap_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToCharacterMapDelegate Convert_ToCharacterMap = LibraryInstance.GetFunction<ConvertToCharacterMapDelegate>("UnicodeCharacterMap_ToCharacterMap");
-        private static readonly ConvertFromCharacterMapDelegate Convert_FromCharacterMap = LibraryInstance.GetFunction<ConvertFromCharacterMapDelegate>("UnicodeCharacterMap_FromCharacterMap");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToCharacterMapDelegate(PdfUnicodeCharacterMapSafeHandle handle, out PdfCharacterMapSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromCharacterMapDelegate(PdfCharacterMapSafeHandle handle, out PdfUnicodeCharacterMapSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.UnicodeCharacterMap_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfCharacterMapSafeHandle(PdfUnicodeCharacterMapSafeHandle handle)
         {
-            UInt32 result = Convert_ToCharacterMap(handle, out PdfCharacterMapSafeHandle data);
+            UInt32 result = NativeMethods.UnicodeCharacterMap_ToCharacterMap(handle, out PdfCharacterMapSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfUnicodeCharacterMapSafeHandle(PdfCharacterMapSafeHandle handle)
         {
-            UInt32 result = Convert_FromCharacterMap(handle, out PdfUnicodeCharacterMapSafeHandle data);
+            UInt32 result = NativeMethods.UnicodeCharacterMap_FromCharacterMap(handle, out PdfUnicodeCharacterMapSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
@@ -517,210 +348,138 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfPageObjectSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageObject_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("PageObject_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("PageObject_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfPageObjectSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfPageObjectSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.PageObject_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfPageObjectSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.PageObject_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfPageObjectSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfPageObjectSafeHandle data);
+            UInt32 result = NativeMethods.PageObject_FromUnknown(handle, out PdfPageObjectSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfPageTreeSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("PageTree_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("PageTree_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("PageTree_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfPageTreeSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfPageTreeSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.PageTree_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfPageTreeSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.PageTree_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfPageTreeSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfPageTreeSafeHandle data);
+            UInt32 result = NativeMethods.PageTree_FromUnknown(handle, out PdfPageTreeSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfDateSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Date_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Date_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Date_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfDateSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfDateSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Date_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfDateSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.Date_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfDateSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfDateSafeHandle data);
+            UInt32 result = NativeMethods.Date_FromUnknown(handle, out PdfDateSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfRectangleSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Rectangle_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("Rectangle_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("Rectangle_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfRectangleSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfRectangleSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Rectangle_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfRectangleSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.Rectangle_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfRectangleSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfRectangleSafeHandle data);
+            UInt32 result = NativeMethods.Rectangle_FromUnknown(handle, out PdfRectangleSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfOutlineBaseSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("OutlineBase_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToUnknownDelegate Convert_ToUnknown = LibraryInstance.GetFunction<ConvertToUnknownDelegate>("OutlineBase_ToUnknown");
-        private static readonly ConvertFromUnknownDelegate Convert_FromUnknown = LibraryInstance.GetFunction<ConvertFromUnknownDelegate>("OutlineBase_FromUnknown");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToUnknownDelegate(PdfOutlineBaseSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromUnknownDelegate(PdfUnknownSafeHandle handle, out PdfOutlineBaseSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.OutlineBase_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfUnknownSafeHandle(PdfOutlineBaseSafeHandle handle)
         {
-            UInt32 result = Convert_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            UInt32 result = NativeMethods.OutlineBase_ToUnknown(handle, out PdfUnknownSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfOutlineBaseSafeHandle(PdfUnknownSafeHandle handle)
         {
-            UInt32 result = Convert_FromUnknown(handle, out PdfOutlineBaseSafeHandle data);
+            UInt32 result = NativeMethods.OutlineBase_FromUnknown(handle, out PdfOutlineBaseSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
     }
 
     internal sealed class PdfOutlineSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("Outline_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToOutlineBaseDelegate Convert_ToOutlineBase = LibraryInstance.GetFunction<ConvertToOutlineBaseDelegate>("Outline_ToOutlineBase");
-        private static readonly ConvertFromOutlineBaseDelegate Convert_FromOutlineBase = LibraryInstance.GetFunction<ConvertFromOutlineBaseDelegate>("Outline_FromOutlineBase");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToOutlineBaseDelegate(PdfOutlineSafeHandle handle, out PdfOutlineBaseSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromOutlineBaseDelegate(PdfOutlineBaseSafeHandle handle, out PdfOutlineSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.Outline_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfOutlineBaseSafeHandle(PdfOutlineSafeHandle handle)
         {
-            UInt32 result = Convert_ToOutlineBase(handle, out PdfOutlineBaseSafeHandle data);
+            UInt32 result = NativeMethods.Outline_ToOutlineBase(handle, out PdfOutlineBaseSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfOutlineSafeHandle(PdfOutlineBaseSafeHandle handle)
         {
-            UInt32 result = Convert_FromOutlineBase(handle, out PdfOutlineSafeHandle data);
+            UInt32 result = NativeMethods.Outline_FromOutlineBase(handle, out PdfOutlineSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
@@ -737,35 +496,23 @@ namespace vanillapdf.net.Utils
 
     internal sealed class PdfOutlineItemSafeHandle : PdfSafeHandle
     {
-        private static readonly GenericReleaseDelgate StaticReleaseDelegate = LibraryInstance.GetFunction<GenericReleaseDelgate>("OutlineItem_Release");
-        protected override GenericReleaseDelgate ReleaseDelegate => StaticReleaseDelegate;
-
-        private static readonly ConvertToOutlineBaseDelegate Convert_ToOutlineBase = LibraryInstance.GetFunction<ConvertToOutlineBaseDelegate>("OutlineItem_ToOutlineBase");
-        private static readonly ConvertFromOutlineBaseDelegate Convert_FromOutlineBase = LibraryInstance.GetFunction<ConvertFromOutlineBaseDelegate>("OutlineItem_FromOutlineBase");
-
-        [UnmanagedFunctionPointer(LibraryCallingConvention)]
-        private delegate UInt32 ConvertToOutlineBaseDelegate(PdfOutlineItemSafeHandle handle, out PdfOutlineBaseSafeHandle data);
-
-        [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-        private delegate UInt32 ConvertFromOutlineBaseDelegate(PdfOutlineBaseSafeHandle handle, out PdfOutlineItemSafeHandle data);
+        protected override bool ReleaseHandle() => NativeMethods.OutlineItem_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
 
         public static implicit operator PdfOutlineBaseSafeHandle(PdfOutlineItemSafeHandle handle)
         {
-            UInt32 result = Convert_ToOutlineBase(handle, out PdfOutlineBaseSafeHandle data);
+            UInt32 result = NativeMethods.OutlineItem_ToOutlineBase(handle, out PdfOutlineBaseSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 
         public static implicit operator PdfOutlineItemSafeHandle(PdfOutlineBaseSafeHandle handle)
         {
-            UInt32 result = Convert_FromOutlineBase(handle, out PdfOutlineItemSafeHandle data);
+            UInt32 result = NativeMethods.OutlineItem_FromOutlineBase(handle, out PdfOutlineItemSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return data;
         }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using vanillapdf.net.PdfUtils;
+using System;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSemantics
@@ -18,12 +15,6 @@ namespace vanillapdf.net.PdfSemantics
             Handle = handle;
         }
 
-        static PdfType0Font()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfType0FontSafeHandle).TypeHandle);
-        }
-
         /// <summary>
         /// Convert font to Type0 font object
         /// </summary>
@@ -38,11 +29,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-
         }
     }
 }

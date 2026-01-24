@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -15,12 +14,6 @@ namespace vanillapdf.net.PdfUtils
         internal PdfPKCS12Key(PdfPKCS12KeySafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfPKCS12Key()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfPKCS12KeySafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -82,17 +75,5 @@ namespace vanillapdf.net.PdfUtils
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateFromFileDelgate PKCS12Key_CreateFromFile = LibraryInstance.GetFunction<CreateFromFileDelgate>("PKCS12Key_CreateFromFile");
-            public static CreateFromBufferDelgate PKCS12Key_CreateFromBuffer = LibraryInstance.GetFunction<CreateFromBufferDelgate>("PKCS12Key_CreateFromBuffer");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromFileDelgate(string filename, string password, out PdfPKCS12KeySafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromBufferDelgate(PdfBufferSafeHandle buffer, string password, out PdfPKCS12KeySafeHandle data);
-        }
     }
 }

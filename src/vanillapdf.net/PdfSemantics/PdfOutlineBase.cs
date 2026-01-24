@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfOutlineBase(PdfOutlineBaseSafeHandle handle) : base(handle)
         {
             OutlineBaseHandle = handle;
-        }
-
-        static PdfOutlineBase()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfOutlineBaseSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -42,14 +35,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             OutlineBaseHandle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetOutlineTypeDelegate OutlineBase_GetOutlineType = LibraryInstance.GetFunction<GetOutlineTypeDelegate>("OutlineBase_GetOutlineType");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOutlineTypeDelegate(PdfOutlineBaseSafeHandle handle, out Int32 data);
         }
     }
 }

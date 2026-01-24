@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfCatalog(PdfCatalogSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfCatalog()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfCatalogSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -90,22 +83,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CatalogGetPagesDelgate Catalog_GetPages = LibraryInstance.GetFunction<CatalogGetPagesDelgate>("Catalog_GetPages");
-            public static CatalogGetVersionDelgate Catalog_GetVersion = LibraryInstance.GetFunction<CatalogGetVersionDelgate>("Catalog_GetVersion");
-            public static GetOutlinesDelgate Catalog_GetOutlines = LibraryInstance.GetFunction<GetOutlinesDelgate>("Catalog_GetOutlines");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CatalogGetPagesDelgate(PdfCatalogSafeHandle handle, out PdfPageTreeSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CatalogGetVersionDelgate(PdfCatalogSafeHandle handle, out int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOutlinesDelgate(PdfCatalogSafeHandle handle, out PdfOutlineSafeHandle data);
         }
     }
 }

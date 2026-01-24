@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXrefEntry(PdfXrefEntrySafeHandle handle) : base(handle)
         {
             BaseEntryHandle = handle;
-        }
-
-        static PdfXrefEntry()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefEntrySafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -89,25 +82,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetTypeDelgate XrefEntry_GetType = LibraryInstance.GetFunction<GetTypeDelgate>("XrefEntry_GetType");
-            public static GetObjectNumberDelgate XrefEntry_GetObjectNumber = LibraryInstance.GetFunction<GetObjectNumberDelgate>("XrefEntry_GetObjectNumber");
-            public static GetGenerationNumberDelgate XrefEntry_GetGenerationNumber = LibraryInstance.GetFunction<GetGenerationNumberDelgate>("XrefEntry_GetGenerationNumber");
-            public static InUseDelgate XrefEntry_InUse = LibraryInstance.GetFunction<InUseDelgate>("XrefEntry_InUse");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTypeDelgate(PdfXrefEntrySafeHandle handle, out PdfXrefEntryType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetObjectNumberDelgate(PdfXrefEntrySafeHandle handle, out UInt64 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetGenerationNumberDelgate(PdfXrefEntrySafeHandle handle, out UInt16 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InUseDelgate(PdfXrefEntrySafeHandle handle, out bool data);
-        }
     }
 }

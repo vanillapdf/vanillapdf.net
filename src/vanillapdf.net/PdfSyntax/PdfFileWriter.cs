@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfFileWriter(PdfFileWriterSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfFileWriter()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfFileWriterSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -92,30 +85,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate FileWriter_Create = LibraryInstance.GetFunction<CreateDelgate>("FileWriter_Create");
-            public static WriteDelgate FileWriter_Write = LibraryInstance.GetFunction<WriteDelgate>("FileWriter_Write");
-            public static WriteIncrementalDelgate FileWriter_WriteIncremental = LibraryInstance.GetFunction<WriteIncrementalDelgate>("FileWriter_WriteIncremental");
-            public static SubscribeDelgate FileWriter_Subscribe = LibraryInstance.GetFunction<SubscribeDelgate>("FileWriter_Subscribe");
-            public static UnsubscribeDelgate FileWriter_Unsubscribe = LibraryInstance.GetFunction<UnsubscribeDelgate>("FileWriter_Unsubscribe");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfFileWriterSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 WriteDelgate(PdfFileWriterSafeHandle handle, PdfFileSafeHandle source, PdfFileSafeHandle destination);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 WriteIncrementalDelgate(PdfFileWriterSafeHandle handle, PdfFileSafeHandle source, PdfFileSafeHandle destination);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SubscribeDelgate(PdfFileWriterSafeHandle handle, PdfFileWriterObserverSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 UnsubscribeDelgate(PdfFileWriterSafeHandle handle, PdfFileWriterObserverSafeHandle data);
         }
     }
 }

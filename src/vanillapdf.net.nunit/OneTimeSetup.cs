@@ -1,8 +1,7 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.nunit
 {
@@ -24,12 +23,6 @@ namespace vanillapdf.net.nunit
             } else {
                 PLATFORM_MAXIMUM_VALUE = UInt32.MaxValue;
             }
-        }
-
-        [OneTimeSetUp]
-        public static void InitializeLibrary()
-        {
-            LibraryInstance.Initialize(TestContext.CurrentContext.TestDirectory);
         }
     }
 }
