@@ -3,24 +3,22 @@ using System.IO;
 using BenchmarkDotNet.Attributes;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
-using vanillapdf.net.PdfSyntax.Extensions;
 
 namespace vanillapdf.net.benchmark
 {
     /// <summary>
-    /// Benchmarks comparing auto-upgrade vs explicit upgrade costs.
+    /// Benchmarks for PDF object access patterns: Find, TryFind, GetValue, GetValueAs.
     /// </summary>
     [MemoryDiagnoser]
     public class PdfObjectTypeBenchmarks
     {
         private const string PdfFileName = "Resources/minimalist.pdf";
-        private const int Iterations = 1000;
 
         private PdfFile _file;
         private PdfDocument _document;
-        private PdfCatalog _catalog;
-        private PdfPageTree _pageTree;
         private PdfDictionaryObject _trailerDictionary;
+        private PdfArrayObject _testArray;
+        private PdfNameObject _sizeKey;
 
         [GlobalSetup]
         public void Setup()
@@ -30,87 +28,91 @@ namespace vanillapdf.net.benchmark
             _file.Initialize();
 
             _document = PdfDocument.OpenFile(_file);
-            _catalog = _document.GetCatalog();
-            _pageTree = _catalog.GetPages();
 
-            // Get first trailer dictionary for dictionary iteration benchmark
+            // Get first trailer dictionary
             using var xrefChain = _file.XrefChain;
             foreach (var xref in xrefChain) {
                 _trailerDictionary = xref.GetTrailerDictionary();
                 xref.Dispose();
                 break;
             }
+
+            // Create key for repeated lookups
+            _sizeKey = PdfNameObject.Create();
+            _sizeKey.Value.StringData = "Size";
+
+            // Create test array with integer value
+            _testArray = PdfArrayObject.Create();
+            using (var intObj = PdfIntegerObject.Create()) {
+                intObj.IntegerValue = 100;
+                _testArray.Append(intObj);
+            }
         }
 
         [GlobalCleanup]
         public void Cleanup()
         {
+            _testArray?.Dispose();
+            _sizeKey?.Dispose();
             _trailerDictionary?.Dispose();
-            _pageTree?.Dispose();
-            _catalog?.Dispose();
             _document?.Dispose();
             _file?.Dispose();
         }
 
-        /// <summary>
-        /// Baseline: Return base PdfObject without upgrading.
-        /// </summary>
+        #region Dictionary Operations
+
         [Benchmark(Baseline = true)]
-        public int DictionaryAccess_NoUpgrade()
+        public PdfObject Dictionary_Find()
         {
-            int count = 0;
-            for (int i = 0; i < Iterations; i++) {
-                using var obj = _trailerDictionary.Find("Size");
-                count++;
-            }
-            return count;
+            var obj = _trailerDictionary.Find(_sizeKey);
+            obj.Dispose();
+            return obj;
         }
 
-        /// <summary>
-        /// Call Upgrade() explicitly after access.
-        /// </summary>
         [Benchmark]
-        public int DictionaryAccess_ExplicitUpgrade()
+        public PdfObject Dictionary_TryFind()
         {
-            int count = 0;
-            for (int i = 0; i < Iterations; i++) {
-                using var obj = _trailerDictionary.Find("Size");
-                using var upgraded = obj.Upgrade();
-                count++;
-            }
-            return count;
+            _trailerDictionary.TryFind(_sizeKey, out var obj);
+            obj?.Dispose();
+            return obj;
         }
 
-        /// <summary>
-        /// Auto-upgrade on every access (old behavior) - now same as ExplicitUpgrade.
-        /// </summary>
         [Benchmark]
-        public int DictionaryAccess_AutoUpgrade()
+        public PdfIntegerObject Dictionary_FindAs()
         {
-            int count = 0;
-            for (int i = 0; i < Iterations; i++) {
-                using var obj = _trailerDictionary.Find("Size");
-                using var upgraded = obj.Upgrade();
-                count++;
-            }
-            return count;
+            var obj = _trailerDictionary.FindAs<PdfIntegerObject>(_sizeKey);
+            obj.Dispose();
+            return obj;
         }
 
-        /// <summary>
-        /// GetObjectType + FromObject pattern: check type, then convert if match.
-        /// </summary>
         [Benchmark]
-        public int TypeCheckPattern()
+        public PdfIntegerObject Dictionary_TryFindAs()
         {
-            int count = 0;
-            for (int i = 0; i < Iterations; i++) {
-                using var obj = _trailerDictionary.Find("Size");
-                if (obj.GetObjectType() == PdfObjectType.Integer) {
-                    using var intObj = PdfIntegerObject.FromObject(obj);
-                    count++;
-                }
-            }
-            return count;
+            _trailerDictionary.TryFindAs<PdfIntegerObject>(_sizeKey, out var obj);
+            obj?.Dispose();
+            return obj;
         }
+
+        #endregion
+
+        #region Array Operations
+
+        [Benchmark]
+        public PdfObject Array_GetValue()
+        {
+            var obj = _testArray.GetValue(0);
+            obj.Dispose();
+            return obj;
+        }
+
+        [Benchmark]
+        public PdfIntegerObject Array_GetValueAs()
+        {
+            var obj = _testArray.GetValueAs<PdfIntegerObject>(0);
+            obj.Dispose();
+            return obj;
+        }
+
+        #endregion
     }
 }
