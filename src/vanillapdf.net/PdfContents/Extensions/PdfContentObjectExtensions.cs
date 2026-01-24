@@ -1,50 +1,46 @@
-using vanillapdf.net.PdfContents;
-
 namespace vanillapdf.net.PdfContents.Extensions
 {
     /// <summary>
-    /// Extension methods for PdfContentObject providing explicit type upgrading and type checking.
+    /// Extension methods for PdfContentObject type checking and conversion.
     /// </summary>
     public static class PdfContentObjectExtensions
     {
         /// <summary>
-        /// Upgrades to PdfContentObjectText or other derived types.
+        /// Checks if the content object is of the specified type.
         /// </summary>
-        /// <param name="obj">The content object to upgrade.</param>
-        /// <returns>The upgraded content object.</returns>
-        public static PdfContentObject UpgradeObject(this PdfContentObject obj)
+        public static bool Is<T>(this PdfContentObject obj) where T : PdfContentObject
         {
-            switch (obj.GetObjectType()) {
-                case PdfContentObjectType.Text:
-                    return PdfContentObjectText.FromContentObject(obj);
-                // InlineImage type exists in enum but no corresponding class found
-                default:
-                    return obj;
+            using (var upgraded = obj.Upgrade()) {
+                return upgraded is T;
             }
         }
 
         /// <summary>
-        /// Checks if the content object is a text object.
+        /// Returns the content object as the specified type, or null if type doesn't match.
+        /// Caller must dispose the returned object.
         /// </summary>
-        public static bool IsText(this PdfContentObject obj)
+        public static T As<T>(this PdfContentObject obj) where T : PdfContentObject
         {
-            return obj.GetObjectType() == PdfContentObjectType.Text;
+            var upgraded = obj.Upgrade();
+            if (upgraded is T result) {
+                return result;
+            }
+            upgraded.Dispose();
+            return null;
         }
 
         /// <summary>
-        /// Returns the content object as a text object, or null if not a text object.
+        /// Upgrades to PdfContentObjectText or other derived types.
         /// </summary>
-        public static PdfContentObjectText AsText(this PdfContentObject obj)
+        internal static PdfContentObject Upgrade(this PdfContentObject obj)
         {
-            return obj.IsText() ? PdfContentObjectText.FromContentObject(obj) : null;
-        }
-
-        /// <summary>
-        /// Checks if the content object is an inline image.
-        /// </summary>
-        public static bool IsInlineImage(this PdfContentObject obj)
-        {
-            return obj.GetObjectType() == PdfContentObjectType.InlineImage;
+            var objectType = obj.GetObjectType();
+            switch (objectType) {
+                case PdfContentObjectType.Text:
+                    return PdfContentObjectText.FromContentObject(obj);
+                default:
+                    throw new vanillapdf.net.Utils.PdfManagedException($"Cannot upgrade content object with unknown type: {objectType}");
+            }
         }
     }
 }

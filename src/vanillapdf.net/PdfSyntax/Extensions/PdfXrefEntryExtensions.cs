@@ -1,22 +1,41 @@
-using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfSyntax.Extensions
 {
     /// <summary>
-    /// Extension methods for PdfXrefEntry providing explicit type upgrading and type checking.
+    /// Extension methods for PdfXrefEntry type checking and conversion.
     /// </summary>
     public static class PdfXrefEntryExtensions
     {
         /// <summary>
+        /// Checks if the entry is of the specified type.
+        /// </summary>
+        public static bool Is<T>(this PdfXrefEntry entry) where T : PdfXrefEntry
+        {
+            using (var upgraded = entry.Upgrade()) {
+                return upgraded is T;
+            }
+        }
+
+        /// <summary>
+        /// Returns the entry as the specified type, or null if type doesn't match.
+        /// Caller must dispose the returned object.
+        /// </summary>
+        public static T As<T>(this PdfXrefEntry entry) where T : PdfXrefEntry
+        {
+            var upgraded = entry.Upgrade();
+            if (upgraded is T result) {
+                return result;
+            }
+            upgraded.Dispose();
+            return null;
+        }
+
+        /// <summary>
         /// Upgrades to the most derived entry type.
         /// </summary>
-        /// <remarks>
-        /// Always creates a new wrapper object. Callers should check if upgrade is needed
-        /// before calling (e.g., use Is* methods or check the entry type directly).
-        /// </remarks>
         /// <exception cref="PdfManagedException">Thrown if the entry type is unknown.</exception>
-        public static PdfXrefEntry Upgrade(this PdfXrefEntry entry)
+        internal static PdfXrefEntry Upgrade(this PdfXrefEntry entry)
         {
             var entryType = entry.GetEntryType();
 
@@ -30,54 +49,6 @@ namespace vanillapdf.net.PdfSyntax.Extensions
                 default:
                     throw new PdfManagedException($"Cannot upgrade entry with unknown type: {entryType}");
             }
-        }
-
-        /// <summary>
-        /// Checks if the entry is a free entry.
-        /// </summary>
-        public static bool IsFree(this PdfXrefEntry entry)
-        {
-            return entry.GetEntryType() == PdfXrefEntryType.Free;
-        }
-
-        /// <summary>
-        /// Returns the entry as a free entry, or null if not a free entry.
-        /// </summary>
-        public static PdfXrefFreeEntry AsFree(this PdfXrefEntry entry)
-        {
-            return entry.IsFree() ? PdfXrefFreeEntry.FromEntry(entry) : null;
-        }
-
-        /// <summary>
-        /// Checks if the entry is a used entry.
-        /// </summary>
-        public static bool IsUsed(this PdfXrefEntry entry)
-        {
-            return entry.GetEntryType() == PdfXrefEntryType.Used;
-        }
-
-        /// <summary>
-        /// Returns the entry as a used entry, or null if not a used entry.
-        /// </summary>
-        public static PdfXrefUsedEntry AsUsed(this PdfXrefEntry entry)
-        {
-            return entry.IsUsed() ? PdfXrefUsedEntry.FromEntry(entry) : null;
-        }
-
-        /// <summary>
-        /// Checks if the entry is a compressed entry.
-        /// </summary>
-        public static bool IsCompressed(this PdfXrefEntry entry)
-        {
-            return entry.GetEntryType() == PdfXrefEntryType.Compressed;
-        }
-
-        /// <summary>
-        /// Returns the entry as a compressed entry, or null if not a compressed entry.
-        /// </summary>
-        public static PdfXrefCompressedEntry AsCompressed(this PdfXrefEntry entry)
-        {
-            return entry.IsCompressed() ? PdfXrefCompressedEntry.FromEntry(entry) : null;
         }
     }
 }
