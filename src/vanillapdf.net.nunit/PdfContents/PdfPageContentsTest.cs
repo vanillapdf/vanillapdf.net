@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfSyntax.Extensions;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfContents

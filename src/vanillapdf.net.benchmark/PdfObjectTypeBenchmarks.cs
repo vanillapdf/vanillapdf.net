@@ -3,6 +3,7 @@ using System.IO;
 using BenchmarkDotNet.Attributes;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfSyntax.Extensions;
 
 namespace vanillapdf.net.benchmark
 {
