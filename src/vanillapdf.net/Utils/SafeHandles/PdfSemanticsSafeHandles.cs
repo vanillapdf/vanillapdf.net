@@ -526,4 +526,329 @@ namespace vanillapdf.net.Utils
             return (PdfOutlineBaseSafeHandle)handle;
         }
     }
+
+    internal sealed class PdfDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.Destination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.Destination_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.Destination_FromUnknown(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfXYZDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.XYZDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfXYZDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.XYZDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfXYZDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.XYZDestination_FromDestination(handle, out PdfXYZDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfXYZDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfXYZDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitDestination_FromDestination(handle, out PdfFitDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitHorizontalDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitHorizontalDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitHorizontalDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitHorizontalDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitHorizontalDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitHorizontalDestination_FromDestination(handle, out PdfFitHorizontalDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitHorizontalDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitHorizontalDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitVerticalDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitVerticalDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitVerticalDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitVerticalDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitVerticalDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitVerticalDestination_FromDestination(handle, out PdfFitVerticalDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitVerticalDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitVerticalDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitRectangleDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitRectangleDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitRectangleDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitRectangleDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitRectangleDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitRectangleDestination_FromDestination(handle, out PdfFitRectangleDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitRectangleDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitRectangleDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitBoundingBoxDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitBoundingBoxDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitBoundingBoxDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitBoundingBoxDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitBoundingBoxDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitBoundingBoxDestination_FromDestination(handle, out PdfFitBoundingBoxDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitBoundingBoxDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitBoundingBoxDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitBoundingBoxHorizontalDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitBoundingBoxHorizontalDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitBoundingBoxHorizontalDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitBoundingBoxHorizontalDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitBoundingBoxHorizontalDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitBoundingBoxHorizontalDestination_FromDestination(handle, out PdfFitBoundingBoxHorizontalDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitBoundingBoxHorizontalDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitBoundingBoxHorizontalDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfFitBoundingBoxVerticalDestinationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FitBoundingBoxVerticalDestination_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfDestinationSafeHandle(PdfFitBoundingBoxVerticalDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitBoundingBoxVerticalDestination_ToDestination(handle, out PdfDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFitBoundingBoxVerticalDestinationSafeHandle(PdfDestinationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FitBoundingBoxVerticalDestination_FromDestination(handle, out PdfFitBoundingBoxVerticalDestinationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfFitBoundingBoxVerticalDestinationSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfFitBoundingBoxVerticalDestinationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfDestinationSafeHandle)handle;
+        }
+    }
+
+    internal sealed class PdfNamedDestinationsSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.NamedDestinations_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfLinkAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.LinkAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfLinkAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.LinkAnnotation_ToAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfLinkAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.LinkAnnotation_FromAnnotation(handle, out PdfLinkAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnknownSafeHandle(PdfLinkAnnotationSafeHandle handle)
+        {
+            return (PdfAnnotationSafeHandle)handle;
+        }
+
+        public static implicit operator PdfLinkAnnotationSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            return (PdfAnnotationSafeHandle)handle;
+        }
+    }
 }

@@ -79,6 +79,26 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfOutline(data);
         }
 
+        /// <summary>
+        /// Retrieve the named destinations dictionary.
+        /// Named destinations allow destinations to be referred to by name
+        /// rather than by explicit page and coordinates.
+        /// </summary>
+        /// <returns>The <see cref="PdfNamedDestinations"/> object or <c>null</c> if none exists.</returns>
+        public PdfNamedDestinations GetDestinations()
+        {
+            UInt32 result = NativeMethods.Catalog_GetDestinations(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfNamedDestinations(data);
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();

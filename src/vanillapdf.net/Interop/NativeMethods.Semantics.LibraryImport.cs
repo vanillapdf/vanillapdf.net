@@ -140,6 +140,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Catalog_GetOutlines(PdfCatalogSafeHandle handle, out PdfOutlineSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_GetDestinations(PdfCatalogSafeHandle handle, out PdfNamedDestinationsSafeHandle data);
+
         #endregion
 
         #region PageTree
@@ -625,6 +628,197 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 DocumentEncryptionSettings_SetOwnerPassword(PdfDocumentEncryptionSettingsSafeHandle handle, PdfBufferSafeHandle data);
+
+        #endregion
+
+        #region Destination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_CreateFromArray(PdfArrayObjectSafeHandle arrayHandle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_CreateFromDictionary(PdfDictionaryObjectSafeHandle dictHandle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_GetDestinationType(PdfDestinationSafeHandle handle, out Int32 result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_GetPageNumber(PdfDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_ToUnknown(PdfDestinationSafeHandle handle, out PdfUnknownSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Destination_FromUnknown(PdfUnknownSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        #endregion
+
+        #region XYZDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XYZDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XYZDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfXYZDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XYZDestination_ToDestination(PdfXYZDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XYZDestination_GetLeft(PdfXYZDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XYZDestination_GetTop(PdfXYZDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 XYZDestination_GetZoom(PdfXYZDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        #endregion
+
+        #region FitDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitDestination_ToDestination(PdfFitDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        #endregion
+
+        #region FitHorizontalDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitHorizontalDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitHorizontalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitHorizontalDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitHorizontalDestination_ToDestination(PdfFitHorizontalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitHorizontalDestination_GetTop(PdfFitHorizontalDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        #endregion
+
+        #region FitVerticalDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitVerticalDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitVerticalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitVerticalDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitVerticalDestination_ToDestination(PdfFitVerticalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitVerticalDestination_GetLeft(PdfFitVerticalDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        #endregion
+
+        #region FitRectangleDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitRectangleDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_ToDestination(PdfFitRectangleDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_GetLeft(PdfFitRectangleDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_GetBottom(PdfFitRectangleDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_GetRight(PdfFitRectangleDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitRectangleDestination_GetTop(PdfFitRectangleDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        #endregion
+
+        #region FitBoundingBoxDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitBoundingBoxDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxDestination_ToDestination(PdfFitBoundingBoxDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        #endregion
+
+        #region FitBoundingBoxHorizontalDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxHorizontalDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxHorizontalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitBoundingBoxHorizontalDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxHorizontalDestination_ToDestination(PdfFitBoundingBoxHorizontalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxHorizontalDestination_GetTop(PdfFitBoundingBoxHorizontalDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        #endregion
+
+        #region FitBoundingBoxVerticalDestination
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxVerticalDestination_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxVerticalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitBoundingBoxVerticalDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxVerticalDestination_ToDestination(PdfFitBoundingBoxVerticalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FitBoundingBoxVerticalDestination_GetLeft(PdfFitBoundingBoxVerticalDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        #endregion
+
+        #region NamedDestinations
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedDestinations_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedDestinations_Contains(PdfNamedDestinationsSafeHandle handle, PdfNameObjectSafeHandle name, [MarshalAs(UnmanagedType.I1)] out bool result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedDestinations_Find(PdfNamedDestinationsSafeHandle handle, PdfNameObjectSafeHandle name, out PdfDestinationSafeHandle result);
+
+        #endregion
+
+        #region LinkAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LinkAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LinkAnnotation_ToAnnotation(PdfLinkAnnotationSafeHandle handle, out PdfAnnotationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LinkAnnotation_FromAnnotation(PdfAnnotationSafeHandle handle, out PdfLinkAnnotationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LinkAnnotation_GetDestination(PdfLinkAnnotationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         #endregion
     }
