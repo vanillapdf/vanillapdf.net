@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfPageContents(PdfPageContentsSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfPageContents()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfPageContentsSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -60,18 +53,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetInstructionCollectionDelgate PageContents_GetInstructionCollection = LibraryInstance.GetFunction<GetInstructionCollectionDelgate>("PageContents_GetInstructionCollection");
-            public static RecalculateStreamDataDelgate PageContents_RecalculateStreamData = LibraryInstance.GetFunction<RecalculateStreamDataDelgate>("PageContents_RecalculateStreamData");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetInstructionCollectionDelgate(PdfPageContentsSafeHandle handle, out PdfContentInstructionCollectionSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 RecalculateStreamDataDelgate(PdfPageContentsSafeHandle handle, out bool data);
         }
     }
 }

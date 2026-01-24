@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfStreamObject(PdfStreamObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfStreamObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfStreamObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -143,34 +136,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate StreamObject_Create = LibraryInstance.GetFunction<CreateDelgate>("StreamObject_Create");
-            public static GetHeaderDelgate StreamObject_GetHeader = LibraryInstance.GetFunction<GetHeaderDelgate>("StreamObject_GetHeader");
-            public static SetHeaderDelgate StreamObject_SetHeader = LibraryInstance.GetFunction<SetHeaderDelgate>("StreamObject_SetHeader");
-
-            public static GetBodyRawDelgate StreamObject_GetBodyRaw = LibraryInstance.GetFunction<GetBodyRawDelgate>("StreamObject_GetBodyRaw");
-            public static GetBodyDelgate StreamObject_GetBody = LibraryInstance.GetFunction<GetBodyDelgate>("StreamObject_GetBody");
-            public static SetBodyDelgate StreamObject_SetBody = LibraryInstance.GetFunction<SetBodyDelgate>("StreamObject_SetBody");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfStreamObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetHeaderDelgate(PdfStreamObjectSafeHandle handle, out PdfDictionaryObjectSafeHandle value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetHeaderDelgate(PdfStreamObjectSafeHandle handle, PdfDictionaryObjectSafeHandle value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetBodyRawDelgate(PdfStreamObjectSafeHandle handle, out PdfBufferSafeHandle value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetBodyDelgate(PdfStreamObjectSafeHandle handle, out PdfBufferSafeHandle value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetBodyDelgate(PdfStreamObjectSafeHandle handle, PdfBufferSafeHandle value);
-        }
     }
 }

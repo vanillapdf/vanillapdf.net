@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfAnnotation(PdfAnnotationSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfAnnotation()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfAnnotationSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -44,14 +37,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static AnnotationGetTypeDelgate Annotation_GetAnnotationType = LibraryInstance.GetFunction<AnnotationGetTypeDelgate>("Annotation_GetAnnotationType");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AnnotationGetTypeDelgate(PdfAnnotationSafeHandle handle, out Int32 data);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfNullObject(PdfNullObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfNullObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfNullObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -71,13 +64,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate NullObject_Create = LibraryInstance.GetFunction<CreateDelgate>("NullObject_Create");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfNullObjectSafeHandle handle);
-        }
     }
 }

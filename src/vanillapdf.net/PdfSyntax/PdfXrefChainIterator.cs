@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXrefChainIterator(PdfXrefChainIteratorSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfXrefChainIterator()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefChainIteratorSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -108,21 +101,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetValueDelgate XrefChainIterator_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("XrefChainIterator_GetValue");
-            public static NextDelgate XrefChainIterator_Next = LibraryInstance.GetFunction<NextDelgate>("XrefChainIterator_Next");
-            public static IsValidDelgate XrefChainIterator_IsValid = LibraryInstance.GetFunction<IsValidDelgate>("XrefChainIterator_IsValid");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfXrefChainIteratorSafeHandle handle, out PdfXrefSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 NextDelgate(PdfXrefChainIteratorSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IsValidDelgate(PdfXrefChainIteratorSafeHandle handle, out bool data);
-        }
     }
 }

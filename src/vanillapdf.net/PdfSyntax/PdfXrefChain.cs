@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXrefChain(PdfXrefChainSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfXrefChain()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefChainSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -64,13 +57,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetIteratorDelgate XrefChain_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("XrefChain_GetIterator");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetIteratorDelgate(PdfXrefChainSafeHandle handle, out PdfXrefChainIteratorSafeHandle data);
-        }
     }
 }
