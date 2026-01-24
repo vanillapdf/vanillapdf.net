@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfXrefCompressedEntry(PdfXrefCompressedEntrySafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfXrefCompressedEntry()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfXrefCompressedEntrySafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -101,25 +94,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetReferenceDelgate XrefCompressedEntry_GetReference = LibraryInstance.GetFunction<GetReferenceDelgate>("XrefCompressedEntry_GetReference");
-            public static SetReferenceDelgate XrefCompressedEntry_SetReference = LibraryInstance.GetFunction<SetReferenceDelgate>("XrefCompressedEntry_SetReference");
-            public static GetIndexDelgate XrefCompressedEntry_GetIndex = LibraryInstance.GetFunction<GetIndexDelgate>("XrefCompressedEntry_GetIndex");
-            public static GetObjectStreamNumberDelgate XrefCompressedEntry_GetObjectStreamNumber = LibraryInstance.GetFunction<GetObjectStreamNumberDelgate>("XrefCompressedEntry_GetObjectStreamNumber");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetReferenceDelgate(PdfXrefEntrySafeHandle handle, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetReferenceDelgate(PdfXrefEntrySafeHandle handle, PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetIndexDelgate(PdfXrefEntrySafeHandle handle, out UIntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetObjectStreamNumberDelgate(PdfXrefEntrySafeHandle handle, out UInt64 data);
-        }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using BenchmarkDotNet.Attributes;
 using vanillapdf.net.PdfUtils;
-using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.benchmark
 {
@@ -23,8 +22,6 @@ namespace vanillapdf.net.benchmark
         [GlobalSetup]
         public void Setup()
         {
-            // Initialize the native library
-            LibraryInstance.Initialize();
 
             // Create test data of various sizes
             _smallData = new byte[100];

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -18,19 +18,19 @@ namespace vanillapdf.net.PdfUtils
             Handle = handle;
         }
 
-        static PdfSigningKey()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfSigningKeySafeHandle).TypeHandle);
-        }
-
         /// <summary>
         /// Create a new instance of \ref PdfSigningKey with associated \ref PdfSigningKeyContext callback functions
         /// </summary>
         /// <returns>New instance of \ref PdfSigningKey</returns>
         public static PdfSigningKey CreateCustom(PdfSigningKeyContext context)
         {
-            UInt32 result = NativeMethods.SigningKey_CreateCustom(initializeDelgate, updateDelgate, finalDelgate, cleanupDelgate, GCHandle.ToIntPtr(context.Handle), out var data);
+            UInt32 result = NativeMethods.SigningKey_CreateCustom(
+                Marshal.GetFunctionPointerForDelegate(initializeDelgate),
+                Marshal.GetFunctionPointerForDelegate(updateDelgate),
+                Marshal.GetFunctionPointerForDelegate(finalDelgate),
+                Marshal.GetFunctionPointerForDelegate(cleanupDelgate),
+                GCHandle.ToIntPtr(context.Handle),
+                out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -130,29 +130,9 @@ namespace vanillapdf.net.PdfUtils
         // which would be disposed during the garbage collection.
         // We prevent cleaning up the delegates by having static references.
 
-        private static NativeMethods.InitializeDelgate initializeDelgate = Initialize;
-        private static NativeMethods.UpdateDelgate updateDelgate = Update;
-        private static NativeMethods.FinalDelgate finalDelgate = Final;
-        private static NativeMethods.CleanupDelgate cleanupDelgate = Cleanup;
-
-        private static class NativeMethods
-        {
-            public static CreateCustomDelgate SigningKey_CreateCustom = LibraryInstance.GetFunction<CreateCustomDelgate>("SigningKey_CreateCustom");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateCustomDelgate(InitializeDelgate initialize, UpdateDelgate update, FinalDelgate final, CleanupDelgate cleanup, IntPtr userdata, out PdfSigningKeySafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InitializeDelgate(IntPtr userdata, PdfMessageDigestAlgorithmType digest);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 UpdateDelgate(IntPtr userdata, IntPtr buffer);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FinalDelgate(IntPtr userdata, out IntPtr buffer);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CleanupDelgate(IntPtr userdata);
-        }
+        private static NativeMethods.InitializeDelegate initializeDelgate = Initialize;
+        private static NativeMethods.UpdateDelegate updateDelgate = Update;
+        private static NativeMethods.FinalDelegate finalDelgate = Final;
+        private static NativeMethods.CleanupDelegate cleanupDelgate = Cleanup;
     }
 }

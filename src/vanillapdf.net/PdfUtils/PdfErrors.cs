@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -11,11 +10,6 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public static class PdfErrors
     {
-        static PdfErrors()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-        }
-
         /// <summary>
         /// Get last error code that occurred in the native library
         /// </summary>
@@ -43,14 +37,17 @@ namespace vanillapdf.net.PdfUtils
             }
 
             int convertedLength = Convert.ToInt32(length);
-            StringBuilder sb = new StringBuilder(convertedLength);
+            byte[] buffer = new byte[convertedLength];
 
-            UInt32 messageResult = NativeMethods.Errors_GetPrintableErrorText(error, sb, length);
+            UInt32 messageResult = NativeMethods.Errors_GetPrintableErrorText(error, buffer, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
                 throw new PdfManagedException($"Could not get last error message: {messageResult}");
             }
 
-            return sb.ToString();
+            // Find null terminator and create string
+            int actualLength = Array.IndexOf(buffer, (byte)0);
+            if (actualLength < 0) actualLength = convertedLength;
+            return Encoding.ASCII.GetString(buffer, 0, actualLength);
         }
 
         /// <summary>
@@ -65,14 +62,17 @@ namespace vanillapdf.net.PdfUtils
             }
 
             int convertedLength = Convert.ToInt32(length);
-            StringBuilder sb = new StringBuilder(convertedLength);
+            byte[] buffer = new byte[convertedLength];
 
-            UInt32 messageResult = NativeMethods.Errors_GetLastErrorMessage(sb, length);
+            UInt32 messageResult = NativeMethods.Errors_GetLastErrorMessage(buffer, length);
             if (messageResult != PdfReturnValues.ERROR_SUCCESS) {
                 throw new PdfManagedException("Could not get last error message");
             }
 
-            return sb.ToString();
+            // Find null terminator and create string
+            int actualLength = Array.IndexOf(buffer, (byte)0);
+            if (actualLength < 0) actualLength = convertedLength;
+            return Encoding.ASCII.GetString(buffer, 0, actualLength);
         }
 
         internal static PdfUnmanagedException GetLastErrorException()
@@ -89,28 +89,5 @@ namespace vanillapdf.net.PdfUtils
             return PdfUnmanagedException.GetException(value, message);
         }
 
-        private static class NativeMethods
-        {
-            public static ErrorsGetLastErrorDelgate Errors_GetLastError = LibraryInstance.GetFunction<ErrorsGetLastErrorDelgate>("Errors_GetLastError");
-            public static ErrorsGetPrintableErrorTextDelegate Errors_GetPrintableErrorText = LibraryInstance.GetFunction<ErrorsGetPrintableErrorTextDelegate>("Errors_GetPrintableErrorText");
-            public static ErrorsGetPrintableErrorTextLengthDelegate Errors_GetPrintableErrorTextLength = LibraryInstance.GetFunction<ErrorsGetPrintableErrorTextLengthDelegate>("Errors_GetPrintableErrorTextLength");
-            public static ErrorsGetLastErrorMessageDelgate Errors_GetLastErrorMessage = LibraryInstance.GetFunction<ErrorsGetLastErrorMessageDelgate>("Errors_GetLastErrorMessage");
-            public static ErrorsGetLastErrorMessageLengthDelgate Errors_GetLastErrorMessageLength = LibraryInstance.GetFunction<ErrorsGetLastErrorMessageLengthDelgate>("Errors_GetLastErrorMessageLength");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ErrorsGetLastErrorDelgate(out UInt32 result);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ErrorsGetPrintableErrorTextDelegate(UInt32 error, StringBuilder sb, UInt32 size);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ErrorsGetPrintableErrorTextLengthDelegate(UInt32 error, out UInt32 size);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ErrorsGetLastErrorMessageDelgate(StringBuilder sb, UInt32 size);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ErrorsGetLastErrorMessageLengthDelgate(out UInt32 result);
-        }
     }
 }

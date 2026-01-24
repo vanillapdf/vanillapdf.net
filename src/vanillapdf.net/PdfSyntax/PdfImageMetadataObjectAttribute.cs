@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfImageMetadataObjectAttribute(PdfImageMetadataObjectAttributeSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfImageMetadataObjectAttribute()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfImageMetadataObjectAttributeSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -165,45 +158,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelegate ImageMetadataObjectAttribute_Create = LibraryInstance.GetFunction<CreateDelegate>("ImageMetadataObjectAttribute_Create");
-            public static GetColorComponentsDelegate ImageMetadataObjectAttribute_GetColorComponents = LibraryInstance.GetFunction<GetColorComponentsDelegate>("ImageMetadataObjectAttribute_GetColorComponents");
-            public static SetColorComponentsDelegate ImageMetadataObjectAttribute_SetColorComponents = LibraryInstance.GetFunction<SetColorComponentsDelegate>("ImageMetadataObjectAttribute_SetColorComponents");
-            public static GetColorSpaceDelegate ImageMetadataObjectAttribute_GetColorSpace = LibraryInstance.GetFunction<GetColorSpaceDelegate>("ImageMetadataObjectAttribute_GetColorSpace");
-            public static SetColorSpaceDelegate ImageMetadataObjectAttribute_SetColorSpace = LibraryInstance.GetFunction<SetColorSpaceDelegate>("ImageMetadataObjectAttribute_SetColorSpace");
-            public static GetWidthDelegate ImageMetadataObjectAttribute_GetWidth = LibraryInstance.GetFunction<GetWidthDelegate>("ImageMetadataObjectAttribute_GetWidth");
-            public static SetWidthDelegate ImageMetadataObjectAttribute_SetWidth = LibraryInstance.GetFunction<SetWidthDelegate>("ImageMetadataObjectAttribute_SetWidth");
-            public static GetHeightDelegate ImageMetadataObjectAttribute_GetHeight = LibraryInstance.GetFunction<GetHeightDelegate>("ImageMetadataObjectAttribute_GetHeight");
-            public static SetHeightDelegate ImageMetadataObjectAttribute_SetHeight = LibraryInstance.GetFunction<SetHeightDelegate>("ImageMetadataObjectAttribute_SetHeight");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint CreateDelegate(out PdfImageMetadataObjectAttributeSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint GetColorComponentsDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint SetColorComponentsDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint GetColorSpaceDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint SetColorSpaceDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint GetWidthDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint SetWidthDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint GetHeightDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate uint SetHeightDelegate(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
-        }
     }
 }

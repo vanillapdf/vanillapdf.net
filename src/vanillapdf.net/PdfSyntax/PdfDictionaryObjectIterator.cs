@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfDictionaryObjectIterator(PdfDictionaryObjectIteratorSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfDictionaryObjectIterator()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectIteratorSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -123,25 +116,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetKeyDelgate DictionaryObjectIterator_GetKey = LibraryInstance.GetFunction<GetKeyDelgate>("DictionaryObjectIterator_GetKey");
-            public static GetValueDelgate DictionaryObjectIterator_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("DictionaryObjectIterator_GetValue");
-            public static NextDelgate DictionaryObjectIterator_Next = LibraryInstance.GetFunction<NextDelgate>("DictionaryObjectIterator_Next");
-            public static IsValidDelgate DictionaryObjectIterator_IsValid = LibraryInstance.GetFunction<IsValidDelgate>("DictionaryObjectIterator_IsValid");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetKeyDelgate(PdfDictionaryObjectIteratorSafeHandle handle, out PdfNameObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfDictionaryObjectIteratorSafeHandle handle, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 NextDelgate(PdfDictionaryObjectIteratorSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IsValidDelgate(PdfDictionaryObjectIteratorSafeHandle handle, out bool data);
-        }
     }
 }

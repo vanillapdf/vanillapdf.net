@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfArrayObject(PdfArrayObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfArrayObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfArrayObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -295,41 +288,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate ArrayObject_Create = LibraryInstance.GetFunction<CreateDelgate>("ArrayObject_Create");
-            public static GetSizeDelgate ArrayObject_GetSize = LibraryInstance.GetFunction<GetSizeDelgate>("ArrayObject_GetSize");
-            public static GetValueDelgate ArrayObject_GetValue = LibraryInstance.GetFunction<GetValueDelgate>("ArrayObject_GetValue");
-            public static SetValueDelgate ArrayObject_SetValue = LibraryInstance.GetFunction<SetValueDelgate>("ArrayObject_SetValue");
-            public static AppendDelgate ArrayObject_Append = LibraryInstance.GetFunction<AppendDelgate>("ArrayObject_Append");
-            public static InsertDelgate ArrayObject_Insert = LibraryInstance.GetFunction<InsertDelgate>("ArrayObject_Insert");
-            public static RemoveDelgate ArrayObject_Remove = LibraryInstance.GetFunction<RemoveDelgate>("ArrayObject_Remove");
-            public static ClearDelgate ArrayObject_Clear = LibraryInstance.GetFunction<ClearDelgate>("ArrayObject_Clear");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfArrayObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSizeDelgate(PdfArrayObjectSafeHandle handle, out UIntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetValueDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 SetValueDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index, PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AppendDelgate(PdfArrayObjectSafeHandle handle, PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InsertDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index, PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 RemoveDelgate(PdfArrayObjectSafeHandle handle, UIntPtr index);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ClearDelgate(PdfArrayObjectSafeHandle handle);
-        }
     }
 }

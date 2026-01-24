@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,12 +16,6 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfFont(PdfFontSafeHandle handle) : base(handle)
         {
             FontHandle = handle;
-        }
-
-        static PdfFont()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfFontSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -77,22 +70,6 @@ namespace vanillapdf.net.PdfSemantics
         {
             base.DisposeCustomHandle();
             FontHandle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateFromObjectDelgate Font_CreateFromObject = LibraryInstance.GetFunction<CreateFromObjectDelgate>("Font_CreateFromObject");
-            public static GetFontTypeDelgate Font_GetFontType = LibraryInstance.GetFunction<GetFontTypeDelgate>("Font_GetFontType");
-            public static GetUnicodeMapDelgate Font_GetUnicodeMap = LibraryInstance.GetFunction<GetUnicodeMapDelgate>("Font_GetUnicodeMap");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromObjectDelgate(PdfDictionaryObjectSafeHandle handle, out PdfFontSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetFontTypeDelgate(PdfFontSafeHandle handle, out Int32 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetUnicodeMapDelgate(PdfFontSafeHandle handle, out PdfUnicodeCharacterMapSafeHandle data);
         }
     }
 }

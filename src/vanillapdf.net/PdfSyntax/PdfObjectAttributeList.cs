@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfObjectAttributeList(PdfObjectAttributeListSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfObjectAttributeList()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfObjectAttributeListSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -112,33 +105,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelegate ObjectAttributeList_Create = LibraryInstance.GetFunction<CreateDelegate>("ObjectAttributeList_Create");
-            public static AddDelegate ObjectAttributeList_Add = LibraryInstance.GetFunction<AddDelegate>("ObjectAttributeList_Add");
-            public static RemoveDelegate ObjectAttributeList_Remove = LibraryInstance.GetFunction<RemoveDelegate>("ObjectAttributeList_Remove");
-            public static ContainsDelegate ObjectAttributeList_Contains = LibraryInstance.GetFunction<ContainsDelegate>("ObjectAttributeList_Contains");
-            public static GetDelegate ObjectAttributeList_Get = LibraryInstance.GetFunction<GetDelegate>("ObjectAttributeList_Get");
-            public static ClearDelegate ObjectAttributeList_Clear = LibraryInstance.GetFunction<ClearDelegate>("ObjectAttributeList_Clear");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelegate(out PdfObjectAttributeListSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AddDelegate(PdfObjectAttributeListSafeHandle handle, PdfBaseObjectAttributeSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 RemoveDelegate(PdfObjectAttributeListSafeHandle handle, PdfObjectAttributeType key);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ContainsDelegate(PdfObjectAttributeListSafeHandle handle, PdfObjectAttributeType key, out bool result);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetDelegate(PdfObjectAttributeListSafeHandle handle, PdfObjectAttributeType key, out PdfBaseObjectAttributeSafeHandle result);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ClearDelegate(PdfObjectAttributeListSafeHandle handle);
-        }
     }
 }

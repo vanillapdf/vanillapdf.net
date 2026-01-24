@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfObject(PdfObjectSafeHandle handle) : base(handle)
         {
             ObjectHandle = handle;
-        }
-
-        static PdfObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -145,30 +138,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             ObjectHandle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static GetTypeDelgate Object_GetObjectType = LibraryInstance.GetFunction<GetTypeDelgate>("Object_GetObjectType");
-            public static GetOffsetDelgate Object_GetOffset = LibraryInstance.GetFunction<GetOffsetDelgate>("Object_GetOffset");
-            public static ToStringDelgate Object_ToString = LibraryInstance.GetFunction<ToStringDelgate>("Object_ToString");
-            public static ToPdfDelgate Object_ToPdf = LibraryInstance.GetFunction<ToPdfDelgate>("Object_ToPdf");
-            public static GetAttributeListDelgate Object_GetAttributeList = LibraryInstance.GetFunction<GetAttributeListDelgate>("Object_GetAttributeList");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetTypeDelgate(PdfObjectSafeHandle handle, out PdfObjectType data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetOffsetDelgate(PdfObjectSafeHandle handle, out Int64 data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ToStringDelgate(PdfObjectSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ToPdfDelgate(PdfObjectSafeHandle handle, out PdfBufferSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetAttributeListDelgate(PdfObjectSafeHandle handle, out PdfObjectAttributeListSafeHandle data);
         }
     }
 }

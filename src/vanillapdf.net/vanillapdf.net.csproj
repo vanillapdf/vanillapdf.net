@@ -1,20 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x86;x64</Platforms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- AOT and trimming are only supported on net8.0+ -->
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+    <IsTrimmable Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsTrimmable>
+    <EnableTrimAnalyzer Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</EnableTrimAnalyzer>
+    <PublishAot Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishAot>
+    <PublishTrimmed Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishTrimmed>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <VersionPrefix>2.1.0</VersionPrefix>
-    <VersionSuffix>dev</VersionSuffix>
+    <VersionPrefix>2.2.0</VersionPrefix>
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Vanilla.PDF is a cross-platform SDK for creating and modifying PDF documents</Description>
-    <Copyright>Copyright 2018-2025 Vanilla.PDF Labs s.r.o.</Copyright>
+    <Copyright>Copyright 2018-2026 Vanilla.PDF Labs s.r.o.</Copyright>
     <PackageTags>pdf parsing sign</PackageTags>
     <PackageIcon>vanilla_logo.png</PackageIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>

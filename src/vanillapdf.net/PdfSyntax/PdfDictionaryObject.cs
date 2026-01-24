@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -18,12 +17,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfDictionaryObject(PdfDictionaryObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfDictionaryObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfDictionaryObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -311,45 +304,5 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate DictionaryObject_Create = LibraryInstance.GetFunction<CreateDelgate>("DictionaryObject_Create");
-            public static GetSizeDelgate DictionaryObject_GetSize = LibraryInstance.GetFunction<GetSizeDelgate>("DictionaryObject_GetSize");
-            public static FindDelgate DictionaryObject_Find = LibraryInstance.GetFunction<FindDelgate>("DictionaryObject_Find");
-            public static TryFindDelgate DictionaryObject_TryFind = LibraryInstance.GetFunction<TryFindDelgate>("DictionaryObject_TryFind");
-            public static ContainsDelgate DictionaryObject_Contains = LibraryInstance.GetFunction<ContainsDelgate>("DictionaryObject_Contains");
-            public static GetIteratorDelgate DictionaryObject_GetIterator = LibraryInstance.GetFunction<GetIteratorDelgate>("DictionaryObject_GetIterator");
-            public static RemoveDelgate DictionaryObject_Remove = LibraryInstance.GetFunction<RemoveDelgate>("DictionaryObject_Remove");
-            public static ClearDelgate DictionaryObject_Clear = LibraryInstance.GetFunction<ClearDelgate>("DictionaryObject_Clear");
-            public static InsertDelgate DictionaryObject_Insert = LibraryInstance.GetFunction<InsertDelgate>("DictionaryObject_Insert");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfDictionaryObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSizeDelgate(PdfDictionaryObjectSafeHandle handle, out UIntPtr data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 FindDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 TryFindDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool contains, out PdfObjectSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ContainsDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetIteratorDelgate(PdfDictionaryObjectSafeHandle handle, out PdfDictionaryObjectIteratorSafeHandle data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 RemoveDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool data);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 ClearDelgate(PdfDictionaryObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 InsertDelgate(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, PdfObjectSafeHandle data, bool overwrite);
-        }
     }
 }

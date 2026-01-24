@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -16,12 +15,6 @@ namespace vanillapdf.net.PdfSyntax
         internal PdfLiteralStringObject(PdfLiteralStringObjectSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static PdfLiteralStringObject()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(PdfLiteralStringObjectSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -134,32 +127,6 @@ namespace vanillapdf.net.PdfSyntax
         {
             base.DisposeCustomHandle();
             Handle?.Dispose();
-        }
-
-        private static class NativeMethods
-        {
-            public static CreateDelgate LiteralStringObject_Create = LibraryInstance.GetFunction<CreateDelgate>("LiteralStringObject_Create");
-
-            public static CreateFromEncodedBufferDelgate LiteralStringObject_CreateFromEncodedBuffer = LibraryInstance.GetFunction<CreateFromEncodedBufferDelgate>("LiteralStringObject_CreateFromEncodedBuffer");
-            public static CreateFromEncodedStringDelgate LiteralStringObject_CreateFromEncodedString = LibraryInstance.GetFunction<CreateFromEncodedStringDelgate>("LiteralStringObject_CreateFromEncodedString");
-
-            public static CreateFromDecodedBufferDelgate LiteralStringObject_CreateFromDecodedBuffer = LibraryInstance.GetFunction<CreateFromDecodedBufferDelgate>("LiteralStringObject_CreateFromDecodedBuffer");
-            public static CreateFromDecodedStringDelgate LiteralStringObject_CreateFromDecodedString = LibraryInstance.GetFunction<CreateFromDecodedStringDelgate>("LiteralStringObject_CreateFromDecodedString");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelgate(out PdfLiteralStringObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromEncodedBufferDelgate(PdfBufferSafeHandle data, out PdfLiteralStringObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromEncodedStringDelgate(string data, out PdfLiteralStringObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromDecodedBufferDelgate(PdfBufferSafeHandle data, out PdfLiteralStringObjectSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateFromDecodedStringDelgate(string data, out PdfLiteralStringObjectSafeHandle handle);
         }
     }
 }
