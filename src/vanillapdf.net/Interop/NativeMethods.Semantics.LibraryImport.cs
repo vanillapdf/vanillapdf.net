@@ -543,6 +543,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 OutlineItem_GetCount(PdfOutlineItemSafeHandle handle, out PdfIntegerObjectSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 OutlineItem_GetDestination(PdfOutlineItemSafeHandle handle, out PdfDestinationSafeHandle data);
+
         #endregion
 
         #region DocumentSignatureSettings
@@ -812,10 +815,10 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 LinkAnnotation_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 LinkAnnotation_ToAnnotation(PdfLinkAnnotationSafeHandle handle, out PdfAnnotationSafeHandle result);
+        public static partial UInt32 LinkAnnotation_ToBaseAnnotation(PdfLinkAnnotationSafeHandle handle, out PdfAnnotationSafeHandle result);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 LinkAnnotation_FromAnnotation(PdfAnnotationSafeHandle handle, out PdfLinkAnnotationSafeHandle result);
+        public static partial UInt32 LinkAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfLinkAnnotationSafeHandle result);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 LinkAnnotation_GetDestination(PdfLinkAnnotationSafeHandle handle, out PdfDestinationSafeHandle result);

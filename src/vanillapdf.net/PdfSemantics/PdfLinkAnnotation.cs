@@ -25,7 +25,11 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>A link annotation instance.</returns>
         public static PdfLinkAnnotation FromAnnotation(PdfAnnotation annotation)
         {
-            return new PdfLinkAnnotation((PdfLinkAnnotationSafeHandle)annotation.Handle);
+            UInt32 result = NativeMethods.LinkAnnotation_FromBaseAnnotation(annotation.Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return new PdfLinkAnnotation(data);
         }
 
         /// <summary>

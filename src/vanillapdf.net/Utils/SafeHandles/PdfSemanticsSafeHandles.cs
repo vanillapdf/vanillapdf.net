@@ -825,7 +825,7 @@ namespace vanillapdf.net.Utils
 
         public static implicit operator PdfAnnotationSafeHandle(PdfLinkAnnotationSafeHandle handle)
         {
-            UInt32 result = NativeMethods.LinkAnnotation_ToAnnotation(handle, out PdfAnnotationSafeHandle data);
+            UInt32 result = NativeMethods.LinkAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -834,7 +834,7 @@ namespace vanillapdf.net.Utils
 
         public static implicit operator PdfLinkAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
         {
-            UInt32 result = NativeMethods.LinkAnnotation_FromAnnotation(handle, out PdfLinkAnnotationSafeHandle data);
+            UInt32 result = NativeMethods.LinkAnnotation_FromBaseAnnotation(handle, out PdfLinkAnnotationSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
