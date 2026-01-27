@@ -1,5 +1,6 @@
 ﻿using System;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfContents.Extensions;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -43,7 +44,13 @@ namespace vanillapdf.net.PdfContents
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfContentOperation(data);
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                return new PdfContentOperation(data);
+            }
+
+            using (var operation = new PdfContentOperation(data)) {
+                return operation.Upgrade();
+            }
         }
 
         /// <summary>

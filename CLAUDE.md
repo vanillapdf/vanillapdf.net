@@ -69,4 +69,28 @@ Tests use NUnit (`vanillapdf.net.nunit` project). Test resources are in `src/van
 
 ## Coding Style
 
+- Opening braces `{` go on the same line for `for`, `foreach`, `if`/`else`, and `using` statements
+- Prefer `using` declarations (without braces) when possible to simplify control flow:
+  ```csharp
+  // Preferred
+  using var file = PdfFile.Open("input.pdf");
+  using var document = PdfDocument.OpenFile(file);
+
+  // Avoid when using declaration works
+  using (var file = PdfFile.Open("input.pdf")) {
+      // ...
+  }
+  ```
 - **Lambda functions**: Keep lambdas to 3 lines or fewer. Never use inline lambdas with multiple parameters - extract to a named method instead.
+- **Braces for control statements**: Always use braces for multi-line blocks. Single-line format (without braces) is only used when there are 3+ sequential conditions where extra lines would reduce readability:
+  ```csharp
+  // Standard - always use braces
+  if (condition) {
+      return null;
+  }
+
+  // Single-line only for 3+ sequential conditions
+  if (conditionA) return null;
+  if (conditionB) return null;
+  if (conditionC) return null;
+  ```

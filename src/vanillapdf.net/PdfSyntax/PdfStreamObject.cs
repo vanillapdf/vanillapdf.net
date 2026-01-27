@@ -103,15 +103,6 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfStreamObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to stream object
         /// </summary>
@@ -119,11 +110,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfStreamObject if the object can be converted, throws exception on failure</returns>
         public static PdfStreamObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfStreamObject pdfStreamObject) {
-            //    return pdfStreamObject;
-            //}
+            return new PdfStreamObject(data.ObjectHandle);
+        }
 
+        /// <summary>
+        /// Try to convert object to stream object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfStreamObject if the object is a stream, null otherwise</returns>
+        public static PdfStreamObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Stream) {
+                return null;
+            }
             return new PdfStreamObject(data.ObjectHandle);
         }
 

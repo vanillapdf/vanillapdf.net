@@ -58,15 +58,6 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfStringObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to string object
         /// </summary>
@@ -74,11 +65,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfStringObject if the object can be converted, throws exception on failure</returns>
         public static PdfStringObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfStringObject pdfStringObject) {
-            //    return pdfStringObject;
-            //}
+            return new PdfStringObject(data.ObjectHandle);
+        }
 
+        /// <summary>
+        /// Try to convert object to string object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfStringObject if the object is a string, null otherwise</returns>
+        public static PdfStringObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.String) {
+                return null;
+            }
             return new PdfStringObject(data.ObjectHandle);
         }
 

@@ -99,15 +99,6 @@ namespace vanillapdf.net.PdfSyntax
             return CreateFromDecodedString(value);
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfHexadecimalStringObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert string object to hexadecimal string object
         /// </summary>

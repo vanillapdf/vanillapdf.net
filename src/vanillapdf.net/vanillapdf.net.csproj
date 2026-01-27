@@ -30,6 +30,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="vanillapdf.net.benchmark" />
+    <InternalsVisibleTo Include="vanillapdf.net.nunit" />
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>

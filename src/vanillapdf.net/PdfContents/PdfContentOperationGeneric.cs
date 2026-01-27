@@ -58,9 +58,7 @@ namespace vanillapdf.net.PdfContents
                 throw PdfErrors.GetLastErrorException();
             }
 
-            using (var baseObject = new PdfObject(data)) {
-                return PdfObject.GetAsDerivedObject(baseObject);
-            }
+            return new PdfObject(data);
         }
 
         /// <summary>
@@ -72,7 +70,7 @@ namespace vanillapdf.net.PdfContents
         public T GetOperandAtAs<T>(UInt64 index) where T : PdfObject
         {
             var result = GetOperandAt(index);
-            return (T)result.ConvertTo<T>();
+            return PdfObjectConverter<T>.Convert(result);
         }
 
         /// <summary>
