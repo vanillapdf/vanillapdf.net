@@ -61,6 +61,10 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                return new PdfObject(data);
+            }
+
             using (var obj = new PdfObject(data)) {
                 return obj.Upgrade();
             }

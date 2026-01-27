@@ -61,6 +61,10 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                return new PdfObject(data);
+            }
+
             using (var obj = new PdfObject(data)) {
                 return obj.Upgrade();
             }
@@ -83,6 +87,11 @@ namespace vanillapdf.net.PdfSyntax
             if (!contains) {
                 value = null;
                 return false;
+            }
+
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                value = new PdfObject(data);
+                return true;
             }
 
             using (var obj = new PdfObject(data)) {

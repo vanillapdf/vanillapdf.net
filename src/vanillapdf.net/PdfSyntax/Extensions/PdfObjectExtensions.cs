@@ -70,6 +70,11 @@ namespace vanillapdf.net.PdfSyntax.Extensions
                 case PdfObjectType.Stream:
                     return PdfStreamObject.FromObject(obj);
                 case PdfObjectType.String:
+                    if (LibraryInstance.UpgradePolicy == UpgradePolicy.Full) {
+                        using (var str = PdfStringObject.FromObject(obj)) {
+                            return str.Upgrade();
+                        }
+                    }
                     return PdfStringObject.FromObject(obj);
                 default:
                     throw new PdfManagedException($"Cannot upgrade object with unknown type: {objectType}");

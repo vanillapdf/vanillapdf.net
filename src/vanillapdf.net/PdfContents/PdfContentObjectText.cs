@@ -44,6 +44,10 @@ namespace vanillapdf.net.PdfContents
                 throw PdfErrors.GetLastErrorException();
             }
 
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                return new PdfContentOperation(data);
+            }
+
             using (var operation = new PdfContentOperation(data)) {
                 return operation.Upgrade();
             }

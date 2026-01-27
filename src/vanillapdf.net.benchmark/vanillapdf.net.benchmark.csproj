@@ -20,6 +20,9 @@
     <None Include="..\vanillapdf.net.nunit\Resources\minimalist.pdf" Link="Resources\minimalist.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\vanillapdf.net.nunit\Resources\19005-1_FAQ.PDF" Link="Resources\19005-1_FAQ.PDF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
