@@ -68,6 +68,29 @@ namespace vanillapdf.net.PdfSemantics
             get { return GetCount(); }
         }
 
+        /// <summary>
+        /// A destination to be displayed when this outline item is activated.
+        /// Returns null if no destination is specified.
+        /// </summary>
+        public PdfDestination Destination
+        {
+            get { return GetDestination(); }
+        }
+
+        private PdfDestination GetDestination()
+        {
+            UInt32 result = NativeMethods.OutlineItem_GetDestination(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDestination(data);
+        }
+
         private PdfIntegerObject GetCount()
         {
             UInt32 result = NativeMethods.OutlineItem_GetCount(Handle, out var data);

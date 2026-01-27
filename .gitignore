@@ -23,3 +23,7 @@ launchSettings.json
 
 # Claude Code
 .claude/
+
+# Local packages for testing
+local-packages/
+nuget.config
