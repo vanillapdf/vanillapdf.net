@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfContents.Extensions;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -45,7 +46,9 @@ namespace vanillapdf.net.PdfContents
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfContentInstruction(data);
+            using (var instruction = new PdfContentInstruction(data)) {
+                return instruction.Upgrade();
+            }
         }
 
         /// <summary>
