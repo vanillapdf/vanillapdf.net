@@ -19,6 +19,14 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Convert from base outline type.
+        /// </summary>
+        public static PdfOutline FromOutlineBase(PdfOutlineBase data)
+        {
+            return new PdfOutline(data.OutlineBaseHandle);
+        }
+
+        /// <summary>
         /// An outline item dictionary representing the first top-level item in the outline.
         /// </summary>
         public PdfOutlineItem First
