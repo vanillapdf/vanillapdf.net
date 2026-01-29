@@ -65,6 +65,10 @@ namespace vanillapdf.net.PdfSyntax
                 return new PdfObject(data);
             }
 
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.ResolveOnly) {
+                return ResolveRaw(data);
+            }
+
             using (var obj = new PdfObject(data)) {
                 return obj.Upgrade();
             }
@@ -91,6 +95,11 @@ namespace vanillapdf.net.PdfSyntax
 
             if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
                 value = new PdfObject(data);
+                return true;
+            }
+
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.ResolveOnly) {
+                value = ResolveRaw(data);
                 return true;
             }
 

@@ -92,6 +92,37 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfObjectAttributeList(data);
         }
 
+        /// <summary>
+        /// Resolves indirect references and returns the resolved object.
+        /// The caller must dispose the returned object.
+        /// </summary>
+        public static PdfObject Resolve(PdfObject obj)
+        {
+            while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
+                using (var reference = PdfIndirectReferenceObject.FromObject(obj)) {
+                    obj = reference.ReferencedObject;
+                }
+            }
+            return obj;
+        }
+
+        /// <summary>
+        /// Creates a resolved PdfObject directly from a handle.
+        /// Takes ownership of the handle and disposes intermediates internally.
+        /// </summary>
+        private protected static PdfObject ResolveRaw(PdfObjectSafeHandle handle)
+        {
+            var obj = new PdfObject(handle);
+            while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
+                using (var reference = PdfIndirectReferenceObject.FromObject(obj)) {
+                    var resolved = reference.ReferencedObject;
+                    obj.Dispose();
+                    obj = resolved;
+                }
+            }
+            return obj;
+        }
+
         private protected override void DisposeCustomHandle()
         {
             base.DisposeCustomHandle();
