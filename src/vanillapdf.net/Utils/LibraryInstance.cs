@@ -39,11 +39,11 @@ namespace vanillapdf.net.Utils
     /// </summary>
     public static class LibraryInstance
     {
-        private static volatile UpgradePolicy _upgradePolicy = UpgradePolicy.Full;
+        private static volatile UpgradePolicy _upgradePolicy = UpgradePolicy.ResolveOnly;
 
         /// <summary>
         /// Gets or sets the upgrade policy for accessor methods.
-        /// Default is <see cref="UpgradePolicy.Full"/>.
+        /// Default is <see cref="UpgradePolicy.ResolveOnly"/>.
         /// </summary>
         public static UpgradePolicy UpgradePolicy
         {

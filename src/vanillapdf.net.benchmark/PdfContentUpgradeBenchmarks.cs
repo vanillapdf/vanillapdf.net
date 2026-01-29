@@ -25,7 +25,7 @@ namespace vanillapdf.net.benchmark
         private ulong _instructionCount;
         private ulong _operationCount;
 
-        [Params(UpgradePolicy.None, UpgradePolicy.Single, UpgradePolicy.Full)]
+        [Params(UpgradePolicy.None, UpgradePolicy.ResolveOnly, UpgradePolicy.Single, UpgradePolicy.Full)]
         public UpgradePolicy Policy { get; set; }
 
         [GlobalSetup]
