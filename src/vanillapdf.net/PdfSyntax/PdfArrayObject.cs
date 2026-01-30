@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfSyntax.Extensions;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -49,6 +50,7 @@ namespace vanillapdf.net.PdfSyntax
 
         /// <summary>
         /// Retrieve the element located at the specified index.
+        /// Returns the upgraded (typed) object with indirect references resolved.
         /// </summary>
         /// <param name="index">Zero based position of the element.</param>
         /// <returns>The element at the provided index.</returns>
@@ -59,8 +61,16 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            using (var baseObject = new PdfObject(data)) {
-                return GetAsDerivedObject(baseObject);
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                return new PdfObject(data);
+            }
+
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.ResolveOnly) {
+                return ResolveRaw(data);
+            }
+
+            using (var obj = new PdfObject(data)) {
+                return obj.Upgrade();
             }
         }
 
@@ -70,10 +80,49 @@ namespace vanillapdf.net.PdfSyntax
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="index">Zero based position of the element.</param>
         /// <returns>The element converted to <typeparamref name="T"/>.</returns>
+        /// <exception cref="InvalidCastException">Thrown if the element is not of the expected type.</exception>
         public T GetValueAs<T>(UInt64 index) where T : PdfObject
         {
-            var result = GetValue(index);
-            return (T)result.ConvertTo<T>();
+            var pdfObject = GetValue(index);
+
+            // Fast path: exact type match - transfer ownership to caller
+            if (pdfObject is T result) {
+                return result;
+            }
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                var converted = PdfObjectConverter<T>.TryConvert(pdfObject);
+                if (converted != null) {
+                    return converted;
+                }
+            }
+
+            throw new InvalidCastException($"Element at index {index} is not of type {typeof(T).Name}.");
+        }
+
+        /// <summary>
+        /// Attempt to retrieve an element as a specific derived type.
+        /// </summary>
+        /// <typeparam name="T">Expected object type.</typeparam>
+        /// <param name="index">Zero based position of the element.</param>
+        /// <param name="value">The element converted to <typeparamref name="T"/> if type matches.</param>
+        /// <returns><c>true</c> if the element is of the expected type.</returns>
+        public bool TryGetValueAs<T>(UInt64 index, out T value) where T : PdfObject
+        {
+            var pdfObject = GetValue(index);
+
+            // Fast path: exact type match - transfer ownership to caller
+            if (pdfObject is T result) {
+                value = result;
+                return true;
+            }
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                value = PdfObjectConverter<T>.TryConvert(pdfObject);
+                return value != null;
+            }
         }
 
         /// <summary>
@@ -144,15 +193,6 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfArrayObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to array object
         /// </summary>
@@ -160,10 +200,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfArrayObject if the object can be converted, throws exception on failure</returns>
         public static PdfArrayObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfArrayObject pdfArrayObject) {
-            //    return pdfArrayObject;
-            //}
+            return new PdfArrayObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to array object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfArrayObject if the object is an array, null otherwise</returns>
+        public static PdfArrayObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Array) {
+                return null;
+            }
 
             return new PdfArrayObject(data.ObjectHandle);
         }

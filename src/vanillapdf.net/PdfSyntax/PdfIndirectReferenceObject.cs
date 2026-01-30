@@ -68,15 +68,6 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfIndirectReferenceObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         private PdfObject GetReferencedObject()
         {
             UInt32 result = NativeMethods.IndirectReferenceObject_GetReferencedObject(Handle, out var data);
@@ -102,10 +93,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIndirectReferenceObject if the object can be converted, throws exception on failure</returns>
         public static PdfIndirectReferenceObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfIndirectReferenceObject pdfIndirectReferenceObject) {
-            //    return pdfIndirectReferenceObject;
-            //}
+            return new PdfIndirectReferenceObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to indirect reference object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfIndirectReferenceObject if the object is an indirect reference, null otherwise</returns>
+        public static PdfIndirectReferenceObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.IndirectReference) {
+                return null;
+            }
 
             return new PdfIndirectReferenceObject(data.ObjectHandle);
         }
