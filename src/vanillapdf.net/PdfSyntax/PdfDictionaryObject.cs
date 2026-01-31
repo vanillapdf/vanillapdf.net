@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfSyntax.Extensions;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -49,6 +50,7 @@ namespace vanillapdf.net.PdfSyntax
 
         /// <summary>
         /// Retrieve the value associated with the specified key.
+        /// Returns the upgraded (typed) object with indirect references resolved.
         /// </summary>
         /// <param name="key">Dictionary key.</param>
         /// <returns>The stored <see cref="PdfObject"/>.</returns>
@@ -59,13 +61,22 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            using (var baseObject = new PdfObject(data)) {
-                return GetAsDerivedObject(baseObject);
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                return new PdfObject(data);
+            }
+
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.ResolveOnly) {
+                return ResolveRaw(data);
+            }
+
+            using (var obj = new PdfObject(data)) {
+                return obj.Upgrade();
             }
         }
 
         /// <summary>
         /// Try to get a value for the given key.
+        /// Returns the upgraded (typed) object with indirect references resolved.
         /// </summary>
         /// <param name="key">Dictionary key.</param>
         /// <param name="value">Value if found.</param>
@@ -82,10 +93,20 @@ namespace vanillapdf.net.PdfSyntax
                 return false;
             }
 
-            using (var baseObject = new PdfObject(data)) {
-                value = GetAsDerivedObject(baseObject);
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.None) {
+                value = new PdfObject(data);
                 return true;
             }
+
+            if (LibraryInstance.UpgradePolicy == UpgradePolicy.ResolveOnly) {
+                value = ResolveRaw(data);
+                return true;
+            }
+
+            using (var obj = new PdfObject(data)) {
+                value = obj.Upgrade();
+            }
+            return true;
         }
 
         /// <summary>
@@ -94,10 +115,25 @@ namespace vanillapdf.net.PdfSyntax
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="key">Dictionary key.</param>
         /// <returns>Object converted to <typeparamref name="T"/>.</returns>
+        /// <exception cref="InvalidCastException">Thrown if the value is not of the expected type.</exception>
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
-            var result = Find(key);
-            return (T)result.ConvertTo<T>();
+            var pdfObject = Find(key);
+
+            // Fast path: exact type match - transfer ownership to caller
+            if (pdfObject is T result) {
+                return result;
+            }
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                var converted = PdfObjectConverter<T>.TryConvert(pdfObject);
+                if (converted != null) {
+                    return converted;
+                }
+            }
+
+            throw new InvalidCastException($"Value for key is not of type {typeof(T).Name}.");
         }
 
         /// <summary>
@@ -105,18 +141,26 @@ namespace vanillapdf.net.PdfSyntax
         /// </summary>
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="key">Dictionary key.</param>
-        /// <param name="value">Converted value when found.</param>
-        /// <returns><c>true</c> when the key exists and conversion succeeded.</returns>
+        /// <param name="value">Converted value when found and type matches.</param>
+        /// <returns><c>true</c> when the key exists and the value is of the expected type.</returns>
         public bool TryFindAs<T>(PdfNameObject key, out T value) where T : PdfObject
         {
-            var contains = TryFind(key, out var pdfObject);
-            if (!contains) {
+            if (!TryFind(key, out var pdfObject)) {
                 value = null;
                 return false;
             }
 
-            value = (T)pdfObject.ConvertTo<T>();
-            return true;
+            // Fast path: exact type match - transfer ownership to caller
+            if (pdfObject is T result) {
+                value = result;
+                return true;
+            }
+
+            // Slow path: try conversion, then dispose original
+            using (pdfObject) {
+                value = PdfObjectConverter<T>.TryConvert(pdfObject);
+                return value != null;
+            }
         }
 
         /// <summary>
@@ -182,15 +226,6 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfDictionaryObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to dictionary object
         /// </summary>
@@ -198,10 +233,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfDictionaryObject if the object can be converted, throws exception on failure</returns>
         public static PdfDictionaryObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfDictionaryObject pdfDictionaryObject) {
-            //    return pdfDictionaryObject;
-            //}
+            return new PdfDictionaryObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to dictionary object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfDictionaryObject if the object is a dictionary, null otherwise</returns>
+        public static PdfDictionaryObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Dictionary) {
+                return null;
+            }
 
             return new PdfDictionaryObject(data.ObjectHandle);
         }

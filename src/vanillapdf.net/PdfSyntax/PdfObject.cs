@@ -92,65 +92,35 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfObjectAttributeList(data);
         }
 
-        internal virtual PdfObject ConvertTo<T>() where T : PdfObject
+        /// <summary>
+        /// Resolves indirect references and returns the resolved object.
+        /// The caller must dispose the returned object.
+        /// </summary>
+        public static PdfObject Resolve(PdfObject obj)
         {
-            throw new PdfManagedException($"Could not convert object of type {GetType()}/{GetObjectType()} to {typeof(T)}");
-        }
-
-        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject)
-        {
-            return GetAsDerivedObject(pdfObject, true);
-        }
-
-        internal static PdfObject GetAsDerivedObject(PdfObject pdfObject, bool removeIndirection)
-        {
-            if (pdfObject.GetObjectType() == PdfObjectType.Array) {
-                return PdfArrayObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Boolean) {
-                return PdfBooleanObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Dictionary) {
-                return PdfDictionaryObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.IndirectReference) {
-                if (!removeIndirection) {
-                    return PdfIndirectReferenceObject.FromObject(pdfObject);
-                }
-
-                using (var pdfReference = PdfIndirectReferenceObject.FromObject(pdfObject)) {
-                    return GetAsDerivedObject(pdfReference.ReferencedObject);
+            while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
+                using (var reference = PdfIndirectReferenceObject.FromObject(obj)) {
+                    obj = reference.ReferencedObject;
                 }
             }
+            return obj;
+        }
 
-            if (pdfObject.GetObjectType() == PdfObjectType.Integer) {
-                return PdfIntegerObject.FromObject(pdfObject);
+        /// <summary>
+        /// Creates a resolved PdfObject directly from a handle.
+        /// Takes ownership of the handle and disposes intermediates internally.
+        /// </summary>
+        private protected static PdfObject ResolveRaw(PdfObjectSafeHandle handle)
+        {
+            var obj = new PdfObject(handle);
+            while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
+                using (var reference = PdfIndirectReferenceObject.FromObject(obj)) {
+                    var resolved = reference.ReferencedObject;
+                    obj.Dispose();
+                    obj = resolved;
+                }
             }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Name) {
-                return PdfNameObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Null) {
-                return PdfNullObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Real) {
-                return PdfRealObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.Stream) {
-                return PdfStreamObject.FromObject(pdfObject);
-            }
-
-            if (pdfObject.GetObjectType() == PdfObjectType.String) {
-                return PdfStringObject.FromObject(pdfObject);
-            }
-
-            throw new PdfManagedException($"Invalid object type: {pdfObject.GetObjectType()}");
+            return obj;
         }
 
         private protected override void DisposeCustomHandle()

@@ -40,15 +40,6 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfBooleanObject(data);
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfBooleanObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         private bool GetValue()
         {
             UInt32 result = NativeMethods.BooleanObject_GetValue(Handle, out bool data);
@@ -83,10 +74,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfBooleanObject if the object can be converted, throws exception on failure</returns>
         public static PdfBooleanObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfBooleanObject pdfBooleanObject) {
-            //    return pdfBooleanObject;
-            //}
+            return new PdfBooleanObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to boolean object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfBooleanObject if the object is a boolean, null otherwise</returns>
+        public static PdfBooleanObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Boolean) {
+                return null;
+            }
 
             return new PdfBooleanObject(data.ObjectHandle);
         }

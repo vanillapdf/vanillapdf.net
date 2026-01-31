@@ -31,15 +31,6 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNullObject(data);
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfNullObject)) {
-                return this;
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         /// <summary>
         /// Convert object to null object
         /// </summary>
@@ -47,11 +38,19 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfNullObject if the object can be converted, throws exception on failure</returns>
         public static PdfNullObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfNullObject pdfNullObject) {
-            //    return pdfNullObject;
-            //}
+            return new PdfNullObject(data.ObjectHandle);
+        }
 
+        /// <summary>
+        /// Try to convert object to null object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfNullObject if the object is null type, null otherwise</returns>
+        public static PdfNullObject TryFromObject(PdfObject data)
+        {
+            if (data.GetObjectType() != PdfObjectType.Null) {
+                return null;
+            }
             return new PdfNullObject(data.ObjectHandle);
         }
 
