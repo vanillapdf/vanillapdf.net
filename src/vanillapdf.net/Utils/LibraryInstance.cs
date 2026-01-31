@@ -39,11 +39,13 @@ namespace vanillapdf.net.Utils
     /// </summary>
     public static class LibraryInstance
     {
-        private static volatile UpgradePolicy _upgradePolicy = UpgradePolicy.ResolveOnly;
+        // TODO: Review default upgrade policy for 3.0 — consider ResolveOnly as the default
+        // to encourage explicit Is<T>/As<T> usage and reduce unnecessary allocations.
+        private static volatile UpgradePolicy _upgradePolicy = UpgradePolicy.Single;
 
         /// <summary>
         /// Gets or sets the upgrade policy for accessor methods.
-        /// Default is <see cref="UpgradePolicy.ResolveOnly"/>.
+        /// Default is <see cref="UpgradePolicy.Single"/>.
         /// </summary>
         public static UpgradePolicy UpgradePolicy
         {
