@@ -1,6 +1,3 @@
-using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -10,11 +7,6 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public static class DigitalSignatureExtensions
     {
-        static DigitalSignatureExtensions()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-        }
-
         /// <summary>
         /// Verify a digital signature from a PDF document
         /// </summary>
@@ -30,12 +22,6 @@ namespace vanillapdf.net.PdfUtils
             SignatureVerificationSettings settings = null)
         {
             return SignatureVerifier.Verify(signedData, signatureContents, trustedStore, settings);
-        }
-
-
-        private static class NativeMethods
-        {
-            // Reserved for future native methods if needed
         }
     }
 }

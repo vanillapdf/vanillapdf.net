@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -15,12 +14,6 @@ namespace vanillapdf.net.PdfUtils
         internal TrustedCertificateStore(TrustedCertificateStoreSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static TrustedCertificateStore()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(TrustedCertificateStoreSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -95,29 +88,5 @@ namespace vanillapdf.net.PdfUtils
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static CreateDelegate TrustedCertificateStore_Create = LibraryInstance.GetFunction<CreateDelegate>("TrustedCertificateStore_Create");
-            public static AddCertificateFromPEMDelegate TrustedCertificateStore_AddCertificateFromPEM = LibraryInstance.GetFunction<AddCertificateFromPEMDelegate>("TrustedCertificateStore_AddCertificateFromPEM");
-            public static AddCertificateFromDERDelegate TrustedCertificateStore_AddCertificateFromDER = LibraryInstance.GetFunction<AddCertificateFromDERDelegate>("TrustedCertificateStore_AddCertificateFromDER");
-            public static LoadFromDirectoryDelegate TrustedCertificateStore_LoadFromDirectory = LibraryInstance.GetFunction<LoadFromDirectoryDelegate>("TrustedCertificateStore_LoadFromDirectory");
-            public static LoadSystemDefaultsDelegate TrustedCertificateStore_LoadSystemDefaults = LibraryInstance.GetFunction<LoadSystemDefaultsDelegate>("TrustedCertificateStore_LoadSystemDefaults");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 CreateDelegate(out TrustedCertificateStoreSafeHandle handle);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AddCertificateFromPEMDelegate(TrustedCertificateStoreSafeHandle handle, PdfBufferSafeHandle pemData);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 AddCertificateFromDERDelegate(TrustedCertificateStoreSafeHandle handle, PdfBufferSafeHandle derData);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoadFromDirectoryDelegate(TrustedCertificateStoreSafeHandle handle, string directoryPath);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 LoadSystemDefaultsDelegate(TrustedCertificateStoreSafeHandle handle);
-        }
     }
 }

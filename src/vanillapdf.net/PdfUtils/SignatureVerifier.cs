@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -10,11 +9,6 @@ namespace vanillapdf.net.PdfUtils
     /// </summary>
     public static class SignatureVerifier
     {
-        static SignatureVerifier()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-        }
-
         /// <summary>
         /// Verify digital signature (low-level API)
         /// </summary>
@@ -51,19 +45,6 @@ namespace vanillapdf.net.PdfUtils
             }
 
             return new SignatureVerificationResult(resultHandle);
-        }
-
-        private static class NativeMethods
-        {
-            public static VerifyDelegate SignatureVerifier_Verify = LibraryInstance.GetFunction<VerifyDelegate>("SignatureVerifier_Verify");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 VerifyDelegate(
-                PdfBufferSafeHandle signedData,
-                PdfBufferSafeHandle signatureContents,
-                TrustedCertificateStoreSafeHandle trustedStore,
-                SignatureVerificationSettingsSafeHandle settings,
-                out SignatureVerificationResultSafeHandle result);
         }
     }
 }

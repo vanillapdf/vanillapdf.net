@@ -1,6 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.PdfUtils
@@ -44,12 +43,6 @@ namespace vanillapdf.net.PdfUtils
         internal SignatureVerificationResult(SignatureVerificationResultSafeHandle handle) : base(handle)
         {
             Handle = handle;
-        }
-
-        static SignatureVerificationResult()
-        {
-            RuntimeHelpers.RunClassConstructor(typeof(NativeMethods).TypeHandle);
-            RuntimeHelpers.RunClassConstructor(typeof(SignatureVerificationResultSafeHandle).TypeHandle);
         }
 
         /// <summary>
@@ -200,45 +193,5 @@ namespace vanillapdf.net.PdfUtils
         }
 
         #endregion
-
-        private static class NativeMethods
-        {
-            public static GetStatusDelegate SignatureVerificationResult_GetStatus = LibraryInstance.GetFunction<GetStatusDelegate>("SignatureVerificationResult_GetStatus");
-            public static GetMessageDelegate SignatureVerificationResult_GetMessage = LibraryInstance.GetFunction<GetMessageDelegate>("SignatureVerificationResult_GetMessage");
-            public static IsSignatureValidDelegate SignatureVerificationResult_IsSignatureValid = LibraryInstance.GetFunction<IsSignatureValidDelegate>("SignatureVerificationResult_IsSignatureValid");
-            public static IsDocumentIntactDelegate SignatureVerificationResult_IsDocumentIntact = LibraryInstance.GetFunction<IsDocumentIntactDelegate>("SignatureVerificationResult_IsDocumentIntact");
-            public static IsCertificateTrustedDelegate SignatureVerificationResult_IsCertificateTrusted = LibraryInstance.GetFunction<IsCertificateTrustedDelegate>("SignatureVerificationResult_IsCertificateTrusted");
-            public static GetSignerCertificateDelegate SignatureVerificationResult_GetSignerCertificate = LibraryInstance.GetFunction<GetSignerCertificateDelegate>("SignatureVerificationResult_GetSignerCertificate");
-            public static GetCertificateChainCountDelegate SignatureVerificationResult_GetCertificateChainCount = LibraryInstance.GetFunction<GetCertificateChainCountDelegate>("SignatureVerificationResult_GetCertificateChainCount");
-            public static GetCertificateChainAtDelegate SignatureVerificationResult_GetCertificateChainAt = LibraryInstance.GetFunction<GetCertificateChainAtDelegate>("SignatureVerificationResult_GetCertificateChainAt");
-            public static GetSignerCommonNameDelegate SignatureVerificationResult_GetSignerCommonName = LibraryInstance.GetFunction<GetSignerCommonNameDelegate>("SignatureVerificationResult_GetSignerCommonName");
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetStatusDelegate(SignatureVerificationResultSafeHandle handle, out int status);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetMessageDelegate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IsSignatureValidDelegate(SignatureVerificationResultSafeHandle handle, out int value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IsDocumentIntactDelegate(SignatureVerificationResultSafeHandle handle, out int value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 IsCertificateTrustedDelegate(SignatureVerificationResultSafeHandle handle, out int value);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSignerCertificateDelegate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCertificateChainCountDelegate(SignatureVerificationResultSafeHandle handle, out UIntPtr count);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetCertificateChainAtDelegate(SignatureVerificationResultSafeHandle handle, UIntPtr index, out PdfBufferSafeHandle buffer);
-
-            [UnmanagedFunctionPointer(MiscUtils.LibraryCallingConvention)]
-            public delegate UInt32 GetSignerCommonNameDelegate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
-        }
     }
 }

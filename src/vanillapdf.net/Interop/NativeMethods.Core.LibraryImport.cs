@@ -230,6 +230,120 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 PKCS12Key_CreateFromBuffer(PdfBufferSafeHandle buffer, string password, out PdfPKCS12KeySafeHandle data);
 
         #endregion
+
+        #region TrustedCertificateStore
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_ToUnknown(TrustedCertificateStoreSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_FromUnknown(PdfUnknownSafeHandle handle, out TrustedCertificateStoreSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_Create(out TrustedCertificateStoreSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_AddCertificateFromPEM(TrustedCertificateStoreSafeHandle handle, PdfBufferSafeHandle pemData);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_AddCertificateFromDER(TrustedCertificateStoreSafeHandle handle, PdfBufferSafeHandle derData);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 TrustedCertificateStore_LoadFromDirectory(TrustedCertificateStoreSafeHandle handle, string directoryPath);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TrustedCertificateStore_LoadSystemDefaults(TrustedCertificateStoreSafeHandle handle);
+
+        #endregion
+
+        #region SignatureVerificationSettings
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_ToUnknown(SignatureVerificationSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_FromUnknown(PdfUnknownSafeHandle handle, out SignatureVerificationSettingsSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, out int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, out int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, out int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+
+        #endregion
+
+        #region SignatureVerificationResult
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_ToUnknown(SignatureVerificationResultSafeHandle handle, out PdfUnknownSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_FromUnknown(PdfUnknownSafeHandle handle, out SignatureVerificationResultSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_GetStatus(SignatureVerificationResultSafeHandle handle, out int status);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_GetMessage(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, out int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, out int value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_GetSignerCertificate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_GetCertificateChainCount(SignatureVerificationResultSafeHandle handle, out UIntPtr count);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_GetCertificateChainAt(SignatureVerificationResultSafeHandle handle, UIntPtr index, out PdfBufferSafeHandle buffer);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerificationResult_GetSignerCommonName(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
+
+        #endregion
+
+        #region SignatureVerifier
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SignatureVerifier_Verify(
+            PdfBufferSafeHandle signedData,
+            PdfBufferSafeHandle signatureContents,
+            TrustedCertificateStoreSafeHandle trustedStore,
+            SignatureVerificationSettingsSafeHandle settings,
+            out SignatureVerificationResultSafeHandle result);
+
+        #endregion
     }
 }
 
