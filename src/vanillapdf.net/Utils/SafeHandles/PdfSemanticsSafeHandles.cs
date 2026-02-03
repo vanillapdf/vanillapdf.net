@@ -851,4 +851,73 @@ namespace vanillapdf.net.Utils
             return (PdfAnnotationSafeHandle)handle;
         }
     }
+
+    internal sealed class PdfDestinationNameTreeSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.DestinationNameTree_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDestinationNameTreeSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.DestinationNameTree_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfDestinationNameTreeSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.DestinationNameTree_FromUnknown(handle, out PdfDestinationNameTreeSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfDestinationNameTreeIteratorSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.DestinationNameTreeIterator_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfUnknownSafeHandle(PdfDestinationNameTreeIteratorSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.DestinationNameTreeIterator_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfDestinationNameTreeIteratorSafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.DestinationNameTreeIterator_FromUnknown(handle, out PdfDestinationNameTreeIteratorSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfNameDictionarySafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.NameDictionary_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfUnknownSafeHandle(PdfNameDictionarySafeHandle handle)
+        {
+            UInt32 result = NativeMethods.NameDictionary_ToUnknown(handle, out PdfUnknownSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfNameDictionarySafeHandle(PdfUnknownSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.NameDictionary_FromUnknown(handle, out PdfNameDictionarySafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
 }

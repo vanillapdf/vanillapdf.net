@@ -143,6 +143,12 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Catalog_GetDestinations(PdfCatalogSafeHandle handle, out PdfNamedDestinationsSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_GetNames(PdfCatalogSafeHandle handle, out PdfNameDictionarySafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_SetNames(PdfCatalogSafeHandle handle, PdfNameDictionarySafeHandle names);
+
         #endregion
 
         #region PageTree
@@ -822,6 +828,90 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 LinkAnnotation_GetDestination(PdfLinkAnnotationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        #endregion
+
+        #region DestinationNameTree
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_Create(out PdfDestinationNameTreeSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_Contains(PdfDestinationNameTreeSafeHandle handle, PdfStringObjectSafeHandle name, [MarshalAs(UnmanagedType.I1)] out bool result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_Find(PdfDestinationNameTreeSafeHandle handle, PdfStringObjectSafeHandle name, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_TryFind(PdfDestinationNameTreeSafeHandle handle, PdfStringObjectSafeHandle name, out PdfDestinationSafeHandle result, [MarshalAs(UnmanagedType.I1)] out bool found);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_Insert(PdfDestinationNameTreeSafeHandle handle, PdfStringObjectSafeHandle name, PdfDestinationSafeHandle destination);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_Remove(PdfDestinationNameTreeSafeHandle handle, PdfStringObjectSafeHandle name, [MarshalAs(UnmanagedType.I1)] out bool removed);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_GetIterator(PdfDestinationNameTreeSafeHandle handle, out PdfDestinationNameTreeIteratorSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_ToUnknown(PdfDestinationNameTreeSafeHandle handle, out PdfUnknownSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTree_FromUnknown(PdfUnknownSafeHandle handle, out PdfDestinationNameTreeSafeHandle result);
+
+        #endregion
+
+        #region DestinationNameTreeIterator
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_GetKey(PdfDestinationNameTreeIteratorSafeHandle handle, out PdfStringObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_GetValue(PdfDestinationNameTreeIteratorSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_IsValid(PdfDestinationNameTreeIteratorSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_Next(PdfDestinationNameTreeIteratorSafeHandle handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_ToUnknown(PdfDestinationNameTreeIteratorSafeHandle handle, out PdfUnknownSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DestinationNameTreeIterator_FromUnknown(PdfUnknownSafeHandle handle, out PdfDestinationNameTreeIteratorSafeHandle result);
+
+        #endregion
+
+        #region NameDictionary
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_Create(out PdfNameDictionarySafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_ContainsDestinations(PdfNameDictionarySafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_GetDestinations(PdfNameDictionarySafeHandle handle, out PdfDestinationNameTreeSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_SetDestinations(PdfNameDictionarySafeHandle handle, PdfDestinationNameTreeSafeHandle destinations);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_ToUnknown(PdfNameDictionarySafeHandle handle, out PdfUnknownSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NameDictionary_FromUnknown(PdfUnknownSafeHandle handle, out PdfNameDictionarySafeHandle result);
 
         #endregion
     }

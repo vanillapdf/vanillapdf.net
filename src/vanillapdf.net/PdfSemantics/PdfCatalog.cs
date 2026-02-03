@@ -80,6 +80,38 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Retrieve the document's name dictionary (PDF 1.2+).
+        /// The name dictionary contains name trees that map strings to various
+        /// document objects, including destinations.
+        /// </summary>
+        /// <returns>The <see cref="PdfNameDictionary"/> object or <c>null</c> if none exists.</returns>
+        public PdfNameDictionary GetNames()
+        {
+            UInt32 result = NativeMethods.Catalog_GetNames(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfNameDictionary(data);
+        }
+
+        /// <summary>
+        /// Set the document's name dictionary.
+        /// </summary>
+        /// <param name="names">The name dictionary to set.</param>
+        public void SetNames(PdfNameDictionary names)
+        {
+            UInt32 result = NativeMethods.Catalog_SetNames(Handle, names.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        /// <summary>
         /// Retrieve the named destinations dictionary.
         /// Named destinations allow destinations to be referred to by name
         /// rather than by explicit page and coordinates.

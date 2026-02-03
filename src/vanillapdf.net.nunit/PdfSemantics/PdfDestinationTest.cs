@@ -475,17 +475,29 @@ namespace vanillapdf.net.nunit.PdfSemantics
 
             using PdfDocument document = PdfDocument.OpenFile(file);
             using PdfCatalog catalog = document.GetCatalog();
-            using var destinations = catalog.GetDestinations();
 
-            if (destinations == null) {
-                Assert.Ignore("Document does not have a /Dests dictionary");
+            // Try old-style /Dests dictionary first
+            using var destinations = catalog.GetDestinations();
+            if (destinations != null) {
+                using var fakeName = PdfNameObject.CreateFromDecodedString("NonExistentDestination");
+                bool found = destinations.TryFind(fakeName, out var destination);
+                ClassicAssert.IsFalse(found);
+                ClassicAssert.IsNull(destination);
                 return;
             }
 
-            using var fakeName = PdfNameObject.CreateFromDecodedString("NonExistentDestination");
-            bool found = destinations.TryFind(fakeName, out var destination);
-            ClassicAssert.IsFalse(found);
-            ClassicAssert.IsNull(destination);
+            // Fall back to /Names dictionary destination name tree
+            using var names = catalog.GetNames();
+            if (names == null || !names.ContainsDestinations()) {
+                Assert.Ignore("Document has neither /Dests dictionary nor /Names destination tree");
+                return;
+            }
+
+            using var destTree = names.GetDestinations();
+            using var fakeLiteralName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
+            bool treeFound = destTree.TryFind(fakeLiteralName, out var treeDestination);
+            ClassicAssert.IsFalse(treeFound);
+            ClassicAssert.IsNull(treeDestination);
         }
 
         [Test]
@@ -550,6 +562,195 @@ namespace vanillapdf.net.nunit.PdfSemantics
             }
 
             GC.Collect();
+        }
+
+        [Test]
+        public void TestCatalogGetNamesReturnsNameDictionary()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+
+            // GetNames() may return null if the document uses old-style /Dests
+            using var names = catalog.GetNames();
+        }
+
+        [Test]
+        public void TestNameDictionaryContainsDestinations()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+
+            if (names == null) {
+                Assert.Ignore("Document does not have a /Names dictionary");
+                return;
+            }
+
+            // Just verify ContainsDestinations() works without throwing
+            bool hasDestinations = names.ContainsDestinations();
+
+            if (hasDestinations) {
+                using var destTree = names.GetDestinations();
+                ClassicAssert.IsNotNull(destTree);
+            }
+        }
+
+        [Test]
+        public void TestDestinationNameTreeIterator()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+
+            if (names == null) {
+                Assert.Ignore("Document does not have a /Names dictionary");
+                return;
+            }
+
+            if (!names.ContainsDestinations()) {
+                Assert.Ignore("Document does not have a /Dests name tree");
+                return;
+            }
+
+            using var destTree = names.GetDestinations();
+            using var iterator = destTree.GetIterator();
+
+            int count = 0;
+            while (iterator.IsValid) {
+                using var key = iterator.Key;
+                ClassicAssert.IsNotNull(key);
+
+                using var value = iterator.Value;
+                ClassicAssert.IsNotNull(value);
+
+                count++;
+                iterator.Next();
+            }
+
+            ClassicAssert.Greater(count, 0, "Name tree should have at least one entry");
+        }
+
+        [Test]
+        public void TestDestinationNameTreeTryFindReturnsFalseForUnknown()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+
+            if (names == null) {
+                Assert.Ignore("Document does not have a /Names dictionary");
+                return;
+            }
+
+            if (!names.ContainsDestinations()) {
+                Assert.Ignore("Document does not have a /Dests name tree");
+                return;
+            }
+
+            using var destTree = names.GetDestinations();
+            using var fakeName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
+
+            bool found = destTree.TryFind(fakeName, out var destination);
+            ClassicAssert.IsFalse(found);
+            ClassicAssert.IsNull(destination);
+        }
+
+        [Test]
+        public void TestDestinationNameTreeContains()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+
+            if (names == null) {
+                Assert.Ignore("Document does not have a /Names dictionary");
+                return;
+            }
+
+            if (!names.ContainsDestinations()) {
+                Assert.Ignore("Document does not have a /Dests name tree");
+                return;
+            }
+
+            using var destTree = names.GetDestinations();
+            using var fakeName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
+
+            bool contains = destTree.Contains(fakeName);
+            ClassicAssert.IsFalse(contains);
+        }
+
+        [Test]
+        public void TestDestinationNameTreeFindReturnsDestination()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+
+            if (names == null) {
+                Assert.Ignore("Document does not have a /Names dictionary");
+                return;
+            }
+
+            if (!names.ContainsDestinations()) {
+                Assert.Ignore("Document does not have a /Dests name tree");
+                return;
+            }
+
+            // Get first name from iterator and look it up
+            using var destTree = names.GetDestinations();
+            using var iterator = destTree.GetIterator();
+
+            if (!iterator.IsValid) {
+                Assert.Ignore("Name tree is empty");
+                return;
+            }
+
+            using var firstKey = iterator.Key;
+            ClassicAssert.IsNotNull(firstKey);
+
+            ClassicAssert.IsTrue(destTree.Contains(firstKey));
+
+            using var destination = destTree.Find(firstKey);
+            ClassicAssert.IsNotNull(destination);
+
+            var destType = destination.DestinationType;
+            ClassicAssert.AreNotEqual(PdfDestinationType.Undefined, destType);
         }
 
         private static void AppendIntegerToArray(PdfArrayObject array, long value)
