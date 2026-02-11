@@ -48,6 +48,24 @@ namespace vanillapdf.net.PdfUtils
             return new PdfPKCS12Key(data);
         }
 
+        /// <summary>
+        /// Convert to \ref PdfSigningKey
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfPKCS12Key to be converted</param>
+        public static implicit operator PdfSigningKey(PdfPKCS12Key data)
+        {
+            return new PdfSigningKey(data.Handle);
+        }
+
+        /// <summary>
+        /// Convert to \ref PdfPKCS12Key
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfSigningKey to be converted</param>
+        public static explicit operator PdfPKCS12Key(PdfSigningKey data)
+        {
+            return new PdfPKCS12Key(data.Handle);
+        }
+
         public void Dispose()
         {
             Handle?.Dispose();
