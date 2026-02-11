@@ -10,6 +10,17 @@ namespace vanillapdf.net.benchmark
     /// <summary>
     /// Benchmarks for object creation + disposal lifecycle costs.
     /// Measures SafeHandle allocations and P/Invoke overhead at each hierarchy level.
+    ///
+    /// PdfUnknown removal results (.NET 8.0, i7-10700KF):
+    ///
+    /// | Method                         | Before (Mean) | After (Mean) | Before (Alloc) | After (Alloc) |
+    /// |------------------------------- |--------------:|-------------:|---------------:|--------------:|
+    /// | CreateDispose_PdfBuffer        |     279.4 ns  |    176.2 ns  |         136 B  |         96 B  |
+    /// | CreateDispose_PdfIntegerObject |     506.5 ns  |    435.0 ns  |         144 B  |         96 B  |
+    /// | CreateDispose_PdfBooleanObject |     362.9 ns  |    310.5 ns  |         144 B  |         96 B  |
+    /// | DocumentOpenWorkflow           |   568,252 ns  |  1,101,559*  |         417 B  |        225 B  |
+    ///
+    /// * DocumentOpenWorkflow time is IO-bound and noisy; allocation drop (417 B -> 225 B) is the key metric.
     /// </summary>
     [MemoryDiagnoser]
     public class PdfLifecycleBenchmarks
