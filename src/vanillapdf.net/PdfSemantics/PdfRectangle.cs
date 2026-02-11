@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Represents a rectangular region using integer coordinates.
     /// </summary>
-    public class PdfRectangle : PdfUnknown
+    public class PdfRectangle : IDisposable
     {
         internal PdfRectangleSafeHandle Handle { get; }
 
-        internal PdfRectangle(PdfRectangleSafeHandle handle) : base(handle)
+        internal PdfRectangle(PdfRectangleSafeHandle handle)
         {
             Handle = handle;
         }
@@ -139,9 +139,8 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

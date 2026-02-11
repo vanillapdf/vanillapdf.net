@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// The pages of a document are accessed through a structure known as the page tree,
     /// which defines the ordering of pages in the document.
     /// </summary>
-    public class PdfPageTree : PdfUnknown
+    public class PdfPageTree : IDisposable
     {
         internal PdfPageTreeSafeHandle Handle { get; }
 
-        internal PdfPageTree(PdfPageTreeSafeHandle handle) : base(handle)
+        internal PdfPageTree(PdfPageTreeSafeHandle handle)
         {
             Handle = handle;
         }
@@ -84,9 +84,8 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

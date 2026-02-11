@@ -149,14 +149,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfImageMetadataObjectAttribute(data.BaseAttributeHandle);
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

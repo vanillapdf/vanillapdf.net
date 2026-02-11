@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// An array of annotation dictionaries that shall contain indirect
     /// references to all \ref PdfAnnotation associated with the page.
     /// </summary>
-    public class PdfPageAnnotations : PdfUnknown
+    public class PdfPageAnnotations : IDisposable
     {
         internal PdfPageAnnotationsSafeHandle Handle { get; }
 
-        internal PdfPageAnnotations(PdfPageAnnotationsSafeHandle handle) : base(handle)
+        internal PdfPageAnnotations(PdfPageAnnotationsSafeHandle handle)
         {
             Handle = handle;
         }
@@ -47,9 +47,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfAnnotation(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

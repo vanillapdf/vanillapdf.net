@@ -59,9 +59,9 @@ namespace vanillapdf.net.PdfContents
             return operationType.ToString();
         }
 
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             OperationHandle?.Dispose();
         }
     }

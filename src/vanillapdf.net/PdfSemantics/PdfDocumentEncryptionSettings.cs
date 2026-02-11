@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Class for specifying document encryption parameters
     /// </summary>
-    public class PdfDocumentEncryptionSettings : PdfUnknown
+    public class PdfDocumentEncryptionSettings : IDisposable
     {
         internal PdfDocumentEncryptionSettingsSafeHandle Handle { get; }
 
-        internal PdfDocumentEncryptionSettings(PdfDocumentEncryptionSettingsSafeHandle handle) : base(handle)
+        internal PdfDocumentEncryptionSettings(PdfDocumentEncryptionSettingsSafeHandle handle)
         {
             Handle = handle;
         }
@@ -170,9 +170,8 @@ namespace vanillapdf.net.PdfSemantics
 
         #endregion
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

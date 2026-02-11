@@ -7,70 +7,16 @@ namespace vanillapdf.net.Utils
     internal sealed class PdfContentInstructionSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.ContentInstruction_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentInstructionSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentInstruction_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator PdfContentInstructionSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentInstruction_FromUnknown(handle, out PdfContentInstructionSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     internal sealed class PdfContentInstructionCollectionSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.ContentInstructionCollection_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentInstructionCollectionSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentInstructionCollection_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator PdfContentInstructionCollectionSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentInstructionCollection_FromUnknown(handle, out PdfContentInstructionCollectionSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     internal sealed class PdfContentInstructionCollectionIteratorSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.ContentInstructionCollectionIterator_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentInstructionCollectionIteratorSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentInstructionCollectionIterator_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator PdfContentInstructionCollectionIteratorSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentInstructionCollectionIterator_FromUnknown(handle, out PdfContentInstructionCollectionIteratorSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     #region ContentOperators
@@ -78,24 +24,6 @@ namespace vanillapdf.net.Utils
     internal sealed class PdfContentOperatorSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.ContentOperator_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentOperatorSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentOperator_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator PdfContentOperatorSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentOperator_FromUnknown(handle, out PdfContentOperatorSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     #endregion
@@ -120,16 +48,6 @@ namespace vanillapdf.net.Utils
                 throw PdfErrors.GetLastErrorException();
             }
             return data;
-        }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentObjectSafeHandle handle)
-        {
-            return (PdfContentInstructionSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentObjectSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            return (PdfContentInstructionSafeHandle)handle;
         }
     }
 
@@ -161,16 +79,6 @@ namespace vanillapdf.net.Utils
         }
 
         public static implicit operator PdfContentObjectTextSafeHandle(PdfContentInstructionSafeHandle handle)
-        {
-            return (PdfContentObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentObjectTextSafeHandle handle)
-        {
-            return (PdfContentObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentObjectTextSafeHandle(PdfUnknownSafeHandle handle)
         {
             return (PdfContentObjectSafeHandle)handle;
         }
@@ -294,24 +202,6 @@ namespace vanillapdf.net.Utils
     internal sealed class PdfContentParserSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.ContentParser_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(PdfContentParserSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentParser_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator PdfContentParserSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.ContentParser_FromUnknown(handle, out PdfContentParserSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     #region Character map data
@@ -319,24 +209,6 @@ namespace vanillapdf.net.Utils
     internal sealed class PdfBaseFontRangeSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.BaseFontRange_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(PdfBaseFontRangeSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.BaseFontRange_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator PdfBaseFontRangeSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.BaseFontRange_FromUnknown(handle, out PdfBaseFontRangeSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     #endregion

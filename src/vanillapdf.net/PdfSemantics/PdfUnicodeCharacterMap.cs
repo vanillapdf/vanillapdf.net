@@ -33,9 +33,9 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfBuffer(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
     }

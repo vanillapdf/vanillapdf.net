@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Cross-reference entry represents item within \ref PdfXref
     /// </summary>
-    public class PdfXrefEntry : PdfUnknown
+    public class PdfXrefEntry : IDisposable
     {
         internal PdfXrefEntrySafeHandle BaseEntryHandle { get; }
 
-        internal PdfXrefEntry(PdfXrefEntrySafeHandle handle) : base(handle)
+        internal PdfXrefEntry(PdfXrefEntrySafeHandle handle)
         {
             BaseEntryHandle = handle;
         }
@@ -73,14 +73,9 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             BaseEntryHandle?.Dispose();
         }
-
-        #endregion
     }
 }

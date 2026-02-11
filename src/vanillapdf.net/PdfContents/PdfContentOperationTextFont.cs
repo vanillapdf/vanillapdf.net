@@ -82,9 +82,9 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperationTextFont(data.OperationHandle);
         }
 
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
     }

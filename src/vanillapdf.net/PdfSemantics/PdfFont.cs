@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Base class for all fonts in to representable inside a PDF document.
     /// </summary>
-    public class PdfFont : PdfUnknown
+    public class PdfFont : IDisposable
     {
         internal PdfFontSafeHandle FontHandle { get; }
 
-        internal PdfFont(PdfFontSafeHandle handle) : base(handle)
+        internal PdfFont(PdfFontSafeHandle handle)
         {
             FontHandle = handle;
         }
@@ -66,9 +66,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfUnicodeCharacterMap(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             FontHandle?.Dispose();
         }
     }

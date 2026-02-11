@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfContents
     /// <summary>
     /// An operator is a PDF keyword specifying some action that shall be performed, such as painting a graphical shape on the page.
     /// </summary>
-    public class PdfContentOperator : PdfUnknown
+    public class PdfContentOperator : IDisposable
     {
         internal PdfContentOperatorSafeHandle Handle { get; }
 
-        internal PdfContentOperator(PdfContentOperatorSafeHandle handle) : base(handle)
+        internal PdfContentOperator(PdfContentOperatorSafeHandle handle)
         {
             Handle = handle;
         }
@@ -55,9 +55,8 @@ namespace vanillapdf.net.PdfContents
             return operatorType.ToString();
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

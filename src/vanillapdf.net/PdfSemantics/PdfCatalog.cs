@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// The root of a document's object hierarchy.
     /// </summary>
-    public class PdfCatalog : PdfUnknown
+    public class PdfCatalog : IDisposable
     {
         internal PdfCatalogSafeHandle Handle { get; }
 
-        internal PdfCatalog(PdfCatalogSafeHandle handle) : base(handle)
+        internal PdfCatalog(PdfCatalogSafeHandle handle)
         {
             Handle = handle;
         }
@@ -79,9 +79,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfOutline(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

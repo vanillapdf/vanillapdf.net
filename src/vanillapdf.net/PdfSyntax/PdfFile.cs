@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Represents low-level interface for manipulating file structure
     /// </summary>
-    public class PdfFile : PdfUnknown
+    public class PdfFile : IDisposable
     {
         internal PdfFileSafeHandle Handle { get; }
 
-        internal PdfFile(PdfFileSafeHandle handle) : base(handle)
+        internal PdfFile(PdfFileSafeHandle handle)
         {
             Handle = handle;
         }
@@ -208,9 +208,8 @@ namespace vanillapdf.net.PdfSyntax
             return Filename;
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

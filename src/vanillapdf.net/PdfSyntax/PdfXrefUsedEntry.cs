@@ -69,14 +69,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefUsedEntry(entry.BaseEntryHandle);
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

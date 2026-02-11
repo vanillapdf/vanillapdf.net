@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Class for specifying document signature details
     /// </summary>
-    public class PdfDocumentSignatureSettings : PdfUnknown
+    public class PdfDocumentSignatureSettings : IDisposable
     {
         internal PdfDocumentSignatureSettingsSafeHandle Handle { get; }
 
-        internal PdfDocumentSignatureSettings(PdfDocumentSignatureSettingsSafeHandle handle) : base(handle)
+        internal PdfDocumentSignatureSettings(PdfDocumentSignatureSettingsSafeHandle handle)
         {
             Handle = handle;
         }
@@ -227,9 +227,8 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

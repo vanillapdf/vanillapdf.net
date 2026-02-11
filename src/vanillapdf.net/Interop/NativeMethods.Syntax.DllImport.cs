@@ -14,12 +14,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 File_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 File_ToUnknown(PdfFileSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 File_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 File_Open(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
             string filename,
@@ -77,12 +71,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 FileWriter_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 FileWriter_ToUnknown(PdfFileWriterSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 FileWriter_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileWriterSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 FileWriter_Create(out PdfFileWriterSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -105,12 +93,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 FileWriterObserver_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 FileWriterObserver_ToUnknown(PdfFileWriterObserverSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 FileWriterObserver_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileWriterObserverSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 FileWriterObserver_CreateCustom(
             IntPtr on_initializing,
             IntPtr on_finalizing,
@@ -131,12 +113,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Object_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Object_ToUnknown(PdfObjectSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Object_FromUnknown(PdfUnknownSafeHandle handle, out PdfObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Object_GetObjectType(PdfObjectSafeHandle handle, out PdfSyntax.PdfObjectType data);
@@ -236,12 +212,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DictionaryObjectIterator_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObjectIterator_ToUnknown(PdfDictionaryObjectIteratorSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObjectIterator_FromUnknown(PdfUnknownSafeHandle handle, out PdfDictionaryObjectIteratorSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DictionaryObjectIterator_GetKey(PdfDictionaryObjectIteratorSafeHandle handle, out PdfNameObjectSafeHandle data);
@@ -522,12 +492,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 BaseObjectAttribute_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 BaseObjectAttribute_ToUnknown(PdfBaseObjectAttributeSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 BaseObjectAttribute_FromUnknown(PdfUnknownSafeHandle handle, out PdfBaseObjectAttributeSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 BaseObjectAttribute_GetAttributeType(PdfBaseObjectAttributeSafeHandle handle, out PdfSyntax.PdfObjectAttributeType data);
 
         #endregion
@@ -576,12 +540,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 ObjectAttributeList_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ObjectAttributeList_ToUnknown(PdfObjectAttributeListSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ObjectAttributeList_FromUnknown(PdfUnknownSafeHandle handle, out PdfObjectAttributeListSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 ObjectAttributeList_Create(out PdfObjectAttributeListSafeHandle handle);

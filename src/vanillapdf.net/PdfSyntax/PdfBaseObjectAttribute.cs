@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Base class for representing object attributes that are augumenting specific properties with additional metadata
     /// </summary>
-    public class PdfBaseObjectAttribute : PdfUnknown
+    public class PdfBaseObjectAttribute : IDisposable
     {
         internal PdfBaseObjectAttributeSafeHandle BaseAttributeHandle { get; }
 
-        internal PdfBaseObjectAttribute(PdfBaseObjectAttributeSafeHandle handle) : base(handle)
+        internal PdfBaseObjectAttribute(PdfBaseObjectAttributeSafeHandle handle)
         {
             BaseAttributeHandle = handle;
         }
@@ -31,14 +31,9 @@ namespace vanillapdf.net.PdfSyntax
             return EnumUtil<PdfObjectAttributeType>.CheckedCast(data);
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             BaseAttributeHandle?.Dispose();
         }
-
-        #endregion
     }
 }

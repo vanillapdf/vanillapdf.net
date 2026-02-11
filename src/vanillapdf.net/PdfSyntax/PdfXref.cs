@@ -10,11 +10,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// The cross-reference table contains information that permits random access to indirect objects within the file
     /// </summary>
-    public class PdfXref : PdfUnknown, IEnumerable<PdfXrefEntry>
+    public class PdfXref : IDisposable, IEnumerable<PdfXrefEntry>
     {
         internal PdfXrefSafeHandle Handle { get; }
 
-        internal PdfXref(PdfXrefSafeHandle handle) : base(handle)
+        internal PdfXref(PdfXrefSafeHandle handle)
         {
             Handle = handle;
         }
@@ -61,15 +61,10 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefIterator(value);
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
 
         #region IEnumerable<PdfXref>
 

@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Class for representing specific timepoint in the calendar
     /// </summary>
-    public class PdfDate : PdfUnknown
+    public class PdfDate : IDisposable
     {
         internal PdfDateSafeHandle Handle { get; }
 
-        internal PdfDate(PdfDateSafeHandle handle) : base(handle)
+        internal PdfDate(PdfDateSafeHandle handle)
         {
             Handle = handle;
         }
@@ -288,9 +288,8 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

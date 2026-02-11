@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// A dictionary that maps resource names to font dictionaries.
     /// </summary>
-    public class PdfFontMap : PdfUnknown
+    public class PdfFontMap : IDisposable
     {
         internal PdfFontMapSafeHandle Handle { get; }
 
-        internal PdfFontMap(PdfFontMapSafeHandle handle) : base(handle)
+        internal PdfFontMap(PdfFontMapSafeHandle handle)
         {
             Handle = handle;
         }
@@ -48,9 +48,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfFont(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

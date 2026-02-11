@@ -14,12 +14,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentParser_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentParser_ToUnknown(PdfContentParserSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentParser_FromUnknown(PdfUnknownSafeHandle handle, out PdfContentParserSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 ContentParser_Create(PdfFileSafeHandle sourceFile, PdfInputStreamSafeHandle inputStream, out PdfContentParserSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -33,12 +27,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentInstruction_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstruction_ToUnknown(PdfContentInstructionSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstruction_FromUnknown(PdfUnknownSafeHandle handle, out PdfContentInstructionSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 ContentInstruction_GetInstructionType(PdfContentInstructionSafeHandle handle, out Int32 data);
 
         #endregion
@@ -47,12 +35,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ContentInstructionCollection_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstructionCollection_ToUnknown(PdfContentInstructionCollectionSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstructionCollection_FromUnknown(PdfUnknownSafeHandle handle, out PdfContentInstructionCollectionSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ContentInstructionCollection_GetSize(PdfContentInstructionCollectionSafeHandle handle, out UIntPtr data);
@@ -83,12 +65,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentInstructionCollectionIterator_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstructionCollectionIterator_ToUnknown(PdfContentInstructionCollectionIteratorSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstructionCollectionIterator_FromUnknown(PdfUnknownSafeHandle handle, out PdfContentInstructionCollectionIteratorSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 ContentInstructionCollectionIterator_GetValue(PdfContentInstructionCollectionIteratorSafeHandle handle, out PdfContentInstructionSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -103,12 +79,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ContentOperator_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentOperator_ToUnknown(PdfContentOperatorSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentOperator_FromUnknown(PdfUnknownSafeHandle handle, out PdfContentOperatorSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ContentOperator_GetOperatorType(PdfContentOperatorSafeHandle handle, out Int32 data);
@@ -258,12 +228,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 BaseFontRange_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 BaseFontRange_ToUnknown(PdfBaseFontRangeSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 BaseFontRange_FromUnknown(PdfUnknownSafeHandle handle, out PdfBaseFontRangeSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 BaseFontRange_Create(out PdfBaseFontRangeSafeHandle data);

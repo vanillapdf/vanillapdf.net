@@ -10,11 +10,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Iterator over the key-value pairs of a PDF dictionary object.
     /// </summary>
-    public class PdfDictionaryObjectIterator : PdfUnknown, IEnumerator<KeyValuePair<PdfNameObject, PdfObject>>
+    public class PdfDictionaryObjectIterator : IDisposable, IEnumerator<KeyValuePair<PdfNameObject, PdfObject>>
     {
         internal PdfDictionaryObjectIteratorSafeHandle Handle { get; }
 
-        internal PdfDictionaryObjectIterator(PdfDictionaryObjectIteratorSafeHandle handle) : base(handle)
+        internal PdfDictionaryObjectIterator(PdfDictionaryObjectIteratorSafeHandle handle)
         {
             Handle = handle;
         }
@@ -72,9 +72,8 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
 

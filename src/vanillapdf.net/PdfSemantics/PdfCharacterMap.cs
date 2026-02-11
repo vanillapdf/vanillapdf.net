@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// A CMap shall specify the mapping from  character codes to character selectors.
     /// </summary>
-    public class PdfCharacterMap : PdfUnknown
+    public class PdfCharacterMap : IDisposable
     {
         internal PdfCharacterMapSafeHandle CharacterMapHandle { get; }
 
-        internal PdfCharacterMap(PdfCharacterMapSafeHandle handle) : base(handle)
+        internal PdfCharacterMap(PdfCharacterMapSafeHandle handle)
         {
             CharacterMapHandle = handle;
         }
@@ -31,9 +31,8 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfCharacterMapType>.CheckedCast(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             CharacterMapHandle?.Dispose();
         }
     }

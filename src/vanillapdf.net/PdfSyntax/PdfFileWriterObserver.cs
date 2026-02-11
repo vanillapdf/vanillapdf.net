@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Observer capable of receiving events from \ref PdfFileWriter
     /// </summary>
-    public class PdfFileWriterObserver : PdfUnknown
+    public class PdfFileWriterObserver : IDisposable
     {
         internal PdfFileWriterObserverSafeHandle Handle { get; }
 
-        internal PdfFileWriterObserver(PdfFileWriterObserverSafeHandle handle) : base(handle)
+        internal PdfFileWriterObserver(PdfFileWriterObserverSafeHandle handle)
         {
             Handle = handle;
         }
@@ -45,9 +45,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFileWriterObserver(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
 

@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Class for supporting complex file serialization features
     /// </summary>
-    public class PdfFileWriter : PdfUnknown
+    public class PdfFileWriter : IDisposable
     {
         internal PdfFileWriterSafeHandle Handle { get; }
 
-        internal PdfFileWriter(PdfFileWriterSafeHandle handle) : base(handle)
+        internal PdfFileWriter(PdfFileWriterSafeHandle handle)
         {
             Handle = handle;
         }
@@ -81,9 +81,8 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

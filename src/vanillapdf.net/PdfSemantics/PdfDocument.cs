@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// High-level counterpart of the \ref PdfSyntax.PdfFile
     /// </summary>
-    public class PdfDocument : PdfUnknown
+    public class PdfDocument : IDisposable
     {
         internal PdfDocumentSafeHandle Handle { get; }
 
-        internal PdfDocument(PdfDocumentSafeHandle handle) : base(handle)
+        internal PdfDocument(PdfDocumentSafeHandle handle)
         {
             Handle = handle;
         }
@@ -178,9 +178,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDocumentInfo(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

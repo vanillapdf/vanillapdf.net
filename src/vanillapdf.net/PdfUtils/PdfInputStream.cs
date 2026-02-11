@@ -7,11 +7,11 @@ namespace vanillapdf.net.PdfUtils
     /// <summary>
     /// Input stream can read and interpret input from sequences of characters
     /// </summary>
-    public class PdfInputStream : PdfUnknown
+    public class PdfInputStream : IDisposable
     {
         internal PdfInputStreamSafeHandle Handle { get; }
 
-        internal PdfInputStream(PdfInputStreamSafeHandle handle) : base(handle)
+        internal PdfInputStream(PdfInputStreamSafeHandle handle)
         {
             Handle = handle;
         }
@@ -88,14 +88,9 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

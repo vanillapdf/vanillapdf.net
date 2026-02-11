@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Represents the document information dictionary containing metadata about the PDF document.
     /// </summary>
-    public class PdfDocumentInfo : PdfUnknown
+    public class PdfDocumentInfo : IDisposable
     {
         internal PdfDocumentInfoSafeHandle Handle { get; }
 
-        internal PdfDocumentInfo(PdfDocumentInfoSafeHandle handle) : base(handle)
+        internal PdfDocumentInfo(PdfDocumentInfoSafeHandle handle)
         {
             Handle = handle;
         }
@@ -160,9 +160,8 @@ namespace vanillapdf.net.PdfSemantics
 
         #endregion
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }
