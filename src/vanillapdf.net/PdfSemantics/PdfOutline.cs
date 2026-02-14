@@ -94,6 +94,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfIntegerObject(data);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

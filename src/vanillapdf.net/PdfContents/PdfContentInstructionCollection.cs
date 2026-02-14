@@ -117,6 +117,8 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentInstructionCollectionIterator(value);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

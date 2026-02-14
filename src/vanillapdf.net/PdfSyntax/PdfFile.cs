@@ -208,6 +208,8 @@ namespace vanillapdf.net.PdfSyntax
             return Filename;
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

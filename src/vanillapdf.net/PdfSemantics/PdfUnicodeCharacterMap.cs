@@ -33,6 +33,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfBuffer(data);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

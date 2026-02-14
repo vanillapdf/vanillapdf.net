@@ -114,6 +114,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfLiteralStringObject(data.StringHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

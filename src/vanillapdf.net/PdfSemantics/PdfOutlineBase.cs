@@ -31,6 +31,8 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfOutlineType>.CheckedCast(data);
         }
 
+        /// <inheritdoc/>
+
         public virtual void Dispose()
         {
             OutlineBaseHandle?.Dispose();

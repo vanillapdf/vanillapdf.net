@@ -31,6 +31,8 @@ namespace vanillapdf.net.PdfSyntax
             return EnumUtil<PdfObjectAttributeType>.CheckedCast(data);
         }
 
+        /// <inheritdoc/>
+
         public virtual void Dispose()
         {
             BaseAttributeHandle?.Dispose();

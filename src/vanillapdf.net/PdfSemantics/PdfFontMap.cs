@@ -48,6 +48,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfFont(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

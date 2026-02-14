@@ -54,6 +54,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfNullObject(data.ObjectHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

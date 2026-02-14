@@ -319,6 +319,8 @@ namespace vanillapdf.net.PdfUtils
             return StringData;
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             lock (_syncLock) {

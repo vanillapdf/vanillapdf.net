@@ -143,6 +143,8 @@ namespace vanillapdf.net.PdfContents
             return new PdfBuffer(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

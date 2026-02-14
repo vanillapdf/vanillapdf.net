@@ -160,6 +160,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfOutlineItem(data);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

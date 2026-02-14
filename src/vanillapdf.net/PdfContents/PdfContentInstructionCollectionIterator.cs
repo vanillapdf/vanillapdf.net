@@ -65,6 +65,8 @@ namespace vanillapdf.net.PdfContents
             return data;
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

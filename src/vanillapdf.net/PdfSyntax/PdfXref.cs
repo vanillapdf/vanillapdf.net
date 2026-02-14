@@ -61,6 +61,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefIterator(value);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

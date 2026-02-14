@@ -33,6 +33,8 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfAnnotationType>.CheckedCast(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

@@ -113,6 +113,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfHexadecimalStringObject(data.StringHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

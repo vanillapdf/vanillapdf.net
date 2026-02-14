@@ -48,6 +48,8 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentInstructionCollection(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

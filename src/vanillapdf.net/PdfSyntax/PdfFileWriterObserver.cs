@@ -45,6 +45,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfFileWriterObserver(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

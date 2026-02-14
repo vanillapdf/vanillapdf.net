@@ -126,6 +126,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfStreamObject(data.ObjectHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

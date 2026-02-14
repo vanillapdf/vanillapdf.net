@@ -55,6 +55,8 @@ namespace vanillapdf.net.PdfContents
             return operatorType.ToString();
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

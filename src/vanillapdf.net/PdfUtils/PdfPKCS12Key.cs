@@ -66,6 +66,8 @@ namespace vanillapdf.net.PdfUtils
             return new PdfPKCS12Key(data.Handle);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

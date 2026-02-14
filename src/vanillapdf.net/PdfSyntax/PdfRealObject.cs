@@ -91,6 +91,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfRealObject(data.ObjectHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

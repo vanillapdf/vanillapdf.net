@@ -250,6 +250,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfDictionaryObject(data.ObjectHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

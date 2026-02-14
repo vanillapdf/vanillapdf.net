@@ -126,6 +126,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDictionaryObject(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

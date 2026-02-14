@@ -79,6 +79,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfOutline(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

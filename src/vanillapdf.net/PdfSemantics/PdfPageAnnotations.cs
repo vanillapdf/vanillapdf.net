@@ -47,6 +47,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfAnnotation(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

@@ -31,6 +31,8 @@ namespace vanillapdf.net.PdfContents
             return EnumUtil<PdfContentInstructionType>.CheckedCast(data);
         }
 
+        /// <inheritdoc/>
+
         public virtual void Dispose()
         {
             InstructionHandle?.Dispose();

@@ -82,6 +82,8 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperationTextFont(data.OperationHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

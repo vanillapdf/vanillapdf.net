@@ -149,6 +149,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfImageMetadataObjectAttribute(data.BaseAttributeHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

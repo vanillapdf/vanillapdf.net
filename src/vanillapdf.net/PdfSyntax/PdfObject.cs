@@ -123,6 +123,8 @@ namespace vanillapdf.net.PdfSyntax
             return obj;
         }
 
+        /// <inheritdoc/>
+
         public virtual void Dispose()
         {
             ObjectHandle?.Dispose();

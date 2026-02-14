@@ -185,6 +185,8 @@ namespace vanillapdf.net.PdfSyntax
 
         #endregion
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

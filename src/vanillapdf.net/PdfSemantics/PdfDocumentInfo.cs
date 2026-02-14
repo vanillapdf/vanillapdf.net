@@ -160,6 +160,8 @@ namespace vanillapdf.net.PdfSemantics
 
         #endregion
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

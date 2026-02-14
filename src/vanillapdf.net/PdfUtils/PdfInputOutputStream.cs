@@ -213,6 +213,8 @@ namespace vanillapdf.net.PdfUtils
             return new PdfInputOutputStream(data.Handle);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

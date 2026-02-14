@@ -81,6 +81,8 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();

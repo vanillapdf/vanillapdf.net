@@ -59,6 +59,8 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperationTextShowArray(data.OperationHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

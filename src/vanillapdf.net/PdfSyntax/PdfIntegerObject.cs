@@ -128,6 +128,8 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIntegerObject(data.ObjectHandle);
         }
 
+        /// <inheritdoc/>
+
         public override void Dispose()
         {
             base.Dispose();

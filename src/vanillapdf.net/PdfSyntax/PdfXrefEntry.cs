@@ -73,6 +73,8 @@ namespace vanillapdf.net.PdfSyntax
             return data;
         }
 
+        /// <inheritdoc/>
+
         public virtual void Dispose()
         {
             BaseEntryHandle?.Dispose();

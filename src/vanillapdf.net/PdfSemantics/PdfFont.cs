@@ -66,6 +66,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfUnicodeCharacterMap(data);
         }
 
+        /// <inheritdoc/>
+
         public virtual void Dispose()
         {
             FontHandle?.Dispose();

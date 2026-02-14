@@ -178,6 +178,8 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDocumentInfo(data);
         }
 
+        /// <inheritdoc/>
+
         public void Dispose()
         {
             Handle?.Dispose();
