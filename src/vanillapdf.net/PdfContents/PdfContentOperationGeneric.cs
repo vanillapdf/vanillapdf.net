@@ -83,9 +83,11 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentOperationGeneric(data.OperationHandle);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle.Dispose();
         }
     }

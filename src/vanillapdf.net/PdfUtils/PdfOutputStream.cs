@@ -7,11 +7,11 @@ namespace vanillapdf.net.PdfUtils
     /// <summary>
     /// Output stream can write sequences of characters and represent other kinds of data
     /// </summary>
-    public class PdfOutputStream : PdfUnknown
+    public class PdfOutputStream : IDisposable
     {
         internal PdfOutputStreamSafeHandle Handle { get; }
 
-        internal PdfOutputStream(PdfOutputStreamSafeHandle handle) : base(handle)
+        internal PdfOutputStream(PdfOutputStreamSafeHandle handle)
         {
             Handle = handle;
         }
@@ -93,14 +93,11 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

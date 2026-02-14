@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Base class for syntactic tokens
     /// </summary>
-    public class PdfObject : PdfUnknown
+    public class PdfObject : IDisposable
     {
         internal PdfObjectSafeHandle ObjectHandle { get; }
 
-        internal PdfObject(PdfObjectSafeHandle handle) : base(handle)
+        internal PdfObject(PdfObjectSafeHandle handle)
         {
             ObjectHandle = handle;
         }
@@ -123,9 +123,10 @@ namespace vanillapdf.net.PdfSyntax
             return obj;
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             ObjectHandle?.Dispose();
         }
     }

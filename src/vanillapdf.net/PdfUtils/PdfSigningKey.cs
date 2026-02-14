@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfUtils
     /// Signing key is used for document signing
     /// @see \ref PdfSemantics.PdfDocument.Sign
     /// </summary>
-    public class PdfSigningKey : PdfUnknown
+    public class PdfSigningKey : IDisposable
     {
         internal PdfSigningKeySafeHandle Handle { get; }
 
-        internal PdfSigningKey(PdfSigningKeySafeHandle handle) : base(handle)
+        internal PdfSigningKey(PdfSigningKeySafeHandle handle)
         {
             Handle = handle;
         }
@@ -115,15 +115,12 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
 
         // We need to have static delegates as the SigningKey_CreateCustom
         // would create a delegate when referencing the static function

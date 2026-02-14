@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// The name dictionary (PDF 1.2+) associates names with various
     /// document objects using name trees for efficient lookup.
     /// </summary>
-    public class PdfNameDictionary : PdfUnknown
+    public class PdfNameDictionary : IDisposable
     {
         internal PdfNameDictionarySafeHandle Handle { get; }
 
-        internal PdfNameDictionary(PdfNameDictionarySafeHandle handle) : base(handle)
+        internal PdfNameDictionary(PdfNameDictionarySafeHandle handle)
         {
             Handle = handle;
         }
@@ -78,9 +78,9 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

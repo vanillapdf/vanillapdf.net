@@ -7,11 +7,11 @@ namespace vanillapdf.net.PdfUtils
     /// <summary>
     /// Class representing PKCS#12 private encryption/signature key
     /// </summary>
-    public class PdfPKCS12Key : PdfUnknown
+    public class PdfPKCS12Key : IDisposable
     {
         internal PdfPKCS12KeySafeHandle Handle { get; }
 
-        internal PdfPKCS12Key(PdfPKCS12KeySafeHandle handle) : base(handle)
+        internal PdfPKCS12Key(PdfPKCS12KeySafeHandle handle)
         {
             Handle = handle;
         }
@@ -66,14 +66,11 @@ namespace vanillapdf.net.PdfUtils
             return new PdfPKCS12Key(data.Handle);
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

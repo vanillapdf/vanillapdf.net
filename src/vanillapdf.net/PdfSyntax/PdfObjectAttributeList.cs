@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// Represents a list of object attributes
     /// </summary>
-    public class PdfObjectAttributeList : PdfUnknown
+    public class PdfObjectAttributeList : IDisposable
     {
         internal PdfObjectAttributeListSafeHandle Handle { get; }
 
-        internal PdfObjectAttributeList(PdfObjectAttributeListSafeHandle handle) : base(handle)
+        internal PdfObjectAttributeList(PdfObjectAttributeListSafeHandle handle)
         {
             Handle = handle;
         }
@@ -96,14 +96,11 @@ namespace vanillapdf.net.PdfSyntax
             }
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

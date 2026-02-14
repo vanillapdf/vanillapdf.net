@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Base class for document outlines
     /// </summary>
-    public class PdfOutlineBase : PdfUnknown
+    public class PdfOutlineBase : IDisposable
     {
         internal PdfOutlineBaseSafeHandle OutlineBaseHandle { get; }
 
-        internal PdfOutlineBase(PdfOutlineBaseSafeHandle handle) : base(handle)
+        internal PdfOutlineBase(PdfOutlineBaseSafeHandle handle)
         {
             OutlineBaseHandle = handle;
         }
@@ -31,9 +31,10 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfOutlineType>.CheckedCast(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             OutlineBaseHandle?.Dispose();
         }
     }

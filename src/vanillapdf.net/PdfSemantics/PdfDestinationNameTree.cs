@@ -11,11 +11,11 @@ namespace vanillapdf.net.PdfSemantics
     /// This is the PDF 1.2+ method for storing named destinations,
     /// replacing the old-style /Dests dictionary in the catalog.
     /// </summary>
-    public class PdfDestinationNameTree : PdfUnknown
+    public class PdfDestinationNameTree : IDisposable
     {
         internal PdfDestinationNameTreeSafeHandle Handle { get; }
 
-        internal PdfDestinationNameTree(PdfDestinationNameTreeSafeHandle handle) : base(handle)
+        internal PdfDestinationNameTree(PdfDestinationNameTreeSafeHandle handle)
         {
             Handle = handle;
         }
@@ -130,9 +130,9 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDestinationNameTreeIterator(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

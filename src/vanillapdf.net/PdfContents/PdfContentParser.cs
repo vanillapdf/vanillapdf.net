@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfContents
     /// <summary>
     /// An object used for reading PDF PostScript instructions
     /// </summary>
-    public class PdfContentParser : PdfUnknown
+    public class PdfContentParser : IDisposable
     {
         internal PdfContentParserSafeHandle Handle { get; }
 
-        internal PdfContentParser(PdfContentParserSafeHandle handle) : base(handle)
+        internal PdfContentParser(PdfContentParserSafeHandle handle)
         {
             Handle = handle;
         }
@@ -48,9 +48,10 @@ namespace vanillapdf.net.PdfContents
             return new PdfContentInstructionCollection(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

@@ -14,12 +14,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 Xref_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Xref_ToUnknown(PdfXrefSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Xref_FromUnknown(PdfUnknownSafeHandle handle, out PdfXrefSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Xref_GetTrailerDictionary(PdfXrefSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -34,12 +28,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefIterator_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefIterator_ToUnknown(PdfXrefIteratorSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefIterator_FromUnknown(PdfUnknownSafeHandle handle, out PdfXrefIteratorSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefIterator_GetValue(PdfXrefIteratorSafeHandle handle, out PdfXrefEntrySafeHandle data);
@@ -58,12 +46,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 XrefChain_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefChain_ToUnknown(PdfXrefChainSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefChain_FromUnknown(PdfUnknownSafeHandle handle, out PdfXrefChainSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefChain_GetIterator(PdfXrefChainSafeHandle handle, out PdfXrefChainIteratorSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -75,12 +57,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefChainIterator_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefChainIterator_ToUnknown(PdfXrefChainIteratorSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefChainIterator_FromUnknown(PdfUnknownSafeHandle handle, out PdfXrefChainIteratorSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefChainIterator_GetValue(PdfXrefChainIteratorSafeHandle handle, out PdfXrefSafeHandle data);
@@ -97,12 +73,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefEntry_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefEntry_ToUnknown(PdfXrefEntrySafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefEntry_FromUnknown(PdfUnknownSafeHandle handle, out PdfXrefEntrySafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 XrefEntry_GetType(PdfXrefEntrySafeHandle handle, out PdfSyntax.PdfXrefEntryType data);

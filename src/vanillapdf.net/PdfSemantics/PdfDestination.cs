@@ -10,11 +10,11 @@ namespace vanillapdf.net.PdfSemantics
     /// Base class for all PDF destinations.
     /// A destination defines a particular view of a document.
     /// </summary>
-    public class PdfDestination : PdfUnknown
+    public class PdfDestination : IDisposable
     {
         internal PdfDestinationSafeHandle Handle { get; }
 
-        internal PdfDestination(PdfDestinationSafeHandle handle) : base(handle)
+        internal PdfDestination(PdfDestinationSafeHandle handle)
         {
             Handle = handle;
         }
@@ -165,9 +165,9 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfFitBoundingBoxVerticalDestination((PdfFitBoundingBoxVerticalDestinationSafeHandle)Handle);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

@@ -85,14 +85,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefCompressedEntry(entry.BaseEntryHandle);
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

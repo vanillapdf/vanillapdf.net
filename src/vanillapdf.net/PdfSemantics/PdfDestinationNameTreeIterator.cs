@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// Iterator for traversing all entries in a destination name tree.
     /// </summary>
-    public class PdfDestinationNameTreeIterator : PdfUnknown
+    public class PdfDestinationNameTreeIterator : IDisposable
     {
         internal PdfDestinationNameTreeIteratorSafeHandle Handle { get; }
 
-        internal PdfDestinationNameTreeIterator(PdfDestinationNameTreeIteratorSafeHandle handle) : base(handle)
+        internal PdfDestinationNameTreeIterator(PdfDestinationNameTreeIteratorSafeHandle handle)
         {
             Handle = handle;
         }
@@ -79,9 +79,9 @@ namespace vanillapdf.net.PdfSemantics
             }
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

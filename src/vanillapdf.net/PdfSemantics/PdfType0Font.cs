@@ -25,9 +25,11 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfType0Font(data.FontHandle);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
     }

@@ -41,13 +41,14 @@ namespace vanillapdf.net.PdfUtils
     /// - GetDataString reads directly from native memory, avoiding intermediate byte[] allocation
     /// </para>
     /// </remarks>
-    public class PdfBuffer : PdfUnknown, IEquatable<PdfBuffer>
+    public class PdfBuffer : IDisposable, IEquatable<PdfBuffer>
     {
         private readonly object _syncLock = new object();
+        private bool _disposed;
 
         internal PdfBufferSafeHandle Handle { get; }
 
-        internal PdfBuffer(PdfBufferSafeHandle handle) : base(handle)
+        internal PdfBuffer(PdfBufferSafeHandle handle)
         {
             Handle = handle;
         }
@@ -318,10 +319,13 @@ namespace vanillapdf.net.PdfUtils
             return StringData;
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
             lock (_syncLock) {
-                base.DisposeCustomHandle();
+                if (_disposed) return;
+                _disposed = true;
                 Handle?.Dispose();
             }
         }

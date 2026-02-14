@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfContents
     /// <summary>
     /// Base font ranges are used for mapping input codes to corresponding range of character codes or names
     /// </summary>
-    public class PdfBaseFontRange : PdfUnknown
+    public class PdfBaseFontRange : IDisposable
     {
         internal PdfBaseFontRangeSafeHandle Handle { get; }
 
-        internal PdfBaseFontRange(PdfBaseFontRangeSafeHandle handle) : base(handle)
+        internal PdfBaseFontRange(PdfBaseFontRangeSafeHandle handle)
         {
             Handle = handle;
         }
@@ -143,9 +143,10 @@ namespace vanillapdf.net.PdfContents
             return new PdfBuffer(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

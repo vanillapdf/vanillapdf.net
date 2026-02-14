@@ -8,11 +8,11 @@ namespace vanillapdf.net.PdfContents
     /// <summary>
     /// Base class for all content objects and operations.
     /// </summary>
-    public class PdfContentInstruction : PdfUnknown
+    public class PdfContentInstruction : IDisposable
     {
         internal PdfContentInstructionSafeHandle InstructionHandle { get; }
 
-        internal PdfContentInstruction(PdfContentInstructionSafeHandle handle) : base(handle)
+        internal PdfContentInstruction(PdfContentInstructionSafeHandle handle)
         {
             InstructionHandle = handle;
         }
@@ -31,9 +31,10 @@ namespace vanillapdf.net.PdfContents
             return EnumUtil<PdfContentInstructionType>.CheckedCast(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public virtual void Dispose()
         {
-            base.DisposeCustomHandle();
             InstructionHandle?.Dispose();
         }
     }

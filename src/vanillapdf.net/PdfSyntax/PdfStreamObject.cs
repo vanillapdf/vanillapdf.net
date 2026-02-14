@@ -126,14 +126,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfStreamObject(data.ObjectHandle);
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

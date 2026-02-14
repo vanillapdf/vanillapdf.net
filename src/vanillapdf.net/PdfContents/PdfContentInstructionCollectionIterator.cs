@@ -11,11 +11,11 @@ namespace vanillapdf.net.PdfContents
     /// <summary>
     /// Base class for all content objects and operations.
     /// </summary>
-    public class PdfContentInstructionCollectionIterator : PdfUnknown, IEnumerator<PdfContentInstruction>
+    public class PdfContentInstructionCollectionIterator : IDisposable, IEnumerator<PdfContentInstruction>
     {
         internal PdfContentInstructionCollectionIteratorSafeHandle Handle { get; }
 
-        internal PdfContentInstructionCollectionIterator(PdfContentInstructionCollectionIteratorSafeHandle handle) : base(handle)
+        internal PdfContentInstructionCollectionIterator(PdfContentInstructionCollectionIteratorSafeHandle handle)
         {
             Handle = handle;
         }
@@ -65,9 +65,10 @@ namespace vanillapdf.net.PdfContents
             return data;
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
 
