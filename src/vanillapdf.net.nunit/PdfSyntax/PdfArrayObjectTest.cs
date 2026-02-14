@@ -66,21 +66,21 @@ namespace vanillapdf.net.nunit.PdfSyntax
                 ArrayObject.Insert(0, NameObject);
             }
             catch (Exception ex) {
-                ClassicAssert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfUnmanagedException);
             }
 
             try {
                 ArrayObject.Insert(-1, NameObject);
             }
             catch (Exception ex) {
-                ClassicAssert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfUnmanagedException);
             }
 
             try {
                 ArrayObject.Insert(1000, NameObject);
             }
             catch (Exception ex) {
-                ClassicAssert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfUnmanagedException);
             }
         }
 

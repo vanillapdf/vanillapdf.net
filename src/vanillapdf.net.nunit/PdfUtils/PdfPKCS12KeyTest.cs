@@ -2,6 +2,7 @@ using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfUtils;
+using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.nunit.PdfUtils
 {
@@ -15,7 +16,7 @@ namespace vanillapdf.net.nunit.PdfUtils
                 var buffer = PdfBuffer.Create();
                 var key = PdfPKCS12Key.CreateFromBuffer(buffer, null);
             } catch (Exception ex) {
-                ClassicAssert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfBaseException);
             }
         }
 

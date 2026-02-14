@@ -18,7 +18,7 @@ namespace vanillapdf.net.nunit.PdfSyntax
                 // Cannot point to direct object
                 IndirectReferenceObject.ReferencedObject = PdfIntegerObject.Create();
             } catch (Exception ex) {
-                ClassicAssert.IsTrue(ex is PdfGeneralException);
+                ClassicAssert.IsTrue(ex is PdfUnmanagedException);
             }
         }
 
