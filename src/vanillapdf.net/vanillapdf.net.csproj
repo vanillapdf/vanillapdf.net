@@ -12,7 +12,7 @@
     <PublishTrimmed Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishTrimmed>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <VersionPrefix>2.2.0</VersionPrefix>
+    <VersionPrefix>2.3.0-alpha.1</VersionPrefix>
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
@@ -29,6 +29,11 @@
     <DebugType>portable</DebugType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="vanillapdf.net.benchmark" />
+    <InternalsVisibleTo Include="vanillapdf.net.nunit" />
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,7 +69,7 @@
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.6.3" />
     <PackageReference Include="vanillapdf" Version="2.3.999.20260203-nightly.main" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

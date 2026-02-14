@@ -49,19 +49,6 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfIntegerObject(data);
         }
 
-        internal override PdfObject ConvertTo<T>()
-        {
-            if (typeof(T) == typeof(PdfIntegerObject)) {
-                return this;
-            }
-
-            if (typeof(T) == typeof(PdfRealObject)) {
-                return PdfRealObject.FromObject(this);
-            }
-
-            return base.ConvertTo<T>();
-        }
-
         private Int64 GetIntegerValue()
         {
             UInt32 result = NativeMethods.IntegerObject_GetIntegerValue(Handle, out var value);
@@ -123,10 +110,20 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>A new instance of \ref PdfIntegerObject if the object can be converted, throws exception on failure</returns>
         public static PdfIntegerObject FromObject(PdfObject data)
         {
-            // This optimization does have severe side-effects and it's not worth it
-            //if (data is PdfIntegerObject pdfIntegerObject) {
-            //    return pdfIntegerObject;
-            //}
+            return new PdfIntegerObject(data.ObjectHandle);
+        }
+
+        /// <summary>
+        /// Try to convert object to integer object, returning null if type doesn't match.
+        /// </summary>
+        /// <param name="data">Handle to \ref PdfObject to be converted</param>
+        /// <returns>A new instance of \ref PdfIntegerObject if the object is an integer, null otherwise</returns>
+        public static PdfIntegerObject TryFromObject(PdfObject data)
+        {
+            var objectType = data.GetObjectType();
+            if (objectType != PdfObjectType.Integer && objectType != PdfObjectType.Real) {
+                return null;
+            }
 
             return new PdfIntegerObject(data.ObjectHandle);
         }

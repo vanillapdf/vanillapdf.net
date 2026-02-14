@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
+using vanillapdf.net.PdfSyntax.Extensions;
 using vanillapdf.net.PdfUtils;
 
 namespace vanillapdf.net.nunit.PdfContents
@@ -87,9 +88,7 @@ namespace vanillapdf.net.nunit.PdfContents
                                         if (operand_1.GetObjectType() == PdfObjectType.Integer) {
                                             using var operand_1_integer = PdfIntegerObject.FromObject(operand_1);
                                             text_translate_y = operand_1_integer.IntegerValue;
-                                        }
-
-                                        if (operand_1.GetObjectType() == PdfObjectType.Real) {
+                                        } else if (operand_1.GetObjectType() == PdfObjectType.Real) {
                                             using var operand_1_real = PdfRealObject.FromObject(operand_1);
                                             text_translate_y = operand_1_real.Value;
                                         }
