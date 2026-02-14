@@ -14,12 +14,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 Document_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Document_ToUnknown(PdfDocumentSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Document_FromUnknown(PdfUnknownSafeHandle handle, out PdfDocumentSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Document_Open(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))] string filename,
             out PdfDocumentSafeHandle data);
@@ -68,12 +62,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 DocumentInfo_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DocumentInfo_ToUnknown(PdfDocumentInfoSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DocumentInfo_FromUnknown(PdfUnknownSafeHandle handle, out PdfDocumentInfoSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DocumentInfo_GetTitle(PdfDocumentInfoSafeHandle handle, out PdfStringObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -104,12 +92,6 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DocumentSignatureSettings_Release(IntPtr handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DocumentSignatureSettings_ToUnknown(PdfDocumentSignatureSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DocumentSignatureSettings_FromUnknown(PdfUnknownSafeHandle handle, out PdfDocumentSignatureSettingsSafeHandle data);
-
         #endregion
 
         #region DocumentEncryptionSettings
@@ -117,24 +99,12 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DocumentEncryptionSettings_Release(IntPtr handle);
 
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DocumentEncryptionSettings_ToUnknown(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DocumentEncryptionSettings_FromUnknown(PdfUnknownSafeHandle handle, out PdfDocumentEncryptionSettingsSafeHandle data);
-
         #endregion
 
         #region Catalog
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Catalog_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Catalog_ToUnknown(PdfCatalogSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Catalog_FromUnknown(PdfUnknownSafeHandle handle, out PdfCatalogSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Catalog_GetPages(PdfCatalogSafeHandle handle, out PdfPageTreeSafeHandle data);
@@ -151,12 +121,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageTree_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageTree_ToUnknown(PdfPageTreeSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageTree_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageTreeSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageTree_GetPage(PdfPageTreeSafeHandle handle, UIntPtr at, out PdfPageObjectSafeHandle data);
@@ -179,12 +143,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageObject_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageObject_ToUnknown(PdfPageObjectSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageObject_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageObject_GetContents(PdfPageObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
@@ -212,12 +170,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 PageContents_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageContents_ToUnknown(PdfPageContentsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageContents_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageContentsSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageContents_GetInstructionCollection(PdfPageContentsSafeHandle handle, out PdfContentInstructionCollectionSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -230,12 +182,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageAnnotations_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageAnnotations_ToUnknown(PdfPageAnnotationsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 PageAnnotations_FromUnknown(PdfUnknownSafeHandle handle, out PdfPageAnnotationsSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageAnnotations_GetSize(PdfPageAnnotationsSafeHandle handle, out UIntPtr data);
@@ -251,12 +197,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 Annotation_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Annotation_ToUnknown(PdfAnnotationSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Annotation_FromUnknown(PdfUnknownSafeHandle handle, out PdfAnnotationSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Annotation_GetAnnotationType(PdfAnnotationSafeHandle handle, out Int32 data);
 
         #endregion
@@ -265,12 +205,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Rectangle_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Rectangle_ToUnknown(PdfRectangleSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Rectangle_FromUnknown(PdfUnknownSafeHandle handle, out PdfRectangleSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Rectangle_Create(out PdfRectangleSafeHandle handle);
@@ -305,12 +239,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Date_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Date_ToUnknown(PdfDateSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Date_FromUnknown(PdfUnknownSafeHandle handle, out PdfDateSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Date_CreateEmpty(out PdfDateSafeHandle handle);
@@ -380,12 +308,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 Font_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Font_ToUnknown(PdfFontSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Font_FromUnknown(PdfUnknownSafeHandle handle, out PdfFontSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Font_CreateFromObject(PdfDictionaryObjectSafeHandle handle, out PdfFontSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -415,12 +337,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 FontMap_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 FontMap_ToUnknown(PdfFontMapSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 FontMap_FromUnknown(PdfUnknownSafeHandle handle, out PdfFontMapSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern UInt32 FontMap_Contains(PdfFontMapSafeHandle handle, PdfNameObjectSafeHandle key, [MarshalAs(UnmanagedType.I1)] out bool data);
 
@@ -435,12 +351,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 ResourceDictionary_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ResourceDictionary_ToUnknown(PdfResourceDictionarySafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ResourceDictionary_FromUnknown(PdfUnknownSafeHandle handle, out PdfResourceDictionarySafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 ResourceDictionary_GetFontMap(PdfResourceDictionarySafeHandle handle, out PdfFontMapSafeHandle data);
 
         #endregion
@@ -449,12 +359,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 CharacterMap_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 CharacterMap_ToUnknown(PdfCharacterMapSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 CharacterMap_FromUnknown(PdfUnknownSafeHandle handle, out PdfCharacterMapSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 CharacterMap_GetCharacterMapType(PdfCharacterMapSafeHandle handle, out Int32 data);
@@ -481,12 +385,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 OutlineBase_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 OutlineBase_ToUnknown(PdfOutlineBaseSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 OutlineBase_FromUnknown(PdfUnknownSafeHandle handle, out PdfOutlineBaseSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 OutlineBase_GetOutlineType(PdfOutlineBaseSafeHandle handle, out Int32 data);

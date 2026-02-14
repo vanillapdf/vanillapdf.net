@@ -10,11 +10,11 @@ namespace vanillapdf.net.PdfSemantics
     /// with a location on a page of a PDF document, or provides a way
     /// to interact with the user by means of the mouse and keyboard.
     /// </summary>
-    public class PdfAnnotation : PdfUnknown
+    public class PdfAnnotation : IDisposable
     {
         internal PdfAnnotationSafeHandle Handle { get; }
 
-        internal PdfAnnotation(PdfAnnotationSafeHandle handle) : base(handle)
+        internal PdfAnnotation(PdfAnnotationSafeHandle handle)
         {
             Handle = handle;
         }
@@ -33,9 +33,10 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfAnnotationType>.CheckedCast(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

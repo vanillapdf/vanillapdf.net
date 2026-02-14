@@ -94,9 +94,11 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfIntegerObject(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public override void Dispose()
         {
-            base.DisposeCustomHandle();
+            base.Dispose();
             Handle?.Dispose();
         }
     }

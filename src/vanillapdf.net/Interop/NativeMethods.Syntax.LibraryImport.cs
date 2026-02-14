@@ -14,12 +14,6 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 File_Release(IntPtr handle);
 
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 File_ToUnknown(PdfFileSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 File_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileSafeHandle data);
-
         [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
         public static partial UInt32 File_Open(string filename, out PdfFileSafeHandle data);
 
@@ -61,12 +55,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FileWriter_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 FileWriter_ToUnknown(PdfFileWriterSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 FileWriter_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileWriterSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 FileWriter_Create(out PdfFileWriterSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -89,12 +77,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FileWriterObserver_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 FileWriterObserver_ToUnknown(PdfFileWriterObserverSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 FileWriterObserver_FromUnknown(PdfUnknownSafeHandle handle, out PdfFileWriterObserverSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 FileWriterObserver_CreateCustom(
             IntPtr on_initializing,
             IntPtr on_finalizing,
@@ -115,12 +97,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Object_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 Object_ToUnknown(PdfObjectSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 Object_FromUnknown(PdfUnknownSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Object_GetObjectType(PdfObjectSafeHandle handle, out PdfSyntax.PdfObjectType data);
@@ -220,12 +196,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 DictionaryObjectIterator_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 DictionaryObjectIterator_ToUnknown(PdfDictionaryObjectIteratorSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 DictionaryObjectIterator_FromUnknown(PdfUnknownSafeHandle handle, out PdfDictionaryObjectIteratorSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 DictionaryObjectIterator_GetKey(PdfDictionaryObjectIteratorSafeHandle handle, out PdfNameObjectSafeHandle data);
@@ -506,12 +476,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 BaseObjectAttribute_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 BaseObjectAttribute_ToUnknown(PdfBaseObjectAttributeSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 BaseObjectAttribute_FromUnknown(PdfUnknownSafeHandle handle, out PdfBaseObjectAttributeSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 BaseObjectAttribute_GetAttributeType(PdfBaseObjectAttributeSafeHandle handle, out PdfSyntax.PdfObjectAttributeType data);
 
         #endregion
@@ -560,12 +524,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ObjectAttributeList_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ObjectAttributeList_ToUnknown(PdfObjectAttributeListSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 ObjectAttributeList_FromUnknown(PdfUnknownSafeHandle handle, out PdfObjectAttributeListSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ObjectAttributeList_Create(out PdfObjectAttributeListSafeHandle handle);

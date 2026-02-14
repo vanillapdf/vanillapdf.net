@@ -11,11 +11,11 @@ namespace vanillapdf.net.PdfSemantics
     /// each of which is a dictionary specifying the
     /// attributes of a single page of the document.
     /// </summary>
-    public class PdfPageObject : PdfUnknown
+    public class PdfPageObject : IDisposable
     {
         internal PdfPageObjectSafeHandle Handle { get; }
 
-        internal PdfPageObject(PdfPageObjectSafeHandle handle) : base(handle)
+        internal PdfPageObject(PdfPageObjectSafeHandle handle)
         {
             Handle = handle;
         }
@@ -126,9 +126,10 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfDictionaryObject(data);
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

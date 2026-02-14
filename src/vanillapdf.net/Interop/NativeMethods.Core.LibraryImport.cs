@@ -9,16 +9,6 @@ namespace vanillapdf.net.Interop
 {
     internal static partial class NativeMethods
     {
-        #region IUnknown
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 IUnknown_AddRef(PdfUnknownSafeHandle handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 IUnknown_Release(IntPtr handle);
-
-        #endregion
-
         #region Errors
 
         [LibraryImport(LibraryName)]
@@ -82,12 +72,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Buffer_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 Buffer_ToUnknown(PdfBufferSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 Buffer_FromUnknown(PdfUnknownSafeHandle handle, out PdfBufferSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 Buffer_Create(out PdfBufferSafeHandle handle);
 
         [LibraryImport(LibraryName)]
@@ -115,12 +99,6 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 InputStream_Release(IntPtr handle);
 
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 InputStream_ToUnknown(PdfInputStreamSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 InputStream_FromUnknown(PdfUnknownSafeHandle handle, out PdfInputStreamSafeHandle data);
-
         [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
         public static partial UInt32 InputStream_CreateFromFile(string filename, out PdfInputStreamSafeHandle data);
 
@@ -142,12 +120,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 OutputStream_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 OutputStream_ToUnknown(PdfOutputStreamSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 OutputStream_FromUnknown(PdfUnknownSafeHandle handle, out PdfOutputStreamSafeHandle data);
 
         [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
         public static partial UInt32 OutputStream_CreateFromFile(string filename, out PdfOutputStreamSafeHandle data);
@@ -173,12 +145,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 InputOutputStream_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 InputOutputStream_ToUnknown(PdfInputOutputStreamSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 InputOutputStream_FromUnknown(PdfUnknownSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 InputOutputStream_ToInputStream(PdfInputOutputStreamSafeHandle handle, out PdfInputStreamSafeHandle data);
@@ -231,12 +197,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SigningKey_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 SigningKey_ToUnknown(PdfSigningKeySafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 SigningKey_FromUnknown(PdfUnknownSafeHandle handle, out PdfSigningKeySafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SigningKey_CreateCustom(

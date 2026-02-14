@@ -10,11 +10,11 @@ namespace vanillapdf.net.PdfSemantics
     /// A content stream is a PDF stream object whose data consists of
     /// a sequence of instructions describing the graphical elements to be painted on a page.
     /// </summary>
-    public class PdfPageContents : PdfUnknown
+    public class PdfPageContents : IDisposable
     {
         internal PdfPageContentsSafeHandle Handle { get; }
 
-        internal PdfPageContents(PdfPageContentsSafeHandle handle) : base(handle)
+        internal PdfPageContents(PdfPageContentsSafeHandle handle)
         {
             Handle = handle;
         }
@@ -49,9 +49,10 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
     }

@@ -10,11 +10,11 @@ namespace vanillapdf.net.PdfSyntax
     /// <summary>
     /// An ordered collection of all \ref PdfXref within the PDF file.
     /// </summary>
-    public class PdfXrefChain : PdfUnknown, IEnumerable<PdfXref>
+    public class PdfXrefChain : IDisposable, IEnumerable<PdfXref>
     {
         internal PdfXrefChainSafeHandle Handle { get; }
 
-        internal PdfXrefChain(PdfXrefChainSafeHandle handle) : base(handle)
+        internal PdfXrefChain(PdfXrefChainSafeHandle handle)
         {
             Handle = handle;
         }
@@ -33,15 +33,12 @@ namespace vanillapdf.net.PdfSyntax
             return new PdfXrefChainIterator(value);
         }
 
-        #region PdfUnknown
+        /// <inheritdoc/>
 
-        private protected override void DisposeCustomHandle()
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
 
         #region IEnumerable<PdfXref>
 
