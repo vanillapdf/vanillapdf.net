@@ -9,11 +9,11 @@ namespace vanillapdf.net.PdfSemantics
     /// A link annotation represents a hypertext link to a destination
     /// elsewhere in the document or to an action to be performed.
     /// </summary>
-    public class PdfLinkAnnotation : IDisposable
+    public class PdfLinkAnnotation : PdfAnnotation
     {
-        internal PdfLinkAnnotationSafeHandle Handle { get; }
+        internal new PdfLinkAnnotationSafeHandle Handle { get; }
 
-        internal PdfLinkAnnotation(PdfLinkAnnotationSafeHandle handle)
+        internal PdfLinkAnnotation(PdfLinkAnnotationSafeHandle handle) : base(handle)
         {
             Handle = handle;
         }
@@ -50,7 +50,7 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <inheritdoc/>
-        public void Dispose()
+        public override void Dispose()
         {
             Handle?.Dispose();
         }
