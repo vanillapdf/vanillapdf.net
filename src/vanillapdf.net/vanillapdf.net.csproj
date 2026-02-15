@@ -68,7 +68,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.6.3" />
-    <PackageReference Include="vanillapdf" Version="2.3.999.20260203-nightly.main" />
+    <PackageReference Include="vanillapdf" Version="2.3.0-alpha.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" PrivateAssets="All" />
   </ItemGroup>
 
