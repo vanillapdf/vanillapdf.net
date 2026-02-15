@@ -7,11 +7,11 @@ namespace vanillapdf.net.PdfUtils
     /// <summary>
     /// Configuration settings for signature verification
     /// </summary>
-    public class SignatureVerificationSettings : PdfUnknown
+    public class SignatureVerificationSettings : IDisposable
     {
         internal SignatureVerificationSettingsSafeHandle Handle { get; }
 
-        internal SignatureVerificationSettings(SignatureVerificationSettingsSafeHandle handle) : base(handle)
+        internal SignatureVerificationSettings(SignatureVerificationSettingsSafeHandle handle)
         {
             Handle = handle;
         }
@@ -103,14 +103,10 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }

@@ -237,12 +237,6 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 TrustedCertificateStore_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 TrustedCertificateStore_ToUnknown(TrustedCertificateStoreSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 TrustedCertificateStore_FromUnknown(PdfUnknownSafeHandle handle, out TrustedCertificateStoreSafeHandle data);
-
-        [LibraryImport(LibraryName)]
         public static partial UInt32 TrustedCertificateStore_Create(out TrustedCertificateStoreSafeHandle handle);
 
         [LibraryImport(LibraryName)]
@@ -263,12 +257,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationSettings_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_ToUnknown(SignatureVerificationSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_FromUnknown(PdfUnknownSafeHandle handle, out SignatureVerificationSettingsSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
@@ -297,12 +285,6 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationResult_Release(IntPtr handle);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationResult_ToUnknown(SignatureVerificationResultSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationResult_FromUnknown(PdfUnknownSafeHandle handle, out SignatureVerificationResultSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationResult_GetStatus(SignatureVerificationResultSafeHandle handle, out int status);

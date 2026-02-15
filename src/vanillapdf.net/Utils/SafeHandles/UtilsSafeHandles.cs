@@ -91,69 +91,15 @@ namespace vanillapdf.net.Utils
     internal sealed class TrustedCertificateStoreSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.TrustedCertificateStore_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(TrustedCertificateStoreSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.TrustedCertificateStore_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator TrustedCertificateStoreSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.TrustedCertificateStore_FromUnknown(handle, out TrustedCertificateStoreSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     internal sealed class SignatureVerificationSettingsSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.SignatureVerificationSettings_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(SignatureVerificationSettingsSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.SignatureVerificationSettings_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator SignatureVerificationSettingsSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.SignatureVerificationSettings_FromUnknown(handle, out SignatureVerificationSettingsSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 
     internal sealed class SignatureVerificationResultSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.SignatureVerificationResult_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
-
-        public static implicit operator PdfUnknownSafeHandle(SignatureVerificationResultSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.SignatureVerificationResult_ToUnknown(handle, out PdfUnknownSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
-
-        public static implicit operator SignatureVerificationResultSafeHandle(PdfUnknownSafeHandle handle)
-        {
-            UInt32 result = NativeMethods.SignatureVerificationResult_FromUnknown(handle, out SignatureVerificationResultSafeHandle data);
-            if (result != PdfReturnValues.ERROR_SUCCESS) {
-                throw PdfErrors.GetLastErrorException();
-            }
-            return data;
-        }
     }
 }

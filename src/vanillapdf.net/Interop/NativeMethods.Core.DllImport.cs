@@ -248,12 +248,6 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 TrustedCertificateStore_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 TrustedCertificateStore_ToUnknown(TrustedCertificateStoreSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 TrustedCertificateStore_FromUnknown(PdfUnknownSafeHandle handle, out TrustedCertificateStoreSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 TrustedCertificateStore_Create(out TrustedCertificateStoreSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
@@ -277,12 +271,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationSettings_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_ToUnknown(SignatureVerificationSettingsSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_FromUnknown(PdfUnknownSafeHandle handle, out SignatureVerificationSettingsSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
@@ -311,12 +299,6 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationResult_Release(IntPtr handle);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_ToUnknown(SignatureVerificationResultSafeHandle handle, out PdfUnknownSafeHandle data);
-
-        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_FromUnknown(PdfUnknownSafeHandle handle, out SignatureVerificationResultSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationResult_GetStatus(SignatureVerificationResultSafeHandle handle, out int status);

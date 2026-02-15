@@ -7,11 +7,11 @@ namespace vanillapdf.net.PdfUtils
     /// <summary>
     /// Collection of trusted certificates for signature verification
     /// </summary>
-    public class TrustedCertificateStore : PdfUnknown
+    public class TrustedCertificateStore : IDisposable
     {
         internal TrustedCertificateStoreSafeHandle Handle { get; }
 
-        internal TrustedCertificateStore(TrustedCertificateStoreSafeHandle handle) : base(handle)
+        internal TrustedCertificateStore(TrustedCertificateStoreSafeHandle handle)
         {
             Handle = handle;
         }
@@ -79,14 +79,10 @@ namespace vanillapdf.net.PdfUtils
             }
         }
 
-        #region PdfUnknown
-
-        private protected override void DisposeCustomHandle()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            base.DisposeCustomHandle();
             Handle?.Dispose();
         }
-
-        #endregion
     }
 }
