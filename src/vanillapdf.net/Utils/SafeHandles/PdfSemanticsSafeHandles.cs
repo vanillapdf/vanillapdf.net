@@ -422,4 +422,170 @@ namespace vanillapdf.net.Utils
     {
         protected override bool ReleaseHandle() => NativeMethods.NameDictionary_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
     }
+
+    internal sealed class PdfColorSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.Color_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfTextAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.TextAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfTextAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.TextAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfTextAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.TextAnnotation_FromBaseAnnotation(handle, out PdfTextAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfHighlightAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.HighlightAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfHighlightAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.HighlightAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfHighlightAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.HighlightAnnotation_FromBaseAnnotation(handle, out PdfHighlightAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfFreeTextAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FreeTextAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfFreeTextAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FreeTextAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfFreeTextAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.FreeTextAnnotation_FromBaseAnnotation(handle, out PdfFreeTextAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfUnderlineAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.UnderlineAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfUnderlineAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.UnderlineAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfUnderlineAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.UnderlineAnnotation_FromBaseAnnotation(handle, out PdfUnderlineAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfStrikeOutAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.StrikeOutAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfStrikeOutAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.StrikeOutAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfStrikeOutAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.StrikeOutAnnotation_FromBaseAnnotation(handle, out PdfStrikeOutAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfSquigglyAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.SquigglyAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfSquigglyAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.SquigglyAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfSquigglyAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.SquigglyAnnotation_FromBaseAnnotation(handle, out PdfSquigglyAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfInkAnnotationSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.InkAnnotation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfAnnotationSafeHandle(PdfInkAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.InkAnnotation_ToBaseAnnotation(handle, out PdfAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfInkAnnotationSafeHandle(PdfAnnotationSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.InkAnnotation_FromBaseAnnotation(handle, out PdfInkAnnotationSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
 }

@@ -38,6 +38,22 @@ namespace vanillapdf.net.PdfSemantics.Extensions
         {
             var annotationType = annotation.GetAnnotationType();
             switch (annotationType) {
+                case PdfAnnotationType.Link:
+                    return PdfLinkAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.Text:
+                    return PdfTextAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.Highlight:
+                    return PdfHighlightAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.FreeText:
+                    return PdfFreeTextAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.Underline:
+                    return PdfUnderlineAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.StrikeOut:
+                    return PdfStrikeOutAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.Squiggly:
+                    return PdfSquigglyAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.Ink:
+                    return PdfInkAnnotation.FromAnnotation(annotation);
                 default:
                     throw new PdfManagedException($"Cannot upgrade annotation with unsupported type: {annotationType}");
             }

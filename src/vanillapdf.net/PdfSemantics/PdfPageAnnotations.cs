@@ -33,6 +33,18 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Create a new empty annotation collection.
+        /// </summary>
+        public static PdfPageAnnotations Create()
+        {
+            UInt32 result = NativeMethods.PageAnnotations_Create(out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return new PdfPageAnnotations(data);
+        }
+
+        /// <summary>
         /// Get page annotation at index in the current \ref PdfPageObject
         /// </summary>
         /// <param name="index">Index of page annotation to be returned</param>
@@ -45,6 +57,30 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfAnnotation(data);
+        }
+
+        /// <summary>
+        /// Append an annotation to the collection.
+        /// </summary>
+        /// <param name="annotation">The annotation to append.</param>
+        public void Append(PdfAnnotation annotation)
+        {
+            UInt32 result = NativeMethods.PageAnnotations_Append(Handle, annotation.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        /// <summary>
+        /// Remove an annotation from the collection at the specified position.
+        /// </summary>
+        /// <param name="index">Position of the element to remove.</param>
+        public void Remove(UInt64 index)
+        {
+            UInt32 result = NativeMethods.PageAnnotations_Remove(Handle, new UIntPtr(index));
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
         }
 
         /// <inheritdoc/>

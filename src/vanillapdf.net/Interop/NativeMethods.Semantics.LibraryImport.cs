@@ -187,10 +187,19 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 PageAnnotations_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        public static partial UInt32 PageAnnotations_Create(out PdfPageAnnotationsSafeHandle data);
+
+        [LibraryImport(LibraryName)]
         public static partial UInt32 PageAnnotations_GetSize(PdfPageAnnotationsSafeHandle handle, out UIntPtr data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 PageAnnotations_At(PdfPageAnnotationsSafeHandle handle, UIntPtr index, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageAnnotations_Append(PdfPageAnnotationsSafeHandle handle, PdfAnnotationSafeHandle annotation);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 PageAnnotations_Remove(PdfPageAnnotationsSafeHandle handle, UIntPtr at);
 
         #endregion
 
@@ -201,6 +210,368 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Annotation_GetAnnotationType(PdfAnnotationSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_GetRect(PdfAnnotationSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_SetRect(PdfAnnotationSafeHandle handle, PdfRectangleSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_GetContents(PdfAnnotationSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_SetContents(PdfAnnotationSafeHandle handle, PdfLiteralStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_GetColor(PdfAnnotationSafeHandle handle, out PdfColorSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_SetColor(PdfAnnotationSafeHandle handle, PdfColorSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_GetFlags(PdfAnnotationSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Annotation_SetFlags(PdfAnnotationSafeHandle handle, Int32 value);
+
+        #endregion
+
+        #region Color
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_CreateTransparent(out PdfColorSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_CreateGray(double gray, out PdfColorSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_CreateRGB(double red, double green, double blue, out PdfColorSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_CreateCMYK(double cyan, double magenta, double yellow, double black, out PdfColorSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetColorSpace(PdfColorSafeHandle handle, out Int32 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetRed(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetGreen(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetBlue(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetGray(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetCyan(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetMagenta(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetYellow(PdfColorSafeHandle handle, out double data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Color_GetBlack(PdfColorSafeHandle handle, out double data);
+
+        #endregion
+
+        #region TextAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_Create(PdfRectangleSafeHandle rect, out PdfTextAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_CreateWithContents(PdfRectangleSafeHandle rect, PdfLiteralStringObjectSafeHandle contents, out PdfTextAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_GetAuthor(PdfTextAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_SetAuthor(PdfTextAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_GetModificationDate(PdfTextAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_SetModificationDate(PdfTextAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_GetCreationDate(PdfTextAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_SetCreationDate(PdfTextAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_ToBaseAnnotation(PdfTextAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfTextAnnotationSafeHandle data);
+
+        #endregion
+
+        #region HighlightAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_Create(out PdfHighlightAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_CreateFromRect(PdfRectangleSafeHandle rect, out PdfHighlightAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_GetQuadPoints(PdfHighlightAnnotationSafeHandle handle, out PdfArrayObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_SetQuadPoints(PdfHighlightAnnotationSafeHandle handle, PdfArrayObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_GetAuthor(PdfHighlightAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_SetAuthor(PdfHighlightAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_GetModificationDate(PdfHighlightAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_SetModificationDate(PdfHighlightAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_GetCreationDate(PdfHighlightAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_SetCreationDate(PdfHighlightAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_ToBaseAnnotation(PdfHighlightAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 HighlightAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfHighlightAnnotationSafeHandle data);
+
+        #endregion
+
+        #region FreeTextAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_Create(PdfRectangleSafeHandle rect, PdfLiteralStringObjectSafeHandle contents, PdfLiteralStringObjectSafeHandle defaultAppearance, out PdfFreeTextAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_GetDefaultAppearance(PdfFreeTextAnnotationSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_SetDefaultAppearance(PdfFreeTextAnnotationSafeHandle handle, PdfLiteralStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_GetAuthor(PdfFreeTextAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_SetAuthor(PdfFreeTextAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_GetModificationDate(PdfFreeTextAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_SetModificationDate(PdfFreeTextAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_GetCreationDate(PdfFreeTextAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_SetCreationDate(PdfFreeTextAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_ToBaseAnnotation(PdfFreeTextAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FreeTextAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfFreeTextAnnotationSafeHandle data);
+
+        #endregion
+
+        #region UnderlineAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_Create(out PdfUnderlineAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_CreateFromRect(PdfRectangleSafeHandle rect, out PdfUnderlineAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_GetQuadPoints(PdfUnderlineAnnotationSafeHandle handle, out PdfArrayObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_SetQuadPoints(PdfUnderlineAnnotationSafeHandle handle, PdfArrayObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_GetAuthor(PdfUnderlineAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_SetAuthor(PdfUnderlineAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_GetModificationDate(PdfUnderlineAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_SetModificationDate(PdfUnderlineAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_GetCreationDate(PdfUnderlineAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_SetCreationDate(PdfUnderlineAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_ToBaseAnnotation(PdfUnderlineAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 UnderlineAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfUnderlineAnnotationSafeHandle data);
+
+        #endregion
+
+        #region StrikeOutAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_Create(out PdfStrikeOutAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_CreateFromRect(PdfRectangleSafeHandle rect, out PdfStrikeOutAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_GetQuadPoints(PdfStrikeOutAnnotationSafeHandle handle, out PdfArrayObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_SetQuadPoints(PdfStrikeOutAnnotationSafeHandle handle, PdfArrayObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_GetAuthor(PdfStrikeOutAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_SetAuthor(PdfStrikeOutAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_GetModificationDate(PdfStrikeOutAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_SetModificationDate(PdfStrikeOutAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_GetCreationDate(PdfStrikeOutAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_SetCreationDate(PdfStrikeOutAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_ToBaseAnnotation(PdfStrikeOutAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 StrikeOutAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfStrikeOutAnnotationSafeHandle data);
+
+        #endregion
+
+        #region SquigglyAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_Create(out PdfSquigglyAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_CreateFromRect(PdfRectangleSafeHandle rect, out PdfSquigglyAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_GetQuadPoints(PdfSquigglyAnnotationSafeHandle handle, out PdfArrayObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_SetQuadPoints(PdfSquigglyAnnotationSafeHandle handle, PdfArrayObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_GetAuthor(PdfSquigglyAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_SetAuthor(PdfSquigglyAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_GetModificationDate(PdfSquigglyAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_SetModificationDate(PdfSquigglyAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_GetCreationDate(PdfSquigglyAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_SetCreationDate(PdfSquigglyAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_ToBaseAnnotation(PdfSquigglyAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 SquigglyAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfSquigglyAnnotationSafeHandle data);
+
+        #endregion
+
+        #region InkAnnotation
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_Create(out PdfInkAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_CreateFromRect(PdfRectangleSafeHandle rect, out PdfInkAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_GetInkList(PdfInkAnnotationSafeHandle handle, out PdfArrayObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_SetInkList(PdfInkAnnotationSafeHandle handle, PdfArrayObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_GetAuthor(PdfInkAnnotationSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_SetAuthor(PdfInkAnnotationSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_GetModificationDate(PdfInkAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_SetModificationDate(PdfInkAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_GetCreationDate(PdfInkAnnotationSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_SetCreationDate(PdfInkAnnotationSafeHandle handle, PdfDateSafeHandle value);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_ToBaseAnnotation(PdfInkAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 InkAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfInkAnnotationSafeHandle data);
 
         #endregion
 
