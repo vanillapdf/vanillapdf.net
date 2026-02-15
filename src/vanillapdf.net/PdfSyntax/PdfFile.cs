@@ -66,6 +66,22 @@ namespace vanillapdf.net.PdfSyntax
         }
 
         /// <summary>
+        /// Opens an existing file from the specified location using the given I/O strategy
+        /// </summary>
+        /// <param name="filename">path to existing file location</param>
+        /// <param name="strategy">I/O backend strategy to use</param>
+        /// <returns>A new \ref PdfFile instance on success, throws exception on failure</returns>
+        public static PdfFile Open(string filename, IOStrategyType strategy)
+        {
+            UInt32 result = NativeMethods.File_OpenWithStrategy(filename, strategy, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfFile(data);
+        }
+
+        /// <summary>
         /// Open file from existing \ref PdfUtils.PdfInputOutputStream containing a valid PDF document structure
         /// </summary>
         /// <param name="stream">Stream containing a valid PDF document structure</param>
@@ -90,6 +106,23 @@ namespace vanillapdf.net.PdfSyntax
         public static PdfFile Create(string filename)
         {
             UInt32 result = NativeMethods.File_Create(filename, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfFile(data);
+        }
+
+        /// <summary>
+        /// Creates a file for writing using the given I/O strategy.
+        /// Truncates the contents if it already exists.
+        /// </summary>
+        /// <param name="filename">path to file location</param>
+        /// <param name="strategy">I/O backend strategy to use</param>
+        /// <returns>A new \ref PdfFile instance on success, throws exception on failure</returns>
+        public static PdfFile Create(string filename, IOStrategyType strategy)
+        {
+            UInt32 result = NativeMethods.File_CreateWithStrategy(filename, strategy, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

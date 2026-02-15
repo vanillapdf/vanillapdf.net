@@ -34,6 +34,22 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Open an existing document for reading and manipulation using the given I/O strategy
+        /// </summary>
+        /// <param name="filename">path to existing document</param>
+        /// <param name="strategy">I/O backend strategy to use</param>
+        /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
+        public static PdfDocument Open(string filename, IOStrategyType strategy)
+        {
+            UInt32 result = NativeMethods.Document_OpenWithStrategy(filename, strategy, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDocument(data);
+        }
+
+        /// <summary>
         /// Open and existing document for reading and manupulation
         /// </summary>
         /// <param name="file">Handle to \ref PdfFile instance</param>
@@ -56,6 +72,22 @@ namespace vanillapdf.net.PdfSemantics
         public static PdfDocument Create(string filename)
         {
             UInt32 result = NativeMethods.Document_Create(filename, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDocument(data);
+        }
+
+        /// <summary>
+        /// Creates a new document at the specified location using the given I/O strategy
+        /// </summary>
+        /// <param name="filename">path file to be created</param>
+        /// <param name="strategy">I/O backend strategy to use</param>
+        /// <returns>A new \ref PdfDocument instance on success, throws exception on failure</returns>
+        public static PdfDocument Create(string filename, IOStrategyType strategy)
+        {
+            UInt32 result = NativeMethods.Document_CreateWithStrategy(filename, strategy, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

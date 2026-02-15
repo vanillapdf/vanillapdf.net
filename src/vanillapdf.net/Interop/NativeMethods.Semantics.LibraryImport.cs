@@ -49,6 +49,12 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Document_GetDocumentInfo(PdfDocumentSafeHandle handle, out PdfDocumentInfoSafeHandle data);
 
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 Document_OpenWithStrategy(string filename, PdfUtils.IOStrategyType strategy, out PdfDocumentSafeHandle data);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 Document_CreateWithStrategy(string filename, PdfUtils.IOStrategyType strategy, out PdfDocumentSafeHandle data);
+
         #endregion
 
         #region DocumentInfo
