@@ -63,6 +63,20 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 File_AllocateNewEntry(PdfFileSafeHandle handle, out PdfXrefUsedEntrySafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 File_OpenWithStrategy(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string filename,
+            PdfUtils.IOStrategyType strategy,
+            out PdfFileSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 File_CreateWithStrategy(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string filename,
+            PdfUtils.IOStrategyType strategy,
+            out PdfFileSafeHandle data);
+
         #endregion
 
         #region FileWriter

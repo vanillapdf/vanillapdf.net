@@ -47,6 +47,12 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 File_AllocateNewEntry(PdfFileSafeHandle handle, out PdfXrefUsedEntrySafeHandle data);
 
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 File_OpenWithStrategy(string filename, PdfUtils.IOStrategyType strategy, out PdfFileSafeHandle data);
+
+        [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
+        public static partial UInt32 File_CreateWithStrategy(string filename, PdfUtils.IOStrategyType strategy, out PdfFileSafeHandle data);
+
         #endregion
 
         #region FileWriter
