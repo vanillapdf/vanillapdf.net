@@ -11,7 +11,7 @@ namespace vanillapdf.net.PdfUtils
         Undefined = 0,
 
         /// <summary>
-        /// Use in-memory I/O backend (not yet supported)
+        /// Use in-memory I/O backend
         /// </summary>
         Memory,
 
