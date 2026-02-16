@@ -209,6 +209,22 @@ namespace vanillapdf.net.Interop
 
         #endregion
 
+        #region ObjectDiagnostics
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectDiagnostics_GetActiveObjectCount(out Int64 result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectDiagnostics_GetPeakObjectCount(out Int64 result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectDiagnostics_GetTotalObjectsCreated(out Int64 result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ObjectDiagnostics_ResetCounters();
+
+        #endregion
+
         #region PKCS12Key
 
         [LibraryImport(LibraryName)]

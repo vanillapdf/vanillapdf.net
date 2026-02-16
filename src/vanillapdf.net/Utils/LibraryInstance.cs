@@ -1,3 +1,5 @@
+using System;
+
 namespace vanillapdf.net.Utils
 {
     /// <summary>
@@ -52,12 +54,89 @@ namespace vanillapdf.net.Utils
         }
 
         /// <summary>
+        /// Determine if the native library is already loaded in the memory.
+        /// No longer required — the runtime loads the native library automatically via DllImport.
+        /// </summary>
+        /// <returns>Always returns true</returns>
+        [Obsolete("Native library loading is now handled automatically. This method will be removed in a future version.")]
+        public static bool IsInitialized()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Loads native library from the current assembly path.
+        /// No longer required — the runtime loads the native library automatically via DllImport.
+        /// </summary>
+        [Obsolete("Native library loading is now handled automatically. This method will be removed in a future version.")]
+        public static void Initialize()
+        {
+        }
+
+        /// <summary>
+        /// Loads native library from the specified folder.
+        /// No longer required — the runtime loads the native library automatically via DllImport.
+        /// </summary>
+        /// <param name="rootPath">Folder to search for native library</param>
+        [Obsolete("Native library loading is now handled automatically. This method will be removed in a future version.")]
+        public static void Initialize(string rootPath)
+        {
+        }
+
+        /// <summary>
+        /// Release native memory handle.
+        /// No longer required — the runtime manages the native library lifetime.
+        /// </summary>
+        [Obsolete("Native library lifetime is now managed automatically. This method will be removed in a future version.")]
+        public static void Release()
+        {
+        }
+
+        /// <summary>
+        /// Find procedure in the native library by its name.
+        /// No longer required — use DllImport/LibraryImport directly.
+        /// </summary>
+        /// <typeparam name="T">Function delegate type</typeparam>
+        /// <param name="procName">Name of the symbol exported by the native library</param>
+        /// <returns>Delegate to specified function</returns>
+        [Obsolete("Use DllImport/LibraryImport instead. This method will be removed in a future version.")]
+        public static T GetFunction<T>(string procName)
+        {
+            throw new NotSupportedException(
+                "Manual native library loading has been replaced by DllImport/LibraryImport.");
+        }
+
+        /// <summary>
+        /// Finds the constant symbol exported by the native library.
+        /// No longer required — use DllImport/LibraryImport directly.
+        /// </summary>
+        /// <param name="constantName">Name of the symbol exported by the native library</param>
+        /// <returns>Numeric value of the constant</returns>
+        [Obsolete("Use DllImport/LibraryImport instead. This method will be removed in a future version.")]
+        public static UInt32 GetConstant(string constantName)
+        {
+            throw new NotSupportedException(
+                "Manual native library loading has been replaced by DllImport/LibraryImport.");
+        }
+
+        /// <summary>
         /// Get number of active PdfSafeHandle objects
         /// </summary>
         /// <returns>Number of active PdfSafeHandle objects</returns>
         public static int GetSafeHandleCounter()
         {
             return PdfSafeHandle.Counter;
+        }
+
+        /// <summary>
+        /// Get number of active PdfUnknown objects.
+        /// Backed by native ObjectDiagnostics for backward compatibility.
+        /// </summary>
+        /// <returns>Number of active PdfUnknown objects</returns>
+        [Obsolete("Use ObjectDiagnostics.GetActiveObjectCount() instead. This method will be removed in a future version.")]
+        public static int GetUnknownCounter()
+        {
+            return (int)ObjectDiagnostics.GetActiveObjectCount();
         }
     }
 }
