@@ -38,5 +38,38 @@ namespace vanillapdf.net.nunit
 
             ClassicAssert.GreaterOrEqual(peak, active);
         }
+
+        [Test]
+        public void GetTotalObjectsCreated_ReturnsPositive()
+        {
+            using var obj = PdfNameObject.CreateFromDecodedString("Test");
+            var total = ObjectDiagnostics.GetTotalObjectsCreated();
+
+            ClassicAssert.Greater(total, 0);
+        }
+
+        [Test]
+        public void GetTotalObjectsCreated_IncreasesAfterCreatingObject()
+        {
+            var before = ObjectDiagnostics.GetTotalObjectsCreated();
+            using var obj = PdfNameObject.CreateFromDecodedString("Test");
+            var after = ObjectDiagnostics.GetTotalObjectsCreated();
+
+            ClassicAssert.Greater(after, before);
+        }
+
+        [Test]
+        public void ResetCounters_ResetsPeakAndTotal()
+        {
+            using var obj = PdfNameObject.CreateFromDecodedString("Test");
+            ObjectDiagnostics.ResetCounters();
+
+            var active = ObjectDiagnostics.GetActiveObjectCount();
+            var peak = ObjectDiagnostics.GetPeakObjectCount();
+            var total = ObjectDiagnostics.GetTotalObjectsCreated();
+
+            ClassicAssert.AreEqual(active, peak);
+            ClassicAssert.AreEqual(active, total);
+        }
     }
 }

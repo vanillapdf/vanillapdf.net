@@ -26,7 +26,7 @@ namespace vanillapdf.net.Utils
         }
 
         /// <summary>
-        /// Get peak count of simultaneously live native IUnknown-derived objects since startup
+        /// Get peak count of simultaneously live native IUnknown-derived objects since startup or last reset
         /// </summary>
         /// <returns>Peak count of native objects</returns>
         public static Int64 GetPeakObjectCount()
@@ -37,6 +37,31 @@ namespace vanillapdf.net.Utils
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// Get the total number of objects created since startup or last reset
+        /// </summary>
+        /// <returns>Total number of objects created</returns>
+        public static Int64 GetTotalObjectsCreated()
+        {
+            UInt32 result = NativeMethods.ObjectDiagnostics_GetTotalObjectsCreated(out Int64 count);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Reset peak and total counters to current active count
+        /// </summary>
+        public static void ResetCounters()
+        {
+            UInt32 result = NativeMethods.ObjectDiagnostics_ResetCounters();
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
         }
     }
 }
