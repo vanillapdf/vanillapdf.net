@@ -138,6 +138,9 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Catalog_SetNames(PdfCatalogSafeHandle handle, PdfNameDictionarySafeHandle names);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Catalog_GetOpenAction(PdfCatalogSafeHandle handle, out PdfObjectSafeHandle result);
+
         #endregion
 
         #region PageTree
@@ -1112,6 +1115,89 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 LinkAnnotation_GetDestination(PdfLinkAnnotationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 LinkAnnotation_GetAction(PdfLinkAnnotationSafeHandle handle, out PdfActionSafeHandle result);
+
+        #endregion
+
+        #region Action
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Action_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Action_GetActionType(PdfActionSafeHandle handle, out Int32 result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Action_CreateFromDictionary(PdfDictionaryObjectSafeHandle handle, out PdfActionSafeHandle result);
+
+        #endregion
+
+        #region GoToAction
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToAction_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToAction_GetDestination(PdfGoToActionSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToAction_ToAction(PdfGoToActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToAction_FromAction(PdfActionSafeHandle handle, out PdfGoToActionSafeHandle result);
+
+        #endregion
+
+        #region URIAction
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 URIAction_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 URIAction_GetURI(PdfURIActionSafeHandle handle, out PdfLiteralStringObjectSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 URIAction_ToAction(PdfURIActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 URIAction_FromAction(PdfActionSafeHandle handle, out PdfURIActionSafeHandle result);
+
+        #endregion
+
+        #region GoToRemoteAction
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToRemoteAction_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToRemoteAction_GetDestination(PdfGoToRemoteActionSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToRemoteAction_GetFile(PdfGoToRemoteActionSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToRemoteAction_ToAction(PdfGoToRemoteActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 GoToRemoteAction_FromAction(PdfActionSafeHandle handle, out PdfGoToRemoteActionSafeHandle result);
+
+        #endregion
+
+        #region NamedAction
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 NamedAction_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 NamedAction_GetName(PdfNamedActionSafeHandle handle, out PdfNameObjectSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 NamedAction_ToAction(PdfNamedActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 NamedAction_FromAction(PdfActionSafeHandle handle, out PdfNamedActionSafeHandle result);
 
         #endregion
 

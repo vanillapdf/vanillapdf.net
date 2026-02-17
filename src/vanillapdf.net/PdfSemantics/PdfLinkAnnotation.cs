@@ -34,6 +34,7 @@ namespace vanillapdf.net.PdfSemantics
 
         /// <summary>
         /// Get the destination associated with this link annotation.
+        /// Returns null if no destination is specified (e.g. if the annotation uses an action instead).
         /// </summary>
         public PdfDestination Destination
         {
@@ -46,6 +47,24 @@ namespace vanillapdf.net.PdfSemantics
                 }
 
                 return new PdfDestination(data);
+            }
+        }
+
+        /// <summary>
+        /// Get the action associated with this link annotation.
+        /// Returns null if no action is specified (e.g. if the annotation uses a destination instead).
+        /// </summary>
+        public PdfAction Action
+        {
+            get
+            {
+                UInt32 result = NativeMethods.LinkAnnotation_GetAction(Handle, out var data);
+                if (result == PdfReturnValues.ERROR_OBJECT_MISSING) return null;
+                if (result != PdfReturnValues.ERROR_SUCCESS) {
+                    throw PdfErrors.GetLastErrorException();
+                }
+
+                return new PdfAction(data);
             }
         }
 
