@@ -52,6 +52,23 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Resolve any PDF object (array, name, or string) into a destination.
+        /// This handles named destinations, explicit destination arrays, and
+        /// dictionary-based destinations.
+        /// </summary>
+        /// <param name="obj">A PDF object representing a destination.</param>
+        /// <returns>A new resolved destination instance.</returns>
+        public static PdfDestination Resolve(PdfObject obj)
+        {
+            UInt32 result = NativeMethods.Destination_Resolve(obj.ObjectHandle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfDestination(data);
+        }
+
+        /// <summary>
         /// Get the type of this destination.
         /// </summary>
         public PdfDestinationType DestinationType

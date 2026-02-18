@@ -149,13 +149,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
             ClassicAssert.IsNotNull(firstItem);
 
             // The native library's OutlineItem_GetDestination returns null
-            // for named destinations - this is expected behavior
-            // The destination would need to be resolved via Names/Dests tree
+            // for named destinations - this is expected behavior.
+            // Named destinations can be resolved using PdfDestination.Resolve()
+            // as an alternative path.
             using var destination = firstItem.Destination;
-
-            // This documents current behavior - destinations that are name strings
-            // return null (named destination resolution not yet implemented)
-            // This test passes to document this behavior
         }
 
         [Test]
@@ -751,6 +748,113 @@ namespace vanillapdf.net.nunit.PdfSemantics
 
             var destType = destination.DestinationType;
             ClassicAssert.AreNotEqual(PdfDestinationType.Undefined, destType);
+        }
+
+        [Test]
+        public void TestDestinationResolveFromNameTree()
+        {
+            // Granizo.pdf has exactly 30 named destinations, all FitBoundingBoxHorizontal
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using PdfPageTree tree = catalog.GetPages();
+            using var names = catalog.GetNames();
+
+            ClassicAssert.IsNotNull(names);
+            ClassicAssert.IsTrue(names.ContainsDestinations());
+
+            using var destTree = names.GetDestinations();
+            using var iterator = destTree.GetIterator();
+
+            int count = 0;
+            while (iterator.IsValid) {
+                using var value = iterator.Value;
+                ClassicAssert.IsNotNull(value);
+
+                // All destinations in Granizo.pdf are FitBoundingBoxHorizontal
+                ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, value.DestinationType);
+
+                // Each destination should be convertible to FitBoundingBoxHorizontal
+                var fitBHDest = value.AsFitBoundingBoxHorizontal();
+                ClassicAssert.IsNotNull(fitBHDest);
+
+                // Top coordinate should be accessible
+                using var top = fitBHDest.Top;
+                ClassicAssert.IsNotNull(top);
+
+                // Page reference should resolve to a valid page index
+                using var pageRef = value.PageNumber;
+                ulong pageIndex = tree.FindPageIndex(pageRef);
+                ClassicAssert.GreaterOrEqual(pageIndex, 1UL);
+                ClassicAssert.LessOrEqual(pageIndex, 10UL);
+
+                count++;
+                iterator.Next();
+            }
+
+            ClassicAssert.AreEqual(30, count, "Granizo.pdf should have exactly 30 named destinations");
+        }
+
+        [Test]
+        public void TestDestinationResolveAndFindPageIndex()
+        {
+            // Verify specific known destinations in Granizo.pdf resolve
+            // to the expected page indices
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using PdfPageTree tree = catalog.GetPages();
+
+            ClassicAssert.AreEqual(10UL, tree.GetPageCount());
+
+            using var names = catalog.GetNames();
+            ClassicAssert.IsNotNull(names);
+            ClassicAssert.IsTrue(names.ContainsDestinations());
+
+            using var destTree = names.GetDestinations();
+
+            // Verify Doc-Start points to page 1
+            using var docStartKey = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            using var docStartDest = destTree.Find(docStartKey);
+            ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, docStartDest.DestinationType);
+            using var docStartPageRef = docStartDest.PageNumber;
+            ClassicAssert.AreEqual(1UL, tree.FindPageIndex(docStartPageRef));
+
+            // Verify chapter.1 points to page 5
+            using var chapterKey = PdfLiteralStringObject.CreateFromDecodedString("chapter.1");
+            using var chapterDest = destTree.Find(chapterKey);
+            ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, chapterDest.DestinationType);
+            using var chapterPageRef = chapterDest.PageNumber;
+            ClassicAssert.AreEqual(5UL, tree.FindPageIndex(chapterPageRef));
+
+            // Verify name1 points to page 8
+            using var name1Key = PdfLiteralStringObject.CreateFromDecodedString("name1");
+            using var name1Dest = destTree.Find(name1Key);
+            ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, name1Dest.DestinationType);
+            using var name1PageRef = name1Dest.PageNumber;
+            ClassicAssert.AreEqual(8UL, tree.FindPageIndex(name1PageRef));
+
+            // Verify page.10 points to page 10
+            using var page10Key = PdfLiteralStringObject.CreateFromDecodedString("page.10");
+            using var page10Dest = destTree.Find(page10Key);
+            using var page10PageRef = page10Dest.PageNumber;
+            ClassicAssert.AreEqual(10UL, tree.FindPageIndex(page10PageRef));
+
+            // Verify section.1.3 points to page 7
+            using var sectionKey = PdfLiteralStringObject.CreateFromDecodedString("section.1.3");
+            using var sectionDest = destTree.Find(sectionKey);
+            using var sectionPageRef = sectionDest.PageNumber;
+            ClassicAssert.AreEqual(7UL, tree.FindPageIndex(sectionPageRef));
         }
 
         private static void AppendIntegerToArray(PdfArrayObject array, long value)
