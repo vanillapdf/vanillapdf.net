@@ -39,21 +39,21 @@ namespace vanillapdf.net.PdfSemantics.Extensions
             var destinationType = destination.DestinationType;
             switch (destinationType) {
                 case PdfDestinationType.XYZ:
-                    return new PdfXYZDestination((PdfXYZDestinationSafeHandle)destination.Handle);
+                    return PdfXYZDestination.FromDestination(destination);
                 case PdfDestinationType.Fit:
-                    return new PdfFitDestination((PdfFitDestinationSafeHandle)destination.Handle);
+                    return PdfFitDestination.FromDestination(destination);
                 case PdfDestinationType.FitHorizontal:
-                    return new PdfFitHorizontalDestination((PdfFitHorizontalDestinationSafeHandle)destination.Handle);
+                    return PdfFitHorizontalDestination.FromDestination(destination);
                 case PdfDestinationType.FitVertical:
-                    return new PdfFitVerticalDestination((PdfFitVerticalDestinationSafeHandle)destination.Handle);
+                    return PdfFitVerticalDestination.FromDestination(destination);
                 case PdfDestinationType.FitRectangle:
-                    return new PdfFitRectangleDestination((PdfFitRectangleDestinationSafeHandle)destination.Handle);
+                    return PdfFitRectangleDestination.FromDestination(destination);
                 case PdfDestinationType.FitBoundingBox:
-                    return new PdfFitBoundingBoxDestination((PdfFitBoundingBoxDestinationSafeHandle)destination.Handle);
+                    return PdfFitBoundingBoxDestination.FromDestination(destination);
                 case PdfDestinationType.FitBoundingBoxHorizontal:
-                    return new PdfFitBoundingBoxHorizontalDestination((PdfFitBoundingBoxHorizontalDestinationSafeHandle)destination.Handle);
+                    return PdfFitBoundingBoxHorizontalDestination.FromDestination(destination);
                 case PdfDestinationType.FitBoundingBoxVertical:
-                    return new PdfFitBoundingBoxVerticalDestination((PdfFitBoundingBoxVerticalDestinationSafeHandle)destination.Handle);
+                    return PdfFitBoundingBoxVerticalDestination.FromDestination(destination);
                 default:
                     throw new PdfManagedException($"Cannot upgrade destination with unsupported type: {destinationType}");
             }

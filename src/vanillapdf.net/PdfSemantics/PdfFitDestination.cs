@@ -15,5 +15,13 @@ namespace vanillapdf.net.PdfSemantics
         {
             Handle = handle;
         }
+
+        /// <summary>
+        /// Convert from base destination type.
+        /// </summary>
+        public static PdfFitDestination FromDestination(PdfDestination data)
+        {
+            return new PdfFitDestination(data.Handle);
+        }
     }
 }
