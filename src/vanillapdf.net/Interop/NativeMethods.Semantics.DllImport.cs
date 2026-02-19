@@ -160,6 +160,9 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageTree_RemovePage(PdfPageTreeSafeHandle handle, UIntPtr at);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageTree_FindPageIndex(PdfPageTreeSafeHandle handle, PdfObjectSafeHandle pageRef, out UIntPtr result);
+
         #endregion
 
         #region PageObject
@@ -946,6 +949,9 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Destination_GetPageNumber(PdfDestinationSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Destination_Resolve(PdfObjectSafeHandle handle, out PdfDestinationSafeHandle result);
 
         #endregion
 

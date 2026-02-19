@@ -1,5 +1,6 @@
 using System;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -82,6 +83,21 @@ namespace vanillapdf.net.PdfSemantics
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
+        }
+
+        /// <summary>
+        /// Find the 1-based page index for a page reference object.
+        /// </summary>
+        /// <param name="pageRef">A PDF object referencing a page (typically an indirect reference).</param>
+        /// <returns>The 1-based page index.</returns>
+        public UInt64 FindPageIndex(PdfObject pageRef)
+        {
+            UInt32 result = NativeMethods.PageTree_FindPageIndex(Handle, pageRef.ObjectHandle, out UIntPtr data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data.ToUInt64();
         }
 
         /// <inheritdoc/>
