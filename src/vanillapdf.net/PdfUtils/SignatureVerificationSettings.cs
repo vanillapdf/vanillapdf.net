@@ -70,7 +70,7 @@ namespace vanillapdf.net.PdfUtils
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
-                return value != 0;
+                return value;
             }
             set
             {

@@ -282,7 +282,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, int value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, out int value);
+        public static extern UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, int value);
