@@ -21,6 +21,14 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Convert from base destination type.
+        /// </summary>
+        public static PdfFitBoundingBoxHorizontalDestination FromDestination(PdfDestination data)
+        {
+            return new PdfFitBoundingBoxHorizontalDestination(data.Handle);
+        }
+
+        /// <summary>
         /// Get the top coordinate (null means no change from current position).
         /// </summary>
         public PdfObject Top

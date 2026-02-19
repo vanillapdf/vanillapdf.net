@@ -21,6 +21,14 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Convert from base destination type.
+        /// </summary>
+        public static PdfFitRectangleDestination FromDestination(PdfDestination data)
+        {
+            return new PdfFitRectangleDestination(data.Handle);
+        }
+
+        /// <summary>
         /// Get the left coordinate of the rectangle.
         /// </summary>
         public PdfObject Left
