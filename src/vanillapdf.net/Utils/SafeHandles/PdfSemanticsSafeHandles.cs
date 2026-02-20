@@ -588,4 +588,101 @@ namespace vanillapdf.net.Utils
             return data;
         }
     }
+
+    internal sealed class PdfActionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.Action_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfGoToActionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.GoToAction_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfActionSafeHandle(PdfGoToActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.GoToAction_ToAction(handle, out PdfActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfGoToActionSafeHandle(PdfActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.GoToAction_FromAction(handle, out PdfGoToActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfURIActionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.URIAction_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfActionSafeHandle(PdfURIActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.URIAction_ToAction(handle, out PdfActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfURIActionSafeHandle(PdfActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.URIAction_FromAction(handle, out PdfURIActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfGoToRemoteActionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.GoToRemoteAction_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfActionSafeHandle(PdfGoToRemoteActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.GoToRemoteAction_ToAction(handle, out PdfActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfGoToRemoteActionSafeHandle(PdfActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.GoToRemoteAction_FromAction(handle, out PdfGoToRemoteActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfNamedActionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.NamedAction_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfActionSafeHandle(PdfNamedActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.NamedAction_ToAction(handle, out PdfActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfNamedActionSafeHandle(PdfActionSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.NamedAction_FromAction(handle, out PdfNamedActionSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
 }
