@@ -20,6 +20,14 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Convert from base action type.
+        /// </summary>
+        public static PdfNamedAction FromAction(PdfAction action)
+        {
+            return new PdfNamedAction(action.Handle);
+        }
+
+        /// <summary>
         /// The name of the action that shall be performed.
         /// </summary>
         public PdfNameObject Name

@@ -18,6 +18,14 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Convert from base action type.
+        /// </summary>
+        public static PdfGoToAction FromAction(PdfAction action)
+        {
+            return new PdfGoToAction(action.Handle);
+        }
+
+        /// <summary>
         /// A destination to be displayed when this action is performed.
         /// </summary>
         public PdfDestination Destination

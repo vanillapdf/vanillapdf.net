@@ -19,6 +19,14 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Convert from base action type.
+        /// </summary>
+        public static PdfURIAction FromAction(PdfAction action)
+        {
+            return new PdfURIAction(action.Handle);
+        }
+
+        /// <summary>
         /// The uniform resource identifier to resolve.
         /// </summary>
         public PdfLiteralStringObject URI

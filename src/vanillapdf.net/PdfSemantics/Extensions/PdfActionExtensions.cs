@@ -39,13 +39,13 @@ namespace vanillapdf.net.PdfSemantics.Extensions
             var actionType = action.ActionType;
             switch (actionType) {
                 case PdfActionType.GoTo:
-                    return new PdfGoToAction((PdfGoToActionSafeHandle)action.Handle);
+                    return PdfGoToAction.FromAction(action);
                 case PdfActionType.URI:
-                    return new PdfURIAction((PdfURIActionSafeHandle)action.Handle);
+                    return PdfURIAction.FromAction(action);
                 case PdfActionType.GoToRemote:
-                    return new PdfGoToRemoteAction((PdfGoToRemoteActionSafeHandle)action.Handle);
+                    return PdfGoToRemoteAction.FromAction(action);
                 case PdfActionType.Named:
-                    return new PdfNamedAction((PdfNamedActionSafeHandle)action.Handle);
+                    return PdfNamedAction.FromAction(action);
                 default:
                     throw new PdfManagedException($"Cannot upgrade action with unsupported type: {actionType}");
             }
