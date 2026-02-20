@@ -430,7 +430,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = destTree.Find(key);
             ClassicAssert.IsNotNull(destination);
 
-            var fitBHDest = destination.AsFitBoundingBoxHorizontal();
+            var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
             ClassicAssert.IsNotNull(fitBHDest);
 
             using var top = fitBHDest.Top;
@@ -459,7 +459,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = destTree.Find(key);
             ClassicAssert.IsNotNull(destination);
 
-            var fitBHDest = destination.AsFitBoundingBoxHorizontal();
+            var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
             ClassicAssert.IsNotNull(fitBHDest, "FitBoundingBoxHorizontal destination should convert successfully");
         }
 
@@ -483,13 +483,13 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = destTree.Find(key);
             ClassicAssert.IsNotNull(destination);
 
-            ClassicAssert.IsNull(destination.AsXYZ());
-            ClassicAssert.IsNull(destination.AsFit());
-            ClassicAssert.IsNull(destination.AsFitHorizontal());
-            ClassicAssert.IsNull(destination.AsFitVertical());
-            ClassicAssert.IsNull(destination.AsFitRectangle());
-            ClassicAssert.IsNull(destination.AsFitBoundingBox());
-            ClassicAssert.IsNull(destination.AsFitBoundingBoxVertical());
+            ClassicAssert.IsNull(destination.As<PdfXYZDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitHorizontalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitVerticalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitRectangleDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxVerticalDestination>());
         }
 
         [Test]
@@ -505,14 +505,14 @@ namespace vanillapdf.net.nunit.PdfSemantics
 
             using var destination = PdfDestination.CreateFromArray(array);
 
-            ClassicAssert.IsNotNull(destination.AsXYZ());
-            ClassicAssert.IsNull(destination.AsFit());
-            ClassicAssert.IsNull(destination.AsFitHorizontal());
-            ClassicAssert.IsNull(destination.AsFitVertical());
-            ClassicAssert.IsNull(destination.AsFitRectangle());
-            ClassicAssert.IsNull(destination.AsFitBoundingBox());
-            ClassicAssert.IsNull(destination.AsFitBoundingBoxHorizontal());
-            ClassicAssert.IsNull(destination.AsFitBoundingBoxVertical());
+            ClassicAssert.IsNotNull(destination.As<PdfXYZDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitHorizontalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitVerticalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitRectangleDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxHorizontalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxVerticalDestination>());
         }
 
         #endregion
@@ -532,7 +532,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.XYZ, destination.DestinationType);
 
-            var xyzDest = destination.AsXYZ();
+            var xyzDest = destination.As<PdfXYZDestination>();
             ClassicAssert.IsNotNull(xyzDest);
 
             using var left = xyzDest.Left;
@@ -555,7 +555,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.Fit, destination.DestinationType);
 
-            ClassicAssert.IsNotNull(destination.AsFit());
+            ClassicAssert.IsNotNull(destination.As<PdfFitDestination>());
         }
 
         [Test]
@@ -569,7 +569,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.FitHorizontal, destination.DestinationType);
 
-            var fitHDest = destination.AsFitHorizontal();
+            var fitHDest = destination.As<PdfFitHorizontalDestination>();
             ClassicAssert.IsNotNull(fitHDest);
 
             using var top = fitHDest.Top;
@@ -587,7 +587,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.FitVertical, destination.DestinationType);
 
-            var fitVDest = destination.AsFitVertical();
+            var fitVDest = destination.As<PdfFitVerticalDestination>();
             ClassicAssert.IsNotNull(fitVDest);
 
             using var left = fitVDest.Left;
@@ -608,7 +608,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.FitRectangle, destination.DestinationType);
 
-            var fitRDest = destination.AsFitRectangle();
+            var fitRDest = destination.As<PdfFitRectangleDestination>();
             ClassicAssert.IsNotNull(fitRDest);
 
             using var left = fitRDest.Left;
@@ -634,7 +634,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBox, destination.DestinationType);
 
-            ClassicAssert.IsNotNull(destination.AsFitBoundingBox());
+            ClassicAssert.IsNotNull(destination.As<PdfFitBoundingBoxDestination>());
         }
 
         [Test]
@@ -648,7 +648,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, destination.DestinationType);
 
-            var fitBHDest = destination.AsFitBoundingBoxHorizontal();
+            var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
             ClassicAssert.IsNotNull(fitBHDest);
 
             using var top = fitBHDest.Top;
@@ -666,7 +666,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = PdfDestination.CreateFromArray(array);
             ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxVertical, destination.DestinationType);
 
-            var fitBVDest = destination.AsFitBoundingBoxVertical();
+            var fitBVDest = destination.As<PdfFitBoundingBoxVerticalDestination>();
             ClassicAssert.IsNotNull(fitBVDest);
 
             using var left = fitBVDest.Left;
