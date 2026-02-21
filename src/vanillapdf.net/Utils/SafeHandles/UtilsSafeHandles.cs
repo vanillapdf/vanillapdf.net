@@ -87,4 +87,19 @@ namespace vanillapdf.net.Utils
             return data;
         }
     }
+
+    internal sealed class TrustedCertificateStoreSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.TrustedCertificateStore_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class SignatureVerificationSettingsSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.SignatureVerificationSettings_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class SignatureVerificationResultSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.SignatureVerificationResult_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
 }

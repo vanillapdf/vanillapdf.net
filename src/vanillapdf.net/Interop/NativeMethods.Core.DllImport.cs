@@ -257,6 +257,105 @@ namespace vanillapdf.net.Interop
             out PdfPKCS12KeySafeHandle data);
 
         #endregion
+
+        #region TrustedCertificateStore
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TrustedCertificateStore_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TrustedCertificateStore_Create(out TrustedCertificateStoreSafeHandle handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TrustedCertificateStore_AddCertificateFromPEM(TrustedCertificateStoreSafeHandle handle, PdfBufferSafeHandle pemData);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TrustedCertificateStore_AddCertificateFromDER(TrustedCertificateStoreSafeHandle handle, PdfBufferSafeHandle derData);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TrustedCertificateStore_LoadFromDirectory(
+            TrustedCertificateStoreSafeHandle handle,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Utf8StringMarshaler))]
+            string directoryPath);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TrustedCertificateStore_LoadSystemDefaults(TrustedCertificateStoreSafeHandle handle);
+
+        #endregion
+
+        #region SignatureVerificationSettings
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, out int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, out bool value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, out int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+
+        #endregion
+
+        #region SignatureVerificationResult
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_GetStatus(SignatureVerificationResultSafeHandle handle, out int status);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_GetMessage(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, out int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, out int value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_GetSignerCertificate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_GetCertificateChainCount(SignatureVerificationResultSafeHandle handle, out UIntPtr count);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_GetCertificateChainAt(SignatureVerificationResultSafeHandle handle, UIntPtr index, out PdfBufferSafeHandle buffer);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerificationResult_GetSignerCommonName(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
+
+        #endregion
+
+        #region SignatureVerifier
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureVerifier_Verify(
+            PdfBufferSafeHandle signedData,
+            PdfBufferSafeHandle signatureContents,
+            TrustedCertificateStoreSafeHandle trustedStore,
+            SignatureVerificationSettingsSafeHandle settings,
+            out SignatureVerificationResultSafeHandle result);
+
+        #endregion
     }
 }
 
