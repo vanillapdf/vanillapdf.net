@@ -278,22 +278,22 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, out int value);
+        public static partial UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool value);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, int value);
+        public static partial UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.U1)] bool value);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool value);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+        public static partial UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.U1)] bool value);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, out int value);
+        public static partial UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool value);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+        public static partial UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.U1)] bool value);
 
         #endregion
 
@@ -312,10 +312,10 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, out int value);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out int value);
+        public static partial UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool value);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, out int value);
+        public static partial UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool value);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationResult_GetSignerCertificate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
