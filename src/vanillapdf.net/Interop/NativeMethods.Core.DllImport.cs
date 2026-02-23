@@ -276,22 +276,22 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, out int value);
+        public static extern UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, int value);
+        public static extern UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+        public static extern UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, out int value);
+        public static extern UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, int value);
+        public static extern UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, bool value);
 
         #endregion
 
@@ -310,10 +310,10 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, out int value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out int value);
+        public static extern UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, out int value);
+        public static extern UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationResult_GetSignerCertificate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
