@@ -14,6 +14,8 @@ namespace vanillapdf.net.nunit.PdfSemantics
     {
         private const string GranizoPdf = "Granizo.pdf";
 
+        #region Link Annotations
+
         [Test]
         public void TestPage3Has13LinkAnnotations()
         {
@@ -87,6 +89,42 @@ namespace vanillapdf.net.nunit.PdfSemantics
         }
 
         [Test]
+        public void TestLinkAnnotationFromAnnotationCreation()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using PdfPageTree tree = catalog.GetPages();
+
+            using var pageObject = tree.GetPage(3);
+            using var annotations = pageObject.GetAnnotations();
+            ClassicAssert.IsNotNull(annotations);
+
+            ulong count = annotations.GetSize();
+            int linkCount = 0;
+
+            for (ulong i = 0; i < count; i++) {
+                using var annotation = annotations.At(i);
+                if (annotation.GetAnnotationType() == PdfAnnotationType.Link) {
+                    using var linkAnnotation = PdfLinkAnnotation.FromAnnotation(annotation);
+                    ClassicAssert.IsNotNull(linkAnnotation);
+                    linkCount++;
+                }
+            }
+
+            ClassicAssert.AreEqual(13, linkCount, "All 13 link annotations should be convertible");
+        }
+
+        #endregion
+
+        #region Outlines
+
+        [Test]
         public void TestOutlineExists()
         {
             // Verify Granizo.pdf has an outline structure
@@ -156,6 +194,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var destination = firstItem.Destination;
         }
 
+        #endregion
+
+        #region DestinationType Enum
+
         [Test]
         public void TestDestinationTypeEnumValues()
         {
@@ -173,280 +215,30 @@ namespace vanillapdf.net.nunit.PdfSemantics
             ClassicAssert.IsTrue(Enum.IsDefined(typeof(PdfDestinationType), PdfDestinationType.FitBoundingBoxVertical));
         }
 
+        #endregion
+
+        #region Reading Destinations from Name Tree
+
         [Test]
-        public void TestCreateXYZDestinationFromArray()
+        public void TestNameDictionaryContainsDestinations()
         {
-            // Array format: [page /XYZ left top zoom]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "XYZ");
-            AppendIntegerToArray(array, 100);
-            AppendIntegerToArray(array, 200);
-            AppendIntegerToArray(array, 1);
+            // Granizo.pdf uses /Names tree for named destinations
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
 
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
 
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.XYZ, destination.DestinationType);
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            ClassicAssert.IsNotNull(names, "Catalog should have a Names dictionary");
 
-                using var pageNumber = destination.PageNumber;
-                ClassicAssert.IsNotNull(pageNumber);
-
-                var xyzDest = destination.As<PdfXYZDestination>();
-                ClassicAssert.IsNotNull(xyzDest);
-
-                using var left = xyzDest.Left;
-                ClassicAssert.IsNotNull(left);
-
-                using var top = xyzDest.Top;
-                ClassicAssert.IsNotNull(top);
-
-                using var zoom = xyzDest.Zoom;
-                ClassicAssert.IsNotNull(zoom);
-            }
+            ClassicAssert.IsTrue(names.ContainsDestinations(), "Names dictionary should contain destinations");
         }
 
         [Test]
-        public void TestCreateFitDestinationFromArray()
-        {
-            // Array format: [page /Fit]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "Fit");
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.Fit, destination.DestinationType);
-
-                var fitDest = destination.As<PdfFitDestination>();
-                ClassicAssert.IsNotNull(fitDest);
-            }
-        }
-
-        [Test]
-        public void TestCreateFitHorizontalDestinationFromArray()
-        {
-            // Array format: [page /FitH top]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "FitH");
-            AppendIntegerToArray(array, 200);
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.FitHorizontal, destination.DestinationType);
-
-                var fitHDest = destination.As<PdfFitHorizontalDestination>();
-                ClassicAssert.IsNotNull(fitHDest);
-
-                using var top = fitHDest.Top;
-                ClassicAssert.IsNotNull(top);
-            }
-        }
-
-        [Test]
-        public void TestCreateFitVerticalDestinationFromArray()
-        {
-            // Array format: [page /FitV left]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "FitV");
-            AppendIntegerToArray(array, 100);
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.FitVertical, destination.DestinationType);
-
-                var fitVDest = destination.As<PdfFitVerticalDestination>();
-                ClassicAssert.IsNotNull(fitVDest);
-
-                using var left = fitVDest.Left;
-                ClassicAssert.IsNotNull(left);
-            }
-        }
-
-        [Test]
-        public void TestCreateFitRectangleDestinationFromArray()
-        {
-            // Array format: [page /FitR left bottom right top]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "FitR");
-            AppendIntegerToArray(array, 0);
-            AppendIntegerToArray(array, 0);
-            AppendIntegerToArray(array, 600);
-            AppendIntegerToArray(array, 800);
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.FitRectangle, destination.DestinationType);
-
-                var fitRDest = destination.As<PdfFitRectangleDestination>();
-                ClassicAssert.IsNotNull(fitRDest);
-
-                using var left = fitRDest.Left;
-                ClassicAssert.IsNotNull(left);
-
-                using var bottom = fitRDest.Bottom;
-                ClassicAssert.IsNotNull(bottom);
-
-                using var right = fitRDest.Right;
-                ClassicAssert.IsNotNull(right);
-
-                using var top = fitRDest.Top;
-                ClassicAssert.IsNotNull(top);
-            }
-        }
-
-        [Test]
-        public void TestCreateFitBoundingBoxDestinationFromArray()
-        {
-            // Array format: [page /FitB]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "FitB");
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBox, destination.DestinationType);
-
-                var fitBDest = destination.As<PdfFitBoundingBoxDestination>();
-                ClassicAssert.IsNotNull(fitBDest);
-            }
-        }
-
-        [Test]
-        public void TestCreateFitBoundingBoxHorizontalFromArray()
-        {
-            // Array format: [page /FitBH top]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "FitBH");
-            AppendIntegerToArray(array, 200);
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, destination.DestinationType);
-
-                var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
-                ClassicAssert.IsNotNull(fitBHDest);
-
-                using var top = fitBHDest.Top;
-                ClassicAssert.IsNotNull(top);
-            }
-        }
-
-        [Test]
-        public void TestCreateFitBoundingBoxVerticalFromArray()
-        {
-            // Array format: [page /FitBV left]
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "FitBV");
-            AppendIntegerToArray(array, 100);
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxVertical, destination.DestinationType);
-
-                var fitBVDest = destination.As<PdfFitBoundingBoxVerticalDestination>();
-                ClassicAssert.IsNotNull(fitBVDest);
-
-                using var left = fitBVDest.Left;
-                ClassicAssert.IsNotNull(left);
-            }
-        }
-
-        [Test]
-        public void TestAsConversionReturnsNullForMismatchedType()
-        {
-            // Create an XYZ destination and verify only AsXYZ succeeds
-            using var array = PdfArrayObject.Create();
-            AppendIntegerToArray(array, 0);
-            AppendNameToArray(array, "XYZ");
-            AppendIntegerToArray(array, 100);
-            AppendIntegerToArray(array, 200);
-            AppendIntegerToArray(array, 1);
-
-            PdfDestination destination;
-            try {
-                destination = PdfDestination.CreateFromArray(array);
-            } catch (Exception) {
-                Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                return;
-            }
-
-            using (destination) {
-                ClassicAssert.AreEqual(PdfDestinationType.XYZ, destination.DestinationType);
-
-                ClassicAssert.IsTrue(destination.Is<PdfXYZDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitHorizontalDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitVerticalDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitRectangleDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitBoundingBoxDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitBoundingBoxHorizontalDestination>());
-                ClassicAssert.IsFalse(destination.Is<PdfFitBoundingBoxVerticalDestination>());
-            }
-        }
-
-        [Test]
-        public void TestCatalogGetDestinations()
+        public void TestDestinationNameTreeFindReturnsDestination()
         {
             string sourceFile = Path.Combine("Resources", GranizoPdf);
 
@@ -456,10 +248,83 @@ namespace vanillapdf.net.nunit.PdfSemantics
 
             using PdfDocument document = PdfDocument.OpenFile(file);
             using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+            ClassicAssert.IsNotNull(destTree);
 
-            // GetDestinations() may return null if document uses /Names tree
-            // instead of /Dests dictionary - this is valid behavior
-            using var destinations = catalog.GetDestinations();
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            ClassicAssert.IsTrue(destTree.Contains(key));
+
+            using var destination = destTree.Find(key);
+            ClassicAssert.IsNotNull(destination, "Find should return a destination for known name");
+        }
+
+        [Test]
+        public void TestAllNamedDestinationsAreFitBoundingBoxHorizontal()
+        {
+            // Granizo.pdf has 30 named destinations, all FitBoundingBoxHorizontal
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+            using var iterator = destTree.GetIterator();
+
+            int count = 0;
+            while (iterator.IsValid) {
+                using var destination = iterator.Value;
+                ClassicAssert.IsNotNull(destination);
+                ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, destination.DestinationType,
+                    $"Destination {count} should be FitBoundingBoxHorizontal");
+
+                count++;
+                iterator.Next();
+            }
+
+            ClassicAssert.AreEqual(30, count, "Granizo.pdf should have exactly 30 named destinations");
+        }
+
+        [Test]
+        public void TestDestinationNameTreeContainsReturnsFalseForUnknown()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+
+            using var fakeName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
+            ClassicAssert.IsFalse(destTree.Contains(fakeName));
+        }
+
+        [Test]
+        public void TestDestinationNameTreeTryFindReturnsFalseForUnknown()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+
+            using var fakeName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
+            bool found = destTree.TryFind(fakeName, out var destination);
+            ClassicAssert.IsFalse(found);
+            ClassicAssert.IsNull(destination);
         }
 
         [Test]
@@ -498,8 +363,12 @@ namespace vanillapdf.net.nunit.PdfSemantics
             ClassicAssert.IsNull(treeDestination);
         }
 
+        #endregion
+
+        #region Destination Properties
+
         [Test]
-        public void TestLinkAnnotationFromAnnotationCreation()
+        public void TestDestinationHasValidType()
         {
             string sourceFile = Path.Combine("Resources", GranizoPdf);
 
@@ -509,58 +378,301 @@ namespace vanillapdf.net.nunit.PdfSemantics
 
             using PdfDocument document = PdfDocument.OpenFile(file);
             using PdfCatalog catalog = document.GetCatalog();
-            using PdfPageTree tree = catalog.GetPages();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
 
-            using var pageObject = tree.GetPage(3);
-            using var annotations = pageObject.GetAnnotations();
-            ClassicAssert.IsNotNull(annotations);
-
-            ulong count = annotations.GetSize();
-            int linkCount = 0;
-
-            for (ulong i = 0; i < count; i++) {
-                using var annotation = annotations.At(i);
-                if (annotation.GetAnnotationType() == PdfAnnotationType.Link) {
-                    using var linkAnnotation = PdfLinkAnnotation.FromAnnotation(annotation);
-                    ClassicAssert.IsNotNull(linkAnnotation);
-                    linkCount++;
-                }
-            }
-
-            ClassicAssert.AreEqual(13, linkCount, "All 13 link annotations should be convertible");
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            using var destination = destTree.Find(key);
+            ClassicAssert.IsNotNull(destination);
+            ClassicAssert.AreNotEqual(PdfDestinationType.Undefined, destination.DestinationType);
         }
 
         [Test]
-        public void TestDestinationCreationStability()
+        public void TestDestinationHasPageNumber()
         {
-            // Verify CreateFromArray works before entering stability loop
-            using (var testArray = PdfArrayObject.Create()) {
-                AppendIntegerToArray(testArray, 0);
-                AppendNameToArray(testArray, "XYZ");
-                AppendIntegerToArray(testArray, 100);
-                AppendIntegerToArray(testArray, 200);
-                AppendIntegerToArray(testArray, 1);
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
 
-                try {
-                    using var dest = PdfDestination.CreateFromArray(testArray);
-                } catch (Exception) {
-                    Assert.Ignore("Native library does not support CreateFromArray with synthetic page reference");
-                    return;
-                }
-            }
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
 
-            for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
-                var array = PdfArrayObject.Create();
-                AppendIntegerToArray(array, 0);
-                AppendNameToArray(array, "XYZ");
-                AppendIntegerToArray(array, 100);
-                AppendIntegerToArray(array, 200);
-                AppendIntegerToArray(array, 1);
-                PdfDestination.CreateFromArray(array);
-            }
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
 
-            GC.Collect();
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            using var destination = destTree.Find(key);
+            ClassicAssert.IsNotNull(destination);
+
+            using var pageNumber = destination.PageNumber;
+            ClassicAssert.IsNotNull(pageNumber, "Destination should have a page number");
         }
+
+        [Test]
+        public void TestFitBoundingBoxHorizontalDestinationHasTop()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            using var destination = destTree.Find(key);
+            ClassicAssert.IsNotNull(destination);
+
+            var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
+            ClassicAssert.IsNotNull(fitBHDest);
+
+            using var top = fitBHDest.Top;
+            ClassicAssert.IsNotNull(top, "FitBoundingBoxHorizontal destination should have a Top value");
+        }
+
+        #endregion
+
+        #region Destination Type Conversions
+
+        [Test]
+        public void TestAsFitBoundingBoxHorizontal()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            using var destination = destTree.Find(key);
+            ClassicAssert.IsNotNull(destination);
+
+            var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
+            ClassicAssert.IsNotNull(fitBHDest, "FitBoundingBoxHorizontal destination should convert successfully");
+        }
+
+        [Test]
+        public void TestAsReturnsNullForMismatchedType()
+        {
+            // Granizo.pdf destinations are FitBoundingBoxHorizontal,
+            // so all other As* conversions should return null
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+            using var names = catalog.GetNames();
+            using var destTree = names.GetDestinations();
+
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
+            using var destination = destTree.Find(key);
+            ClassicAssert.IsNotNull(destination);
+
+            ClassicAssert.IsNull(destination.As<PdfXYZDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitHorizontalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitVerticalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitRectangleDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxVerticalDestination>());
+        }
+
+        [Test]
+        public void TestAsConversionFromCreatedDestination()
+        {
+            // Create an XYZ destination and verify only AsXYZ succeeds
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "XYZ");
+            AppendIntegerToArray(array, 100);
+            AppendIntegerToArray(array, 200);
+            AppendIntegerToArray(array, 1);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+
+            ClassicAssert.IsNotNull(destination.As<PdfXYZDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitHorizontalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitVerticalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitRectangleDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxHorizontalDestination>());
+            ClassicAssert.IsNull(destination.As<PdfFitBoundingBoxVerticalDestination>());
+        }
+
+        #endregion
+
+        #region Creating Destinations from Arrays
+
+        [Test]
+        public void TestCreateXYZDestinationFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "XYZ");
+            AppendIntegerToArray(array, 100);
+            AppendIntegerToArray(array, 200);
+            AppendIntegerToArray(array, 1);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.XYZ, destination.DestinationType);
+
+            var xyzDest = destination.As<PdfXYZDestination>();
+            ClassicAssert.IsNotNull(xyzDest);
+
+            using var left = xyzDest.Left;
+            ClassicAssert.IsNotNull(left);
+
+            using var top = xyzDest.Top;
+            ClassicAssert.IsNotNull(top);
+
+            using var zoom = xyzDest.Zoom;
+            ClassicAssert.IsNotNull(zoom);
+        }
+
+        [Test]
+        public void TestCreateFitDestinationFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "Fit");
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.Fit, destination.DestinationType);
+
+            ClassicAssert.IsNotNull(destination.As<PdfFitDestination>());
+        }
+
+        [Test]
+        public void TestCreateFitHorizontalDestinationFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "FitH");
+            AppendIntegerToArray(array, 200);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.FitHorizontal, destination.DestinationType);
+
+            var fitHDest = destination.As<PdfFitHorizontalDestination>();
+            ClassicAssert.IsNotNull(fitHDest);
+
+            using var top = fitHDest.Top;
+            ClassicAssert.IsNotNull(top);
+        }
+
+        [Test]
+        public void TestCreateFitVerticalDestinationFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "FitV");
+            AppendIntegerToArray(array, 100);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.FitVertical, destination.DestinationType);
+
+            var fitVDest = destination.As<PdfFitVerticalDestination>();
+            ClassicAssert.IsNotNull(fitVDest);
+
+            using var left = fitVDest.Left;
+            ClassicAssert.IsNotNull(left);
+        }
+
+        [Test]
+        public void TestCreateFitRectangleDestinationFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "FitR");
+            AppendIntegerToArray(array, 0);
+            AppendIntegerToArray(array, 0);
+            AppendIntegerToArray(array, 600);
+            AppendIntegerToArray(array, 800);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.FitRectangle, destination.DestinationType);
+
+            var fitRDest = destination.As<PdfFitRectangleDestination>();
+            ClassicAssert.IsNotNull(fitRDest);
+
+            using var left = fitRDest.Left;
+            ClassicAssert.IsNotNull(left);
+
+            using var bottom = fitRDest.Bottom;
+            ClassicAssert.IsNotNull(bottom);
+
+            using var right = fitRDest.Right;
+            ClassicAssert.IsNotNull(right);
+
+            using var top = fitRDest.Top;
+            ClassicAssert.IsNotNull(top);
+        }
+
+        [Test]
+        public void TestCreateFitBoundingBoxDestinationFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "FitB");
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBox, destination.DestinationType);
+
+            ClassicAssert.IsNotNull(destination.As<PdfFitBoundingBoxDestination>());
+        }
+
+        [Test]
+        public void TestCreateFitBoundingBoxHorizontalFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "FitBH");
+            AppendIntegerToArray(array, 200);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxHorizontal, destination.DestinationType);
+
+            var fitBHDest = destination.As<PdfFitBoundingBoxHorizontalDestination>();
+            ClassicAssert.IsNotNull(fitBHDest);
+
+            using var top = fitBHDest.Top;
+            ClassicAssert.IsNotNull(top);
+        }
+
+        [Test]
+        public void TestCreateFitBoundingBoxVerticalFromArray()
+        {
+            using var array = PdfArrayObject.Create();
+            AppendIntegerToArray(array, 0);
+            AppendNameToArray(array, "FitBV");
+            AppendIntegerToArray(array, 100);
+
+            using var destination = PdfDestination.CreateFromArray(array);
+            ClassicAssert.AreEqual(PdfDestinationType.FitBoundingBoxVertical, destination.DestinationType);
+
+            var fitBVDest = destination.As<PdfFitBoundingBoxVerticalDestination>();
+            ClassicAssert.IsNotNull(fitBVDest);
+
+            using var left = fitBVDest.Left;
+            ClassicAssert.IsNotNull(left);
+        }
+
+        #endregion
+
+        #region Catalog Destinations
 
         [Test]
         public void TestCatalogGetNamesReturnsNameDictionary()
@@ -574,12 +686,32 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using PdfDocument document = PdfDocument.OpenFile(file);
             using PdfCatalog catalog = document.GetCatalog();
 
-            // GetNames() may return null if the document uses old-style /Dests
             using var names = catalog.GetNames();
+            ClassicAssert.IsNotNull(names);
         }
 
         [Test]
-        public void TestNameDictionaryContainsDestinations()
+        public void TestCatalogGetDestinations()
+        {
+            string sourceFile = Path.Combine("Resources", GranizoPdf);
+
+            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
+            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
+            file.Initialize();
+
+            using PdfDocument document = PdfDocument.OpenFile(file);
+            using PdfCatalog catalog = document.GetCatalog();
+
+            // Granizo.pdf uses /Names tree, so old-style /Dests may return null
+            using var destinations = catalog.GetDestinations();
+        }
+
+        #endregion
+
+        #region Stability
+
+        [Test]
+        public void TestDestinationReadStability()
         {
             string sourceFile = Path.Combine("Resources", GranizoPdf);
 
@@ -590,166 +722,37 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using PdfDocument document = PdfDocument.OpenFile(file);
             using PdfCatalog catalog = document.GetCatalog();
             using var names = catalog.GetNames();
-
-            if (names == null) {
-                Assert.Ignore("Document does not have a /Names dictionary");
-                return;
-            }
-
-            // Just verify ContainsDestinations() works without throwing
-            bool hasDestinations = names.ContainsDestinations();
-
-            if (hasDestinations) {
-                using var destTree = names.GetDestinations();
-                ClassicAssert.IsNotNull(destTree);
-            }
-        }
-
-        [Test]
-        public void TestDestinationNameTreeIterator()
-        {
-            string sourceFile = Path.Combine("Resources", GranizoPdf);
-
-            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
-            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
-            file.Initialize();
-
-            using PdfDocument document = PdfDocument.OpenFile(file);
-            using PdfCatalog catalog = document.GetCatalog();
-            using var names = catalog.GetNames();
-
-            if (names == null) {
-                Assert.Ignore("Document does not have a /Names dictionary");
-                return;
-            }
-
-            if (!names.ContainsDestinations()) {
-                Assert.Ignore("Document does not have a /Dests name tree");
-                return;
-            }
-
             using var destTree = names.GetDestinations();
-            using var iterator = destTree.GetIterator();
 
-            int count = 0;
-            while (iterator.IsValid) {
-                using var key = iterator.Key;
-                ClassicAssert.IsNotNull(key);
+            using var key = PdfLiteralStringObject.CreateFromDecodedString("Doc-Start");
 
-                using var value = iterator.Value;
-                ClassicAssert.IsNotNull(value);
-
-                count++;
-                iterator.Next();
+            for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
+                using var destination = destTree.Find(key);
+                using var pageNumber = destination.PageNumber;
             }
 
-            ClassicAssert.Greater(count, 0, "Name tree should have at least one entry");
+            GC.Collect();
         }
 
         [Test]
-        public void TestDestinationNameTreeTryFindReturnsFalseForUnknown()
+        public void TestDestinationCreationStability()
         {
-            string sourceFile = Path.Combine("Resources", GranizoPdf);
-
-            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
-            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
-            file.Initialize();
-
-            using PdfDocument document = PdfDocument.OpenFile(file);
-            using PdfCatalog catalog = document.GetCatalog();
-            using var names = catalog.GetNames();
-
-            if (names == null) {
-                Assert.Ignore("Document does not have a /Names dictionary");
-                return;
+            for (int i = 0; i < OneTimeSetup.STABILITY_REPEAT_COUNT; ++i) {
+                using var array = PdfArrayObject.Create();
+                AppendIntegerToArray(array, 0);
+                AppendNameToArray(array, "XYZ");
+                AppendIntegerToArray(array, 100);
+                AppendIntegerToArray(array, 200);
+                AppendIntegerToArray(array, 1);
+                using var destination = PdfDestination.CreateFromArray(array);
             }
 
-            if (!names.ContainsDestinations()) {
-                Assert.Ignore("Document does not have a /Dests name tree");
-                return;
-            }
-
-            using var destTree = names.GetDestinations();
-            using var fakeName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
-
-            bool found = destTree.TryFind(fakeName, out var destination);
-            ClassicAssert.IsFalse(found);
-            ClassicAssert.IsNull(destination);
+            GC.Collect();
         }
 
-        [Test]
-        public void TestDestinationNameTreeContains()
-        {
-            string sourceFile = Path.Combine("Resources", GranizoPdf);
+        #endregion
 
-            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
-            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
-            file.Initialize();
-
-            using PdfDocument document = PdfDocument.OpenFile(file);
-            using PdfCatalog catalog = document.GetCatalog();
-            using var names = catalog.GetNames();
-
-            if (names == null) {
-                Assert.Ignore("Document does not have a /Names dictionary");
-                return;
-            }
-
-            if (!names.ContainsDestinations()) {
-                Assert.Ignore("Document does not have a /Dests name tree");
-                return;
-            }
-
-            using var destTree = names.GetDestinations();
-            using var fakeName = PdfLiteralStringObject.CreateFromDecodedString("NonExistentDestination");
-
-            bool contains = destTree.Contains(fakeName);
-            ClassicAssert.IsFalse(contains);
-        }
-
-        [Test]
-        public void TestDestinationNameTreeFindReturnsDestination()
-        {
-            string sourceFile = Path.Combine("Resources", GranizoPdf);
-
-            using var sourceStream = PdfInputOutputStream.CreateFromFile(sourceFile);
-            using var file = PdfFile.OpenStream(sourceStream, "sourceStream");
-            file.Initialize();
-
-            using PdfDocument document = PdfDocument.OpenFile(file);
-            using PdfCatalog catalog = document.GetCatalog();
-            using var names = catalog.GetNames();
-
-            if (names == null) {
-                Assert.Ignore("Document does not have a /Names dictionary");
-                return;
-            }
-
-            if (!names.ContainsDestinations()) {
-                Assert.Ignore("Document does not have a /Dests name tree");
-                return;
-            }
-
-            // Get first name from iterator and look it up
-            using var destTree = names.GetDestinations();
-            using var iterator = destTree.GetIterator();
-
-            if (!iterator.IsValid) {
-                Assert.Ignore("Name tree is empty");
-                return;
-            }
-
-            using var firstKey = iterator.Key;
-            ClassicAssert.IsNotNull(firstKey);
-
-            ClassicAssert.IsTrue(destTree.Contains(firstKey));
-
-            using var destination = destTree.Find(firstKey);
-            ClassicAssert.IsNotNull(destination);
-
-            var destType = destination.DestinationType;
-            ClassicAssert.AreNotEqual(PdfDestinationType.Undefined, destType);
-        }
+        #region Helpers
 
         [Test]
         public void TestDestinationResolveFromNameTree()
@@ -862,5 +865,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var obj = PdfNameObject.CreateFromDecodedString(name);
             array.Append(obj);
         }
+
+        #endregion
     }
 }

@@ -125,6 +125,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Catalog_SetNames(PdfCatalogSafeHandle handle, PdfNameDictionarySafeHandle names);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Catalog_GetOpenAction(PdfCatalogSafeHandle handle, out PdfObjectSafeHandle result);
+
         #endregion
 
         #region PageTree
@@ -1103,6 +1106,89 @@ namespace vanillapdf.net.Interop
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 LinkAnnotation_GetDestination(PdfLinkAnnotationSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LinkAnnotation_GetAction(PdfLinkAnnotationSafeHandle handle, out PdfActionSafeHandle result);
+
+        #endregion
+
+        #region Action
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Action_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Action_GetActionType(PdfActionSafeHandle handle, out Int32 result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Action_CreateFromDictionary(PdfDictionaryObjectSafeHandle handle, out PdfActionSafeHandle result);
+
+        #endregion
+
+        #region GoToAction
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToAction_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToAction_GetDestination(PdfGoToActionSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToAction_ToAction(PdfGoToActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToAction_FromAction(PdfActionSafeHandle handle, out PdfGoToActionSafeHandle result);
+
+        #endregion
+
+        #region URIAction
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 URIAction_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 URIAction_GetURI(PdfURIActionSafeHandle handle, out PdfLiteralStringObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 URIAction_ToAction(PdfURIActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 URIAction_FromAction(PdfActionSafeHandle handle, out PdfURIActionSafeHandle result);
+
+        #endregion
+
+        #region GoToRemoteAction
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToRemoteAction_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToRemoteAction_GetDestination(PdfGoToRemoteActionSafeHandle handle, out PdfDestinationSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToRemoteAction_GetFile(PdfGoToRemoteActionSafeHandle handle, out PdfObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToRemoteAction_ToAction(PdfGoToRemoteActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 GoToRemoteAction_FromAction(PdfActionSafeHandle handle, out PdfGoToRemoteActionSafeHandle result);
+
+        #endregion
+
+        #region NamedAction
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedAction_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedAction_GetName(PdfNamedActionSafeHandle handle, out PdfNameObjectSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedAction_ToAction(PdfNamedActionSafeHandle handle, out PdfActionSafeHandle result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 NamedAction_FromAction(PdfActionSafeHandle handle, out PdfNamedActionSafeHandle result);
 
         #endregion
 
