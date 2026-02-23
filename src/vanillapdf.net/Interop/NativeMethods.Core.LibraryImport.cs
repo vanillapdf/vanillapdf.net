@@ -309,7 +309,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 SignatureVerificationResult_GetMessage(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, out int value);
+        public static partial UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool value);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out int value);
