@@ -48,11 +48,11 @@ namespace vanillapdf.net.PdfUtils
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
-                return value != 0;
+                return value;
             }
             set
             {
-                UInt32 result = NativeMethods.SignatureVerificationSettings_SetSkipCertificateValidation(Handle, value ? 1 : 0);
+                UInt32 result = NativeMethods.SignatureVerificationSettings_SetSkipCertificateValidation(Handle, value);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -74,7 +74,7 @@ namespace vanillapdf.net.PdfUtils
             }
             set
             {
-                UInt32 result = NativeMethods.SignatureVerificationSettings_SetCheckSigningTimeFlag(Handle, value ? 1 : 0);
+                UInt32 result = NativeMethods.SignatureVerificationSettings_SetCheckSigningTimeFlag(Handle, value);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -92,11 +92,11 @@ namespace vanillapdf.net.PdfUtils
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
-                return value != 0;
+                return value;
             }
             set
             {
-                UInt32 result = NativeMethods.SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(Handle, value ? 1 : 0);
+                UInt32 result = NativeMethods.SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(Handle, value);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
