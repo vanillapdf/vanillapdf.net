@@ -67,7 +67,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Get a PDF data representation of the current object
         /// </summary>
-        /// <returns>A new isntance of PdfBuffer with PDF data representation, throws exception on failure</returns>
+        /// <returns>A new instance of PdfBuffer with PDF data representation, throws exception on failure</returns>
         public PdfBuffer ToPdf()
         {
             UInt32 result = NativeMethods.Object_ToPdf(ObjectHandle, out var data);
