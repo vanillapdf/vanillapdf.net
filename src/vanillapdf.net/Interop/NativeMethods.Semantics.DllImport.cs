@@ -141,6 +141,158 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Catalog_GetOpenAction(PdfCatalogSafeHandle handle, out PdfObjectSafeHandle result);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Catalog_GetAcroForm(PdfCatalogSafeHandle handle, out PdfInteractiveFormSafeHandle data);
+
+        #endregion
+
+        #region InteractiveForm
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_GetFields(PdfInteractiveFormSafeHandle handle, out PdfFieldCollectionSafeHandle data);
+
+        #endregion
+
+        #region FieldCollection
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldCollection_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldCollection_GetSize(PdfFieldCollectionSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldCollection_At(PdfFieldCollectionSafeHandle handle, UIntPtr index, out PdfFieldSafeHandle data);
+
+        #endregion
+
+        #region Field
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetType(PdfFieldSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetName(PdfFieldSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetAlternateName(PdfFieldSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetFieldFlags(PdfFieldSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_SetFieldFlags(PdfFieldSafeHandle handle, Int32 value);
+
+        #endregion
+
+        #region ButtonField
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ButtonField_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ButtonField_FromField(PdfFieldSafeHandle handle, out PdfButtonFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ButtonField_ToField(PdfButtonFieldSafeHandle handle, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ButtonField_GetValue(PdfButtonFieldSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ButtonField_SetValue(PdfButtonFieldSafeHandle handle, PdfNameObjectSafeHandle value);
+
+        #endregion
+
+        #region TextField
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_FromField(PdfFieldSafeHandle handle, out PdfTextFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_ToField(PdfTextFieldSafeHandle handle, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_GetValue(PdfTextFieldSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_SetValue(PdfTextFieldSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_GetDefaultValue(PdfTextFieldSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TextField_GetMaxLength(PdfTextFieldSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        #endregion
+
+        #region ChoiceField
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_FromField(PdfFieldSafeHandle handle, out PdfChoiceFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_ToField(PdfChoiceFieldSafeHandle handle, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_GetValue(PdfChoiceFieldSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_SetValue(PdfChoiceFieldSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_GetOptionCount(PdfChoiceFieldSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ChoiceField_GetOptionAt(PdfChoiceFieldSafeHandle handle, UIntPtr index, out PdfObjectSafeHandle data);
+
+        #endregion
+
+        #region SignatureField
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureField_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureField_FromField(PdfFieldSafeHandle handle, out PdfSignatureFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureField_ToField(PdfSignatureFieldSafeHandle handle, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureField_GetValue(PdfSignatureFieldSafeHandle handle, out PdfDigitalSignatureSafeHandle data);
+
+        #endregion
+
+        #region DigitalSignature
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_Release(IntPtr handle);
+
+        #endregion
+
+        #region DigitalSignatureExtensions
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignatureExtensions_Verify(
+            PdfDigitalSignatureSafeHandle signature,
+            PdfDocumentSafeHandle document,
+            TrustedCertificateStoreSafeHandle store,
+            SignatureVerificationSettingsSafeHandle settings,
+            out SignatureVerificationResultSafeHandle result);
+
         #endregion
 
         #region PageTree

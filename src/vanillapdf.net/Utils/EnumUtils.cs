@@ -31,6 +31,17 @@ namespace vanillapdf.net.Utils
         }
 
         /// <summary>
+        /// Cast a flags value to the target enumeration without requiring it to be a named single value.
+        /// Use this for <see cref="System.FlagsAttribute"/> enumerations where combined bit values are valid.
+        /// </summary>
+        /// <param name="enumValue">Integer value to cast.</param>
+        /// <returns>The casted flags enumeration value.</returns>
+        public static T FlagsCast(object enumValue)
+        {
+            return (T)Enum.ToObject(typeof(T), enumValue);
+        }
+
+        /// <summary>
         /// Determine whether the specified enumeration value is defined.
         /// </summary>
         /// <param name="enumValue">Enumeration value.</param>
