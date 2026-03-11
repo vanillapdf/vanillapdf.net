@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if NETSTANDARD2_0
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -66,3 +68,5 @@ namespace vanillapdf.net.Utils
         }
     }
 }
+
+#endif
