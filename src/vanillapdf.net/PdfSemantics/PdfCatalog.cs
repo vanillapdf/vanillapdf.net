@@ -154,6 +154,24 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfObject(data);
         }
 
+        /// <summary>
+        /// Retrieve the document's interactive form (AcroForm).
+        /// </summary>
+        /// <returns>The <see cref="PdfAcroForm"/> object or <c>null</c> if none exists.</returns>
+        public PdfAcroForm GetAcroForm()
+        {
+            UInt32 result = NativeMethods.Catalog_GetAcroForm(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfAcroForm(data);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {

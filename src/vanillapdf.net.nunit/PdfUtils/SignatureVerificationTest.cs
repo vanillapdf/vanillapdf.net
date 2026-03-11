@@ -121,20 +121,17 @@ namespace vanillapdf.net.nunit.PdfUtils
             string signedFile = Path.Combine(Path.GetTempPath(), $"signed_{Guid.NewGuid()}.pdf");
 
             try {
-                var (signedData, signatureContents) = SignAndExtract(sourceFile, signedFile);
+                SignDocument(sourceFile, signedFile);
 
-                using (signedData)
-                using (signatureContents) {
-                    using var store = TrustedCertificateStore.Create();
-                    using var settings = SignatureVerificationSettings.Create();
-                    settings.SkipCertificateValidation = true;
+                using var store = TrustedCertificateStore.Create();
+                using var settings = SignatureVerificationSettings.Create();
+                settings.SkipCertificateValidation = true;
 
-                    using var result = SignatureVerifier.Verify(signedData, signatureContents, store, settings);
+                using var result = VerifySignedDocument(signedFile, store, settings);
 
-                    ClassicAssert.IsTrue(result.IsSignatureValid);
-                    ClassicAssert.IsTrue(result.IsDocumentIntact);
-                    ClassicAssert.AreEqual(SignatureVerificationStatus.Valid, result.Status);
-                }
+                ClassicAssert.IsTrue(result.IsSignatureValid);
+                ClassicAssert.IsTrue(result.IsDocumentIntact);
+                ClassicAssert.AreEqual(SignatureVerificationStatus.Valid, result.Status);
             } finally {
                 if (File.Exists(signedFile)) {
                     File.Delete(signedFile);
@@ -149,38 +146,35 @@ namespace vanillapdf.net.nunit.PdfUtils
             string signedFile = Path.Combine(Path.GetTempPath(), $"signed_{Guid.NewGuid()}.pdf");
 
             try {
-                var (signedData, signatureContents) = SignAndExtract(sourceFile, signedFile);
+                SignDocument(sourceFile, signedFile);
 
-                using (signedData)
-                using (signatureContents) {
-                    using var store = TrustedCertificateStore.Create();
-                    using var settings = SignatureVerificationSettings.Create();
-                    settings.SkipCertificateValidation = true;
+                using var store = TrustedCertificateStore.Create();
+                using var settings = SignatureVerificationSettings.Create();
+                settings.SkipCertificateValidation = true;
 
-                    using var result = SignatureVerifier.Verify(signedData, signatureContents, store, settings);
+                using var result = VerifySignedDocument(signedFile, store, settings);
 
-                    // Signer common name should be non-empty
-                    string signerName = result.SignerCommonName;
-                    ClassicAssert.IsNotNull(signerName);
-                    ClassicAssert.IsNotEmpty(signerName);
+                // Signer common name should be non-empty
+                string signerName = result.SignerCommonName;
+                ClassicAssert.IsNotNull(signerName);
+                ClassicAssert.IsNotEmpty(signerName);
 
-                    // Message should be available
-                    string message = result.Message;
-                    ClassicAssert.IsNotNull(message);
+                // Message should be available
+                string message = result.Message;
+                ClassicAssert.IsNotNull(message);
 
-                    // Signer certificate should be available
-                    using var signerCert = result.GetSignerCertificate();
-                    ClassicAssert.IsNotNull(signerCert);
-                    ClassicAssert.Greater(signerCert.Data.Length, 0);
+                // Signer certificate should be available
+                using var signerCert = result.GetSignerCertificate();
+                ClassicAssert.IsNotNull(signerCert);
+                ClassicAssert.Greater(signerCert.Data.Length, 0);
 
-                    // Certificate chain should have at least one entry
-                    int chainCount = result.CertificateChainCount;
-                    ClassicAssert.Greater(chainCount, 0);
+                // Certificate chain should have at least one entry
+                int chainCount = result.CertificateChainCount;
+                ClassicAssert.Greater(chainCount, 0);
 
-                    using var chainCert = result.GetCertificateChainAt(0);
-                    ClassicAssert.IsNotNull(chainCert);
-                    ClassicAssert.Greater(chainCert.Data.Length, 0);
-                }
+                using var chainCert = result.GetCertificateChainAt(0);
+                ClassicAssert.IsNotNull(chainCert);
+                ClassicAssert.Greater(chainCert.Data.Length, 0);
             } finally {
                 if (File.Exists(signedFile)) {
                     File.Delete(signedFile);
@@ -195,21 +189,108 @@ namespace vanillapdf.net.nunit.PdfUtils
             string signedFile = Path.Combine(Path.GetTempPath(), $"signed_{Guid.NewGuid()}.pdf");
 
             try {
-                var (signedData, signatureContents) = SignAndExtract(sourceFile, signedFile);
+                SignDocument(sourceFile, signedFile);
 
-                using (signedData)
-                using (signatureContents) {
-                    using var store = TrustedCertificateStore.Create();
-                    // Do NOT skip certificate validation - verify self-signed cert is untrusted
-                    using var result = SignatureVerifier.Verify(signedData, signatureContents, store);
+                using var store = TrustedCertificateStore.Create();
+                // Do NOT skip certificate validation - verify self-signed cert is untrusted
+                using var result = VerifySignedDocument(signedFile, store);
 
-                    ClassicAssert.IsFalse(result.IsCertificateTrusted);
+                ClassicAssert.IsFalse(result.IsCertificateTrusted);
+            } finally {
+                if (File.Exists(signedFile)) {
+                    File.Delete(signedFile);
+                }
+            }
+        }
+
+        #endregion
+
+        #region AcroForm API
+
+        [Test]
+        public void TestAcroFormFromFile()
+        {
+            string sourceFile = Path.Combine("Resources", "Granizo.pdf");
+            string signedFile = Path.Combine(Path.GetTempPath(), $"signed_{Guid.NewGuid()}.pdf");
+
+            try {
+                SignDocument(sourceFile, signedFile);
+
+                using var pdfFile = PdfFile.Open(signedFile);
+                pdfFile.Initialize();
+                using var document = PdfDocument.OpenFile(pdfFile);
+                using var catalog = document.GetCatalog();
+                using var acroForm = catalog.GetAcroForm();
+
+                ClassicAssert.IsNotNull(acroForm);
+
+                using var fields = acroForm.GetFields();
+                int sigFieldCount = 0;
+                UInt64 count = fields.GetSize();
+                for (UInt64 i = 0; i < count; i++) {
+                    using var field = fields.GetValueAt(i);
+                    if (field.GetFieldType() == PdfFieldType.Signature) {
+                        sigFieldCount++;
+                    }
+                }
+
+                ClassicAssert.Greater(sigFieldCount, 0);
+            } finally {
+                if (File.Exists(signedFile)) {
+                    File.Delete(signedFile);
+                }
+            }
+        }
+
+        [Test]
+        public void TestSignatureFieldProperties()
+        {
+            string sourceFile = Path.Combine("Resources", "Granizo.pdf");
+            string signedFile = Path.Combine(Path.GetTempPath(), $"signed_{Guid.NewGuid()}.pdf");
+
+            try {
+                SignDocument(sourceFile, signedFile);
+
+                using var pdfFile = PdfFile.Open(signedFile);
+                pdfFile.Initialize();
+                using var document = PdfDocument.OpenFile(pdfFile);
+                using var catalog = document.GetCatalog();
+                using var acroForm = catalog.GetAcroForm();
+
+                ClassicAssert.IsNotNull(acroForm);
+
+                using var fields = acroForm.GetFields();
+                UInt64 count = fields.GetSize();
+                for (UInt64 i = 0; i < count; i++) {
+                    using var field = fields.GetValueAt(i);
+                    if (field.GetFieldType() != PdfFieldType.Signature) {
+                        continue;
+                    }
+
+                    using var sigField = PdfSignatureField.FromField(field);
+                    using var sig = sigField.GetValue();
+                    ClassicAssert.IsNotNull(sig);
+                    break;
                 }
             } finally {
                 if (File.Exists(signedFile)) {
                     File.Delete(signedFile);
                 }
             }
+        }
+
+        [Test]
+        public void TestAcroFormFromUnsignedFile()
+        {
+            string sourceFile = Path.Combine("Resources", "Granizo.pdf");
+
+            using var pdfFile = PdfFile.Open(sourceFile);
+            pdfFile.Initialize();
+            using var document = PdfDocument.OpenFile(pdfFile);
+            using var catalog = document.GetCatalog();
+            using var acroForm = catalog.GetAcroForm();
+
+            ClassicAssert.IsNull(acroForm);
         }
 
         #endregion
@@ -238,83 +319,46 @@ namespace vanillapdf.net.nunit.PdfUtils
 
         #endregion
 
-        private static (PdfBuffer signedData, PdfBuffer signatureContents) SignAndExtract(string sourceFile, string signedFile)
+        private static void SignDocument(string sourceFile, string signedFile)
         {
-            // Step 1: Sign the document
-            using (var file = PdfFile.Open(sourceFile)) {
-                file.Initialize();
-                using var document = PdfDocument.OpenFile(file);
+            using var file = PdfFile.Open(sourceFile);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
+            using var destFile = PdfFile.Create(signedFile);
+            using var signSettings = PdfDocumentSignatureSettings.Create();
+            using var keyBuffer = PdfBuffer.Create();
+            keyBuffer.Data = Convert.FromBase64String(PKCS12_KEY_BASE64);
+            using var key = PdfPKCS12Key.CreateFromBuffer(keyBuffer, null);
 
-                using var destFile = PdfFile.Create(signedFile);
-                using var signSettings = PdfDocumentSignatureSettings.Create();
+            signSettings.SigningKey = key;
+            signSettings.Digest = PdfMessageDigestAlgorithmType.SHA256;
+            document.Sign(destFile, signSettings);
+        }
 
-                using var keyBuffer = PdfBuffer.Create();
-                keyBuffer.Data = Convert.FromBase64String(PKCS12_KEY_BASE64);
-                using var key = PdfPKCS12Key.CreateFromBuffer(keyBuffer, null);
+        private static SignatureVerificationResult VerifySignedDocument(string signedFile, TrustedCertificateStore store, SignatureVerificationSettings settings = null)
+        {
+            using var pdfFile = PdfFile.Open(signedFile);
+            pdfFile.Initialize();
+            using var document = PdfDocument.OpenFile(pdfFile);
+            using var catalog = document.GetCatalog();
+            using var acroForm = catalog.GetAcroForm();
+            using var fields = acroForm.GetFields();
 
-                signSettings.SigningKey = key;
-                signSettings.Digest = PdfMessageDigestAlgorithmType.SHA256;
-                document.Sign(destFile, signSettings);
+            UInt64 count = fields.GetSize();
+            for (UInt64 i = 0; i < count; i++) {
+                using var field = fields.GetValueAt(i);
+                if (field.GetFieldType() != PdfFieldType.Signature) {
+                    continue;
+                }
+
+                using var sigField = PdfSignatureField.FromField(field);
+                using var sig = sigField.GetValue();
+                if (sig != null) {
+                    return sig.Verify(document, store, settings);
+                }
             }
 
-            // Step 2: Open signed file and extract signature data
-            using var signedPdfFile = PdfFile.Open(signedFile);
-            signedPdfFile.Initialize();
-
-            // Navigate: trailer → /Root → /AcroForm → /Fields[0] → /V (signature dict)
-            using var xrefChain = signedPdfFile.XrefChain;
-
-            PdfXref latestXref = null;
-            foreach (var xref in xrefChain) {
-                latestXref?.Dispose();
-                latestXref = xref;
-            }
-
-            using (latestXref)
-            using (var trailer = latestXref.GetTrailerDictionary()) {
-                using var rootKey = PdfNameObject.CreateFromDecodedString("Root");
-                using var rootDict = trailer.FindAs<PdfDictionaryObject>(rootKey);
-
-                using var acroFormKey = PdfNameObject.CreateFromDecodedString("AcroForm");
-                using var acroFormDict = rootDict.FindAs<PdfDictionaryObject>(acroFormKey);
-
-                using var fieldsKey = PdfNameObject.CreateFromDecodedString("Fields");
-                using var fieldsArray = acroFormDict.FindAs<PdfArrayObject>(fieldsKey);
-
-                using var firstField = fieldsArray.GetValueAs<PdfDictionaryObject>(0);
-
-                using var vKey = PdfNameObject.CreateFromDecodedString("V");
-                using var sigDict = firstField.FindAs<PdfDictionaryObject>(vKey);
-
-                // Extract ByteRange array [offset1, length1, offset2, length2]
-                using var byteRangeKey = PdfNameObject.CreateFromDecodedString("ByteRange");
-                using var byteRangeArray = sigDict.FindAs<PdfArrayObject>(byteRangeKey);
-
-                using var offset1Obj = byteRangeArray.GetValueAs<PdfIntegerObject>(0);
-                using var length1Obj = byteRangeArray.GetValueAs<PdfIntegerObject>(1);
-                using var offset2Obj = byteRangeArray.GetValueAs<PdfIntegerObject>(2);
-                using var length2Obj = byteRangeArray.GetValueAs<PdfIntegerObject>(3);
-
-                long offset1 = offset1Obj.IntegerValue;
-                long length1 = length1Obj.IntegerValue;
-                long offset2 = offset2Obj.IntegerValue;
-                long length2 = length2Obj.IntegerValue;
-
-                // Extract /Contents (PKCS#7 signature blob)
-                using var contentsKey = PdfNameObject.CreateFromDecodedString("Contents");
-                using var contentsString = sigDict.FindAs<PdfStringObject>(contentsKey);
-                var signatureContents = contentsString.Value;
-
-                // Build signed data from ByteRange
-                byte[] fileBytes = File.ReadAllBytes(signedFile);
-                byte[] signedBytes = new byte[length1 + length2];
-                Array.Copy(fileBytes, offset1, signedBytes, 0, length1);
-                Array.Copy(fileBytes, offset2, signedBytes, length1, length2);
-
-                var signedData = PdfBuffer.CreateFromData(signedBytes);
-
-                return (signedData, signatureContents);
-            }
+            throw new InvalidOperationException("No signed signature fields found in signed document.");
         }
     }
 }

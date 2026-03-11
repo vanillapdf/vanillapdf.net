@@ -113,7 +113,7 @@ namespace vanillapdf.net.PdfSemantics
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
-                return (PdfAnnotationFlags)data;
+                return EnumUtil<PdfAnnotationFlags>.FlagsCast(data);
             }
             set
             {

@@ -685,4 +685,116 @@ namespace vanillapdf.net.Utils
             return data;
         }
     }
+
+    internal sealed class PdfInteractiveFormSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.InteractiveForm_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfFieldCollectionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FieldCollection_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfFieldSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.Field_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfButtonFieldSafeHandle(PdfFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.ButtonField_FromField(handle, out PdfButtonFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfTextFieldSafeHandle(PdfFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.TextField_FromField(handle, out PdfTextFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfChoiceFieldSafeHandle(PdfFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.ChoiceField_FromField(handle, out PdfChoiceFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfSignatureFieldSafeHandle(PdfFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.SignatureField_FromField(handle, out PdfSignatureFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfButtonFieldSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.ButtonField_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfFieldSafeHandle(PdfButtonFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.ButtonField_ToField(handle, out PdfFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfTextFieldSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.TextField_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfFieldSafeHandle(PdfTextFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.TextField_ToField(handle, out PdfFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfChoiceFieldSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.ChoiceField_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfFieldSafeHandle(PdfChoiceFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.ChoiceField_ToField(handle, out PdfFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfSignatureFieldSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.SignatureField_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfFieldSafeHandle(PdfSignatureFieldSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.SignatureField_ToField(handle, out PdfFieldSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+    }
+
+    internal sealed class PdfDigitalSignatureSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.DigitalSignature_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
 }
