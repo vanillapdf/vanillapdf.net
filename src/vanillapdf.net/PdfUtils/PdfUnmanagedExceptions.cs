@@ -47,7 +47,23 @@ namespace vanillapdf.net.PdfUtils
             }
 
             if (value == PdfReturnValues.ERROR_INSUFFICIENT_SPACE) {
-                // TODO
+                return PdfInsufficientSpaceException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ERROR_DATA_CORRUPTION) {
+                return PdfDataCorruptionException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ERROR_IO_ERROR) {
+                return PdfIOErrorException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ERROR_CRYPTO_ERROR) {
+                return PdfCryptoErrorException.Create(errorMessage);
+            }
+
+            if (value == PdfReturnValues.ERROR_IMAGE_CODEC_ERROR) {
+                return PdfImageCodecErrorException.Create(errorMessage);
             }
 
             if (value == PdfReturnValues.ERROR_GENERAL) {
@@ -80,17 +96,17 @@ namespace vanillapdf.net.PdfUtils
             }
 
             if (value == PdfReturnValues.ERROR_DUPLICATE_KEY) {
-                // TODO
+                return PdfDuplicateKeyException.Create(errorMessage);
             }
 
             // Semantic errors
 
             if (value == PdfReturnValues.ERROR_OPTIONAL_ENTRY_MISSING) {
-                // TODO
+                return PdfOptionalEntryMissingException.Create(errorMessage);
             }
 
             if (value == PdfReturnValues.ERROR_SEMANTIC_CONTEXT) {
-                // TODO
+                return PdfSemanticContextException.Create(errorMessage);
             }
 
             throw new PdfManagedException($"Unknown return value: {value}");
@@ -314,6 +330,142 @@ namespace vanillapdf.net.PdfUtils
         }
 
         private PdfInvalidPasswordException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// The provided buffer space was not sufficient for the requested operation
+    /// </summary>
+    public class PdfInsufficientSpaceException : PdfUnmanagedException
+    {
+        internal static PdfInsufficientSpaceException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_INSUFFICIENT_SPACE;
+            return new PdfInsufficientSpaceException(message, code);
+        }
+
+        private PdfInsufficientSpaceException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Data integrity check failed, the data may be corrupted
+    /// </summary>
+    public class PdfDataCorruptionException : PdfUnmanagedException
+    {
+        internal static PdfDataCorruptionException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_DATA_CORRUPTION;
+            return new PdfDataCorruptionException(message, code);
+        }
+
+        private PdfDataCorruptionException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// An I/O error occurred during file operations
+    /// </summary>
+    public class PdfIOErrorException : PdfUnmanagedException
+    {
+        internal static PdfIOErrorException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_IO_ERROR;
+            return new PdfIOErrorException(message, code);
+        }
+
+        private PdfIOErrorException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// A cryptographic operation failed
+    /// </summary>
+    public class PdfCryptoErrorException : PdfUnmanagedException
+    {
+        internal static PdfCryptoErrorException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_CRYPTO_ERROR;
+            return new PdfCryptoErrorException(message, code);
+        }
+
+        private PdfCryptoErrorException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// An error occurred during image codec operations
+    /// </summary>
+    public class PdfImageCodecErrorException : PdfUnmanagedException
+    {
+        internal static PdfImageCodecErrorException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_IMAGE_CODEC_ERROR;
+            return new PdfImageCodecErrorException(message, code);
+        }
+
+        private PdfImageCodecErrorException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Trying to insert a new entry into dictionary with a duplicate key
+    /// </summary>
+    public class PdfDuplicateKeyException : PdfUnmanagedException
+    {
+        internal static PdfDuplicateKeyException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_DUPLICATE_KEY;
+            return new PdfDuplicateKeyException(message, code);
+        }
+
+        private PdfDuplicateKeyException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// The requested optional entry is empty or missing
+    /// </summary>
+    public class PdfOptionalEntryMissingException : PdfUnmanagedException
+    {
+        internal static PdfOptionalEntryMissingException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_OPTIONAL_ENTRY_MISSING;
+            return new PdfOptionalEntryMissingException(message, code);
+        }
+
+        private PdfOptionalEntryMissingException(string message, UInt32 errorCode)
+            : base(message, errorCode)
+        {
+        }
+    }
+
+    /// <summary>
+    /// The underlying type of the object was different than expected
+    /// </summary>
+    public class PdfSemanticContextException : PdfUnmanagedException
+    {
+        internal static PdfSemanticContextException Create(string message)
+        {
+            UInt32 code = PdfReturnValues.ERROR_SEMANTIC_CONTEXT;
+            return new PdfSemanticContextException(message, code);
+        }
+
+        private PdfSemanticContextException(string message, UInt32 errorCode)
             : base(message, errorCode)
         {
         }

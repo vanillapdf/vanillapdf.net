@@ -20,6 +20,10 @@ namespace vanillapdf.net.PdfUtils
                 case ERROR_INVALID_LICENSE: return nameof(ERROR_INVALID_LICENSE);
                 case ERROR_LICENSE_REQUIRED: return nameof(ERROR_LICENSE_REQUIRED);
                 case ERROR_INSUFFICIENT_SPACE: return nameof(ERROR_INSUFFICIENT_SPACE);
+                case ERROR_DATA_CORRUPTION: return nameof(ERROR_DATA_CORRUPTION);
+                case ERROR_IO_ERROR: return nameof(ERROR_IO_ERROR);
+                case ERROR_CRYPTO_ERROR: return nameof(ERROR_CRYPTO_ERROR);
+                case ERROR_IMAGE_CODEC_ERROR: return nameof(ERROR_IMAGE_CODEC_ERROR);
                 case ERROR_GENERAL: return nameof(ERROR_GENERAL);
                 case ERROR_CONVERSION: return nameof(ERROR_CONVERSION);
                 case ERROR_FILE_DISPOSED: return nameof(ERROR_FILE_DISPOSED);
@@ -75,6 +79,26 @@ namespace vanillapdf.net.PdfUtils
         /// The space usually for buffer was not sufficient for requested operation.
         /// </summary>
         public const UInt32 ERROR_INSUFFICIENT_SPACE = 7;
+
+        /// <summary>
+        /// Data integrity check failed, the data may be corrupted.
+        /// </summary>
+        public const UInt32 ERROR_DATA_CORRUPTION = 8;
+
+        /// <summary>
+        /// An I/O error occurred during file operations.
+        /// </summary>
+        public const UInt32 ERROR_IO_ERROR = 9;
+
+        /// <summary>
+        /// A cryptographic operation failed.
+        /// </summary>
+        public const UInt32 ERROR_CRYPTO_ERROR = 10;
+
+        /// <summary>
+        /// An error occurred during image codec operations.
+        /// </summary>
+        public const UInt32 ERROR_IMAGE_CODEC_ERROR = 11;
 
         /// <summary>
         /// An unknown error has occurred.
