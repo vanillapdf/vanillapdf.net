@@ -266,7 +266,56 @@ namespace vanillapdf.net.Interop
         #region DigitalSignature
 
         [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetContactInfo(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetReason(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetLocation(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetSigningTime(PdfDigitalSignatureSafeHandle handle, out PdfDateSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetName(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetRevision(PdfDigitalSignatureSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetCertificate(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetContents(PdfDigitalSignatureSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 DigitalSignature_GetByteRange(PdfDigitalSignatureSafeHandle handle, out PdfByteRangeCollectionSafeHandle data);
+
+        [LibraryImport(LibraryName)]
         public static partial UInt32 DigitalSignature_Release(IntPtr handle);
+
+        #endregion
+
+        #region ByteRange
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ByteRangeCollection_GetSize(PdfByteRangeCollectionSafeHandle handle, out UIntPtr data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ByteRangeCollection_GetValue(PdfByteRangeCollectionSafeHandle handle, UIntPtr at, out PdfByteRangeSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ByteRangeCollection_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ByteRange_GetOffset(PdfByteRangeSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ByteRange_GetLength(PdfByteRangeSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ByteRange_Release(IntPtr handle);
 
         #endregion
 
