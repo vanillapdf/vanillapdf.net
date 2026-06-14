@@ -36,7 +36,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 XrefIterator_Next(PdfXrefIteratorSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefIterator_IsValid(PdfXrefIteratorSafeHandle handle, out bool data);
+        public static extern UInt32 XrefIterator_IsValid(PdfXrefIteratorSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 XrefChainIterator_Next(PdfXrefChainIteratorSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefChainIterator_IsValid(PdfXrefChainIteratorSafeHandle handle, out bool data);
+        public static extern UInt32 XrefChainIterator_IsValid(PdfXrefChainIteratorSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 XrefEntry_GetGenerationNumber(PdfXrefEntrySafeHandle handle, out UInt16 data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 XrefEntry_InUse(PdfXrefEntrySafeHandle handle, out bool data);
+        public static extern UInt32 XrefEntry_InUse(PdfXrefEntrySafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         #endregion
 
