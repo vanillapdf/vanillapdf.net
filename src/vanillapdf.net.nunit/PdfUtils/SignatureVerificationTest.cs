@@ -312,23 +312,23 @@ namespace vanillapdf.net.nunit.PdfUtils
             using var sig = FindFirstDigitalSignature(document);
             ClassicAssert.IsNotNull(sig);
 
-            using var name = sig.GetName();
+            using var name = sig.Name;
             ClassicAssert.IsNotNull(name);
             ClassicAssert.AreEqual("Test Signer", name.Value.StringData);
 
-            using var location = sig.GetLocation();
+            using var location = sig.Location;
             ClassicAssert.IsNotNull(location);
             ClassicAssert.AreEqual("Test City", location.Value.StringData);
 
-            using var reason = sig.GetReason();
+            using var reason = sig.Reason;
             ClassicAssert.IsNotNull(reason);
             ClassicAssert.AreEqual("Integration testing", reason.Value.StringData);
 
-            using var signingTime = sig.GetSigningTime();
+            using var signingTime = sig.SigningTime;
             ClassicAssert.IsNotNull(signingTime);
             ClassicAssert.GreaterOrEqual(signingTime.Year, 2026);
 
-            using var contents = sig.GetContents();
+            using var contents = sig.Contents;
             ClassicAssert.IsNotNull(contents);
             ClassicAssert.Greater(contents.Value.Data.Length, 0);
         }
@@ -347,10 +347,10 @@ namespace vanillapdf.net.nunit.PdfUtils
             using var sig = FindFirstDigitalSignature(document);
             ClassicAssert.IsNotNull(sig);
 
-            ClassicAssert.IsNull(sig.GetName());
-            ClassicAssert.IsNull(sig.GetLocation());
-            ClassicAssert.IsNull(sig.GetReason());
-            ClassicAssert.IsNull(sig.GetContactInfo());
+            ClassicAssert.IsNull(sig.Name);
+            ClassicAssert.IsNull(sig.Location);
+            ClassicAssert.IsNull(sig.Reason);
+            ClassicAssert.IsNull(sig.ContactInfo);
         }
 
         [Test]
@@ -367,7 +367,7 @@ namespace vanillapdf.net.nunit.PdfUtils
             using var sig = FindFirstDigitalSignature(document);
             ClassicAssert.IsNotNull(sig);
 
-            using var byteRange = sig.GetByteRange();
+            using var byteRange = sig.ByteRange;
             ClassicAssert.IsNotNull(byteRange);
 
             UInt64 rangeCount = byteRange.GetSize();
@@ -377,8 +377,8 @@ namespace vanillapdf.net.nunit.PdfUtils
             Int64 previousEnd = 0;
             for (UInt64 i = 0; i < rangeCount; i++) {
                 using var range = byteRange.GetValueAt(i);
-                using var offset = range.GetOffset();
-                using var length = range.GetLength();
+                using var offset = range.Offset;
+                using var length = range.Length;
 
                 ClassicAssert.GreaterOrEqual(offset.IntegerValue, previousEnd);
                 ClassicAssert.GreaterOrEqual(length.IntegerValue, 0);

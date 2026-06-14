@@ -20,32 +20,36 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Get the byte offset where this range starts.
+        /// The byte offset where this range starts.
         /// </summary>
-        /// <returns>The <see cref="PdfIntegerObject"/> holding the offset.</returns>
-        public PdfIntegerObject GetOffset()
+        public PdfIntegerObject Offset => GetOffset();
+
+        /// <summary>
+        /// The length of this range in bytes.
+        /// </summary>
+        public PdfIntegerObject Length => GetLength();
+
+        #region Private Methods
+
+        private PdfIntegerObject GetOffset()
         {
             UInt32 result = NativeMethods.ByteRange_GetOffset(Handle, out PdfIntegerObjectSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return new PdfIntegerObject(data);
         }
 
-        /// <summary>
-        /// Get the length of this range in bytes.
-        /// </summary>
-        /// <returns>The <see cref="PdfIntegerObject"/> holding the length.</returns>
-        public PdfIntegerObject GetLength()
+        private PdfIntegerObject GetLength()
         {
             UInt32 result = NativeMethods.ByteRange_GetLength(Handle, out PdfIntegerObjectSafeHandle data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
-
             return new PdfIntegerObject(data);
         }
+
+        #endregion
 
         /// <inheritdoc/>
         public void Dispose()
