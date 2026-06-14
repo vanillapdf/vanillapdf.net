@@ -49,7 +49,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 File_GetFilename(PdfFileSafeHandle handle, out PdfBufferSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 File_IsEncrypted(PdfFileSafeHandle handle, out bool data);
+        public static extern UInt32 File_IsEncrypted(PdfFileSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 File_SetEncryptionPassword(
@@ -203,22 +203,22 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 DictionaryObject_Find(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out PdfObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObject_TryFind(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool contains, out PdfObjectSafeHandle data);
+        public static extern UInt32 DictionaryObject_TryFind(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, [MarshalAs(UnmanagedType.I1)] out bool contains, out PdfObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObject_Contains(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool data);
+        public static extern UInt32 DictionaryObject_Contains(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DictionaryObject_GetIterator(PdfDictionaryObjectSafeHandle handle, out PdfDictionaryObjectIteratorSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObject_Remove(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, out bool data);
+        public static extern UInt32 DictionaryObject_Remove(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DictionaryObject_Clear(PdfDictionaryObjectSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObject_Insert(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, PdfObjectSafeHandle data, bool overwrite);
+        public static extern UInt32 DictionaryObject_Insert(PdfDictionaryObjectSafeHandle handle, PdfNameObjectSafeHandle key, PdfObjectSafeHandle data, [MarshalAs(UnmanagedType.I1)] bool overwrite);
 
         #endregion
 
@@ -237,7 +237,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 DictionaryObjectIterator_Next(PdfDictionaryObjectIteratorSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 DictionaryObjectIterator_IsValid(PdfDictionaryObjectIteratorSafeHandle handle, out bool data);
+        public static extern UInt32 DictionaryObjectIterator_IsValid(PdfDictionaryObjectIteratorSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         #endregion
 
@@ -306,10 +306,10 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 BooleanObject_Create(out PdfBooleanObjectSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 BooleanObject_GetValue(PdfBooleanObjectSafeHandle handle, out bool data);
+        public static extern UInt32 BooleanObject_GetValue(PdfBooleanObjectSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 BooleanObject_SetValue(PdfBooleanObjectSafeHandle handle, bool data);
+        public static extern UInt32 BooleanObject_SetValue(PdfBooleanObjectSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool data);
 
         #endregion
 
@@ -356,7 +356,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 NameObject_SetValue(PdfNameObjectSafeHandle handle, PdfBufferSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 NameObject_Equals(PdfNameObjectSafeHandle handle, PdfNameObjectSafeHandle other, out bool data);
+        public static extern UInt32 NameObject_Equals(PdfNameObjectSafeHandle handle, PdfNameObjectSafeHandle other, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 NameObject_Hash(PdfNameObjectSafeHandle handle, out UIntPtr data);
@@ -565,7 +565,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 ObjectAttributeList_Remove(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ObjectAttributeList_Contains(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key, out bool result);
+        public static extern UInt32 ObjectAttributeList_Contains(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key, [MarshalAs(UnmanagedType.I1)] out bool result);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 ObjectAttributeList_Get(PdfObjectAttributeListSafeHandle handle, PdfSyntax.PdfObjectAttributeType key, out PdfBaseObjectAttributeSafeHandle result);

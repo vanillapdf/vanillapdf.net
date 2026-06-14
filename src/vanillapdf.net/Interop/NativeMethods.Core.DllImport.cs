@@ -38,10 +38,10 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 LicenseInfo_SetLicenseBuffer(PdfBufferSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 LicenseInfo_IsValid(out bool data);
+        public static extern UInt32 LicenseInfo_IsValid([MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 LicenseInfo_IsTemporary(out bool data);
+        public static extern UInt32 LicenseInfo_IsTemporary([MarshalAs(UnmanagedType.I1)] out bool data);
 
         #endregion
 
@@ -92,7 +92,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 Buffer_ToInputStream(PdfBufferSafeHandle handle, out PdfInputStreamSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 Buffer_Equals(PdfBufferSafeHandle handle, PdfBufferSafeHandle other, out bool data);
+        public static extern UInt32 Buffer_Equals(PdfBufferSafeHandle handle, PdfBufferSafeHandle other, [MarshalAs(UnmanagedType.I1)] out bool data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Buffer_Hash(PdfBufferSafeHandle handle, out UIntPtr data);
@@ -292,22 +292,22 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 SignatureVerificationSettings_Create(out SignatureVerificationSettingsSafeHandle handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, out bool value);
+        public static extern UInt32 SignatureVerificationSettings_GetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, bool value);
+        public static extern UInt32 SignatureVerificationSettings_SetSkipCertificateValidation(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, out bool value);
+        public static extern UInt32 SignatureVerificationSettings_GetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, bool value);
+        public static extern UInt32 SignatureVerificationSettings_SetCheckSigningTimeFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, out bool value);
+        public static extern UInt32 SignatureVerificationSettings_GetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, bool value);
+        public static extern UInt32 SignatureVerificationSettings_SetAllowWeakAlgorithmsFlag(SignatureVerificationSettingsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
 
         #endregion
 
@@ -323,13 +323,13 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 SignatureVerificationResult_GetMessage(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, out bool value);
+        public static extern UInt32 SignatureVerificationResult_IsSignatureValid(SignatureVerificationResultSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, out bool value);
+        public static extern UInt32 SignatureVerificationResult_IsDocumentIntact(SignatureVerificationResultSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, out bool value);
+        public static extern UInt32 SignatureVerificationResult_IsCertificateTrusted(SignatureVerificationResultSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool value);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureVerificationResult_GetSignerCertificate(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
