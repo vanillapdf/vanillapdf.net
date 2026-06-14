@@ -342,6 +342,16 @@ namespace vanillapdf.net.Interop
             out SignatureVerificationResultSafeHandle result);
 
         #endregion
+
+        #region TextStringEncoding
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextStringEncoding_Detect(byte[] data, UIntPtr size, out Int32 result);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 TextStringEncoding_PDFDocEncodingByteToUnicode(byte value, out UInt32 codepoint);
+
+        #endregion
     }
 }
 
