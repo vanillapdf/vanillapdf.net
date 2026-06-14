@@ -295,6 +295,99 @@ namespace vanillapdf.net.nunit.PdfUtils
 
         #endregion
 
+        #region DigitalSignature Metadata
+
+        [Test]
+        public void TestDigitalSignatureMetadata()
+        {
+            string sourceFile = Path.Combine("Resources", "Granizo.pdf");
+
+            using var signedStream = PdfInputOutputStream.CreateFromMemory();
+            using var currentTime = PdfDate.CreateCurrent();
+            SignDocumentToStream(sourceFile, signedStream, "Test Signer", "Test City", "Integration testing", currentTime);
+
+            using var pdfFile = PdfFile.OpenStream(signedStream, "signedStream");
+            pdfFile.Initialize();
+            using var document = PdfDocument.OpenFile(pdfFile);
+            using var sig = FindFirstDigitalSignature(document);
+            ClassicAssert.IsNotNull(sig);
+
+            using var name = sig.Name;
+            ClassicAssert.IsNotNull(name);
+            ClassicAssert.AreEqual("Test Signer", name.Value.StringData);
+
+            using var location = sig.Location;
+            ClassicAssert.IsNotNull(location);
+            ClassicAssert.AreEqual("Test City", location.Value.StringData);
+
+            using var reason = sig.Reason;
+            ClassicAssert.IsNotNull(reason);
+            ClassicAssert.AreEqual("Integration testing", reason.Value.StringData);
+
+            using var signingTime = sig.SigningTime;
+            ClassicAssert.IsNotNull(signingTime);
+            ClassicAssert.GreaterOrEqual(signingTime.Year, 2026);
+
+            using var contents = sig.Contents;
+            ClassicAssert.IsNotNull(contents);
+            ClassicAssert.Greater(contents.Value.Data.Length, 0);
+        }
+
+        [Test]
+        public void TestDigitalSignatureMetadataMissing()
+        {
+            string sourceFile = Path.Combine("Resources", "Granizo.pdf");
+
+            using var signedStream = PdfInputOutputStream.CreateFromMemory();
+            SignDocumentToStream(sourceFile, signedStream);
+
+            using var pdfFile = PdfFile.OpenStream(signedStream, "signedStream");
+            pdfFile.Initialize();
+            using var document = PdfDocument.OpenFile(pdfFile);
+            using var sig = FindFirstDigitalSignature(document);
+            ClassicAssert.IsNotNull(sig);
+
+            ClassicAssert.IsNull(sig.Name);
+            ClassicAssert.IsNull(sig.Location);
+            ClassicAssert.IsNull(sig.Reason);
+            ClassicAssert.IsNull(sig.ContactInfo);
+        }
+
+        [Test]
+        public void TestDigitalSignatureByteRange()
+        {
+            string sourceFile = Path.Combine("Resources", "Granizo.pdf");
+
+            using var signedStream = PdfInputOutputStream.CreateFromMemory();
+            SignDocumentToStream(sourceFile, signedStream);
+
+            using var pdfFile = PdfFile.OpenStream(signedStream, "signedStream");
+            pdfFile.Initialize();
+            using var document = PdfDocument.OpenFile(pdfFile);
+            using var sig = FindFirstDigitalSignature(document);
+            ClassicAssert.IsNotNull(sig);
+
+            using var byteRange = sig.ByteRange;
+            ClassicAssert.IsNotNull(byteRange);
+
+            UInt64 rangeCount = byteRange.GetSize();
+            ClassicAssert.Greater(rangeCount, 0);
+
+            // Ranges must be ascending and non-overlapping
+            Int64 previousEnd = 0;
+            for (UInt64 i = 0; i < rangeCount; i++) {
+                using var range = byteRange.GetValueAt(i);
+                using var offset = range.Offset;
+                using var length = range.Length;
+
+                ClassicAssert.GreaterOrEqual(offset.IntegerValue, previousEnd);
+                ClassicAssert.GreaterOrEqual(length.IntegerValue, 0);
+                previousEnd = offset.IntegerValue + length.IntegerValue;
+            }
+        }
+
+        #endregion
+
         #region Stability
 
         [Test]
@@ -333,6 +426,69 @@ namespace vanillapdf.net.nunit.PdfUtils
             signSettings.SigningKey = key;
             signSettings.Digest = PdfMessageDigestAlgorithmType.SHA256;
             document.Sign(destFile, signSettings);
+        }
+
+        private static void SignDocumentToStream(string sourceFile, PdfInputOutputStream signedStream)
+        {
+            using var file = PdfFile.Open(sourceFile);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
+            using var destFile = PdfFile.CreateStream(signedStream, "signedStream");
+            using var signSettings = PdfDocumentSignatureSettings.Create();
+            using var keyBuffer = PdfBuffer.Create();
+            keyBuffer.Data = Convert.FromBase64String(PKCS12_KEY_BASE64);
+            using var key = PdfPKCS12Key.CreateFromBuffer(keyBuffer, null);
+
+            signSettings.SigningKey = key;
+            signSettings.Digest = PdfMessageDigestAlgorithmType.SHA256;
+            document.Sign(destFile, signSettings);
+        }
+
+        private static void SignDocumentToStream(string sourceFile, PdfInputOutputStream signedStream, string name, string location, string reason, PdfDate signingTime)
+        {
+            using var file = PdfFile.Open(sourceFile);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
+            using var destFile = PdfFile.CreateStream(signedStream, "signedStream");
+            using var signSettings = PdfDocumentSignatureSettings.Create();
+            using var keyBuffer = PdfBuffer.Create();
+            keyBuffer.Data = Convert.FromBase64String(PKCS12_KEY_BASE64);
+            using var key = PdfPKCS12Key.CreateFromBuffer(keyBuffer, null);
+
+            using var nameObject = PdfLiteralStringObject.CreateFromDecodedString(name);
+            using var locationObject = PdfLiteralStringObject.CreateFromDecodedString(location);
+            using var reasonObject = PdfLiteralStringObject.CreateFromDecodedString(reason);
+
+            signSettings.SigningKey = key;
+            signSettings.Digest = PdfMessageDigestAlgorithmType.SHA256;
+            signSettings.Name = nameObject;
+            signSettings.Location = locationObject;
+            signSettings.Reason = reasonObject;
+            signSettings.SigningTime = signingTime;
+            document.Sign(destFile, signSettings);
+        }
+
+        private static PdfDigitalSignature FindFirstDigitalSignature(PdfDocument document)
+        {
+            using var catalog = document.GetCatalog();
+            using var acroForm = catalog.GetAcroForm();
+            using var fields = acroForm.GetFields();
+
+            UInt64 count = fields.GetSize();
+            for (UInt64 i = 0; i < count; i++) {
+                using var field = fields.GetValueAt(i);
+                if (field.GetFieldType() != PdfFieldType.Signature) {
+                    continue;
+                }
+
+                using var sigField = PdfSignatureField.FromField(field);
+                var sig = sigField.GetValue();
+                if (sig != null) {
+                    return sig;
+                }
+            }
+
+            return null;
         }
 
         private static SignatureVerificationResult VerifySignedDocument(string signedFile, TrustedCertificateStore store, SignatureVerificationSettings settings = null)

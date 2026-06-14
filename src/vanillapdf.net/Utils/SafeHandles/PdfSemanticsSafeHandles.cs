@@ -797,4 +797,14 @@ namespace vanillapdf.net.Utils
     {
         protected override bool ReleaseHandle() => NativeMethods.DigitalSignature_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
     }
+
+    internal sealed class PdfByteRangeSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.ByteRange_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfByteRangeCollectionSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.ByteRangeCollection_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
 }

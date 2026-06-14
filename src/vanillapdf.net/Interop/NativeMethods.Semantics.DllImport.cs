@@ -279,7 +279,56 @@ namespace vanillapdf.net.Interop
         #region DigitalSignature
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetContactInfo(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetReason(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetLocation(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetSigningTime(PdfDigitalSignatureSafeHandle handle, out PdfDateSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetName(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetRevision(PdfDigitalSignatureSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetCertificate(PdfDigitalSignatureSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetContents(PdfDigitalSignatureSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetByteRange(PdfDigitalSignatureSafeHandle handle, out PdfByteRangeCollectionSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DigitalSignature_Release(IntPtr handle);
+
+        #endregion
+
+        #region ByteRange
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ByteRangeCollection_GetSize(PdfByteRangeCollectionSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ByteRangeCollection_GetValue(PdfByteRangeCollectionSafeHandle handle, UIntPtr at, out PdfByteRangeSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ByteRangeCollection_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ByteRange_GetOffset(PdfByteRangeSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ByteRange_GetLength(PdfByteRangeSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ByteRange_Release(IntPtr handle);
 
         #endregion
 
