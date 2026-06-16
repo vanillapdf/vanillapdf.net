@@ -63,6 +63,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
+    permissions:
+      id-token: write  # Enable GitHub OIDC token issuance for NuGet trusted publishing
 
     needs: publish-nuget-github
     steps:
@@ -71,9 +73,18 @@ jobs:
         with:
           path: ./nupkgs
 
+      # Exchange the OIDC token for a short-lived nuget.org API key (valid 1 hour).
+      # Requires a Trusted Publishing policy on nuget.org bound to this repo,
+      # workflow file (publish-nuget-packages.yml) and the production environment.
+      - name: NuGet login (OIDC -> temporary API key)
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841  # v1
+        id: nuget-login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to NuGet.org
         run: |
           dotnet nuget push nupkgs/**/*.nupkg \
             --source "${{ vars.NUGET_SOURCE }}" \
-            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
             --skip-duplicate
