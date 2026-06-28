@@ -44,6 +44,34 @@ namespace vanillapdf.net.Interop
 
         #endregion
 
+        #region LibraryInfo
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetVersionMajor(out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetVersionMinor(out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetVersionPatch(out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetVersionBuild(out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetAuthor(out IntPtr data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetBuildDay(out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetBuildMonth(out int data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 LibraryInfo_GetBuildYear(out int data);
+
+        #endregion
+
         #region Logging
 
         [LibraryImport(LibraryName)]
