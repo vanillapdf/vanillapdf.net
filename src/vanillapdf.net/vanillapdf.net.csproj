@@ -13,7 +13,13 @@
     <PublishAot Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishAot>
     <PublishTrimmed Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishTrimmed>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <!-- Package only via an explicit `dotnet pack`, which supplies the pre-release
+         label through --version-suffix from the release/nightly tag. Packing on
+         every build would instead use the bare VersionPrefix (a stable version),
+         tripping NU5104 whenever the native vanillapdf dependency is a pre-release
+         (a stable package must not depend on a pre-release). This has no effect on
+         normal build output (the DLL is still produced). -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <VersionPrefix>2.3.0</VersionPrefix>
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
