@@ -1,0 +1,58 @@
+# CodeQL advanced setup.
+#
+# Replaces GitHub "default setup" so that code scanning also runs on pull
+# requests targeting release branches (default setup only scans the default
+# branch and PRs into it). The branch rulesets require a CodeQL result before a
+# PR can merge, so release backports were blocked without this.
+
+name: CodeQL
+
+on:
+  push:
+    branches:
+      - "main"
+      - "release/*"
+
+  pull_request:
+    branches:
+      - "main"
+      - "release/*"
+
+  schedule:
+    # Weekly, matching the previous default-setup cadence.
+    - cron: "23 4 * * 1"
+
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: analyze-${{ matrix.language }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: actions
+            build-mode: none
+          - language: csharp
+            build-mode: none
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
