@@ -67,6 +67,11 @@ Tests use NUnit (`vanillapdf.net.nunit` project). Test resources are in `src/van
 - Main library: .NET Standard 2.0 and .NET 8.0 (multi-targeting)
 - Test project: .NET 8.0, .NET 9.0, and .NET 10.0
 
+## Branching
+
+- Name work branches `fix/...` or `feature/...` (e.g. `fix/version-prefix`, `feature/inline-image-data`), including release-prep chores like version bumps.
+- The `release/*` prefix is **reserved for long-lived release branches** that receive backports (e.g. `release/2.2`). Do not name ordinary work branches `release/...`: that prefix is matched by branch protection rulesets and by the `push` triggers in the CI workflows, so such a branch is wrongly subjected to release-branch protections and runs its checks twice (once for `push`, once for `pull_request`).
+
 ## Coding Style
 
 - Opening braces `{` go on the same line for `for`, `foreach`, `if`/`else`, and `using` statements
