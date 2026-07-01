@@ -14,7 +14,7 @@
     <PublishTrimmed Condition="'$(TargetFramework)' == 'netstandard2.0'">false</PublishTrimmed>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <VersionPrefix>2.3.0-beta.1</VersionPrefix>
+    <VersionPrefix>2.3.0</VersionPrefix>
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
