@@ -38,6 +38,8 @@ namespace vanillapdf.net.PdfContents.Extensions
             switch (objectType) {
                 case PdfContentObjectType.Text:
                     return PdfContentObjectText.FromContentObject(obj);
+                case PdfContentObjectType.InlineImage:
+                    return PdfContentObjectInlineImage.FromContentObject(obj);
                 default:
                     throw new vanillapdf.net.Utils.PdfManagedException($"Cannot upgrade content object with unknown type: {objectType}");
             }
