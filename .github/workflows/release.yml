@@ -1,43 +1,110 @@
 name: Release
 
-on:
-  push:
-    tags:
-      - 'v*.*.*'
+# Release orchestration for the vanillapdf.net NuGet package.
+#
+# Unlike a tag-triggered pipeline, this workflow does NOT run on `push: tags`.
+# The tag is created last, by *publishing* the draft GitHub release, so it only
+# comes into existence after every build/validation step and a human review of
+# the release body have passed. See RELEASE-GUIDE.md for the full procedure.
+#
+# Triggers:
+#   * workflow_dispatch - real releases (and manual dry runs). The tag is
+#     supplied as an input; `dry_run` defaults to true.
+#   * pull_request      - validation only. Any change to the release workflows
+#     runs the build/verify path with a synthetic tag derived from the csproj
+#     VersionPrefix, never publishing or tagging.
 
-permissions:
-  contents: write
-  packages: write
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/release.yml'
+      - '.github/workflows/build-nuget.yml'
+      - '.github/workflows/github-release.yml'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag name to create (e.g. v2.3.0-rc.1)"
+        required: true
+        type: string
+      dry_run:
+        description: "Dry run - validate without publishing or tagging"
+        required: false
+        type: boolean
+        default: true
+
+permissions: {}
 
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       tag: ${{ steps.parse.outputs.tag }}
       build_suffix: ${{ steps.parse.outputs.build_suffix }}
       prerelease: ${{ steps.parse.outputs.prerelease }}
+      is_latest: ${{ steps.parse.outputs.is_latest }}
+      dry_run: ${{ steps.parse.outputs.dry_run }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
       - name: Extract tag name and suffix
         id: parse
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
+          # Determine the tag based on the trigger. On pull_request there is no
+          # tag yet, so derive a synthetic one from the csproj VersionPrefix -
+          # enough to exercise the build/verify path in dry-run mode.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE=$(grep -oP '<VersionPrefix>\K[^<]+' src/vanillapdf.net/vanillapdf.net.csproj)
+            TAG="v${BASE}"
+          else
+            TAG="${{ inputs.tag }}"
+          fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          # Any suffix after MAJOR.MINOR.PATCH (e.g. -rc.1) marks a pre-release.
           VERSION="${TAG#v}"
           EXTRA=""
           if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(.*)$ ]]; then
             EXTRA="${BASH_REMATCH[1]}"
           fi
           if [[ -n "$EXTRA" ]]; then
-            EXTRA="${EXTRA#-}"
-            echo "build_suffix=$EXTRA" >> "$GITHUB_OUTPUT"
+            echo "build_suffix=${EXTRA#-}" >> "$GITHUB_OUTPUT"
             echo "prerelease=true" >> "$GITHUB_OUTPUT"
           else
             echo "build_suffix=" >> "$GITHUB_OUTPUT"
             echo "prerelease=false" >> "$GITHUB_OUTPUT"
           fi
 
+          # pull_request is always a dry run; workflow_dispatch honors the input.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "dry_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "dry_run=${{ inputs.dry_run }}" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Decide whether this is the newest stable release. The tag being
+          # released does not exist as a git ref yet (it is created when the
+          # draft is published), so compare the existing stable tags *plus* this
+          # tag. Pre-releases are never marked latest.
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            HIGHEST=$( { git tag -l 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$'; echo "$TAG"; } | sort -V | tail -1)
+            if [ "$HIGHEST" = "$TAG" ]; then
+              echo "is_latest=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "is_latest=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "is_latest=false" >> "$GITHUB_OUTPUT"
+          fi
+
   verify:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: prepare
     steps:
       - uses: actions/checkout@v7
@@ -47,10 +114,10 @@ jobs:
           TAG="${{ needs.prepare.outputs.tag }}"
           VERSION="${TAG#v}"
 
-          # Strip any pre-release suffix (e.g., 2.2.0-rc1 -> 2.2.0)
+          # Strip any pre-release suffix (e.g. 2.3.0-rc.1 -> 2.3.0)
           BASE_VERSION=$(echo "$VERSION" | cut -d- -f1)
 
-          # Read VersionPrefix from csproj
+          # csproj VersionPrefix is the source of truth for the release version
           CSPROJ_VERSION=$(grep -oP '<VersionPrefix>\K[^<]+' src/vanillapdf.net/vanillapdf.net.csproj)
 
           echo "Tag version: $BASE_VERSION"
@@ -65,14 +132,21 @@ jobs:
 
   build-nuget:
     needs: [verify, prepare]
+    permissions:
+      contents: read
+      packages: read
     uses: ./.github/workflows/build-nuget.yml
     with:
       build_suffix: ${{ needs.prepare.outputs.build_suffix }}
+    secrets: inherit
 
   nuget-staging:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     environment: staging
-    needs: build-nuget
+    needs: [build-nuget, prepare]
+    if: needs.prepare.outputs.dry_run == 'false'
     steps:
       - name: Download NuGet packages
         uses: actions/download-artifact@v8
@@ -86,16 +160,81 @@ jobs:
             --api-key "${{ secrets.GITHUB_TOKEN }}" \
             --skip-duplicate
 
+  dry-run-report:
+    runs-on: ubuntu-latest
+    permissions: {}
+    needs: [build-nuget, prepare]
+    if: always() && needs.prepare.outputs.dry_run == 'true'
+    steps:
+      - name: Dry run summary
+        run: |
+          echo "=== Dry Run Summary ==="
+          echo "Tag:          ${{ needs.prepare.outputs.tag }}"
+          echo "Build suffix: ${{ needs.prepare.outputs.build_suffix }}"
+          echo "Prerelease:   ${{ needs.prepare.outputs.prerelease }}"
+          echo "Is latest:    ${{ needs.prepare.outputs.is_latest }}"
+          echo "NuGet build:  ${{ needs.build-nuget.result }}"
+          echo ""
+          if [ "${{ needs.build-nuget.result }}" != "success" ]; then
+            echo "::error::Dry-run validation failed (build-nuget did not succeed)"
+            exit 1
+          fi
+          echo "=== All dry-run validations passed ==="
+
+  # Create the GitHub release as a *draft* before the production gate. The tag is
+  # deliberately not created here - publishing the draft (publish-release, after
+  # the gate) is what creates it at `target`. This lets a human edit the release
+  # body during the gate pause, and avoids binding the release to a pre-existing
+  # tag before the draft is finalized.
+  create-draft-release:
+    needs: [nuget-staging, prepare]
+    if: needs.prepare.outputs.dry_run == 'false'
+    permissions:
+      contents: write
+    uses: ./.github/workflows/github-release.yml
+    with:
+      tag: ${{ needs.prepare.outputs.tag }}
+      prerelease: ${{ fromJSON(needs.prepare.outputs.prerelease) }}
+      latest: ${{ fromJSON(needs.prepare.outputs.is_latest) }}
+      target: ${{ github.sha }}
+    secrets: inherit
+
   production-gate:
     runs-on: ubuntu-latest
-    needs: nuget-staging
+    permissions: {}
+    needs: [create-draft-release, prepare]
     environment: production
+    outputs:
+      tag: ${{ needs.prepare.outputs.tag }}
+      is_latest: ${{ needs.prepare.outputs.is_latest }}
     steps:
-      - run: echo "Awaiting production approval"
+      - run: echo "Draft release created. Edit the release body in the UI, then approve to publish."
+
+  # Flip the reviewed draft to a published release. Publishing creates the tag at
+  # the draft's target commit and binds the release to it. BOT_TOKEN is used so
+  # the tag is created under the repository's tag protection ruleset.
+  publish-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: production-gate
+    steps:
+      - name: Publish draft release
+        env:
+          TAG: ${{ needs.production-gate.outputs.tag }}
+          IS_LATEST: ${{ needs.production-gate.outputs.is_latest }}
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          LATEST_FLAG=""
+          if [ "$IS_LATEST" = "false" ]; then
+            LATEST_FLAG="--latest=false"
+          fi
+          gh release edit "$TAG" --draft=false $LATEST_FLAG
 
   publish-nuget:
     runs-on: ubuntu-latest
-    needs: production-gate
+    needs: publish-release
     environment: production
     permissions:
       id-token: write  # Enable GitHub OIDC token issuance for NuGet trusted publishing
@@ -120,12 +259,3 @@ jobs:
             --source "${{ vars.NUGET_SOURCE }}" \
             --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
             --skip-duplicate
-
-  github-release:
-    needs: [production-gate, prepare]
-    uses: ./.github/workflows/github-release.yml
-    with:
-      tag: ${{ needs.prepare.outputs.tag }}
-      # Convert string output to boolean (job outputs are always strings)
-      prerelease: ${{ needs.prepare.outputs.prerelease == 'true' }}
-    secrets: inherit
