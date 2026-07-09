@@ -115,18 +115,8 @@ namespace vanillapdf.net.PdfUtils
         /// <returns>New instance of \ref PdfBuffer on success, throws exception on failure</returns>
         public static unsafe PdfBuffer CreateFromData(ReadOnlySpan<byte> data)
         {
-            // Use a sentinel for empty spans to get a valid pointer
-            // (native code doesn't accept IntPtr.Zero even for zero-length data)
-            if (data.IsEmpty) {
-                byte sentinel = 0;
-                UInt32 emptyResult = NativeMethods.Buffer_CreateFromData((IntPtr)(&sentinel), UIntPtr.Zero, out PdfBufferSafeHandle emptyHandle);
-                if (emptyResult != PdfReturnValues.ERROR_SUCCESS) {
-                    throw PdfErrors.GetLastErrorException();
-                }
-
-                return new PdfBuffer(emptyHandle);
-            }
-
+            // An empty span yields a null pointer from fixed; native accepts a
+            // null pointer with zero length, so no sentinel is required.
             fixed (byte* ptr = data) {
                 UInt32 result = NativeMethods.Buffer_CreateFromData((IntPtr)ptr, new UIntPtr((uint)data.Length), out PdfBufferSafeHandle handle);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
@@ -189,17 +179,8 @@ namespace vanillapdf.net.PdfUtils
             lock (_syncLock) {
                 if (_disposed) throw new ObjectDisposedException(nameof(PdfBuffer));
 
-                // Use a sentinel for empty spans to get a valid pointer
-                // (native code doesn't accept IntPtr.Zero even for zero-length data)
-                if (data.IsEmpty) {
-                    byte sentinel = 0;
-                    UInt32 emptyResult = NativeMethods.Buffer_SetData(Handle, (IntPtr)(&sentinel), UIntPtr.Zero);
-                    if (emptyResult != PdfReturnValues.ERROR_SUCCESS) {
-                        throw PdfErrors.GetLastErrorException();
-                    }
-                    return;
-                }
-
+                // An empty span yields a null pointer from fixed; native accepts a
+                // null pointer with zero length, so no sentinel is required.
                 fixed (byte* ptr = data) {
                     UInt32 result = NativeMethods.Buffer_SetData(Handle, (IntPtr)ptr, new UIntPtr((uint)data.Length));
                     if (result != PdfReturnValues.ERROR_SUCCESS) {

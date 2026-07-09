@@ -35,6 +35,22 @@ namespace vanillapdf.net.nunit.PdfUtils
         }
 
         [Test]
+        public void TestCreateFromDataEmpty()
+        {
+            using var buffer = PdfBuffer.CreateFromData(new byte[0]);
+
+            ClassicAssert.AreEqual(0, buffer.Data.Length);
+        }
+
+        [Test]
+        public void TestCreateFromEmptySpan()
+        {
+            using var buffer = PdfBuffer.CreateFromData(ReadOnlySpan<byte>.Empty);
+
+            ClassicAssert.AreEqual(0, buffer.Data.Length);
+        }
+
+        [Test]
         public void TestDataString()
         {
             const string TEST_DATA = "TEST_DATA";
