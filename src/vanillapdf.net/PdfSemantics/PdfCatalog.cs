@@ -172,6 +172,43 @@ namespace vanillapdf.net.PdfSemantics
             return new PdfAcroForm(data);
         }
 
+        /// <summary>
+        /// The page layout to be used when the document is opened.
+        /// </summary>
+        /// <returns>The <see cref="PdfPageLayoutType"/> value, or <c>null</c> if not specified.</returns>
+        public PdfPageLayoutType? GetPageLayout()
+        {
+            UInt32 result = NativeMethods.Catalog_GetPageLayout(Handle, out int data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return EnumUtil<PdfPageLayoutType>.CheckedCast(data);
+        }
+
+        /// <summary>
+        /// Retrieve the viewer preferences dictionary, controlling how the document
+        /// shall be presented on the screen or in print.
+        /// </summary>
+        /// <returns>The <see cref="PdfViewerPreferences"/> object or <c>null</c> if none exists.</returns>
+        public PdfViewerPreferences GetViewerPreferences()
+        {
+            UInt32 result = NativeMethods.Catalog_GetViewerPreferences(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfViewerPreferences(data);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
