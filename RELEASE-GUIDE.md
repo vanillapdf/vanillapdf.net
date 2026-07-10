@@ -30,12 +30,14 @@ workflow owns tag creation end to end.
    pushes it to the GitHub Packages staging feed, and creates the GitHub release
    as a **draft** — still without creating the tag.
 
-3. **Review.** The `production` environment gate pauses the workflow. Review and
-   edit the draft release body in the GitHub UI, then approve the gate.
+3. **Review.** A single `production` environment gate (wait timer + one required
+   reviewer) pauses the workflow. Review and edit the draft release body in the
+   GitHub UI, then approve.
 
-4. **Publish.** Approving publishes the draft, which is what actually **creates
-   the tag** (at the commit the workflow ran on) and binds the release to it.
-   The package is then pushed to NuGet.org via OIDC trusted publishing.
+4. **Publish.** Approving runs the one publish job: it publishes the draft —
+   which is what actually **creates the tag** (at the commit the workflow ran on)
+   and binds the release to it — and then pushes the package to NuGet.org via
+   OIDC trusted publishing. One approval covers both steps.
 
 > Whether a tag counts as a pre-release is derived automatically from its suffix
 > (`-alpha.N`, `-beta.N`, `-rc.N`) by the `prepare` job in `release.yml`. Stable
