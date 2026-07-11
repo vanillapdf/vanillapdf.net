@@ -24,7 +24,8 @@
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/vanillapdf/vanillapdf.net.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>Vanilla.PDF is a cross-platform SDK for creating and modifying PDF documents</Description>
     <Copyright>Copyright 2018-2026 Vanilla.PDF Labs s.r.o.</Copyright>

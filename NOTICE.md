@@ -1,8 +1,31 @@
-# OpenSSL
+vanillapdf.net
+Copyright 2018-2026 Vanilla.PDF Labs s.r.o.
+
+Licensed under the Apache License, Version 2.0 (see [LICENSE.txt](LICENSE.txt)).
+
+---
+
+# Third-Party Notices
+
+The `vanillapdf.net` package is licensed under the Apache License 2.0 (see
+[LICENSE.txt](LICENSE.txt)). It distributes the native Vanilla.PDF runtime,
+which statically links the third-party open-source components listed below. Each
+component remains under its own license; the relevant notices are reproduced
+here as required by those licenses.
+
+This file is informational and does not modify the terms of any license.
+
+---
+
+## OpenSSL
 
 https://github.com/openssl/openssl
 
+Copyright 1998-2024 The OpenSSL Project Authors. All Rights Reserved.
 
+Licensed under the Apache License, Version 2.0.
+
+```
                                  Apache License
                            Version 2.0, January 2004
                         https://www.apache.org/licenses/
@@ -179,14 +202,20 @@ https://github.com/openssl/openssl
       of your accepting any such warranty or additional liability.
 
    END OF TERMS AND CONDITIONS
+```
 
-# libjpeg-turbo
+---
+
+## libjpeg-turbo
 
 https://github.com/libjpeg-turbo/libjpeg-turbo
 
-Copyright (C)2009-2024 D. R. Commander.  All Rights Reserved.<br>
-Copyright (C)2015 Viktor Szathmáry.  All Rights Reserved.
+Copyright (C)2009-2024 D. R. Commander. All Rights Reserved.<br>
+Copyright (C)2015 Viktor Szathmáry. All Rights Reserved.
 
+Licensed under the BSD 3-Clause License.
+
+```
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
@@ -210,13 +239,19 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+```
 
-# zlib
+---
+
+## zlib
 
 https://github.com/madler/zlib
 
- (C) 1995-2024 Jean-loup Gailly and Mark Adler
+(C) 1995-2024 Jean-loup Gailly and Mark Adler
 
+Licensed under the zlib License.
+
+```
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
   arising from the use of this software.
@@ -235,3 +270,4 @@ https://github.com/madler/zlib
 
   Jean-loup Gailly        Mark Adler
   jloup@gzip.org          madler@alumni.caltech.edu
+```
