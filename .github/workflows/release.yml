@@ -58,7 +58,7 @@ jobs:
           # tag yet, so derive a synthetic one from the csproj VersionPrefix -
           # enough to exercise the build/verify path in dry-run mode.
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE=$(grep -oP '<VersionPrefix>\K[^<]+' src/vanillapdf.net/vanillapdf.net.csproj)
+            BASE=$(sed -n 's:.*<VersionPrefix>\(.*\)</VersionPrefix>.*:\1:p' src/vanillapdf.net/vanillapdf.net.csproj)
             TAG="v${BASE}"
           else
             TAG="${{ inputs.tag }}"
@@ -67,6 +67,16 @@ jobs:
 
           # Any suffix after MAJOR.MINOR.PATCH (e.g. -rc.1) marks a pre-release.
           VERSION="${TAG#v}"
+
+          # Fail fast on a malformed version, whatever the source (csproj or input
+          # tag). Encodes the tag scheme from RELEASE-GUIDE.md, so a bad core or a
+          # malformed suffix (e.g. -rc1, -RC.1) is rejected here rather than at pack
+          # or tag-creation time.
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta|rc)\.[0-9]+)?$ ]]; then
+            echo "::error::Version '$VERSION' is not valid: expected X.Y.Z or X.Y.Z-(alpha|beta|rc).N"
+            exit 1
+          fi
+
           EXTRA=""
           if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(.*)$ ]]; then
             EXTRA="${BASH_REMATCH[1]}"
@@ -117,14 +127,11 @@ jobs:
           # Strip any pre-release suffix (e.g. 2.3.0-rc.1 -> 2.3.0)
           BASE_VERSION=$(echo "$VERSION" | cut -d- -f1)
 
-          # csproj VersionPrefix is the source of truth for the release version
-          CSPROJ_VERSION=$(grep -oP '<VersionPrefix>\K[^<]+' src/vanillapdf.net/vanillapdf.net.csproj)
-
-          echo "Tag version: $BASE_VERSION"
-          echo "csproj VersionPrefix: $CSPROJ_VERSION"
-
-          if [ "$BASE_VERSION" != "$CSPROJ_VERSION" ]; then
-            echo "::error::Version mismatch: tag=$BASE_VERSION, csproj=$CSPROJ_VERSION"
+          # csproj VersionPrefix is the source of truth. Assert the expected value
+          # is present rather than re-extracting and comparing, so there is nothing
+          # to normalize and a mismatch simply fails.
+          if ! grep -qF "<VersionPrefix>${BASE_VERSION}</VersionPrefix>" src/vanillapdf.net/vanillapdf.net.csproj; then
+            echo "::error::Version mismatch: tag base $BASE_VERSION not found as <VersionPrefix> in csproj"
             exit 1
           fi
 
