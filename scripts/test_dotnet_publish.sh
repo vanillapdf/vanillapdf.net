@@ -23,6 +23,7 @@ get_rid() {
             case "$arch" in
                 x86_64|amd64) echo "win-x64";;
                 i686|i386) echo "win-x86";;
+                aarch64|arm64) echo "win-arm64";;
                 *) echo "Unsupported architecture $arch on Windows" >&2; return 1;;
             esac
             ;;
@@ -33,9 +34,7 @@ get_rid() {
     esac
 }
 
-# Allow the caller to pin the RID (e.g. CI matrix); uname detection does not
-# recognise Windows arm64, so fall back to it only when no override is given.
-RID="${VANILLAPDF_RID:-$(get_rid)}"
+RID=$(get_rid)
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(dirname "$SCRIPT_DIR")
 PROJECT="$REPO_ROOT/src/vanillapdf.net/vanillapdf.net.csproj"
