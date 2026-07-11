@@ -33,6 +33,12 @@ jobs:
     name: sanity-check-${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
 
+    # Pin the target RID for the verify scripts. On windows-11-arm the bundled
+    # x64 Git reports uname -m as x86_64, so uname detection would silently test
+    # win-x64 instead of win-arm64. See scripts/test_dotnet_publish.sh.
+    env:
+      VANILLAPDF_RID: ${{ matrix.config.rid }}
+
     strategy:
       # Keep going so one failing platform does not mask results on the others
       fail-fast: false
@@ -41,12 +47,12 @@ jobs:
         # versions so the gate stays reproducible. win-x86 (which needs a forced
         # 32-bit host) and the extra macOS majors live in nightly-check.yml.
         config:
-          - { name: "linux-x64",    os: ubuntu-24.04 }
-          - { name: "linux-arm64",  os: ubuntu-24.04-arm }
-          - { name: "win-x64",      os: windows-2025 }
-          - { name: "win-arm64",    os: windows-11-arm }
-          - { name: "osx.15-x64",   os: macos-15-intel }
-          - { name: "osx.15-arm64", os: macos-15 }
+          - { name: "linux-x64",    os: ubuntu-24.04,     rid: linux-x64 }
+          - { name: "linux-arm64",  os: ubuntu-24.04-arm, rid: linux-arm64 }
+          - { name: "win-x64",      os: windows-2025,     rid: win-x64 }
+          - { name: "win-arm64",    os: windows-11-arm,   rid: win-arm64 }
+          - { name: "osx.15-x64",   os: macos-15-intel,   rid: osx-x64 }
+          - { name: "osx.15-arm64", os: macos-15,         rid: osx-arm64 }
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

@@ -34,7 +34,10 @@ get_rid() {
     esac
 }
 
-RID=$(get_rid)
+# Prefer an explicit RID (CI passes one via the matrix). GitHub's windows-11-arm
+# runner ships an x64 Git whose `uname -m` reports x86_64, so uname-based
+# detection would silently mistake win-arm64 for win-x64; it stays the fallback.
+RID="${VANILLAPDF_RID:-$(get_rid)}"
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(dirname "$SCRIPT_DIR")
 PROJECT="$REPO_ROOT/src/vanillapdf.net/vanillapdf.net.csproj"
