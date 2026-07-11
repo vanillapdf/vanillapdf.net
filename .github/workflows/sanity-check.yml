@@ -22,16 +22,37 @@ permissions:
   contents: read
   packages: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   sanity-check:
-    name: sanity-check-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: sanity-check-${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    # Pin the target RID for the verify scripts. On windows-11-arm the bundled
+    # x64 Git reports uname -m as x86_64, so uname detection would silently test
+    # win-x64 instead of win-arm64. See scripts/test_dotnet_publish.sh.
+    env:
+      VANILLAPDF_RID: ${{ matrix.config.rid }}
 
     strategy:
+      # Keep going so one failing platform does not mask results on the others
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-15-intel, macos-latest]
+        # Per-PR gate on the x64 and arm64 RIDs for every OS, on pinned OS
+        # versions so the gate stays reproducible. win-x86 (which needs a forced
+        # 32-bit host) and the extra macOS majors live in nightly-check.yml.
+        config:
+          - { name: "linux-x64",    os: ubuntu-24.04,     rid: linux-x64 }
+          - { name: "linux-arm64",  os: ubuntu-24.04-arm, rid: linux-arm64 }
+          - { name: "win-x64",      os: windows-2025,     rid: win-x64 }
+          - { name: "win-arm64",    os: windows-11-arm,   rid: win-arm64 }
+          - { name: "osx.15-x64",   os: macos-15-intel,   rid: osx-x64 }
+          - { name: "osx.15-arm64", os: macos-15,         rid: osx-arm64 }
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -52,17 +73,17 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Build and test on current OS
-      - name: Build and test on ${{ matrix.os }}
+      - name: Build and test on ${{ matrix.config.name }}
         run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo
 
-      - name: Verify publish on ${{ matrix.os }}
+      - name: Verify publish on ${{ matrix.config.name }}
         shell: bash
         run: ./scripts/test_dotnet_publish.sh
 
-      - name: Verify Native AOT publish on ${{ matrix.os }}
+      - name: Verify Native AOT publish on ${{ matrix.config.name }}
         shell: bash
         run: ./scripts/test_native_aot.sh
 
-      - name: Verify .NET Framework on ${{ matrix.os }}
+      - name: Verify .NET Framework on ${{ matrix.config.name }}
         shell: bash
         run: ./scripts/test_net_framework.sh

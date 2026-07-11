@@ -1,0 +1,127 @@
+name: Nightly full scan
+
+# Broad platform/architecture scan for the .NET binding.
+#
+# Unlike the regular `sanity-check` (which runs on the four default hosted
+# runners), this workflow exercises every runtime identifier that the native
+# `vanillapdf` package actually ships a binary for:
+#
+#   win-x86  win-x64  win-arm64  linux-x64  linux-arm64  osx-x64  osx-arm64
+#
+# The binding only *consumes* those prebuilt native binaries, so the meaningful
+# signal per platform is simply "does the shipped native library load and do the
+# tests pass under .NET on this architecture" - which `dotnet test` covers by
+# loading the host-RID native binary and running the full suite.
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Run workflow on any push into main branch
+  # only when there was a change in the workflow file
+  push:
+    branches:
+      - "main"
+      - "release/*"
+    paths:
+      - '.github/workflows/nightly-check.yml'
+
+  # Run workflow when there is a pull request towards main branch
+  # only when there was a change in the workflow file
+  pull_request:
+    branches:
+      - "main"
+      - "release/*"
+    paths:
+      - '.github/workflows/nightly-check.yml'
+
+  schedule:
+    - cron: '0 2 * * 1'  # Every Monday at 02:00 UTC
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Enable only minimum required permissions
+permissions:
+  contents: read   # Download the repository source code
+  packages: read   # Restore the native vanillapdf package from GitHub Packages
+
+jobs:
+  platform-scan:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      # Keep going so one failing architecture does not mask the others
+      fail-fast: false
+      matrix:
+        config:
+          # Windows. win-x86 runs on the x64 host, so the test host must be
+          # forced to 32-bit via test_args; every other job omits it (a missing
+          # matrix key evaluates to an empty string).
+          - { name: "win-x64",     os: windows-2025,   rid: win-x64 }
+          - { name: "win-x86",     os: windows-2025,   rid: win-x86,   test_args: "-a x86" }
+          - { name: "win-arm64",   os: windows-11-arm, rid: win-arm64 }
+
+          # Linux
+          - { name: "linux-x64",   os: ubuntu-24.04,     rid: linux-x64 }
+          - { name: "linux-arm64", os: ubuntu-24.04-arm, rid: linux-arm64 }
+
+          # macOS - two majors, both architectures (osx.<version>-<arch>, matching the native repo)
+          - { name: "osx.15-x64",   os: macos-15-intel, rid: osx-x64 }
+          - { name: "osx.15-arm64", os: macos-15,       rid: osx-arm64 }
+          - { name: "osx.26-x64",   os: macos-26-intel, rid: osx-x64 }
+          - { name: "osx.26-arm64", os: macos-26,       rid: osx-arm64 }
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v7
+
+      # Prepare specific versions of dotnet to be used
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+            10.x
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # setup-dotnet installs the x64 runtime on the x64 Windows host, but the
+      # win-x86 test host needs the 32-bit runtime to launch. Install it and
+      # point the x86 apphost at it via DOTNET_ROOT(x86).
+      - name: Install x86 .NET runtime (win-x86 only)
+        if: matrix.config.rid == 'win-x86'
+        shell: pwsh
+        run: |
+          $installDir = "${env:ProgramFiles(x86)}\dotnet"
+          Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
+          foreach ($channel in '9.0', '10.0') {
+            & ./dotnet-install.ps1 -Architecture x86 -Channel $channel -Runtime dotnet -InstallDir $installDir
+          }
+          "DOTNET_ROOT(x86)=$installDir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      # Build and run the full test suite against the native binary for this RID
+      - name: Build and test (${{ matrix.config.rid }})
+        run: dotnet test src/vanillapdf.net.sln --configuration Release --nologo ${{ matrix.config.test_args }}
+
+      # Verify the native binary for this RID is actually present after publish
+      - name: Verify native binary ships for ${{ matrix.config.rid }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUTPUT_DIR=$(mktemp -d)
+          dotnet publish src/vanillapdf.net/vanillapdf.net.csproj \
+            -c Release -f netstandard2.0 -r "${{ matrix.config.rid }}" \
+            -o "$OUTPUT_DIR" --no-self-contained --nologo
+          NATIVE_DIR="$OUTPUT_DIR/runtimes/${{ matrix.config.rid }}/native"
+          if [ ! -d "$NATIVE_DIR" ] || [ -z "$(ls -A "$NATIVE_DIR")" ]; then
+            echo "No native binary published for ${{ matrix.config.rid }} (looked in $NATIVE_DIR)" >&2
+            exit 1
+          fi
+          echo "Native binary present for ${{ matrix.config.rid }}:"
+          ls -A "$NATIVE_DIR"
+          rm -rf "$OUTPUT_DIR"
