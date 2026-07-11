@@ -1,3 +1,10 @@
+vanillapdf.net
+Copyright 2018-2026 Vanilla.PDF Labs s.r.o.
+
+Licensed under the Apache License, Version 2.0 (see [LICENSE.txt](LICENSE.txt)).
+
+---
+
 # Third-Party Notices
 
 The `vanillapdf.net` package is licensed under the Apache License 2.0 (see
