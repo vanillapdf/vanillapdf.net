@@ -45,7 +45,9 @@ get_exe_name() {
     esac
 }
 
-RID=$(get_rid)
+# Allow the caller to pin the RID (e.g. CI matrix); uname detection does not
+# recognise Windows arm64, so fall back to it only when no override is given.
+RID="${VANILLAPDF_RID:-$(get_rid)}"
 EXE_NAME=$(get_exe_name)
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(dirname "$SCRIPT_DIR")

@@ -33,7 +33,9 @@ get_rid() {
     esac
 }
 
-RID=$(get_rid)
+# Allow the caller to pin the RID (e.g. CI matrix); uname detection does not
+# recognise Windows arm64, so fall back to it only when no override is given.
+RID="${VANILLAPDF_RID:-$(get_rid)}"
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(dirname "$SCRIPT_DIR")
 PROJECT="$REPO_ROOT/src/vanillapdf.net/vanillapdf.net.csproj"
