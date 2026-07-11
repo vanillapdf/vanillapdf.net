@@ -807,4 +807,9 @@ namespace vanillapdf.net.Utils
     {
         protected override bool ReleaseHandle() => NativeMethods.ByteRangeCollection_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
     }
+
+    internal sealed class PdfViewerPreferencesSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.ViewerPreferences_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
 }

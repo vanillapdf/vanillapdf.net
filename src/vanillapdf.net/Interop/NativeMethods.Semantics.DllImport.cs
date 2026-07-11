@@ -144,6 +144,67 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Catalog_GetAcroForm(PdfCatalogSafeHandle handle, out PdfInteractiveFormSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Catalog_GetPageLayout(PdfCatalogSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Catalog_GetViewerPreferences(PdfCatalogSafeHandle handle, out PdfViewerPreferencesSafeHandle data);
+
+        #endregion
+
+        #region ViewerPreferences
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetHideToolbar(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetHideMenubar(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetHideWindowUI(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetFitWindow(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetCenterWindow(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetDisplayDocTitle(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetNonFullScreenPageMode(PdfViewerPreferencesSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetDirection(PdfViewerPreferencesSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetViewArea(PdfViewerPreferencesSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetViewClip(PdfViewerPreferencesSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetPrintArea(PdfViewerPreferencesSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetPrintClip(PdfViewerPreferencesSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetPrintScaling(PdfViewerPreferencesSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetDuplex(PdfViewerPreferencesSafeHandle handle, out Int32 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetPickTrayByPDFSize(PdfViewerPreferencesSafeHandle handle, out PdfBooleanObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ViewerPreferences_GetNumCopies(PdfViewerPreferencesSafeHandle handle, out PdfIntegerObjectSafeHandle data);
+
         #endregion
 
         #region InteractiveForm
