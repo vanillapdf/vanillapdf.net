@@ -84,6 +84,39 @@ namespace vanillapdf.net.Utils
         }
     }
 
+    internal sealed class PdfContentObjectInlineImageSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.ContentObjectInlineImage_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+
+        public static implicit operator PdfContentObjectSafeHandle(PdfContentObjectInlineImageSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.ContentObjectInlineImage_ToContentObject(handle, out PdfContentObjectSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfContentObjectInlineImageSafeHandle(PdfContentObjectSafeHandle handle)
+        {
+            UInt32 result = NativeMethods.ContentObjectInlineImage_FromContentObject(handle, out PdfContentObjectInlineImageSafeHandle data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return data;
+        }
+
+        public static implicit operator PdfContentInstructionSafeHandle(PdfContentObjectInlineImageSafeHandle handle)
+        {
+            return (PdfContentObjectSafeHandle)handle;
+        }
+
+        public static implicit operator PdfContentObjectInlineImageSafeHandle(PdfContentInstructionSafeHandle handle)
+        {
+            return (PdfContentObjectSafeHandle)handle;
+        }
+    }
+
     internal sealed class PdfContentOperationSafeHandle : PdfSafeHandle
     {
         protected override bool ReleaseHandle() => NativeMethods.ContentOperation_Release(handle) == PdfReturnValues.ERROR_SUCCESS;

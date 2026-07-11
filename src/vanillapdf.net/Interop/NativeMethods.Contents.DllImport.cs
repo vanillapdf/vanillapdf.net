@@ -124,6 +124,25 @@ namespace vanillapdf.net.Interop
 
         #endregion
 
+        #region ContentObjectInlineImage
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ContentObjectInlineImage_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ContentObjectInlineImage_ToContentObject(PdfContentObjectInlineImageSafeHandle handle, out PdfContentObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ContentObjectInlineImage_FromContentObject(PdfContentObjectSafeHandle handle, out PdfContentObjectInlineImageSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ContentObjectInlineImage_GetDictionary(PdfContentObjectInlineImageSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ContentObjectInlineImage_GetData(PdfContentObjectInlineImageSafeHandle handle, out PdfBufferSafeHandle data);
+
+        #endregion
+
         #region ContentOperation
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
