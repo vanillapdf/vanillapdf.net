@@ -1,5 +1,9 @@
 name: Create GitHub Release
 
+# Creates the GitHub release as a DRAFT. The tag is intentionally not created
+# here: publishing the draft (done later by release.yml, after the production
+# gate) is what creates the tag at `target` and binds the release to it.
+
 on:
   workflow_call:
     inputs:
@@ -9,11 +13,20 @@ on:
       prerelease:
         required: true
         type: boolean
+      latest:
+        required: false
+        type: boolean
+        default: true
+      target:
+        description: "Commit SHA the tag is created at when the draft is published"
+        required: false
+        type: string
+        default: ''
 
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag name (e.g., v2.0.0)"
+        description: "Tag name (e.g., v2.3.0)"
         required: true
         type: string
       prerelease:
@@ -21,14 +34,25 @@ on:
         required: true
         type: boolean
         default: false
+      latest:
+        description: "Mark as the latest release?"
+        required: false
+        type: boolean
+        default: true
+      target:
+        description: "Commit SHA the tag is created at when the draft is published"
+        required: false
+        type: string
+        default: ''
 
-permissions:
-  contents: write  # Required to create a release
+permissions: {}
 
 jobs:
   github-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to create a release
 
     steps:
       - name: Checkout code
@@ -36,27 +60,36 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create release from tag
+      - name: Create draft release
         env:
           TAG: ${{ inputs.tag }}
           PRERELEASE: ${{ inputs.prerelease }}
+          LATEST: ${{ inputs.latest }}
+          TARGET: ${{ inputs.target }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
         run: |
           echo "Creating draft release for tag: $TAG"
           if gh release view "$TAG" &>/dev/null; then
             echo "Release $TAG already exists. Skipping."
             exit 0
           fi
+
+          # The tag must NOT exist yet: publishing this draft is what creates the
+          # tag (at TARGET) and binds the release to it. Pre-creating the tag
+          # would leave the published release stuck on its untagged placeholder.
+          FLAGS=()
           if [ "$PRERELEASE" = "true" ]; then
-            gh release create "$TAG" \
-              --title "vanillapdf $TAG" \
-              --generate-notes \
-              --draft \
-              --prerelease
-          else
-            gh release create "$TAG" \
-              --title "vanillapdf $TAG" \
-              --generate-notes \
-              --draft
+            FLAGS+=(--prerelease)
           fi
+          if [ "$LATEST" = "false" ]; then
+            FLAGS+=(--latest=false)
+          fi
+          if [ -n "$TARGET" ]; then
+            FLAGS+=(--target "$TARGET")
+          fi
+
+          gh release create "$TAG" \
+            --title "vanillapdf $TAG" \
+            --generate-notes \
+            --draft \
+            "${FLAGS[@]}"
