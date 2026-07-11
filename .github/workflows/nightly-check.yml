@@ -68,11 +68,11 @@ jobs:
           - { name: "linux-x64",   os: ubuntu-24.04,     rid: linux-x64 }
           - { name: "linux-arm64", os: ubuntu-24.04-arm, rid: linux-arm64 }
 
-          # macOS - two majors, both architectures
-          - { name: "osx-x64-15",    os: macos-15-intel, rid: osx-x64 }
-          - { name: "osx-arm64-15",  os: macos-15,       rid: osx-arm64 }
-          - { name: "osx-x64-26",    os: macos-26-intel, rid: osx-x64 }
-          - { name: "osx-arm64-26",  os: macos-26,       rid: osx-arm64 }
+          # macOS - two majors, both architectures (osx.<version>-<arch>, matching the native repo)
+          - { name: "osx.15-x64",   os: macos-15-intel, rid: osx-x64 }
+          - { name: "osx.15-arm64", os: macos-15,       rid: osx-arm64 }
+          - { name: "osx.26-x64",   os: macos-26-intel, rid: osx-x64 }
+          - { name: "osx.26-arm64", os: macos-26,       rid: osx-arm64 }
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
