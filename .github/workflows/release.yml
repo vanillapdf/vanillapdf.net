@@ -206,35 +206,52 @@ jobs:
       target: ${{ github.sha }}
     secrets: inherit
 
-  # Single production gate. The `production` environment's required reviewer and
-  # wait timer pause the run here, giving a human the window to edit the draft
-  # release body before approving. On approval this one job does the whole
-  # publish: publishing the draft creates the tag (via BOT_TOKEN, so it passes
-  # the tag-protection ruleset), then the package is pushed to NuGet.org via
-  # OIDC trusted publishing. Keeping it a single environment job means exactly
-  # one approval, not one per publish step.
-  publish:
+  # Production gate + publish. Both publish jobs depend only on
+  # create-draft-release and both reference the `production` environment, so
+  # they enter the waiting state together and one review approves them both -
+  # a single gate, during which a human can edit the draft release body. Being
+  # separate jobs, either can be re-run on its own if it fails (a re-run asks
+  # for approval again).
+  #
+  # Publishing the draft creates the tag (via BOT_TOKEN, so it passes the
+  # tag-protection ruleset). The draft is addressed by its numeric id, never by
+  # tag: the tag does not exist until this step, and an API edit to the draft
+  # body that omits tag_name resets it, so tag-based lookup can fail with
+  # "release not found". Re-asserting tag_name in the same PATCH that flips
+  # draft=false makes the publish immune to that quirk.
+  publish-release:
     runs-on: ubuntu-latest
     needs: [create-draft-release, prepare]
     if: needs.prepare.outputs.dry_run == 'false'
     environment: production
     permissions:
       contents: write  # create the tag by publishing the draft
-      id-token: write  # GitHub OIDC token for NuGet trusted publishing
     steps:
       - name: Publish draft release (creates the tag)
         env:
+          RELEASE_ID: ${{ needs.create-draft-release.outputs.release_id }}
           TAG: ${{ needs.prepare.outputs.tag }}
           IS_LATEST: ${{ needs.prepare.outputs.is_latest }}
           GH_TOKEN: ${{ secrets.BOT_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          LATEST_FLAG=""
-          if [ "$IS_LATEST" = "false" ]; then
-            LATEST_FLAG="--latest=false"
+          MAKE_LATEST=false
+          if [ "$IS_LATEST" = "true" ]; then
+            MAKE_LATEST=true
           fi
-          gh release edit "$TAG" --draft=false $LATEST_FLAG
+          gh api --method PATCH "repos/${GH_REPO}/releases/${RELEASE_ID}" \
+            -f tag_name="$TAG" \
+            -F draft=false \
+            -f make_latest="$MAKE_LATEST"
 
+  publish-nuget:
+    runs-on: ubuntu-latest
+    needs: [create-draft-release, prepare]
+    if: needs.prepare.outputs.dry_run == 'false'
+    environment: production
+    permissions:
+      id-token: write  # GitHub OIDC token for NuGet trusted publishing
+    steps:
       - name: Download NuGet packages
         uses: actions/download-artifact@v8
         with:
