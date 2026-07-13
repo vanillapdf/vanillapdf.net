@@ -6,6 +6,10 @@ name: Create GitHub Release
 
 on:
   workflow_call:
+    outputs:
+      release_id:
+        description: "Numeric id of the draft release (drafts cannot be addressed by tag - the tag does not exist until publish)"
+        value: ${{ jobs.github-release.outputs.release_id }}
     inputs:
       tag:
         required: true
@@ -53,6 +57,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to create a release
+    outputs:
+      release_id: ${{ steps.create.outputs.release_id }}
 
     steps:
       - name: Checkout code
@@ -61,35 +67,50 @@ jobs:
           fetch-depth: 0
 
       - name: Create draft release
+        id: create
         env:
           TAG: ${{ inputs.tag }}
           PRERELEASE: ${{ inputs.prerelease }}
           LATEST: ${{ inputs.latest }}
           TARGET: ${{ inputs.target }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           echo "Creating draft release for tag: $TAG"
           if gh release view "$TAG" &>/dev/null; then
-            echo "Release $TAG already exists. Skipping."
-            exit 0
+            echo "Release $TAG already exists. Skipping create."
+          else
+            # The tag must NOT exist yet: publishing this draft is what creates the
+            # tag (at TARGET) and binds the release to it. Pre-creating the tag
+            # would leave the published release stuck on its untagged placeholder.
+            FLAGS=()
+            if [ "$PRERELEASE" = "true" ]; then
+              FLAGS+=(--prerelease)
+            fi
+            if [ "$LATEST" = "false" ]; then
+              FLAGS+=(--latest=false)
+            fi
+            if [ -n "$TARGET" ]; then
+              FLAGS+=(--target "$TARGET")
+            fi
+
+            gh release create "$TAG" \
+              --title "vanillapdf $TAG" \
+              --generate-notes \
+              --draft \
+              "${FLAGS[@]}"
           fi
 
-          # The tag must NOT exist yet: publishing this draft is what creates the
-          # tag (at TARGET) and binds the release to it. Pre-creating the tag
-          # would leave the published release stuck on its untagged placeholder.
-          FLAGS=()
-          if [ "$PRERELEASE" = "true" ]; then
-            FLAGS+=(--prerelease)
+          # Expose the numeric release id: later jobs must address the draft by
+          # id, not by tag. The tag does not exist as a ref until the draft is
+          # published, and an API edit to the draft body that omits tag_name
+          # resets it, after which tag-based lookup fails with "release not
+          # found".
+          RELEASE_ID=$(gh api "repos/${GH_REPO}/releases" \
+            --jq ".[] | select(.tag_name == \"$TAG\") | .id" | head -n 1)
+          if [ -z "$RELEASE_ID" ]; then
+            echo "::error::Could not resolve release id for $TAG"
+            exit 1
           fi
-          if [ "$LATEST" = "false" ]; then
-            FLAGS+=(--latest=false)
-          fi
-          if [ -n "$TARGET" ]; then
-            FLAGS+=(--target "$TARGET")
-          fi
-
-          gh release create "$TAG" \
-            --title "vanillapdf $TAG" \
-            --generate-notes \
-            --draft \
-            "${FLAGS[@]}"
+          echo "Resolved release id: $RELEASE_ID"
+          echo "release_id=$RELEASE_ID" >> "$GITHUB_OUTPUT"

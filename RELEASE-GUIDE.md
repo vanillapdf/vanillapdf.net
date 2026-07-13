@@ -31,13 +31,19 @@ workflow owns tag creation end to end.
    as a **draft** — still without creating the tag.
 
 3. **Review.** A single `production` environment gate (wait timer + one required
-   reviewer) pauses the workflow. Review and edit the draft release body in the
-   GitHub UI, then approve.
+   reviewer) pauses the workflow. Review and edit the draft release body, then
+   approve. Editing in the GitHub UI is always safe; if editing via the API,
+   the publish step is immune to the draft `tag_name`-reset quirk (it addresses
+   the draft by id and re-asserts `tag_name`), but including `tag_name` in any
+   PATCH is still good hygiene.
 
-4. **Publish.** Approving runs the one publish job: it publishes the draft —
-   which is what actually **creates the tag** (at the commit the workflow ran on)
-   and binds the release to it — and then pushes the package to NuGet.org via
-   OIDC trusted publishing. One approval covers both steps.
+4. **Publish.** Both publish jobs wait on the same `production` environment and
+   pend together, so **one approval releases both**: `publish-release` publishes
+   the draft by its numeric id — which is what actually **creates the tag** (at
+   the commit the workflow ran on) and binds the release to it — while
+   `publish-nuget` pushes the package to NuGet.org via OIDC trusted publishing.
+   The jobs are independent, so a failed one can be re-run on its own (the
+   re-run asks for approval again).
 
 > Whether a tag counts as a pre-release is derived automatically from its suffix
 > (`-alpha.N`, `-beta.N`, `-rc.N`) by the `prepare` job in `release.yml`. Stable
@@ -74,7 +80,7 @@ a real release. The pre-release suffix is supplied only through the tag input
 | --- | --- | --- |
 | `release.yml` | `workflow_dispatch` (real releases) · `pull_request` (dry-run validation of workflow changes) | ✅ unless `dry_run: true` |
 | `build-nuget.yml` | called by `release.yml`; also on pushes/PRs that touch it | ❌ builds & tests only |
-| `github-release.yml` | called by `release.yml` | Creates the **draft** only; the tag is created when the draft is published |
+| `github-release.yml` | called by `release.yml` | Creates the **draft** only and outputs its numeric `release_id`; the tag is created when the draft is published |
 
 Notes:
 
