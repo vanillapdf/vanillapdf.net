@@ -13,11 +13,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfAnnotation : IDisposable
     {
-        internal PdfAnnotationSafeHandle Handle { get; }
+        internal PdfAnnotationSafeHandle AnnotationHandle { get; }
 
         internal PdfAnnotation(PdfAnnotationSafeHandle handle)
         {
-            Handle = handle;
+            AnnotationHandle = handle;
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfAnnotationType GetAnnotationType()
         {
-            UInt32 result = NativeMethods.Annotation_GetAnnotationType(Handle, out Int32 data);
+            UInt32 result = NativeMethods.Annotation_GetAnnotationType(AnnotationHandle, out Int32 data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -41,7 +41,7 @@ namespace vanillapdf.net.PdfSemantics
         {
             get
             {
-                UInt32 result = NativeMethods.Annotation_GetRect(Handle, out var data);
+                UInt32 result = NativeMethods.Annotation_GetRect(AnnotationHandle, out var data);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -49,7 +49,7 @@ namespace vanillapdf.net.PdfSemantics
             }
             set
             {
-                UInt32 result = NativeMethods.Annotation_SetRect(Handle, value.Handle);
+                UInt32 result = NativeMethods.Annotation_SetRect(AnnotationHandle, value.Handle);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -63,7 +63,7 @@ namespace vanillapdf.net.PdfSemantics
         {
             get
             {
-                UInt32 result = NativeMethods.Annotation_GetContents(Handle, out var data);
+                UInt32 result = NativeMethods.Annotation_GetContents(AnnotationHandle, out var data);
                 if (result == PdfReturnValues.ERROR_OBJECT_MISSING) return null;
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
@@ -72,7 +72,7 @@ namespace vanillapdf.net.PdfSemantics
             }
             set
             {
-                UInt32 result = NativeMethods.Annotation_SetContents(Handle, value.Handle);
+                UInt32 result = NativeMethods.Annotation_SetContents(AnnotationHandle, value.Handle);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -86,7 +86,7 @@ namespace vanillapdf.net.PdfSemantics
         {
             get
             {
-                UInt32 result = NativeMethods.Annotation_GetColor(Handle, out var data);
+                UInt32 result = NativeMethods.Annotation_GetColor(AnnotationHandle, out var data);
                 if (result == PdfReturnValues.ERROR_OBJECT_MISSING) return null;
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
@@ -95,7 +95,7 @@ namespace vanillapdf.net.PdfSemantics
             }
             set
             {
-                UInt32 result = NativeMethods.Annotation_SetColor(Handle, value.Handle);
+                UInt32 result = NativeMethods.Annotation_SetColor(AnnotationHandle, value.Handle);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -109,7 +109,7 @@ namespace vanillapdf.net.PdfSemantics
         {
             get
             {
-                UInt32 result = NativeMethods.Annotation_GetFlags(Handle, out Int32 data);
+                UInt32 result = NativeMethods.Annotation_GetFlags(AnnotationHandle, out Int32 data);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -117,7 +117,7 @@ namespace vanillapdf.net.PdfSemantics
             }
             set
             {
-                UInt32 result = NativeMethods.Annotation_SetFlags(Handle, (Int32)value);
+                UInt32 result = NativeMethods.Annotation_SetFlags(AnnotationHandle, (Int32)value);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -127,7 +127,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public virtual void Dispose()
         {
-            Handle?.Dispose();
+            AnnotationHandle?.Dispose();
         }
     }
 }

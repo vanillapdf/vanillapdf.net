@@ -13,7 +13,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfXYZDestination : PdfDestination
     {
-        internal new PdfXYZDestinationSafeHandle Handle { get; }
+        internal PdfXYZDestinationSafeHandle Handle { get; }
 
         internal PdfXYZDestination(PdfXYZDestinationSafeHandle handle) : base(handle)
         {
@@ -25,7 +25,7 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfXYZDestination FromDestination(PdfDestination data)
         {
-            return new PdfXYZDestination(data.Handle);
+            return new PdfXYZDestination(data.DestinationHandle);
         }
 
         /// <summary>
@@ -77,6 +77,13 @@ namespace vanillapdf.net.PdfSemantics
 
                 return new PdfObject(data);
             }
+        }
+
+        /// <inheritdoc/>
+        public override void Dispose()
+        {
+            base.Dispose();
+            Handle?.Dispose();
         }
     }
 }

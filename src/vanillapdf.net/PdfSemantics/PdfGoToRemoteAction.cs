@@ -12,7 +12,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfGoToRemoteAction : PdfAction
     {
-        internal new PdfGoToRemoteActionSafeHandle Handle { get; }
+        internal PdfGoToRemoteActionSafeHandle Handle { get; }
 
         internal PdfGoToRemoteAction(PdfGoToRemoteActionSafeHandle handle) : base(handle)
         {
@@ -24,7 +24,7 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfGoToRemoteAction FromAction(PdfAction action)
         {
-            return new PdfGoToRemoteAction(action.Handle);
+            return new PdfGoToRemoteAction(action.ActionHandle);
         }
 
         /// <summary>
@@ -64,6 +64,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public override void Dispose()
         {
+            base.Dispose();
             Handle?.Dispose();
         }
     }

@@ -11,7 +11,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfURIAction : PdfAction
     {
-        internal new PdfURIActionSafeHandle Handle { get; }
+        internal PdfURIActionSafeHandle Handle { get; }
 
         internal PdfURIAction(PdfURIActionSafeHandle handle) : base(handle)
         {
@@ -23,7 +23,7 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfURIAction FromAction(PdfAction action)
         {
-            return new PdfURIAction(action.Handle);
+            return new PdfURIAction(action.ActionHandle);
         }
 
         /// <summary>
@@ -45,6 +45,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public override void Dispose()
         {
+            base.Dispose();
             Handle?.Dispose();
         }
     }

@@ -9,7 +9,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfFitBoundingBoxDestination : PdfDestination
     {
-        internal new PdfFitBoundingBoxDestinationSafeHandle Handle { get; }
+        internal PdfFitBoundingBoxDestinationSafeHandle Handle { get; }
 
         internal PdfFitBoundingBoxDestination(PdfFitBoundingBoxDestinationSafeHandle handle) : base(handle)
         {
@@ -21,7 +21,14 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfFitBoundingBoxDestination FromDestination(PdfDestination data)
         {
-            return new PdfFitBoundingBoxDestination(data.Handle);
+            return new PdfFitBoundingBoxDestination(data.DestinationHandle);
+        }
+
+        /// <inheritdoc/>
+        public override void Dispose()
+        {
+            base.Dispose();
+            Handle?.Dispose();
         }
     }
 }

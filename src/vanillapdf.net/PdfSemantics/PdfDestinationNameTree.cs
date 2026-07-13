@@ -94,7 +94,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="destination">The destination to insert.</param>
         public void Insert(PdfStringObject name, PdfDestination destination)
         {
-            UInt32 result = NativeMethods.DestinationNameTree_Insert(Handle, name.StringHandle, destination.Handle);
+            UInt32 result = NativeMethods.DestinationNameTree_Insert(Handle, name.StringHandle, destination.DestinationHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

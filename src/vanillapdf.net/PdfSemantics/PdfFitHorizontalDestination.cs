@@ -13,7 +13,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfFitHorizontalDestination : PdfDestination
     {
-        internal new PdfFitHorizontalDestinationSafeHandle Handle { get; }
+        internal PdfFitHorizontalDestinationSafeHandle Handle { get; }
 
         internal PdfFitHorizontalDestination(PdfFitHorizontalDestinationSafeHandle handle) : base(handle)
         {
@@ -25,7 +25,7 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfFitHorizontalDestination FromDestination(PdfDestination data)
         {
-            return new PdfFitHorizontalDestination(data.Handle);
+            return new PdfFitHorizontalDestination(data.DestinationHandle);
         }
 
         /// <summary>
@@ -43,6 +43,13 @@ namespace vanillapdf.net.PdfSemantics
 
                 return new PdfObject(data);
             }
+        }
+
+        /// <inheritdoc/>
+        public override void Dispose()
+        {
+            base.Dispose();
+            Handle?.Dispose();
         }
     }
 }
