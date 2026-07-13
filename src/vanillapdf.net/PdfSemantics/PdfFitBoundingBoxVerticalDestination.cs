@@ -13,7 +13,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfFitBoundingBoxVerticalDestination : PdfDestination
     {
-        internal new PdfFitBoundingBoxVerticalDestinationSafeHandle Handle { get; }
+        internal PdfFitBoundingBoxVerticalDestinationSafeHandle Handle { get; }
 
         internal PdfFitBoundingBoxVerticalDestination(PdfFitBoundingBoxVerticalDestinationSafeHandle handle) : base(handle)
         {
@@ -25,7 +25,7 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfFitBoundingBoxVerticalDestination FromDestination(PdfDestination data)
         {
-            return new PdfFitBoundingBoxVerticalDestination(data.Handle);
+            return new PdfFitBoundingBoxVerticalDestination(data.DestinationHandle);
         }
 
         /// <summary>
@@ -43,6 +43,13 @@ namespace vanillapdf.net.PdfSemantics
 
                 return new PdfObject(data);
             }
+        }
+
+        /// <inheritdoc/>
+        public override void Dispose()
+        {
+            base.Dispose();
+            Handle?.Dispose();
         }
     }
 }

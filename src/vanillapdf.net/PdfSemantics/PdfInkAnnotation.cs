@@ -13,7 +13,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfInkAnnotation : PdfAnnotation
     {
-        internal new PdfInkAnnotationSafeHandle Handle { get; }
+        internal PdfInkAnnotationSafeHandle Handle { get; }
 
         internal PdfInkAnnotation(PdfInkAnnotationSafeHandle handle) : base(handle)
         {
@@ -51,7 +51,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="annotation">The base annotation to convert.</param>
         public static PdfInkAnnotation FromAnnotation(PdfAnnotation annotation)
         {
-            UInt32 result = NativeMethods.InkAnnotation_FromBaseAnnotation(annotation.Handle, out var data);
+            UInt32 result = NativeMethods.InkAnnotation_FromBaseAnnotation(annotation.AnnotationHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -153,6 +153,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public override void Dispose()
         {
+            base.Dispose();
             Handle?.Dispose();
         }
     }

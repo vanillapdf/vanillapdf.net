@@ -12,7 +12,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfSquigglyAnnotation : PdfAnnotation
     {
-        internal new PdfSquigglyAnnotationSafeHandle Handle { get; }
+        internal PdfSquigglyAnnotationSafeHandle Handle { get; }
 
         internal PdfSquigglyAnnotation(PdfSquigglyAnnotationSafeHandle handle) : base(handle)
         {
@@ -50,7 +50,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="annotation">The base annotation to convert.</param>
         public static PdfSquigglyAnnotation FromAnnotation(PdfAnnotation annotation)
         {
-            UInt32 result = NativeMethods.SquigglyAnnotation_FromBaseAnnotation(annotation.Handle, out var data);
+            UInt32 result = NativeMethods.SquigglyAnnotation_FromBaseAnnotation(annotation.AnnotationHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -152,6 +152,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public override void Dispose()
         {
+            base.Dispose();
             Handle?.Dispose();
         }
     }

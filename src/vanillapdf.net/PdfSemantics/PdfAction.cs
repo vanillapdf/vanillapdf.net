@@ -12,11 +12,11 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfAction : IDisposable
     {
-        internal PdfActionSafeHandle Handle { get; }
+        internal PdfActionSafeHandle ActionHandle { get; }
 
         internal PdfAction(PdfActionSafeHandle handle)
         {
-            Handle = handle;
+            ActionHandle = handle;
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace vanillapdf.net.PdfSemantics
         {
             get
             {
-                UInt32 result = NativeMethods.Action_GetActionType(Handle, out Int32 data);
+                UInt32 result = NativeMethods.Action_GetActionType(ActionHandle, out Int32 data);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
@@ -54,7 +54,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public virtual void Dispose()
         {
-            Handle?.Dispose();
+            ActionHandle?.Dispose();
         }
     }
 }

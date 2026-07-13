@@ -65,7 +65,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="annotation">The annotation to append.</param>
         public void Append(PdfAnnotation annotation)
         {
-            UInt32 result = NativeMethods.PageAnnotations_Append(Handle, annotation.Handle);
+            UInt32 result = NativeMethods.PageAnnotations_Append(Handle, annotation.AnnotationHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

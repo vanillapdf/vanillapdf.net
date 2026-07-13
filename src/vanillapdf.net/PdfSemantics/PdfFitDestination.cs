@@ -9,7 +9,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfFitDestination : PdfDestination
     {
-        internal new PdfFitDestinationSafeHandle Handle { get; }
+        internal PdfFitDestinationSafeHandle Handle { get; }
 
         internal PdfFitDestination(PdfFitDestinationSafeHandle handle) : base(handle)
         {
@@ -21,7 +21,14 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfFitDestination FromDestination(PdfDestination data)
         {
-            return new PdfFitDestination(data.Handle);
+            return new PdfFitDestination(data.DestinationHandle);
+        }
+
+        /// <inheritdoc/>
+        public override void Dispose()
+        {
+            base.Dispose();
+            Handle?.Dispose();
         }
     }
 }

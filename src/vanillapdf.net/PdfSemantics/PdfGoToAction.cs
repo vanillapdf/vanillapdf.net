@@ -10,7 +10,7 @@ namespace vanillapdf.net.PdfSemantics
     /// </summary>
     public class PdfGoToAction : PdfAction
     {
-        internal new PdfGoToActionSafeHandle Handle { get; }
+        internal PdfGoToActionSafeHandle Handle { get; }
 
         internal PdfGoToAction(PdfGoToActionSafeHandle handle) : base(handle)
         {
@@ -22,7 +22,7 @@ namespace vanillapdf.net.PdfSemantics
         /// </summary>
         public static PdfGoToAction FromAction(PdfAction action)
         {
-            return new PdfGoToAction(action.Handle);
+            return new PdfGoToAction(action.ActionHandle);
         }
 
         /// <summary>
@@ -44,6 +44,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <inheritdoc/>
         public override void Dispose()
         {
+            base.Dispose();
             Handle?.Dispose();
         }
     }
