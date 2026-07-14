@@ -152,7 +152,7 @@ The library is organized into layers that mirror the native SDK:
 | `vanillapdf.net.PdfContents` | Content-stream parsing: operators, text and font operations, inline images. |
 | `vanillapdf.net.PdfUtils` | Streams, buffers, signing keys, certificate stores, logging. |
 
-All managed objects inherit from `PdfUnknown`, which implements COM-style reference counting over the native handles and is exposed to you as `IDisposable`.
+Every object the library hands you is `IDisposable` and owns a native handle, so dispose it when you are done — a `using` declaration is the easiest way. Objects returned from a getter (a page from a page tree, a catalog from a document) own their own handle and must each be disposed; disposing the parent does not dispose them.
 
 ---
 

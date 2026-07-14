@@ -129,10 +129,12 @@ namespace vanillapdf.net.Utils
         }
 
         /// <summary>
-        /// Get number of active PdfUnknown objects.
-        /// Backed by native ObjectDiagnostics for backward compatibility.
+        /// Get number of active native objects.
+        /// Kept under its legacy name for backward compatibility; the managed
+        /// PdfUnknown type no longer exists, so this reports the native
+        /// ObjectDiagnostics count.
         /// </summary>
-        /// <returns>Number of active PdfUnknown objects</returns>
+        /// <returns>Number of active native objects</returns>
         [Obsolete("Use ObjectDiagnostics.GetActiveObjectCount() instead. This method will be removed in a future version.")]
         public static int GetUnknownCounter()
         {
