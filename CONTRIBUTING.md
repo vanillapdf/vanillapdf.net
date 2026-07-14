@@ -98,8 +98,12 @@ Match the surrounding code. The house style is:
 - P/Invoke declarations are centralized in `Interop/NativeMethods.*.cs`. Use
   `DllImport` for the .NET Standard 2.0 target and `LibraryImport` for .NET 7+.
 - Native handles are wrapped in `SafeHandle` types under `Utils/SafeHandles/`.
-- All managed objects inherit from `PdfUnknown` and are `IDisposable`; every
-  native resource must be released via disposal.
+- Managed objects are `IDisposable` wrappers around a `SafeHandle`; there is no
+  common base class and no managed reference counting. `Dispose()` disposes the
+  handle, whose `ReleaseHandle` calls the native release function.
+- Any object returned across the interop boundary owns a handle. A wrapper that
+  hands out derived objects must let the caller dispose them — dropping a handle
+  on the floor leaks native memory.
 
 ## Submitting a Pull Request
 

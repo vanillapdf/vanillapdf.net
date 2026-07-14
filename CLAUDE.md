@@ -36,11 +36,14 @@ The library wraps a native C++17 library (`vanillapdf` NuGet package) using P/In
 
 - **`Interop/NativeMethods.*.cs`**: Centralized P/Invoke declarations using `DllImport` (for .NET Standard 2.0) and `LibraryImport` (for .NET 7+). The library is AOT-compatible on modern .NET.
 - **`Utils/SafeHandles/`**: SafeHandle wrappers for native pointers, ensuring proper cleanup.
-- **`Utils/LibraryInstance.cs`**: Diagnostics for tracking active SafeHandle and PdfUnknown object counts.
+- **`Utils/ObjectDiagnostics.cs`**: Native-backed counters for live/peak/total object counts.
+- **`Utils/LibraryInstance.cs`**: Library-level diagnostics, including the active SafeHandle count.
 
 ### Object Hierarchy
 
-All managed objects inherit from `PdfUnknown` (in `PdfUtils/`), which implements COM-style reference counting (`AddRef`/`Release`) and `IDisposable`. Objects must be disposed to release native resources.
+Managed objects are standalone classes that implement `IDisposable` and hold an internal `PdfXxxSafeHandle`. There is no common base class: `Dispose()` disposes the handle, and the SafeHandle's `ReleaseHandle` calls the native release function. Every object handed back by the native layer owns a handle and must be disposed to free it.
+
+Reference counting lives in the native library, not in managed code — there is no managed `PdfUnknown`/`AddRef`/`Release` (removed in #69). A derived object obtained from a getter (e.g. `catalog.GetPages()`) owns its own handle and must be disposed independently of its parent.
 
 ### Namespace Organization
 

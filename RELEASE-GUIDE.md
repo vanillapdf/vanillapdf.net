@@ -31,7 +31,8 @@ workflow owns tag creation end to end.
    as a **draft** — still without creating the tag.
 
 3. **Review.** A single `production` environment gate (wait timer + one required
-   reviewer) pauses the workflow. Review and edit the draft release body, then
+   reviewer) pauses the workflow. Rewrite the draft release body — see
+   [Writing the Release Body](#️-writing-the-release-body) — then
    approve. Editing in the GitHub UI is always safe; if editing via the API,
    the publish step is immune to the draft `tag_name`-reset quirk (it addresses
    the draft by id and re-asserts `tag_name`), but including `tag_name` in any
@@ -49,6 +50,46 @@ workflow owns tag creation end to end.
 > (`-alpha.N`, `-beta.N`, `-rc.N`) by the `prepare` job in `release.yml`. Stable
 > tags (`vX.Y.Z` with no suffix) are additionally evaluated for whether they are
 > the newest version, which drives the GitHub "Latest" release flag.
+
+---
+
+## ✍️ Writing the Release Body
+
+`github-release.yml` creates the draft with `--generate-notes`, which produces a
+flat list of merged pull requests. That list is a starting point, not the
+release body: rewrite it during the review gate.
+
+**Scope depends on the kind of release.**
+
+| Release | Changelog base | Content |
+| --- | --- | --- |
+| Pre-release (`-alpha.N`, `-beta.N`, `-rc.N`) | the **previous pre-release** of the same version | Incremental — only what changed since then |
+| Stable (`vX.Y.Z`) | the **previous stable release** | Cumulative — the whole story since the last stable |
+
+The reasoning: a pre-release is read by whoever ran the previous pre-release, so
+repeating the full list tells them nothing new. A stable release is the first
+thing a user on the last stable version reads, so it has to stand alone — even
+though most of its content already appeared in the pre-release notes.
+
+**Structure.** Group the changes under headings rather than shipping a flat list,
+in descending order of what a consumer needs to know:
+
+1. **Breaking changes** — first, always, when present. Say what breaks and what
+   to do about it.
+2. **Highlights** — the native engine version this release targets, and the new
+   public APIs.
+3. **Fixes** — user-visible bugs that were fixed.
+4. **Internals** — refactors, CI, docs. Anything with no API impact. Mark it as
+   such, so nobody mistakes a cleanup for a behavior change.
+
+Close with the `**Full Changelog**` compare link against the base from the table
+above. On a pre-release, it is worth adding a second link comparing against the
+last stable, for readers arriving from there.
+
+**Only describe a change you have verified.** A PR title is not a description:
+check the diff before writing the line. An internal refactor described as a
+behavior change (or vice versa) sends people hunting for migrations that do not
+exist.
 
 ---
 
