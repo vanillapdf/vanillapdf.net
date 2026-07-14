@@ -61,11 +61,6 @@ jobs:
       release_id: ${{ steps.create.outputs.release_id }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-
       - name: Create draft release
         id: create
         env:
@@ -73,41 +68,56 @@ jobs:
           PRERELEASE: ${{ inputs.prerelease }}
           LATEST: ${{ inputs.latest }}
           TARGET: ${{ inputs.target }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
-          echo "Creating draft release for tag: $TAG"
-          if gh release view "$TAG" &>/dev/null; then
-            echo "Release $TAG already exists. Skipping create."
-          else
-            # The tag must NOT exist yet: publishing this draft is what creates the
-            # tag (at TARGET) and binds the release to it. Pre-creating the tag
-            # would leave the published release stuck on its untagged placeholder.
-            FLAGS=()
-            if [ "$PRERELEASE" = "true" ]; then
-              FLAGS+=(--prerelease)
-            fi
-            if [ "$LATEST" = "false" ]; then
-              FLAGS+=(--latest=false)
-            fi
-            if [ -n "$TARGET" ]; then
-              FLAGS+=(--target "$TARGET")
-            fi
-
-            gh release create "$TAG" \
-              --title "vanillapdf $TAG" \
-              --generate-notes \
-              --draft \
-              "${FLAGS[@]}"
-          fi
-
-          # Expose the numeric release id: later jobs must address the draft by
-          # id, not by tag. The tag does not exist as a ref until the draft is
-          # published, and an API edit to the draft body that omits tag_name
-          # resets it, after which tag-based lookup fails with "release not
-          # found".
+          # Reuse the draft from an earlier attempt rather than creating a second
+          # release for the same tag. A draft from a previous run has long since
+          # propagated, so looking it up in the list endpoint is safe here - which
+          # is NOT true of a draft created moments ago (see below).
           RELEASE_ID=$(gh api "repos/${GH_REPO}/releases" \
             --jq ".[] | select(.tag_name == \"$TAG\") | .id" | head -n 1)
+
+          if [ -n "$RELEASE_ID" ]; then
+            echo "Release $TAG already exists (id $RELEASE_ID). Skipping create."
+          else
+            echo "Creating draft release for tag: $TAG"
+
+            MAKE_LATEST=true
+            if [ "$LATEST" = "false" ]; then
+              MAKE_LATEST=false
+            fi
+
+            TARGET_ARG=()
+            if [ -n "$TARGET" ]; then
+              TARGET_ARG=(-f target_commitish="$TARGET")
+            fi
+
+            # Create through the REST API, not `gh release create`, because the
+            # POST response carries the new release's id. Re-reading the releases
+            # list to find the id of a release created milliseconds earlier is a
+            # race: that endpoint is eventually consistent and has returned a
+            # stale page, failing the run with "Could not resolve release id".
+            #
+            # The tag must NOT exist yet: publishing this draft is what creates
+            # the tag (at TARGET) and binds the release to it. Pre-creating the
+            # tag would leave the published release stuck on its untagged
+            # placeholder.
+            RELEASE_ID=$(gh api --method POST "repos/${GH_REPO}/releases" \
+              -f tag_name="$TAG" \
+              -f name="vanillapdf $TAG" \
+              -F draft=true \
+              -F prerelease="$PRERELEASE" \
+              -F generate_release_notes=true \
+              -f make_latest="$MAKE_LATEST" \
+              "${TARGET_ARG[@]}" \
+              --jq .id)
+          fi
+
+          # Later jobs address the draft by id, never by tag: the tag does not
+          # exist as a ref until the draft is published, and an API edit to the
+          # draft body that omits tag_name resets it, after which tag-based
+          # lookup fails with "release not found".
           if [ -z "$RELEASE_ID" ]; then
             echo "::error::Could not resolve release id for $TAG"
             exit 1
