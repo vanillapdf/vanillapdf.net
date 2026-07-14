@@ -213,12 +213,21 @@ jobs:
   # separate jobs, either can be re-run on its own if it fails (a re-run asks
   # for approval again).
   #
-  # Publishing the draft creates the tag (via BOT_TOKEN, so it passes the
-  # tag-protection ruleset). The draft is addressed by its numeric id, never by
-  # tag: the tag does not exist until this step, and an API edit to the draft
-  # body that omits tag_name resets it, so tag-based lookup can fail with
-  # "release not found". Re-asserting tag_name in the same PATCH that flips
-  # draft=false makes the publish immune to that quirk.
+  # Publishing the draft creates the tag. This uses GITHUB_TOKEN - the same
+  # token that created the draft. A separate BOT_TOKEN was used here before, on
+  # the belief that the tag-protection ruleset required it; it does not. That
+  # ruleset ("Protected release tags", refs/tags/v*.*.*) enforces only deletion,
+  # non_fast_forward and update, none of which restrict *creating* a tag, and it
+  # has no bypass actors, so a bot identity buys nothing. What it did cost was
+  # visibility: GitHub hides draft releases from tokens without push access and
+  # answers 404, so every publish attempt failed with "release not found" (gh)
+  # or a bare 404 (REST) against a draft that plainly existed.
+  #
+  # The draft is addressed by its numeric id, never by tag: the tag does not
+  # exist until this step, and an API edit to the draft body that omits tag_name
+  # resets it, so tag-based lookup can fail with "release not found".
+  # Re-asserting tag_name in the same PATCH that flips draft=false makes the
+  # publish immune to that quirk.
   publish-release:
     runs-on: ubuntu-latest
     needs: [create-draft-release, prepare]
@@ -232,7 +241,7 @@ jobs:
           RELEASE_ID: ${{ needs.create-draft-release.outputs.release_id }}
           TAG: ${{ needs.prepare.outputs.tag }}
           IS_LATEST: ${{ needs.prepare.outputs.is_latest }}
-          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
           MAKE_LATEST=false

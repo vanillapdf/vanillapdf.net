@@ -128,8 +128,11 @@ Notes:
 - `release.yml` has **no** `push: tags:` trigger. On `pull_request` it runs the
   build/verify path with a synthetic tag derived from `<VersionPrefix>`, and is
   always a dry run.
-- Publishing the draft uses `BOT_TOKEN` so the new tag is accepted under the
-  repository's tag-protection ruleset.
+- Publishing the draft (and thereby creating the tag) uses the workflow's own
+  `GITHUB_TOKEN`. The `Protected release tags` ruleset restricts *deletion*,
+  *updating* and non-fast-forward moves of `v*.*.*` tags — not their creation —
+  so no bot identity is needed. A token without push access cannot even see a
+  draft release: GitHub answers `404`, not `403`.
 - The `staging` and `production` GitHub environments provide the human approval
   gate and scope the publishing credentials.
 
