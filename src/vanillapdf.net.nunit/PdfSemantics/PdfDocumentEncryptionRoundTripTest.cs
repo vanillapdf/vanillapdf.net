@@ -21,6 +21,8 @@ namespace vanillapdf.net.nunit.PdfSemantics
         private const string UserPassword = "user-secret";
         private const string OwnerPassword = "owner-secret";
 
+        private static readonly string SourceDocument = Path.Combine("Resources", "19005-1_FAQ.PDF");
+
         [TestCase(PdfEncryptionAlgorithmType.AES, 128)]
         [TestCase(PdfEncryptionAlgorithmType.AES, 256)]
         [TestCase(PdfEncryptionAlgorithmType.RC4, 128)]
@@ -28,7 +30,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             PdfEncryptionAlgorithmType algorithm, int keyLength)
         {
             using var stream = PdfInputOutputStream.CreateFromMemory();
-            EncryptToStream(stream, algorithm, keyLength);
+            EncryptToStream(SourceDocument, stream, algorithm, keyLength);
 
             using var file = PdfFile.OpenStream(stream, "encryptedStream");
             file.Initialize();
@@ -48,7 +50,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             PdfEncryptionAlgorithmType algorithm, int keyLength)
         {
             using var stream = PdfInputOutputStream.CreateFromMemory();
-            EncryptToStream(stream, algorithm, keyLength);
+            EncryptToStream(SourceDocument, stream, algorithm, keyLength);
 
             using var file = PdfFile.OpenStream(stream, "encryptedStream");
             file.Initialize();
@@ -67,7 +69,7 @@ namespace vanillapdf.net.nunit.PdfSemantics
             PdfEncryptionAlgorithmType algorithm, int keyLength)
         {
             using var stream = PdfInputOutputStream.CreateFromMemory();
-            EncryptToStream(stream, algorithm, keyLength);
+            EncryptToStream(SourceDocument, stream, algorithm, keyLength);
 
             using var file = PdfFile.OpenStream(stream, "encryptedStream");
             file.Initialize();
@@ -76,10 +78,8 @@ namespace vanillapdf.net.nunit.PdfSemantics
             ClassicAssert.IsFalse(file.SetEncryptionPassword("definitely-wrong-password"));
         }
 
-        private static void EncryptToStream(PdfInputOutputStream destinationStream, PdfEncryptionAlgorithmType algorithm, int keyLength)
+        private static void EncryptToStream(string source, PdfInputOutputStream destinationStream, PdfEncryptionAlgorithmType algorithm, int keyLength)
         {
-            string source = Path.Combine("Resources", "19005-1_FAQ.PDF");
-
             using var file = PdfFile.Open(source);
             file.Initialize();
             using var document = PdfDocument.OpenFile(file);
