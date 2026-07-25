@@ -23,6 +23,14 @@ namespace vanillapdf.net.PdfSyntax
         public Int64 Offset => GetOffset();
 
         /// <summary>
+        /// Hash value computed from the content of the object.
+        /// </summary>
+        public virtual UInt64 Hash
+        {
+            get { return GetHash(); }
+        }
+
+        /// <summary>
         /// Get derived type of current object
         /// </summary>
         /// <returns>Type of derived object on success, throws exception on failure</returns>
@@ -52,6 +60,16 @@ namespace vanillapdf.net.PdfSyntax
             }
 
             return data;
+        }
+
+        private UInt64 GetHash()
+        {
+            UInt32 result = NativeMethods.Object_Hash(ObjectHandle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data.ToUInt64();
         }
 
         private PdfBuffer ToStringInternal()
