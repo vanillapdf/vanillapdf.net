@@ -119,6 +119,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 Object_GetAttributeList(PdfObjectSafeHandle handle, out PdfObjectAttributeListSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 Object_Hash(PdfObjectSafeHandle handle, out UIntPtr data);
+
         #endregion
 
         #region ArrayObject

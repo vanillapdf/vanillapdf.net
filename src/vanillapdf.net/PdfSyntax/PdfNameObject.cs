@@ -29,7 +29,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <summary>
         /// Hash value calculated from the name string.
         /// </summary>
-        public UInt64 Hash
+        public override UInt64 Hash
         {
             get { return GetHash(); }
         }
