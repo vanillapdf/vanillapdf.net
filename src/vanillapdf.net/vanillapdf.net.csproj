@@ -20,7 +20,7 @@
          pre-release (a stable package must not depend on a pre-release). This has
          no effect on normal build output (the DLL is still produced). -->
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <VersionPrefix>2.3.0</VersionPrefix>
+    <VersionPrefix>2.4.0</VersionPrefix>
     <Title>vanillapdf.net</Title>
     <Authors>Vanilla.PDF Labs s.r.o.</Authors>
     <PackageProjectUrl>https://vanillapdf.com/</PackageProjectUrl>
