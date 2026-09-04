@@ -19,7 +19,7 @@ namespace vanillapdf.net.PdfUtils
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
 
-            UInt32 result = NativeMethods.TextStringEncoding_Detect(data, new UIntPtr((uint)data.Length), out Int32 value);
+            UInt32 result = NativeMethods.TextStringEncoding_Detect(data, new UIntPtr((uint)data.Length), out PdfTextStringEncodingType value);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

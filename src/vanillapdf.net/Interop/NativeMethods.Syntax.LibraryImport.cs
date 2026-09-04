@@ -30,7 +30,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 File_Initialize(PdfFileSafeHandle handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 File_GetVersion(PdfFileSafeHandle handle, out int data);
+        public static partial UInt32 File_GetVersion(PdfFileSafeHandle handle, out PdfUtils.PdfVersion data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 File_GetFilename(PdfFileSafeHandle handle, out PdfBufferSafeHandle data);
@@ -510,7 +510,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ImageMetadataObjectAttribute_SetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ImageMetadataObjectAttribute_GetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
+        public static partial UInt32 ImageMetadataObjectAttribute_GetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, out PdfSyntax.PdfImageColorSpaceType data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ImageMetadataObjectAttribute_SetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, int data);

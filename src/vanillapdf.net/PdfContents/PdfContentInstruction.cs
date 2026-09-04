@@ -23,7 +23,7 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of current content instruction on success, throws exception on failure</returns>
         public PdfContentInstructionType GetInstructionType()
         {
-            UInt32 result = NativeMethods.ContentInstruction_GetInstructionType(InstructionHandle, out Int32 data);
+            UInt32 result = NativeMethods.ContentInstruction_GetInstructionType(InstructionHandle, out PdfContentInstructionType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

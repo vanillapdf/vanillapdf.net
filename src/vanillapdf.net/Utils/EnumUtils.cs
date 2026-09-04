@@ -3,17 +3,12 @@
 namespace vanillapdf.net.Utils
 {
     // Constrained to Enum (not just IConvertible) so the non-boxing Enum.IsDefined<T> overload is
-    // available; the static constructor below already rejected anything else at runtime.
+    // available. The constraint is enforced by the compiler, so no runtime type check is needed;
+    // avoiding an explicit static constructor also keeps the type beforefieldinit, which spares
+    // every static call on this hot path an initialization check.
     internal static class EnumUtil<T>
         where T : struct, Enum
     {
-        static EnumUtil()
-        {
-            if (!typeof(T).IsEnum) {
-                throw new PdfManagedException(typeof(T).FullName + " is not an enum type.");
-            }
-        }
-
         // Always use checked cast for parsed enum values from the interface
         // If the value could not be interpreted by the enum type
         // it throws exception as it should
@@ -25,9 +20,10 @@ namespace vanillapdf.net.Utils
         /// <exception cref="InvalidCastException">Thrown when the value is not defined for the enumeration.</exception>
         public static T CheckedCast(object enumValue)
         {
-            if (!Enum.IsDefined(typeof(T), enumValue))
+            if (!Enum.IsDefined(typeof(T), enumValue)) {
                 throw new InvalidCastException(enumValue + " is not a defined value for enum type " +
                                                typeof(T).FullName);
+            }
 
             return (T)enumValue;
         }
@@ -38,17 +34,17 @@ namespace vanillapdf.net.Utils
         /// enumeration type — every value the native layer returns through an <c>out</c> parameter.
         /// </summary>
         /// <remarks>
-        /// Overload resolution binds enum-typed arguments here, so call sites need no change. The
-        /// <c>object</c> overload boxes the value and validates it through reflection: 14 ns and
-        /// 24 bytes per call, about half of the native round-trip it decorates, and it runs for the
-        /// type of every operand, operator and object. <c>Enum.IsDefined&lt;T&gt;</c> is the identical
-        /// check at 1.3 ns with nothing allocated; a page render allocates 7% less with it.
+        /// Overload resolution binds enum-typed arguments here. The <c>object</c> overload boxes the
+        /// value and validates it through reflection; this one allocates nothing. Interop signatures
+        /// therefore declare their <c>out</c> parameter as the enumeration type rather than a raw
+        /// integer, so that this overload is the one selected.
         /// </remarks>
         public static T CheckedCast(T enumValue)
         {
-            if (!Enum.IsDefined(enumValue))
+            if (!Enum.IsDefined(enumValue)) {
                 throw new InvalidCastException(enumValue + " is not a defined value for enum type " +
                                                typeof(T).FullName);
+            }
 
             return enumValue;
         }
@@ -72,7 +68,11 @@ namespace vanillapdf.net.Utils
         /// <returns><c>true</c> when the value is defined.</returns>
         public static bool IsDefined(T enumValue)
         {
+#if NET5_0_OR_GREATER
+            return Enum.IsDefined(enumValue);
+#else
             return Enum.IsDefined(typeof(T), enumValue);
+#endif
         }
     }
 

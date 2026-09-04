@@ -31,7 +31,7 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Type of current content operation on success, throws exception on failure</returns>
         public PdfContentOperationType GetOperationType()
         {
-            UInt32 result = NativeMethods.ContentOperation_GetOperationType(OperationHandle, out Int32 data);
+            UInt32 result = NativeMethods.ContentOperation_GetOperationType(OperationHandle, out PdfContentOperationType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
