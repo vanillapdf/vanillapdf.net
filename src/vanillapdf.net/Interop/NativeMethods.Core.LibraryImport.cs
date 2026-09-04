@@ -87,7 +87,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Logging_SetPattern(string pattern);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 Logging_GetSeverity(out int severity);
+        public static partial UInt32 Logging_GetSeverity(out PdfUtils.PdfLoggingSeverity severity);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Logging_SetSeverity(PdfUtils.PdfLoggingSeverity severity);
@@ -331,7 +331,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 SignatureVerificationResult_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 SignatureVerificationResult_GetStatus(SignatureVerificationResultSafeHandle handle, out int status);
+        public static partial UInt32 SignatureVerificationResult_GetStatus(SignatureVerificationResultSafeHandle handle, out PdfUtils.SignatureVerificationStatus status);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 SignatureVerificationResult_GetMessage(SignatureVerificationResultSafeHandle handle, out PdfBufferSafeHandle buffer);
@@ -374,7 +374,7 @@ namespace vanillapdf.net.Interop
         #region TextStringEncoding
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 TextStringEncoding_Detect(byte[] data, UIntPtr size, out Int32 result);
+        public static partial UInt32 TextStringEncoding_Detect(byte[] data, UIntPtr size, out PdfUtils.PdfTextStringEncodingType result);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 TextStringEncoding_PDFDocEncodingByteToUnicode(byte value, out UInt32 codepoint);

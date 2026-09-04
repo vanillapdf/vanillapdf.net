@@ -32,7 +32,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private PdfVersion? GetVersion()
         {
-            UInt32 result = NativeMethods.Catalog_GetVersion(Handle, out int data);
+            UInt32 result = NativeMethods.Catalog_GetVersion(Handle, out PdfVersion data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
                 return null;
             }
@@ -178,7 +178,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>The <see cref="PdfPageLayoutType"/> value, or <c>null</c> if not specified.</returns>
         public PdfPageLayoutType? GetPageLayout()
         {
-            UInt32 result = NativeMethods.Catalog_GetPageLayout(Handle, out int data);
+            UInt32 result = NativeMethods.Catalog_GetPageLayout(Handle, out PdfPageLayoutType data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
                 return null;
             }

@@ -75,7 +75,7 @@ namespace vanillapdf.net.PdfSemantics
         {
             get
             {
-                UInt32 result = NativeMethods.Destination_GetDestinationType(DestinationHandle, out Int32 data);
+                UInt32 result = NativeMethods.Destination_GetDestinationType(DestinationHandle, out PdfDestinationType data);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
