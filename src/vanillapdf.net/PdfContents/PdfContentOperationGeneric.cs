@@ -71,17 +71,24 @@ namespace vanillapdf.net.PdfContents
         {
             var operand = GetOperandAt(index);
 
-            // Same ownership rules as PdfDictionaryObject.FindAs: an operand that already has the
-            // requested type is handed over as is; otherwise the base object is only the source of
-            // the conversion and is released here. Leaving it behind sent one undisposed handle to
-            // the finalizer per operand of every content operation.
+            // Same ownership rules as PdfDictionaryObject.FindAs and PdfArrayObject.GetValueAs.
+            // GetOperandAt always hands back a plain PdfObject, so this succeeds only when the
+            // caller asked for the base type and there is nothing to convert.
             if (operand is T result) {
                 return result;
             }
 
+            // Otherwise the operand is only the source of the conversion, which produces its own
+            // independently owned handle, and is released here. Leaving it behind sent one
+            // undisposed handle to the finalizer per operand of every content operation.
             using (operand) {
-                return PdfObjectConverter<T>.Convert(operand);
+                var converted = PdfObjectConverter<T>.TryConvert(operand);
+                if (converted != null) {
+                    return converted;
+                }
             }
+
+            throw new InvalidCastException($"Operand at index {index} is not of type {typeof(T).Name}.");
         }
 
         /// <summary>
