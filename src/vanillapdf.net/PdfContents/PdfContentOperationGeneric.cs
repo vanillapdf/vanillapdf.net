@@ -69,8 +69,19 @@ namespace vanillapdf.net.PdfContents
         /// <returns>Operand at <p>index</p> on success, throws exception on failure</returns>
         public T GetOperandAtAs<T>(UInt64 index) where T : PdfObject
         {
-            var result = GetOperandAt(index);
-            return PdfObjectConverter<T>.Convert(result);
+            var operand = GetOperandAt(index);
+
+            // Same ownership rules as PdfDictionaryObject.FindAs: an operand that already has the
+            // requested type is handed over as is; otherwise the base object is only the source of
+            // the conversion and is released here. Leaving it behind sent one undisposed handle to
+            // the finalizer per operand of every content operation.
+            if (operand is T result) {
+                return result;
+            }
+
+            using (operand) {
+                return PdfObjectConverter<T>.Convert(operand);
+            }
         }
 
         /// <summary>
