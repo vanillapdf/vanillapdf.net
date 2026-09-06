@@ -24,7 +24,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>The <see cref="PdfFieldType"/> of this field.</returns>
         public PdfFieldType GetFieldType()
         {
-            UInt32 result = NativeMethods.Field_GetType(Handle, out Int32 data);
+            UInt32 result = NativeMethods.Field_GetType(Handle, out PdfFieldType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

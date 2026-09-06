@@ -159,7 +159,7 @@ namespace vanillapdf.net.PdfSyntax
 
         private PdfVersion GetVersion()
         {
-            UInt32 result = NativeMethods.File_GetVersion(Handle, out int data);
+            UInt32 result = NativeMethods.File_GetVersion(Handle, out PdfVersion data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

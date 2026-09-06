@@ -27,7 +27,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentInstruction_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentInstruction_GetInstructionType(PdfContentInstructionSafeHandle handle, out Int32 data);
+        public static partial UInt32 ContentInstruction_GetInstructionType(PdfContentInstructionSafeHandle handle, out PdfContents.PdfContentInstructionType data);
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperator_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentOperator_GetOperatorType(PdfContentOperatorSafeHandle handle, out Int32 data);
+        public static partial UInt32 ContentOperator_GetOperatorType(PdfContentOperatorSafeHandle handle, out PdfContents.PdfContentOperatorType data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ContentOperator_GetValue(PdfContentOperatorSafeHandle handle, out PdfBufferSafeHandle data);
@@ -100,7 +100,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentObject_FromInstruction(PdfContentInstructionSafeHandle handle, out PdfContentObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentObject_GetObjectType(PdfContentObjectSafeHandle handle, out Int32 data);
+        public static partial UInt32 ContentObject_GetObjectType(PdfContentObjectSafeHandle handle, out PdfContents.PdfContentObjectType data);
 
         #endregion
 
@@ -154,7 +154,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperation_FromInstruction(PdfContentInstructionSafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [LibraryImport(LibraryName)]
-        public static partial UInt32 ContentOperation_GetOperationType(PdfContentOperationSafeHandle handle, out Int32 data);
+        public static partial UInt32 ContentOperation_GetOperationType(PdfContentOperationSafeHandle handle, out PdfContents.PdfContentOperationType data);
 
         #endregion
 

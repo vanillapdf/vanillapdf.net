@@ -191,7 +191,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private PdfNonFullScreenPageMode? GetNonFullScreenPageMode()
         {
-            UInt32 result = NativeMethods.ViewerPreferences_GetNonFullScreenPageMode(Handle, out int data);
+            UInt32 result = NativeMethods.ViewerPreferences_GetNonFullScreenPageMode(Handle, out PdfNonFullScreenPageMode data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
                 return null;
             }
@@ -203,7 +203,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private PdfReadingOrder? GetDirection()
         {
-            UInt32 result = NativeMethods.ViewerPreferences_GetDirection(Handle, out int data);
+            UInt32 result = NativeMethods.ViewerPreferences_GetDirection(Handle, out PdfReadingOrder data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
                 return null;
             }
@@ -263,7 +263,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private PdfPrintScaling? GetPrintScaling()
         {
-            UInt32 result = NativeMethods.ViewerPreferences_GetPrintScaling(Handle, out int data);
+            UInt32 result = NativeMethods.ViewerPreferences_GetPrintScaling(Handle, out PdfPrintScaling data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
                 return null;
             }
@@ -275,7 +275,7 @@ namespace vanillapdf.net.PdfSemantics
 
         private PdfDuplex? GetDuplex()
         {
-            UInt32 result = NativeMethods.ViewerPreferences_GetDuplex(Handle, out int data);
+            UInt32 result = NativeMethods.ViewerPreferences_GetDuplex(Handle, out PdfDuplex data);
             if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
                 return null;
             }

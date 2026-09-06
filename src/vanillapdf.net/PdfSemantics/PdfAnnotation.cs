@@ -26,7 +26,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfAnnotationType GetAnnotationType()
         {
-            UInt32 result = NativeMethods.Annotation_GetAnnotationType(AnnotationHandle, out Int32 data);
+            UInt32 result = NativeMethods.Annotation_GetAnnotationType(AnnotationHandle, out PdfAnnotationType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

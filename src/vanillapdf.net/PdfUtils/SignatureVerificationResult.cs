@@ -52,11 +52,11 @@ namespace vanillapdf.net.PdfUtils
         {
             get
             {
-                UInt32 result = NativeMethods.SignatureVerificationResult_GetStatus(Handle, out var status);
+                UInt32 result = NativeMethods.SignatureVerificationResult_GetStatus(Handle, out SignatureVerificationStatus status);
                 if (result != PdfReturnValues.ERROR_SUCCESS) {
                     throw PdfErrors.GetLastErrorException();
                 }
-                return (SignatureVerificationStatus)status;
+                return status;
             }
         }
 

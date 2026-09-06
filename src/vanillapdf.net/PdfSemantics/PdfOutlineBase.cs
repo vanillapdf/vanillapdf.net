@@ -23,7 +23,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>Type of derived object on success, throws exception on failure</returns>
         public PdfOutlineType GetOutlineType()
         {
-            UInt32 result = NativeMethods.OutlineBase_GetOutlineType(OutlineBaseHandle, out Int32 data);
+            UInt32 result = NativeMethods.OutlineBase_GetOutlineType(OutlineBaseHandle, out PdfOutlineType data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

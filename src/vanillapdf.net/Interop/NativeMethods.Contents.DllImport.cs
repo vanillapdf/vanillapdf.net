@@ -27,7 +27,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 ContentInstruction_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ContentInstruction_GetInstructionType(PdfContentInstructionSafeHandle handle, out Int32 data);
+        public static extern UInt32 ContentInstruction_GetInstructionType(PdfContentInstructionSafeHandle handle, out PdfContents.PdfContentInstructionType data);
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 ContentOperator_Release(IntPtr handle);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ContentOperator_GetOperatorType(PdfContentOperatorSafeHandle handle, out Int32 data);
+        public static extern UInt32 ContentOperator_GetOperatorType(PdfContentOperatorSafeHandle handle, out PdfContents.PdfContentOperatorType data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 ContentOperator_GetValue(PdfContentOperatorSafeHandle handle, out PdfBufferSafeHandle data);
@@ -101,7 +101,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 ContentObject_FromInstruction(PdfContentInstructionSafeHandle handle, out PdfContentObjectSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ContentObject_GetObjectType(PdfContentObjectSafeHandle handle, out Int32 data);
+        public static extern UInt32 ContentObject_GetObjectType(PdfContentObjectSafeHandle handle, out PdfContents.PdfContentObjectType data);
 
         #endregion
 
@@ -155,7 +155,7 @@ namespace vanillapdf.net.Interop
         public static extern UInt32 ContentOperation_FromInstruction(PdfContentInstructionSafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
-        public static extern UInt32 ContentOperation_GetOperationType(PdfContentOperationSafeHandle handle, out Int32 data);
+        public static extern UInt32 ContentOperation_GetOperationType(PdfContentOperationSafeHandle handle, out PdfContents.PdfContentOperationType data);
 
         #endregion
 
