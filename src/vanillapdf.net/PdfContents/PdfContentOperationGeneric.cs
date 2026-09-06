@@ -66,7 +66,8 @@ namespace vanillapdf.net.PdfContents
         /// </summary>
         /// <typeparam name="T">Type of object the result shall be converted to</typeparam>
         /// <param name="index">Index of operand to be returned</param>
-        /// <returns>Operand at <p>index</p> on success, throws exception on failure</returns>
+        /// <returns>Operand at <p>index</p> converted to <typeparamref name="T"/> on success, throws exception on failure</returns>
+        /// <exception cref="InvalidCastException">Thrown if the operand is not of the expected type.</exception>
         public T GetOperandAtAs<T>(UInt64 index) where T : PdfObject
         {
             var operand = GetOperandAt(index);
