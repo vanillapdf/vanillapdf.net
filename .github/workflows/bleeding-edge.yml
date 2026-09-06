@@ -1,0 +1,106 @@
+name: Bleeding edge
+
+# Early-warning scan against the next .NET major while it is still in preview.
+#
+# Every other workflow runs on released channels: sanity-check.yml gates each PR
+# on 8/9/10, nightly-check.yml sweeps every shipped RID on the same. This one
+# looks ahead instead, and runs the suite on the preview runtime.
+#
+# The binding ships netstandard2.0 + net8.0 assets, so a test host built for the
+# preview target framework runs the very same net8.0 assembly consumers get, on
+# the new runtime - which is exactly what someone moving to .NET 11 would do.
+# What it catches is a break that lands before the release is out: a marshalling
+# or SafeHandle behaviour change, a P/Invoke regression, a new analyzer wave.
+#
+# Deliberately non-gating (continue-on-error). A preview SDK routinely fails for
+# reasons that say nothing about this repository - a diagnostic added in the new
+# analyzer wave tripping TreatWarningsAsErrors, or a test-platform package with
+# no preview support yet. This is a signal to read, never a merge blocker.
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Run workflow on any push into main branch
+  # only when there was a change in the workflow file
+  push:
+    branches:
+      - "main"
+      - "release/*"
+    paths:
+      - '.github/workflows/bleeding-edge.yml'
+
+  # Run workflow when there is a pull request towards main branch
+  # only when there was a change in the workflow file
+  pull_request:
+    branches:
+      - "main"
+      - "release/*"
+    paths:
+      - '.github/workflows/bleeding-edge.yml'
+
+  schedule:
+    - cron: '0 3 * * 1'  # Every Monday at 03:00 UTC, an hour after nightly-check.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Enable only minimum required permissions
+permissions:
+  contents: read   # Download the repository source code
+  packages: read   # Restore the native vanillapdf package from GitHub Packages
+
+jobs:
+  bleeding-edge:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    # Never a merge blocker - see the header. A failure here is a report.
+    continue-on-error: true
+
+    strategy:
+      # Keep going so one failing platform does not mask the others
+      fail-fast: false
+      matrix:
+        # The `*-latest` labels are deliberate here, where every other workflow
+        # pins its image: this one follows GitHub's rollout, so an image change
+        # surfaces here first. macos-latest is arm64.
+        config:
+          - { name: "linux-x64", os: ubuntu-latest }
+          - { name: "win-x64",   os: windows-latest }
+          - { name: "osx-arm64", os: macos-latest }
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v7
+
+      # Only the preview SDK is installed. The test run below is pinned to the
+      # preview target framework, so no released runtime is ever launched, and
+      # `dotnet-quality: preview` keeps 11.0.x tracking the channel as it moves.
+      - name: Setup dotnet (.NET 11 preview)
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Record which preview build the run actually used. 11.0.x moves underneath
+      # this workflow, so a failure report is unreadable without the exact version.
+      - name: Report SDK version
+        run: dotnet --info
+
+      # Targets the test project directly rather than the solution: `-f` sets
+      # TargetFramework globally, and the library project (netstandard2.0;net8.0)
+      # has no net11.0 target to select. Through a project reference it still
+      # resolves its net8.0 asset, which is the combination being tested.
+      #
+      # IncludePreviewFrameworks adds net11.0 to the test project's frameworks;
+      # without it nothing anywhere else in the repository sees a preview target.
+      - name: Build and test on ${{ matrix.config.name }}
+        run: >
+          dotnet test src/vanillapdf.net.nunit/vanillapdf.net.nunit.csproj
+          --configuration Release --nologo
+          -p:IncludePreviewFrameworks=true -f net11.0
