@@ -66,11 +66,30 @@ namespace vanillapdf.net.PdfContents
         /// </summary>
         /// <typeparam name="T">Type of object the result shall be converted to</typeparam>
         /// <param name="index">Index of operand to be returned</param>
-        /// <returns>Operand at <p>index</p> on success, throws exception on failure</returns>
+        /// <returns>Operand at <p>index</p> converted to <typeparamref name="T"/> on success, throws exception on failure</returns>
+        /// <exception cref="InvalidCastException">Thrown if the operand is not of the expected type.</exception>
         public T GetOperandAtAs<T>(UInt64 index) where T : PdfObject
         {
-            var result = GetOperandAt(index);
-            return PdfObjectConverter<T>.Convert(result);
+            var operand = GetOperandAt(index);
+
+            // Same ownership rules as PdfDictionaryObject.FindAs and PdfArrayObject.GetValueAs.
+            // GetOperandAt always hands back a plain PdfObject, so this succeeds only when the
+            // caller asked for the base type and there is nothing to convert.
+            if (operand is T result) {
+                return result;
+            }
+
+            // Otherwise the operand is only the source of the conversion, which produces its own
+            // independently owned handle, and is released here. Leaving it behind sent one
+            // undisposed handle to the finalizer per operand of every content operation.
+            using (operand) {
+                var converted = PdfObjectConverter<T>.TryConvert(operand);
+                if (converted != null) {
+                    return converted;
+                }
+            }
+
+            throw new InvalidCastException($"Operand at index {index} is not of type {typeof(T).Name}.");
         }
 
         /// <summary>
