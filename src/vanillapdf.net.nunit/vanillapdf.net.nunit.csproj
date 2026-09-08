@@ -6,6 +6,18 @@
          https://docs.nunit.org/articles/nunit/release-notes/framework.html#the-following-issues-are-marked-as-breaking-changes -->
     <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
 
+    <!-- Bleeding-edge compatibility target for the next .NET major while it is
+         still in preview. Opt-in, because building it requires the preview SDK
+         that neither a normal development machine nor the gating CI jobs have:
+         without the property the target framework list is untouched, so
+         `dotnet build`/`dotnet test` behave exactly as before. The preview job
+         in nightly-check.yml opts in with -p:IncludePreviewFrameworks=true.
+
+         The binding itself ships netstandard2.0 + net8.0, so a net11.0 test host
+         runs the shipped net8.0 assembly on the new runtime - which is what a
+         consumer moving to .NET 11 would do. -->
+    <TargetFrameworks Condition="'$(IncludePreviewFrameworks)' == 'true'">$(TargetFrameworks);net11.0</TargetFrameworks>
+
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
