@@ -115,7 +115,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="key">Dictionary key.</param>
         /// <returns>Object converted to <typeparamref name="T"/>.</returns>
-        /// <exception cref="InvalidCastException">Thrown if the value is not of the expected type.</exception>
+        /// <exception cref="PdfObjectTypeException">Thrown if the value is not of the expected type.</exception>
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
             var pdfObject = Find(key);
@@ -131,9 +131,10 @@ namespace vanillapdf.net.PdfSyntax
                 if (converted != null) {
                     return converted;
                 }
-            }
 
-            throw new InvalidCastException($"Value for key is not of type {typeof(T).Name}.");
+                var actualType = pdfObject.GetObjectType();
+                throw new PdfObjectTypeException($"Value for key is {actualType}, expected {typeof(T).Name}.");
+            }
         }
 
         /// <summary>

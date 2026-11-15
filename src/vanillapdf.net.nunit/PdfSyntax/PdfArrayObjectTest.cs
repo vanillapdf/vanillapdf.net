@@ -3,6 +3,7 @@ using NUnit.Framework.Legacy;
 using System;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
+using vanillapdf.net.Utils;
 
 namespace vanillapdf.net.nunit.PdfSyntax
 {
@@ -125,6 +126,17 @@ namespace vanillapdf.net.nunit.PdfSyntax
 
             ClassicAssert.IsNotNull(realFromInteger);
             ClassicAssert.AreEqual(612.0, realFromInteger.Value);
+        }
+
+        [Test]
+        public void GetValueAs_WithMismatchedType_ThrowsObjectTypeException()
+        {
+            using var array = PdfArrayObject.Create();
+            using var nameObject = PdfNameObject.Create();
+            nameObject.Value.StringData = "NotANumber";
+            array.Append(nameObject);
+
+            Assert.Throws<PdfObjectTypeException>(() => array.GetValueAs<PdfIntegerObject>(0));
         }
 
         [Test]
