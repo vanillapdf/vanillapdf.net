@@ -102,4 +102,19 @@ namespace vanillapdf.net.Utils
     {
         protected override bool ReleaseHandle() => NativeMethods.SignatureVerificationResult_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
     }
+
+    internal sealed class PdfCryptoSettingsSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.CryptoSettings_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfMD5DigestSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.MD5Digest_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfRC4CipherSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.RC4Cipher_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
 }

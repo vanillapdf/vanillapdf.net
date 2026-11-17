@@ -88,6 +88,34 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// The number of bytes reserved for the signature within the document.
+        /// </summary>
+        /// <remarks>
+        /// The signature is written into a fixed-size placeholder, so the reservation has to be
+        /// sufficient up front - a signature that does not fit fails at the very end of signing.
+        /// The default of 16384 accommodates a signer chain, the signed attributes and a timestamp;
+        /// long-term validation data (OCSP responses, CRLs) may require more.
+        /// </remarks>
+        public UInt64 ReservedSignatureSize
+        {
+            get { return GetReservedSignatureSize(); }
+            set { SetReservedSignatureSize(value); }
+        }
+
+        /// <summary>
+        /// The encoding of the signature value, written as the signature dictionary /SubFilter.
+        /// </summary>
+        /// <remarks>
+        /// Defaults to adbe.pkcs7.detached. The library does not interpret the value: a custom
+        /// signing key has to produce what the declared encoding requires.
+        /// </remarks>
+        public PdfNameObject SubFilter
+        {
+            get { return GetSubFilter(); }
+            set { SetSubFilter(value); }
+        }
+
+        /// <summary>
         /// Creates a new blank instance of \ref PdfDocumentSignatureSettings with default values
         /// </summary>
         /// <returns>A new \ref PdfDocumentSignatureSettings instance on success, throws exception on failure</returns>
@@ -222,6 +250,46 @@ namespace vanillapdf.net.PdfSemantics
         private void SetCertificate(PdfHexadecimalStringObject data)
         {
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetCertificate(Handle, data.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        private UInt64 GetReservedSignatureSize()
+        {
+            UInt32 result = NativeMethods.DocumentSignatureSettings_GetReservedSignatureSize(Handle, out UIntPtr data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return data.ToUInt64();
+        }
+
+        private void SetReservedSignatureSize(UInt64 data)
+        {
+            UInt32 result = NativeMethods.DocumentSignatureSettings_SetReservedSignatureSize(Handle, new UIntPtr(data));
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        private PdfNameObject GetSubFilter()
+        {
+            UInt32 result = NativeMethods.DocumentSignatureSettings_GetSubFilter(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfNameObject(data);
+        }
+
+        private void SetSubFilter(PdfNameObject data)
+        {
+            UInt32 result = NativeMethods.DocumentSignatureSettings_SetSubFilter(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

@@ -68,6 +68,12 @@ namespace vanillapdf.net.Interop
             PdfUtils.IOStrategyType strategy,
             out PdfDocumentSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Document_SetDocumentInfo(PdfDocumentSafeHandle handle, PdfDocumentInfoSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Document_SignField(PdfDocumentSafeHandle handle, PdfFileSafeHandle destination, byte[] qualifiedName, UIntPtr size, PdfDocumentSignatureSettingsSafeHandle settings);
+
         #endregion
 
         #region DocumentInfo
@@ -98,6 +104,39 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DocumentInfo_GetModificationDate(PdfDocumentInfoSafeHandle handle, out PdfDateSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_CreateFromDocument(PdfDocumentSafeHandle handle, out PdfDocumentInfoSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_GetTrapped(PdfDocumentInfoSafeHandle handle, out PdfSemantics.PdfDocumentTrappedType data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetTitle(PdfDocumentInfoSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetAuthor(PdfDocumentInfoSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetSubject(PdfDocumentInfoSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetKeywords(PdfDocumentInfoSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetCreator(PdfDocumentInfoSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetProducer(PdfDocumentInfoSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetCreationDate(PdfDocumentInfoSafeHandle handle, PdfDateSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetModificationDate(PdfDocumentInfoSafeHandle handle, PdfDateSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentInfo_SetTrapped(PdfDocumentInfoSafeHandle handle, Int32 value);
 
         #endregion
 
@@ -149,6 +188,9 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Catalog_GetViewerPreferences(PdfCatalogSafeHandle handle, out PdfViewerPreferencesSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Catalog_SetAcroForm(PdfCatalogSafeHandle handle, PdfInteractiveFormSafeHandle value);
 
         #endregion
 
@@ -215,6 +257,42 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 InteractiveForm_GetFields(PdfInteractiveFormSafeHandle handle, out PdfFieldCollectionSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_CreateFromDictionary(PdfDictionaryObjectSafeHandle handle, out PdfInteractiveFormSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_CreateFromDocument(PdfDocumentSafeHandle handle, out PdfInteractiveFormSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_GetFieldTree(PdfInteractiveFormSafeHandle handle, out PdfFieldTreeSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_SetFieldTree(PdfInteractiveFormSafeHandle handle, PdfFieldTreeSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_GetSignatureFlags(PdfInteractiveFormSafeHandle handle, out PdfSignatureFlagsSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_SetSignatureFlags(PdfInteractiveFormSafeHandle handle, PdfSignatureFlagsSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_GetDefaultAppearance(PdfInteractiveFormSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_SetDefaultAppearance(PdfInteractiveFormSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_ResolveDefaultAppearance(PdfInteractiveFormSafeHandle handle, PdfFieldSafeHandle field, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_GetQuadding(PdfInteractiveFormSafeHandle handle, out PdfSemantics.PdfQuaddingType data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_SetQuadding(PdfInteractiveFormSafeHandle handle, Int32 value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 InteractiveForm_ResolveQuadding(PdfInteractiveFormSafeHandle handle, PdfFieldSafeHandle field, out PdfSemantics.PdfQuaddingType data);
+
         #endregion
 
         #region FieldCollection
@@ -249,6 +327,60 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Field_SetFieldFlags(PdfFieldSafeHandle handle, Int32 value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_SetName(PdfFieldSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_SetAlternateName(PdfFieldSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_IsTerminal(PdfFieldSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetChildCount(PdfFieldSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetChild(PdfFieldSafeHandle handle, UIntPtr index, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetParent(PdfFieldSafeHandle handle, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetWidgetCount(PdfFieldSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetWidget(PdfFieldSafeHandle handle, UIntPtr index, out PdfWidgetAnnotationSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_AddWidget(PdfFieldSafeHandle handle, PdfWidgetAnnotationSafeHandle widget);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_RemoveWidget(PdfFieldSafeHandle handle, PdfWidgetAnnotationSafeHandle widget, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetQualifiedName(PdfFieldSafeHandle handle, out PdfBufferSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetValue(PdfFieldSafeHandle handle, out PdfObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetDefaultValue(PdfFieldSafeHandle handle, out PdfObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetDefaultAppearance(PdfFieldSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_SetDefaultAppearance(PdfFieldSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetQuadding(PdfFieldSafeHandle handle, out PdfSemantics.PdfQuaddingType data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_SetQuadding(PdfFieldSafeHandle handle, Int32 value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Field_GetBaseObject(PdfFieldSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
         #endregion
 
@@ -335,6 +467,9 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 SignatureField_GetValue(PdfSignatureFieldSafeHandle handle, out PdfDigitalSignatureSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureField_CreateFromDocument(PdfDocumentSafeHandle handle, PdfStringObjectSafeHandle name, out PdfSignatureFieldSafeHandle data);
+
         #endregion
 
         #region DigitalSignature
@@ -368,6 +503,9 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DigitalSignature_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DigitalSignature_GetSubFilter(PdfDigitalSignatureSafeHandle handle, out PdfNameObjectSafeHandle data);
 
         #endregion
 
@@ -453,6 +591,57 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 PageObject_GetBaseObject(PdfPageObjectSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetContents(PdfPageObjectSafeHandle handle, PdfPageContentsSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetResources(PdfPageObjectSafeHandle handle, PdfResourceDictionarySafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetCropBox(PdfPageObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetCropBox(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetBleedBox(PdfPageObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetBleedBox(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetTrimBox(PdfPageObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetTrimBox(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetArtBox(PdfPageObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetArtBox(PdfPageObjectSafeHandle handle, PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetRotate(PdfPageObjectSafeHandle handle, out Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetRotate(PdfPageObjectSafeHandle handle, Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetUserUnit(PdfPageObjectSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetUserUnit(PdfPageObjectSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_GetGroup(PdfPageObjectSafeHandle handle, out PdfTransparencyGroupSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetGroup(PdfPageObjectSafeHandle handle, PdfTransparencyGroupSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageObject_SetAnnotations(PdfPageObjectSafeHandle handle, PdfPageAnnotationsSafeHandle value);
+
         #endregion
 
         #region PageContents
@@ -466,6 +655,12 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern UInt32 PageContents_RecalculateStreamData(PdfPageContentsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageContents_CreateFromDocument(PdfDocumentSafeHandle handle, out PdfPageContentsSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 PageContents_CreateFromStream(PdfStreamObjectSafeHandle handle, out PdfPageContentsSafeHandle data);
 
         #endregion
 
@@ -522,6 +717,21 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Annotation_SetFlags(PdfAnnotationSafeHandle handle, Int32 value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Annotation_GetAppearance(PdfAnnotationSafeHandle handle, Int32 type, out PdfFormXObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Annotation_SetAppearance(PdfAnnotationSafeHandle handle, Int32 type, PdfFormXObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Annotation_GetAppearanceState(PdfAnnotationSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Annotation_SetAppearanceState(PdfAnnotationSafeHandle handle, PdfNameObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Annotation_GetBaseObject(PdfAnnotationSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
         #endregion
 
@@ -895,6 +1105,30 @@ namespace vanillapdf.net.Interop
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 Rectangle_SetUpperRightY(PdfRectangleSafeHandle handle, Int64 data);
 
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_GetLowerLeftXReal(PdfRectangleSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_SetLowerLeftXReal(PdfRectangleSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_GetLowerLeftYReal(PdfRectangleSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_SetLowerLeftYReal(PdfRectangleSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_GetUpperRightXReal(PdfRectangleSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_SetUpperRightXReal(PdfRectangleSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_GetUpperRightYReal(PdfRectangleSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Rectangle_SetUpperRightYReal(PdfRectangleSafeHandle handle, double data);
+
         #endregion
 
         #region Date
@@ -1014,6 +1248,30 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 ResourceDictionary_GetFontMap(PdfResourceDictionarySafeHandle handle, out PdfFontMapSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_Create(out PdfResourceDictionarySafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_CreateFromDictionary(PdfDictionaryObjectSafeHandle handle, out PdfResourceDictionarySafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_GetXObjectCount(PdfResourceDictionarySafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_GetXObjectName(PdfResourceDictionarySafeHandle handle, UIntPtr at, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_FindXObject(PdfResourceDictionarySafeHandle handle, PdfNameObjectSafeHandle name, out PdfXObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_AddXObject(PdfResourceDictionarySafeHandle handle, PdfNameObjectSafeHandle name, PdfXObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_RemoveXObject(PdfResourceDictionarySafeHandle handle, PdfNameObjectSafeHandle name, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 ResourceDictionary_GetBaseObject(PdfResourceDictionarySafeHandle handle, out PdfObjectSafeHandle data);
 
         #endregion
 
@@ -1158,6 +1416,18 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 DocumentSignatureSettings_SetCertificate(PdfDocumentSignatureSettingsSafeHandle handle, PdfHexadecimalStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentSignatureSettings_GetReservedSignatureSize(PdfDocumentSignatureSettingsSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentSignatureSettings_SetReservedSignatureSize(PdfDocumentSignatureSettingsSafeHandle handle, UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentSignatureSettings_GetSubFilter(PdfDocumentSignatureSettingsSafeHandle handle, out PdfNameObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 DocumentSignatureSettings_SetSubFilter(PdfDocumentSignatureSettingsSafeHandle handle, PdfNameObjectSafeHandle data);
 
         #endregion
 
@@ -1532,6 +1802,266 @@ namespace vanillapdf.net.Interop
 
         [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
         public static extern UInt32 NameDictionary_SetDestinations(PdfNameDictionarySafeHandle handle, PdfDestinationNameTreeSafeHandle destinations);
+
+        #endregion
+
+        #region FieldTree
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_CreateFromDocument(PdfDocumentSafeHandle handle, out PdfFieldTreeSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_GetFieldCount(PdfFieldTreeSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_GetField(PdfFieldTreeSafeHandle handle, UIntPtr index, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_FindField(PdfFieldTreeSafeHandle handle, byte[] qualifiedName, UIntPtr size, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_GetRootChildCount(PdfFieldTreeSafeHandle handle, out UIntPtr data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_GetRootChild(PdfFieldTreeSafeHandle handle, UIntPtr index, out PdfFieldSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_AddRootChild(PdfFieldTreeSafeHandle handle, PdfFieldSafeHandle child);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_InsertRootChild(PdfFieldTreeSafeHandle handle, UIntPtr index, PdfFieldSafeHandle child);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_AddChild(PdfFieldTreeSafeHandle handle, PdfFieldSafeHandle parent, PdfFieldSafeHandle child);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_InsertChild(PdfFieldTreeSafeHandle handle, PdfFieldSafeHandle parent, UIntPtr index, PdfFieldSafeHandle child);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_RemoveChild(PdfFieldTreeSafeHandle handle, PdfFieldSafeHandle field);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FieldTree_Invalidate(PdfFieldTreeSafeHandle handle);
+
+        #endregion
+
+        #region SignatureFlags
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureFlags_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureFlags_Create(out PdfSignatureFlagsSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureFlags_GetSignaturesExist(PdfSignatureFlagsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureFlags_SetSignaturesExist(PdfSignatureFlagsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureFlags_GetAppendOnly(PdfSignatureFlagsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 SignatureFlags_SetAppendOnly(PdfSignatureFlagsSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
+
+        #endregion
+
+        #region WidgetAnnotation
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 WidgetAnnotation_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 WidgetAnnotation_CreateFromDocument(PdfDocumentSafeHandle handle, out PdfWidgetAnnotationSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 WidgetAnnotation_GetAppearanceCharacteristics(PdfWidgetAnnotationSafeHandle handle, out PdfAppearanceCharacteristicsSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 WidgetAnnotation_SetAppearanceCharacteristics(PdfWidgetAnnotationSafeHandle handle, PdfAppearanceCharacteristicsSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 WidgetAnnotation_ToBaseAnnotation(PdfWidgetAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 WidgetAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfWidgetAnnotationSafeHandle data);
+
+        #endregion
+
+        #region AppearanceCharacteristics
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_Create(out PdfAppearanceCharacteristicsSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetRotation(PdfAppearanceCharacteristicsSafeHandle handle, out Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_SetRotation(PdfAppearanceCharacteristicsSafeHandle handle, Int64 data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetBorderColor(PdfAppearanceCharacteristicsSafeHandle handle, out PdfColorSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_SetBorderColor(PdfAppearanceCharacteristicsSafeHandle handle, PdfColorSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetBackgroundColor(PdfAppearanceCharacteristicsSafeHandle handle, out PdfColorSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_SetBackgroundColor(PdfAppearanceCharacteristicsSafeHandle handle, PdfColorSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetNormalCaption(PdfAppearanceCharacteristicsSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_SetNormalCaption(PdfAppearanceCharacteristicsSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetRolloverCaption(PdfAppearanceCharacteristicsSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_SetRolloverCaption(PdfAppearanceCharacteristicsSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetDownCaption(PdfAppearanceCharacteristicsSafeHandle handle, out PdfStringObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_SetDownCaption(PdfAppearanceCharacteristicsSafeHandle handle, PdfStringObjectSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 AppearanceCharacteristics_GetBaseObject(PdfAppearanceCharacteristicsSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
+
+        #endregion
+
+        #region XObject
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 XObject_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 XObject_GetXObjectType(PdfXObjectSafeHandle handle, out PdfSemantics.PdfXObjectType data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 XObject_GetBaseObject(PdfXObjectSafeHandle handle, out PdfObjectSafeHandle data);
+
+        #endregion
+
+        #region FormXObject
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_CreateFromDocument(PdfDocumentSafeHandle handle, out PdfFormXObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_GetBoundingBox(PdfFormXObjectSafeHandle handle, out PdfRectangleSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_SetBoundingBox(PdfFormXObjectSafeHandle handle, PdfRectangleSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_GetMatrix(PdfFormXObjectSafeHandle handle, out PdfMatrixSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_SetMatrix(PdfFormXObjectSafeHandle handle, PdfMatrixSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_GetResources(PdfFormXObjectSafeHandle handle, out PdfResourceDictionarySafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_SetResources(PdfFormXObjectSafeHandle handle, PdfResourceDictionarySafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_GetGroup(PdfFormXObjectSafeHandle handle, out PdfTransparencyGroupSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_SetGroup(PdfFormXObjectSafeHandle handle, PdfTransparencyGroupSafeHandle value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_ToBaseXObject(PdfFormXObjectSafeHandle handle, out PdfXObjectSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 FormXObject_FromBaseXObject(PdfXObjectSafeHandle handle, out PdfFormXObjectSafeHandle data);
+
+        #endregion
+
+        #region TransparencyGroup
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_Create(out PdfTransparencyGroupSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_GetIsolated(PdfTransparencyGroupSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_SetIsolated(PdfTransparencyGroupSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_GetKnockout(PdfTransparencyGroupSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_SetKnockout(PdfTransparencyGroupSafeHandle handle, [MarshalAs(UnmanagedType.I1)] bool value);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 TransparencyGroup_GetBaseObject(PdfTransparencyGroupSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
+
+        #endregion
+
+        #region Matrix
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_Release(IntPtr handle);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_Create(out PdfMatrixSafeHandle data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_GetA(PdfMatrixSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_SetA(PdfMatrixSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_GetB(PdfMatrixSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_SetB(PdfMatrixSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_GetC(PdfMatrixSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_SetC(PdfMatrixSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_GetD(PdfMatrixSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_SetD(PdfMatrixSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_GetE(PdfMatrixSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_SetE(PdfMatrixSafeHandle handle, double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_GetF(PdfMatrixSafeHandle handle, out double data);
+
+        [DllImport(LibraryName, CallingConvention = LibraryCallingConvention)]
+        public static extern UInt32 Matrix_SetF(PdfMatrixSafeHandle handle, double data);
 
         #endregion
     }

@@ -39,6 +39,19 @@ namespace vanillapdf.net.nunit.PdfContents
             ClassicAssert.Greater(dictionary.Count, 0);
         }
 
+        [Test]
+        public void TestInlineImageSamples()
+        {
+            string sourceFile = Path.Combine("Resources", "inline-image.pdf");
+
+            using var inlineImage = FindFirstInlineImage(sourceFile);
+            ClassicAssert.IsNotNull(inlineImage, "Expected an inline image content object in the document");
+
+            // The image has no filter, so the samples are exactly the pixel bytes.
+            using var samples = inlineImage.Samples;
+            CollectionAssert.AreEqual(ExpectedData, samples.Data);
+        }
+
         private static PdfContentObjectInlineImage FindFirstInlineImage(string sourcePath)
         {
             using var sourceStream = PdfInputOutputStream.CreateFromFile(sourcePath);

@@ -74,6 +74,12 @@ namespace vanillapdf.net.PdfSemantics
         public PdfByteRangeCollection ByteRange => GetByteRange();
 
         /// <summary>
+        /// The encoding of the signature value (/SubFilter entry), such as adbe.pkcs7.detached,
+        /// ETSI.CAdES.detached or ETSI.RFC3161, the last one marking a document timestamp.
+        /// </summary>
+        public PdfNameObject SubFilter => GetSubFilter();
+
+        /// <summary>
         /// Verify this digital signature against the given document and trust store.
         /// </summary>
         /// <param name="document">The open PDF document that contains this signature.</param>
@@ -209,6 +215,18 @@ namespace vanillapdf.net.PdfSemantics
                 throw PdfErrors.GetLastErrorException();
             }
             return new PdfByteRangeCollection(data);
+        }
+
+        private PdfNameObject GetSubFilter()
+        {
+            UInt32 result = NativeMethods.DigitalSignature_GetSubFilter(Handle, out var data);
+            if (result == PdfReturnValues.ERROR_OBJECT_MISSING) {
+                return null;
+            }
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+            return new PdfNameObject(data);
         }
 
         #endregion

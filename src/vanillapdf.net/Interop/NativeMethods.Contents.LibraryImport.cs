@@ -140,6 +140,9 @@ namespace vanillapdf.net.Interop
         [LibraryImport(LibraryName)]
         public static partial UInt32 ContentObjectInlineImage_GetData(PdfContentObjectInlineImageSafeHandle handle, out PdfBufferSafeHandle data);
 
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 ContentObjectInlineImage_GetSamples(PdfContentObjectInlineImageSafeHandle handle, out PdfBufferSafeHandle data);
+
         #endregion
 
         #region ContentOperation

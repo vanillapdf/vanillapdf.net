@@ -36,6 +36,19 @@ namespace vanillapdf.net.PdfContents
         }
 
         /// <summary>
+        /// The image sample data with all the filters from the image meta-data dictionary applied.
+        /// </summary>
+        /// <remarks>
+        /// When the dictionary does not specify any filter, the raw data are returned unchanged.
+        /// Use the dictionary entries (W, H, BPC, CS) to interpret the samples. Filters without
+        /// decoding support throw a not-supported exception.
+        /// </remarks>
+        public PdfBuffer Samples
+        {
+            get => GetSamples();
+        }
+
+        /// <summary>
         /// Convert content object to inline image object
         /// </summary>
         /// <param name="data">Handle to \ref PdfContentObject to be converted</param>
@@ -58,6 +71,16 @@ namespace vanillapdf.net.PdfContents
         private PdfBuffer GetData()
         {
             UInt32 result = NativeMethods.ContentObjectInlineImage_GetData(Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfBuffer(data);
+        }
+
+        private PdfBuffer GetSamples()
+        {
+            UInt32 result = NativeMethods.ContentObjectInlineImage_GetSamples(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

@@ -1,5 +1,6 @@
 using System;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfContents;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
@@ -17,6 +18,41 @@ namespace vanillapdf.net.PdfSemantics
         internal PdfPageContents(PdfPageContentsSafeHandle handle)
         {
             Handle = handle;
+        }
+
+        /// <summary>
+        /// Create empty page contents backed by a new, empty content stream
+        /// registered as an indirect object within the document.
+        /// </summary>
+        /// <remarks>
+        /// Attach the contents to a page with <see cref="PdfPageObject.SetContents"/>.
+        /// </remarks>
+        /// <param name="document">The document that owns the new content stream.</param>
+        /// <returns>A new <see cref="PdfPageContents"/> instance.</returns>
+        public static PdfPageContents CreateFromDocument(PdfDocument document)
+        {
+            UInt32 result = NativeMethods.PageContents_CreateFromDocument(document.Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfPageContents(data);
+        }
+
+        /// <summary>
+        /// Create page contents from an existing low-level content stream object,
+        /// for example an indirect object already registered within the document.
+        /// </summary>
+        /// <param name="stream">The content stream.</param>
+        /// <returns>A new <see cref="PdfPageContents"/> instance.</returns>
+        public static PdfPageContents CreateFromStream(PdfStreamObject stream)
+        {
+            UInt32 result = NativeMethods.PageContents_CreateFromStream(stream.Handle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfPageContents(data);
         }
 
         /// <summary>

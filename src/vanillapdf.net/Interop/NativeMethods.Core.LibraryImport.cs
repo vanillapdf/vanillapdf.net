@@ -380,6 +380,64 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 TextStringEncoding_PDFDocEncodingByteToUnicode(byte value, out UInt32 codepoint);
 
         #endregion
+
+        #region CryptoSettings
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoSettings_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoSettings_Create(out PdfCryptoSettingsSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoSettings_GetLegacyAlgorithmsPolicy(PdfCryptoSettingsSafeHandle handle, out PdfUtils.PdfLegacyAlgorithmsPolicyType data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoSettings_SetLegacyAlgorithmsPolicy(PdfCryptoSettingsSafeHandle handle, Int32 value);
+
+        #endregion
+
+        #region CryptoUtils
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoUtils_Initialize(PdfCryptoSettingsSafeHandle settings);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoUtils_GetLegacyAlgorithmsAvailable([MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 CryptoUtils_Cleanup();
+
+        #endregion
+
+        #region MD5Digest
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 MD5Digest_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 MD5Digest_Create(out PdfMD5DigestSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 MD5Digest_Update(PdfMD5DigestSafeHandle handle, PdfBufferSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 MD5Digest_Final(PdfMD5DigestSafeHandle handle, out PdfBufferSafeHandle data);
+
+        #endregion
+
+        #region RC4Cipher
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 RC4Cipher_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 RC4Cipher_CreateFromKey(PdfBufferSafeHandle key, out PdfRC4CipherSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 RC4Cipher_Process(PdfRC4CipherSafeHandle handle, PdfBufferSafeHandle data, out PdfBufferSafeHandle result);
+
+        #endregion
     }
 }
 

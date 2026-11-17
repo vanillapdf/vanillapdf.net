@@ -54,6 +54,8 @@ namespace vanillapdf.net.PdfSemantics.Extensions
                     return PdfSquigglyAnnotation.FromAnnotation(annotation);
                 case PdfAnnotationType.Ink:
                     return PdfInkAnnotation.FromAnnotation(annotation);
+                case PdfAnnotationType.Widget:
+                    return PdfWidgetAnnotation.FromAnnotation(annotation);
                 default:
                     throw new PdfManagedException($"Cannot upgrade annotation with unsupported type: {annotationType}");
             }

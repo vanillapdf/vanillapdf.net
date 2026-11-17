@@ -1,5 +1,6 @@
 using System;
 using vanillapdf.net.Interop;
+using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
 using vanillapdf.net.Utils;
 
@@ -27,6 +28,27 @@ namespace vanillapdf.net.PdfSemantics
             if (field == null) throw new ArgumentNullException(nameof(field));
 
             return new PdfSignatureField(field.Handle);
+        }
+
+        /// <summary>
+        /// Create a signature field registered within the document and placed at the root
+        /// of its field hierarchy, creating the interactive form and the hierarchy when the document has none.
+        /// </summary>
+        /// <remarks>
+        /// The field has no widget yet - attach one with <see cref="PdfField.AddWidget"/> so that viewers
+        /// show the signature, then sign into it with <see cref="PdfDocument.SignField"/>.
+        /// </remarks>
+        /// <param name="document">The document that owns the new field.</param>
+        /// <param name="name">The partial field name, which is also its fully qualified name at the root.</param>
+        /// <returns>A new <see cref="PdfSignatureField"/> instance.</returns>
+        public static PdfSignatureField CreateFromDocument(PdfDocument document, PdfStringObject name)
+        {
+            UInt32 result = NativeMethods.SignatureField_CreateFromDocument(document.Handle, name.StringHandle, out var data);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+
+            return new PdfSignatureField(data);
         }
 
         /// <summary>
