@@ -105,6 +105,17 @@ namespace vanillapdf.net.benchmark
             return _element.GetObjectType();
         }
 
+        /// <summary>
+        /// One FromObject plus the ToObject in the base constructor, and both releases.
+        /// </summary>
+        [Benchmark]
+        public PdfStringObject StringObject_FromObject()
+        {
+            var text = PdfStringObject.FromObject(_element);
+            text.Dispose();
+            return text;
+        }
+
         [Benchmark]
         public byte[] Buffer_GetData()
         {

@@ -95,9 +95,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 XrefFreeEntry_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XrefFreeEntry_ToEntry(PdfXrefFreeEntrySafeHandle handle, out PdfXrefEntrySafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XrefFreeEntry_FromEntry(PdfXrefEntrySafeHandle handle, out PdfXrefFreeEntrySafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -111,9 +113,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 XrefUsedEntry_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XrefUsedEntry_ToEntry(PdfXrefUsedEntrySafeHandle handle, out PdfXrefEntrySafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XrefUsedEntry_FromEntry(PdfXrefEntrySafeHandle handle, out PdfXrefUsedEntrySafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -139,9 +143,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 XrefCompressedEntry_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XrefCompressedEntry_ToEntry(PdfXrefCompressedEntrySafeHandle handle, out PdfXrefEntrySafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XrefCompressedEntry_FromEntry(PdfXrefEntrySafeHandle handle, out PdfXrefCompressedEntrySafeHandle data);
 
         [LibraryImport(LibraryName)]

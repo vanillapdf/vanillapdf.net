@@ -96,9 +96,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentObject_ToInstruction(PdfContentObjectSafeHandle handle, out PdfContentInstructionSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentObject_FromInstruction(PdfContentInstructionSafeHandle handle, out PdfContentObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -113,9 +115,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentObjectText_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentObjectText_ToContentObject(PdfContentObjectTextSafeHandle handle, out PdfContentObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentObjectText_FromContentObject(PdfContentObjectSafeHandle handle, out PdfContentObjectTextSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -132,9 +136,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentObjectInlineImage_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentObjectInlineImage_ToContentObject(PdfContentObjectInlineImageSafeHandle handle, out PdfContentObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentObjectInlineImage_FromContentObject(PdfContentObjectSafeHandle handle, out PdfContentObjectInlineImageSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -151,9 +157,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperation_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperation_ToInstruction(PdfContentOperationSafeHandle handle, out PdfContentInstructionSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperation_FromInstruction(PdfContentInstructionSafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -168,9 +176,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperationGeneric_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationGeneric_ToContentOperation(PdfContentOperationGenericSafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationGeneric_FromContentOperation(PdfContentOperationSafeHandle handle, out PdfContentOperationGenericSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -190,9 +200,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperationTextShow_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationTextShow_ToContentOperation(PdfContentOperationTextShowSafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationTextShow_FromContentOperation(PdfContentOperationSafeHandle handle, out PdfContentOperationTextShowSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -209,9 +221,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperationTextShowArray_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationTextShowArray_ToContentOperation(PdfContentOperationTextShowArraySafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationTextShowArray_FromContentOperation(PdfContentOperationSafeHandle handle, out PdfContentOperationTextShowArraySafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -228,9 +242,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ContentOperationTextFont_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationTextFont_ToContentOperation(PdfContentOperationTextFontSafeHandle handle, out PdfContentOperationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ContentOperationTextFont_FromContentOperation(PdfContentOperationSafeHandle handle, out PdfContentOperationTextFontSafeHandle data);
 
         [LibraryImport(LibraryName)]
