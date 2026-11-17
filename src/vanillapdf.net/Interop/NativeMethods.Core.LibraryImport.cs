@@ -106,6 +106,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Buffer_CreateFromData(IntPtr data, UIntPtr size, out PdfBufferSafeHandle handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Buffer_GetData(PdfBufferSafeHandle handle, out IntPtr data, out UIntPtr size);
 
         [LibraryImport(LibraryName)]

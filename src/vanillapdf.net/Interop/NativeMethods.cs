@@ -6,6 +6,13 @@ namespace vanillapdf.net.Interop
     /// <summary>
     /// Centralized native methods for P/Invoke to the vanillapdf native library.
     /// </summary>
+    /// <remarks>
+    /// <c>[SuppressGCTransition]</c> marks native functions that only read a plain field or
+    /// return a constant from a <c>noexcept</c> method. A marked function must never take a
+    /// lock, allocate, throw or log (logging can call back into managed code), because the
+    /// garbage collector cannot run while it executes. Verify the native implementation
+    /// before adding the attribute to any other function.
+    /// </remarks>
     internal static partial class NativeMethods
     {
         /// <summary>

@@ -17,6 +17,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Xref_GetTrailerDictionary(PdfXrefSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Xref_GetLastXrefOffset(PdfXrefSafeHandle handle, out Int64 data);
 
         [LibraryImport(LibraryName)]

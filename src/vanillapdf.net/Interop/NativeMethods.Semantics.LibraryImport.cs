@@ -223,6 +223,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Field_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Field_GetType(PdfFieldSafeHandle handle, out PdfSemantics.PdfFieldType data);
 
         [LibraryImport(LibraryName)]
@@ -483,6 +484,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Annotation_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Annotation_GetAnnotationType(PdfAnnotationSafeHandle handle, out PdfSemantics.PdfAnnotationType data);
 
         [LibraryImport(LibraryName)]
@@ -895,54 +897,63 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Date_CreateCurrent(out PdfDateSafeHandle handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetYear(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetYear(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetMonth(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetMonth(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetDay(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetDay(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetHour(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetHour(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetMinute(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetMinute(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetSecond(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetSecond(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetTimezone(PdfDateSafeHandle handle, out PdfSemantics.PdfTimezoneType data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetTimezone(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetHourOffset(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetHourOffset(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetMinuteOffset(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
@@ -959,6 +970,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Font_CreateFromObject(PdfDictionaryObjectSafeHandle handle, out PdfFontSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Font_GetFontType(PdfFontSafeHandle handle, out PdfSemantics.PdfFontType data);
 
         [LibraryImport(LibraryName)]
@@ -1008,6 +1020,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 CharacterMap_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 CharacterMap_GetCharacterMapType(PdfCharacterMapSafeHandle handle, out PdfSemantics.PdfCharacterMapType data);
 
         #endregion
@@ -1034,6 +1047,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 OutlineBase_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 OutlineBase_GetOutlineType(PdfOutlineBaseSafeHandle handle, out PdfSemantics.PdfOutlineType data);
 
         #endregion
@@ -1152,18 +1166,21 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 DocumentEncryptionSettings_Create(out PdfDocumentEncryptionSettingsSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_GetAlgorithm(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfSemantics.PdfEncryptionAlgorithmType data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 DocumentEncryptionSettings_SetAlgorithm(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_GetKeyLength(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 DocumentEncryptionSettings_SetKeyLength(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_GetUserAccessPermissions(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
@@ -1380,6 +1397,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Action_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Action_GetActionType(PdfActionSafeHandle handle, out PdfSemantics.PdfActionType result);
 
         [LibraryImport(LibraryName)]
