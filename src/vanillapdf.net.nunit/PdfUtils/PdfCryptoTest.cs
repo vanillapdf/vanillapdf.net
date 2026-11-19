@@ -43,7 +43,7 @@ namespace vanillapdf.net.nunit.PdfUtils
             digest.Update(data);
 
             using var result = digest.Final();
-            ClassicAssert.AreEqual("900150983cd24fb0d6963f7d28e17f72", ToHex(result.Data));
+            ClassicAssert.AreEqual("900150983CD24FB0D6963F7D28E17F72", Convert.ToHexString(result.Data));
         }
 
         [Test]
@@ -64,16 +64,11 @@ namespace vanillapdf.net.nunit.PdfUtils
 
             using var encryptor = PdfRC4Cipher.CreateFromKey(key);
             using var ciphertext = encryptor.Process(plaintext);
-            ClassicAssert.AreEqual("bbf316e8d940af0ad3", ToHex(ciphertext.Data));
+            ClassicAssert.AreEqual("BBF316E8D940AF0AD3", Convert.ToHexString(ciphertext.Data));
 
             using var decryptor = PdfRC4Cipher.CreateFromKey(key);
             using var decrypted = decryptor.Process(ciphertext);
             ClassicAssert.AreEqual("Plaintext", Encoding.ASCII.GetString(decrypted.Data));
-        }
-
-        private static string ToHex(byte[] data)
-        {
-            return BitConverter.ToString(data).Replace("-", "").ToLowerInvariant();
         }
     }
 }

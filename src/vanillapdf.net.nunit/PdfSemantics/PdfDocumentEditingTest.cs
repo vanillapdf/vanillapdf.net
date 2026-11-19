@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
-using System;
 using System.IO;
 using vanillapdf.net.PdfSemantics;
 using vanillapdf.net.PdfSyntax;
@@ -20,22 +19,26 @@ namespace vanillapdf.net.nunit.PdfSemantics
         [Test]
         public void TestPageGeometryRoundTrip()
         {
-            using var source = TestDocument.Open(SourcePath);
-            using (var page = GetFirstPage(source.Document)) {
-                using var cropBox = PdfInteractiveFormTest.CreateRectangle(10.5, 20, 500, 700.25);
-                page.CropBox = cropBox;
-                using var trimBox = PdfInteractiveFormTest.CreateRectangle(15, 25, 495, 695);
-                page.TrimBox = trimBox;
-                page.SetRotate(90);
-                page.SetUserUnit(2.5);
+            using var file = PdfFile.Open(SourcePath);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
+            using var page = document.GetPage(1);
 
-                using var group = PdfTransparencyGroup.Create();
-                group.SetIsolated(true);
-                page.Group = group;
-            }
+            using var cropBox = TestExtensions.CreateRectangle(10.5, 20, 500, 700.25);
+            page.CropBox = cropBox;
+            using var trimBox = TestExtensions.CreateRectangle(15, 25, 495, 695);
+            page.TrimBox = trimBox;
+            page.SetRotate(90);
+            page.SetUserUnit(2.5);
 
-            using var reopened = source.SaveAndReopen();
-            using var reopenedPage = GetFirstPage(reopened.Document);
+            using var group = PdfTransparencyGroup.Create();
+            group.SetIsolated(true);
+            page.Group = group;
+
+            using var reopenedStream = document.SaveToMemory();
+            using var reopenedFile = reopenedStream.OpenInitialized();
+            using var reopened = PdfDocument.OpenFile(reopenedFile);
+            using var reopenedPage = reopened.GetPage(1);
 
             using var reopenedCropBox = reopenedPage.CropBox;
             ClassicAssert.AreEqual(10.5, reopenedCropBox.LowerLeftXReal);
@@ -55,8 +58,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
         [Test]
         public void TestPageRotateRejectsNonRightAngle()
         {
-            using var source = TestDocument.Open(SourcePath);
-            using var page = GetFirstPage(source.Document);
+            using var file = PdfFile.Open(SourcePath);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
+            using var page = document.GetPage(1);
 
             Assert.Throws<PdfParameterValueException>(() => page.SetRotate(45));
         }
@@ -64,20 +69,24 @@ namespace vanillapdf.net.nunit.PdfSemantics
         [Test]
         public void TestPageContentsAndResourcesReplacement()
         {
-            using var source = TestDocument.Open(SourcePath);
-            using (var page = GetFirstPage(source.Document)) {
-                using var contents = PdfPageContents.CreateFromDocument(source.Document);
-                page.SetContents(contents);
+            using var file = PdfFile.Open(SourcePath);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
+            using var page = document.GetPage(1);
 
-                using var resources = PdfResourceDictionary.Create();
-                using var xobject = PdfFormXObject.CreateFromDocument(source.Document);
-                using var name = PdfNameObject.CreateFromDecodedString("Fm1");
-                resources.AddXObject(name, xobject);
-                page.SetResources(resources);
-            }
+            using var contents = PdfPageContents.CreateFromDocument(document);
+            page.SetContents(contents);
 
-            using var reopened = source.SaveAndReopen();
-            using var reopenedPage = GetFirstPage(reopened.Document);
+            using var resources = PdfResourceDictionary.Create();
+            using var xobject = PdfFormXObject.CreateFromDocument(document);
+            using var name = PdfNameObject.CreateFromDecodedString("Fm1");
+            resources.AddXObject(name, xobject);
+            page.SetResources(resources);
+
+            using var reopenedStream = document.SaveToMemory();
+            using var reopenedFile = reopenedStream.OpenInitialized();
+            using var reopened = PdfDocument.OpenFile(reopenedFile);
+            using var reopenedPage = reopened.GetPage(1);
 
             using var reopenedContents = reopenedPage.GetContents();
             using var instructions = reopenedContents.GetInstructionCollection();
@@ -90,25 +99,29 @@ namespace vanillapdf.net.nunit.PdfSemantics
         [Test]
         public void TestDocumentInfoRoundTrip()
         {
-            using var source = TestDocument.Open(SourcePath);
-            using (var info = PdfDocumentInfo.CreateFromDocument(source.Document)) {
-                using var title = PdfLiteralStringObject.CreateFromDecodedString("Quarterly report");
-                using var author = PdfLiteralStringObject.CreateFromDecodedString("Vanilla.PDF tests");
-                using var creationDate = PdfDate.CreateEmpty();
-                creationDate.Year = 2026;
-                creationDate.Month = 11;
-                creationDate.Day = 17;
+            using var file = PdfFile.Open(SourcePath);
+            file.Initialize();
+            using var document = PdfDocument.OpenFile(file);
 
-                info.Title = title;
-                info.Author = author;
-                info.CreationDate = creationDate;
-                info.SetTrapped(PdfDocumentTrappedType.False);
+            using var info = PdfDocumentInfo.CreateFromDocument(document);
+            using var title = PdfLiteralStringObject.CreateFromDecodedString("Quarterly report");
+            using var author = PdfLiteralStringObject.CreateFromDecodedString("Vanilla.PDF tests");
+            using var creationDate = PdfDate.CreateEmpty();
+            creationDate.Year = 2026;
+            creationDate.Month = 11;
+            creationDate.Day = 17;
 
-                source.Document.SetDocumentInfo(info);
-            }
+            info.Title = title;
+            info.Author = author;
+            info.CreationDate = creationDate;
+            info.SetTrapped(PdfDocumentTrappedType.False);
 
-            using var reopened = source.SaveAndReopen();
-            using var reopenedInfo = reopened.Document.GetDocumentInfo();
+            document.SetDocumentInfo(info);
+
+            using var reopenedStream = document.SaveToMemory();
+            using var reopenedFile = reopenedStream.OpenInitialized();
+            using var reopened = PdfDocument.OpenFile(reopenedFile);
+            using var reopenedInfo = reopened.GetDocumentInfo();
 
             using var reopenedTitle = reopenedInfo.Title;
             ClassicAssert.AreEqual("Quarterly report", reopenedTitle.Value.StringData);
@@ -122,13 +135,6 @@ namespace vanillapdf.net.nunit.PdfSemantics
             ClassicAssert.AreEqual(17, reopenedCreationDate.Day);
 
             ClassicAssert.AreEqual(PdfDocumentTrappedType.False, reopenedInfo.GetTrapped());
-        }
-
-        private static PdfPageObject GetFirstPage(PdfDocument document)
-        {
-            using var catalog = document.GetCatalog();
-            using var pages = catalog.GetPages();
-            return pages.GetPage(1);
         }
     }
 }
