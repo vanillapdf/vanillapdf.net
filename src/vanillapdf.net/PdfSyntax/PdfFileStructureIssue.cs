@@ -70,7 +70,7 @@ namespace vanillapdf.net.PdfSyntax
                 throw PdfErrors.GetLastErrorException();
             }
 
-            // The native message carries its null terminator
+            // Native versions up to 2.4.0-alpha.1 include the null terminator in the buffer
             using (var buffer = new PdfBuffer(data)) {
                 return Encoding.UTF8.GetString(buffer.Data).TrimEnd('\0');
             }

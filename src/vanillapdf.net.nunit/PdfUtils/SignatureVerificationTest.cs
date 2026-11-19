@@ -154,14 +154,13 @@ namespace vanillapdf.net.nunit.PdfUtils
 
                 using var result = VerifySignedDocument(signedFile, store, settings);
 
-                // Signer common name should be non-empty
-                string signerName = result.SignerCommonName;
-                ClassicAssert.IsNotNull(signerName);
-                ClassicAssert.IsNotEmpty(signerName);
+                // Signer common name matches the test certificate exactly, without a null terminator
+                ClassicAssert.AreEqual("TestUser3", result.SignerCommonName);
 
-                // Message should be available
+                // Message should be available, without a null terminator
                 string message = result.Message;
                 ClassicAssert.IsNotNull(message);
+                ClassicAssert.IsFalse(message.EndsWith('\0'));
 
                 // Signer certificate should be available
                 using var signerCert = result.GetSignerCertificate();
