@@ -537,6 +537,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ImageMetadataObjectAttribute_GetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
@@ -544,6 +545,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ImageMetadataObjectAttribute_GetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, out PdfSyntax.PdfImageColorSpaceType data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
@@ -551,6 +553,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ImageMetadataObjectAttribute_GetWidth(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetWidth(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
@@ -558,6 +561,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ImageMetadataObjectAttribute_GetHeight(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetHeight(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         #endregion

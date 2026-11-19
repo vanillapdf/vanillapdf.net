@@ -1200,6 +1200,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 DocumentEncryptionSettings_GetAlgorithm(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfSemantics.PdfEncryptionAlgorithmType data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_SetAlgorithm(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
@@ -1207,6 +1208,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 DocumentEncryptionSettings_GetKeyLength(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_SetKeyLength(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
@@ -1214,6 +1216,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 DocumentEncryptionSettings_GetUserAccessPermissions(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_SetUserAccessPermissions(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]

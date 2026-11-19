@@ -11,8 +11,10 @@ namespace vanillapdf.net.Interop
     /// return a constant from a <c>noexcept</c> method, or convert between object types
     /// (<c>dynamic_cast</c> plus an atomic reference count increment). A marked function must never take a
     /// lock, allocate, throw or log (logging can call back into managed code), because the
-    /// garbage collector cannot run while it executes. Verify the native implementation
-    /// before adding the attribute to any other function.
+    /// garbage collector cannot run while it executes. The native C API documents these
+    /// guarantees as "trivial functions" and tags each such function with <c>\trivial</c>.
+    /// Mark only tagged functions, and check the implementation in the native version
+    /// this project references, because the tag was added after native 2.3.0.
     /// </remarks>
     internal static partial class NativeMethods
     {

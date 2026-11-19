@@ -47,27 +47,35 @@ namespace vanillapdf.net.Interop
         #region LibraryInfo
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionMajor(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionMinor(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionPatch(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionBuild(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetAuthor(out IntPtr data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetBuildDay(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetBuildMonth(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetBuildYear(out int data);
 
         #endregion
@@ -384,6 +392,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 TextStringEncoding_Detect(byte[] data, UIntPtr size, out PdfUtils.PdfTextStringEncodingType result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 TextStringEncoding_PDFDocEncodingByteToUnicode(byte value, out UInt32 codepoint);
 
         #endregion
