@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using vanillapdf.net.Interop;
 using vanillapdf.net.PdfSyntax;
 using vanillapdf.net.PdfUtils;
@@ -174,6 +175,29 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Sign current document into a signature field that already exists within it,
+        /// which is how a signature gets a visible appearance.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="Sign"/> creates an invisible field of its own. This signs into one the caller
+        /// has built and attached, see <see cref="PdfSignatureField.CreateFromDocument"/>.
+        /// A document that already carries a signature is refused, and a failed attempt leaves the
+        /// unfinished signature in the field - open the source again to retry.
+        /// </remarks>
+        /// <param name="destination">Destination of the signed file</param>
+        /// <param name="qualifiedName">Fully qualified name of the signature field, as <see cref="PdfField.GetQualifiedName"/> produces it</param>
+        /// <param name="settings">Signature settings</param>
+        public void SignField(PdfFile destination, string qualifiedName, PdfDocumentSignatureSettings settings)
+        {
+            byte[] name = Encoding.UTF8.GetBytes(qualifiedName);
+
+            UInt32 result = NativeMethods.Document_SignField(Handle, destination.Handle, name, new UIntPtr((uint)name.Length), settings.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        /// <summary>
         /// Enable encryption on the current document using the specified settings.
         /// </summary>
         /// <param name="settings">Encryption parameters.</param>
@@ -208,6 +232,25 @@ namespace vanillapdf.net.PdfSemantics
             }
 
             return new PdfDocumentInfo(data);
+        }
+
+        /// <summary>
+        /// Attach a document information dictionary to the document.
+        /// </summary>
+        /// <remarks>
+        /// The trailer stores an indirect reference, see <see cref="PdfDocumentInfo.CreateFromDocument"/>.
+        /// </remarks>
+        /// <param name="documentInfo">The document information dictionary to attach.</param>
+        public void SetDocumentInfo(PdfDocumentInfo documentInfo)
+        {
+            if (documentInfo == null) {
+                throw new ArgumentNullException(nameof(documentInfo));
+            }
+
+            UInt32 result = NativeMethods.Document_SetDocumentInfo(Handle, documentInfo.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
         }
 
         /// <inheritdoc/>

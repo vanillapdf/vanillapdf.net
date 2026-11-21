@@ -590,6 +590,60 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ObjectAttributeList_Clear(PdfObjectAttributeListSafeHandle handle);
 
         #endregion
+
+        #region FileStructureValidator
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidator_Validate(PdfFileSafeHandle handle, out PdfFileStructureValidationResultSafeHandle data);
+
+        #endregion
+
+        #region FileStructureValidationResult
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidationResult_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidationResult_GetIssueCount(PdfFileStructureValidationResultSafeHandle handle, out UIntPtr data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidationResult_GetIssueAt(PdfFileStructureValidationResultSafeHandle handle, UIntPtr index, out PdfFileStructureIssueSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidationResult_IsValid(PdfFileStructureValidationResultSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidationResult_GetErrorCount(PdfFileStructureValidationResultSafeHandle handle, out UIntPtr data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureValidationResult_GetWarningCount(PdfFileStructureValidationResultSafeHandle handle, out UIntPtr data);
+
+        #endregion
+
+        #region FileStructureIssue
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_Release(IntPtr handle);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_GetSeverity(PdfFileStructureIssueSafeHandle handle, out PdfSyntax.PdfFileStructureIssueSeverityType data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_GetCode(PdfFileStructureIssueSafeHandle handle, out PdfSyntax.PdfFileStructureIssueCodeType data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_GetMessage(PdfFileStructureIssueSafeHandle handle, out PdfBufferSafeHandle data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_HasObjectContext(PdfFileStructureIssueSafeHandle handle, [MarshalAs(UnmanagedType.I1)] out bool data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_GetObjectNumber(PdfFileStructureIssueSafeHandle handle, out UInt64 data);
+
+        [LibraryImport(LibraryName)]
+        public static partial UInt32 FileStructureIssue_GetGenerationNumber(PdfFileStructureIssueSafeHandle handle, out UInt16 data);
+
+        #endregion
     }
 }
 

@@ -8,6 +8,7 @@ namespace vanillapdf.net.PdfSemantics
     /// <summary>
     /// An ordered collection of interactive form fields from a PDF AcroForm.
     /// </summary>
+    [Obsolete("The raw /Fields array models dictionary nodes rather than logical fields. Use PdfFieldTree from PdfAcroForm.GetFieldTree instead.")]
     public class PdfFieldCollection : IDisposable
     {
         internal PdfFieldCollectionSafeHandle Handle { get; }

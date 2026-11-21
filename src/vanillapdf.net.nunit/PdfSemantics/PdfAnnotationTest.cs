@@ -20,10 +20,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
         public void TestTextAnnotationCreate()
         {
             using var rect = PdfRectangle.Create();
-            rect.LowerLeftX = 100;
-            rect.LowerLeftY = 200;
-            rect.UpperRightX = 300;
-            rect.UpperRightY = 400;
+            rect.LowerLeftXReal = 100;
+            rect.LowerLeftYReal = 200;
+            rect.UpperRightXReal = 300;
+            rect.UpperRightYReal = 400;
 
             using var annotation = PdfTextAnnotation.Create(rect);
             ClassicAssert.IsNotNull(annotation);
@@ -34,10 +34,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
         public void TestTextAnnotationCreateWithContents()
         {
             using var rect = PdfRectangle.Create();
-            rect.LowerLeftX = 0;
-            rect.LowerLeftY = 0;
-            rect.UpperRightX = 100;
-            rect.UpperRightY = 100;
+            rect.LowerLeftXReal = 0;
+            rect.LowerLeftYReal = 0;
+            rect.UpperRightXReal = 100;
+            rect.UpperRightYReal = 100;
 
             using var contents = PdfLiteralStringObject.CreateFromDecodedString("Test note");
             using var annotation = PdfTextAnnotation.CreateWithContents(rect, contents);
@@ -92,10 +92,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
         public void TestHighlightAnnotationCreateFromRect()
         {
             using var rect = PdfRectangle.Create();
-            rect.LowerLeftX = 50;
-            rect.LowerLeftY = 50;
-            rect.UpperRightX = 200;
-            rect.UpperRightY = 70;
+            rect.LowerLeftXReal = 50;
+            rect.LowerLeftYReal = 50;
+            rect.UpperRightXReal = 200;
+            rect.UpperRightYReal = 70;
 
             using var annotation = PdfHighlightAnnotation.CreateFromRect(rect);
             ClassicAssert.IsNotNull(annotation);
@@ -122,10 +122,10 @@ namespace vanillapdf.net.nunit.PdfSemantics
         public void TestFreeTextAnnotationCreate()
         {
             using var rect = PdfRectangle.Create();
-            rect.LowerLeftX = 100;
-            rect.LowerLeftY = 100;
-            rect.UpperRightX = 400;
-            rect.UpperRightY = 200;
+            rect.LowerLeftXReal = 100;
+            rect.LowerLeftYReal = 100;
+            rect.UpperRightXReal = 400;
+            rect.UpperRightYReal = 200;
 
             using var contents = PdfLiteralStringObject.CreateFromDecodedString("Free text content");
             using var defaultAppearance = PdfLiteralStringObject.CreateFromDecodedString("/Helv 12 Tf 0 0 0 rg");
@@ -252,19 +252,19 @@ namespace vanillapdf.net.nunit.PdfSemantics
         public void TestAnnotationRectProperty()
         {
             using var rect = PdfRectangle.Create();
-            rect.LowerLeftX = 10;
-            rect.LowerLeftY = 20;
-            rect.UpperRightX = 300;
-            rect.UpperRightY = 400;
+            rect.LowerLeftXReal = 10;
+            rect.LowerLeftYReal = 20;
+            rect.UpperRightXReal = 300;
+            rect.UpperRightYReal = 400;
 
             using var annotation = PdfTextAnnotation.Create(rect);
 
             using var retrievedRect = annotation.Rect;
             ClassicAssert.IsNotNull(retrievedRect);
-            ClassicAssert.AreEqual(10, retrievedRect.LowerLeftX);
-            ClassicAssert.AreEqual(20, retrievedRect.LowerLeftY);
-            ClassicAssert.AreEqual(300, retrievedRect.UpperRightX);
-            ClassicAssert.AreEqual(400, retrievedRect.UpperRightY);
+            ClassicAssert.AreEqual(10, retrievedRect.LowerLeftXReal);
+            ClassicAssert.AreEqual(20, retrievedRect.LowerLeftYReal);
+            ClassicAssert.AreEqual(300, retrievedRect.UpperRightXReal);
+            ClassicAssert.AreEqual(400, retrievedRect.UpperRightYReal);
         }
 
         [Test]
@@ -274,18 +274,18 @@ namespace vanillapdf.net.nunit.PdfSemantics
             using var annotation = PdfTextAnnotation.Create(rect);
 
             using var newRect = PdfRectangle.Create();
-            newRect.LowerLeftX = 50;
-            newRect.LowerLeftY = 60;
-            newRect.UpperRightX = 150;
-            newRect.UpperRightY = 160;
+            newRect.LowerLeftXReal = 50;
+            newRect.LowerLeftYReal = 60;
+            newRect.UpperRightXReal = 150;
+            newRect.UpperRightYReal = 160;
 
             annotation.Rect = newRect;
 
             using var retrievedRect = annotation.Rect;
-            ClassicAssert.AreEqual(50, retrievedRect.LowerLeftX);
-            ClassicAssert.AreEqual(60, retrievedRect.LowerLeftY);
-            ClassicAssert.AreEqual(150, retrievedRect.UpperRightX);
-            ClassicAssert.AreEqual(160, retrievedRect.UpperRightY);
+            ClassicAssert.AreEqual(50, retrievedRect.LowerLeftXReal);
+            ClassicAssert.AreEqual(60, retrievedRect.LowerLeftYReal);
+            ClassicAssert.AreEqual(150, retrievedRect.UpperRightXReal);
+            ClassicAssert.AreEqual(160, retrievedRect.UpperRightYReal);
         }
 
         [Test]
@@ -561,8 +561,8 @@ namespace vanillapdf.net.nunit.PdfSemantics
                     using var rect = annotation.Rect;
                     ClassicAssert.IsNotNull(rect);
                     // Rect should have non-zero dimensions for visible annotations
-                    ClassicAssert.AreNotEqual(rect.LowerLeftX, rect.UpperRightX);
-                    ClassicAssert.AreNotEqual(rect.LowerLeftY, rect.UpperRightY);
+                    ClassicAssert.AreNotEqual(rect.LowerLeftXReal, rect.UpperRightXReal);
+                    ClassicAssert.AreNotEqual(rect.LowerLeftYReal, rect.UpperRightYReal);
                     return;
                 }
             }

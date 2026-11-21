@@ -173,6 +173,26 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
+        /// Attach an interactive form (AcroForm) to the document.
+        /// </summary>
+        /// <remarks>
+        /// The catalog stores an indirect reference, see <see cref="PdfAcroForm.CreateFromDocument"/>.
+        /// The attached instance becomes the one <see cref="GetAcroForm"/> returns.
+        /// </remarks>
+        /// <param name="acroForm">The interactive form to attach.</param>
+        public void SetAcroForm(PdfAcroForm acroForm)
+        {
+            if (acroForm == null) {
+                throw new ArgumentNullException(nameof(acroForm));
+            }
+
+            UInt32 result = NativeMethods.Catalog_SetAcroForm(Handle, acroForm.Handle);
+            if (result != PdfReturnValues.ERROR_SUCCESS) {
+                throw PdfErrors.GetLastErrorException();
+            }
+        }
+
+        /// <summary>
         /// The page layout to be used when the document is opened.
         /// </summary>
         /// <returns>The <see cref="PdfPageLayoutType"/> value, or <c>null</c> if not specified.</returns>

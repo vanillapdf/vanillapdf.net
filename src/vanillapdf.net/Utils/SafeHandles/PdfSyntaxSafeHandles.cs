@@ -435,4 +435,18 @@ namespace vanillapdf.net.Utils
     }
 
     #endregion
+
+    #region File structure validation
+
+    internal sealed class PdfFileStructureValidationResultSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FileStructureValidationResult_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    internal sealed class PdfFileStructureIssueSafeHandle : PdfSafeHandle
+    {
+        protected override bool ReleaseHandle() => NativeMethods.FileStructureIssue_Release(handle) == PdfReturnValues.ERROR_SUCCESS;
+    }
+
+    #endregion
 }
