@@ -36,17 +36,33 @@ namespace vanillapdf.net.PdfSyntax.Extensions
             return null;
         }
 
+        // Longest chain of indirect references followed before giving up on a malformed file.
+        // For comparison, MuPDF stops after 10 steps and iText after 31.
+        private const int MaxReferenceChainLength = 32;
+
         /// <summary>
         /// Upgrades to most derived type. Resolves indirect references.
         /// Returns a new object that the caller must dispose.
         /// </summary>
-        /// <exception cref="PdfManagedException">Thrown if the object type is unknown.</exception>
+        /// <exception cref="PdfManagedException">Thrown if the object type is unknown or the chain of indirect references is too long.</exception>
         internal static PdfObject Upgrade(this PdfObject obj)
         {
-            // Resolve indirect references inline
-            while (obj.GetObjectType() == PdfObjectType.IndirectReference) {
-                using (var reference = PdfIndirectReferenceObject.FromObject(obj)) {
-                    obj = reference.ReferencedObject;
+            return Upgrade(obj, MaxReferenceChainLength);
+        }
+
+        private static PdfObject Upgrade(PdfObject obj, int remainingReferences)
+        {
+            // Resolve indirect references. The resolved object is owned here, not by the caller,
+            // so release it once the typed wrapper holds its own handle. Recursion follows chains,
+            // and the cap bounds its depth, so a reference cycle cannot overflow the stack.
+            if (obj.GetObjectType() == PdfObjectType.IndirectReference) {
+                if (remainingReferences == 0) {
+                    throw new PdfManagedException($"Indirect reference chain exceeds {MaxReferenceChainLength} references, possibly a cycle.");
+                }
+
+                using (var reference = PdfIndirectReferenceObject.FromObject(obj))
+                using (var resolved = reference.ReferencedObject) {
+                    return Upgrade(resolved, remainingReferences - 1);
                 }
             }
 

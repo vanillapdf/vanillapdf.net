@@ -114,5 +114,48 @@ namespace vanillapdf.net.benchmark
         }
 
         #endregion
+
+        #region Indirect reference
+
+        private PdfFile _indirectFile;
+        private PdfDictionaryObject _indirectTrailerDictionary;
+        private PdfNameObject _rootKey;
+
+        [GlobalSetup(Target = nameof(Dictionary_FindIndirect))]
+        public void SetupIndirect()
+        {
+            var pdfPath = Path.Combine(AppContext.BaseDirectory, PdfFileName);
+            _indirectFile = PdfFile.Open(pdfPath);
+            _indirectFile.Initialize();
+
+            using var xrefChain = _indirectFile.XrefChain;
+            foreach (var xref in xrefChain) {
+                _indirectTrailerDictionary = xref.GetTrailerDictionary();
+                xref.Dispose();
+                break;
+            }
+
+            // Trailer /Root is an indirect reference, so Find resolves it before upgrading
+            _rootKey = PdfNameObject.Create();
+            _rootKey.Value.StringData = "Root";
+        }
+
+        [Benchmark]
+        public PdfObject Dictionary_FindIndirect()
+        {
+            var obj = _indirectTrailerDictionary.Find(_rootKey);
+            obj.Dispose();
+            return obj;
+        }
+
+        [GlobalCleanup(Target = nameof(Dictionary_FindIndirect))]
+        public void CleanupIndirect()
+        {
+            _rootKey?.Dispose();
+            _indirectTrailerDictionary?.Dispose();
+            _indirectFile?.Dispose();
+        }
+
+        #endregion
     }
 }
