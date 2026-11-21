@@ -19,7 +19,7 @@ namespace vanillapdf.net.nunit.Utils
     /// overload, which does not. Which one a call site binds to depends on the declared type of the
     /// interop <c>out</c> parameter, so the signatures themselves are asserted here too.
     ///
-    /// Note: the test project targets net9.0/net10.0 and therefore always exercises the net8.0 build
+    /// Note: the test project targets net10.0/net11.0 and therefore always exercises the net10.0 build
     /// of the library. The netstandard2.0 build has no enum-typed overload at all and falls back to
     /// the boxing one, so every assertion here holds there as well — nothing in this fixture depends
     /// on which overload is selected, only on the two behaving identically.

@@ -31,8 +31,8 @@ The official .NET binding for the [Vanilla.PDF](https://github.com/vanillapdf/va
 ## ✨ Highlights
 
 - **Cross‑platform** — Windows, Linux and macOS (x86, x64, ARM64) via the bundled native runtime.
-- **Broad framework support** — targets .NET Standard 2.0 and .NET 8.0, so it runs on .NET Framework 4.6.1+, .NET Core, .NET 5+ and Mono.
-- **AOT- and trim-friendly** — `LibraryImport`-based interop with full AOT/trim analyzers enabled on .NET 8+.
+- **Broad framework support** — targets .NET Standard 2.0 and .NET 10.0, so it runs on .NET Framework 4.6.1+, .NET Core, .NET 5+ and Mono.
+- **AOT- and trim-friendly** — `LibraryImport`-based interop with full AOT/trim analyzers enabled on .NET 10+.
 - **Digital signatures** — sign with PKCS#12 keys (CMS/PKCS#7) and verify signatures against a trusted certificate store.
 - **Encryption** — open and save documents protected with password- or certificate-based encryption (AES / RC4).
 - **Full PDF model** — from low-level syntax (objects, xref, streams, filters) to a high-level semantic model (pages, annotations, AcroForm fields, outlines, destinations, fonts).
