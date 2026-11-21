@@ -243,6 +243,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="documentInfo">The document information dictionary to attach.</param>
         public void SetDocumentInfo(PdfDocumentInfo documentInfo)
         {
+            if (documentInfo == null) {
+                throw new ArgumentNullException(nameof(documentInfo));
+            }
+
             UInt32 result = NativeMethods.Document_SetDocumentInfo(Handle, documentInfo.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

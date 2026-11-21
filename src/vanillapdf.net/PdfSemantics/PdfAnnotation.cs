@@ -202,6 +202,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetAppearanceState(PdfNameObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.Annotation_SetAppearanceState(AnnotationHandle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

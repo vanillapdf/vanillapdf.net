@@ -153,6 +153,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="contents">The page contents to set.</param>
         public void SetContents(PdfPageContents contents)
         {
+            if (contents == null) {
+                throw new ArgumentNullException(nameof(contents));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetContents(Handle, contents.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -165,6 +169,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="annotations">The page annotations to set.</param>
         public void SetAnnotations(PdfPageAnnotations annotations)
         {
+            if (annotations == null) {
+                throw new ArgumentNullException(nameof(annotations));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetAnnotations(Handle, annotations.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -177,6 +185,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="resources">The resource dictionary to set.</param>
         public void SetResources(PdfResourceDictionary resources)
         {
+            if (resources == null) {
+                throw new ArgumentNullException(nameof(resources));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetResources(Handle, resources.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -221,6 +233,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetCropBox(PdfRectangle data)
         {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetCropBox(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -243,6 +259,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetBleedBox(PdfRectangle data)
         {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetBleedBox(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -265,6 +285,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetTrimBox(PdfRectangle data)
         {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetTrimBox(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -287,6 +311,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetArtBox(PdfRectangle data)
         {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetArtBox(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -372,6 +400,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetGroup(PdfTransparencyGroup data)
         {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             UInt32 result = NativeMethods.PageObject_SetGroup(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

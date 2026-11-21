@@ -106,6 +106,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="value">The partial field name.</param>
         public void SetName(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.Field_SetName(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -118,6 +122,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="value">The alternate field name.</param>
         public void SetAlternateName(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.Field_SetAlternateName(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -339,6 +347,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="value">The default appearance string.</param>
         public void SetDefaultAppearance(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.Field_SetDefaultAppearance(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

@@ -79,6 +79,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetAppearanceCharacteristics(PdfAppearanceCharacteristics value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.WidgetAnnotation_SetAppearanceCharacteristics(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

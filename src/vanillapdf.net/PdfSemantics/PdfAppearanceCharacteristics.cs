@@ -144,6 +144,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetBorderColor(PdfColor value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.AppearanceCharacteristics_SetBorderColor(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -166,6 +170,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetBackgroundColor(PdfColor value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.AppearanceCharacteristics_SetBackgroundColor(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -188,6 +196,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetNormalCaption(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.AppearanceCharacteristics_SetNormalCaption(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -210,6 +222,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetRolloverCaption(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.AppearanceCharacteristics_SetRolloverCaption(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -232,6 +248,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetDownCaption(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.AppearanceCharacteristics_SetDownCaption(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

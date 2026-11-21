@@ -238,6 +238,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetTitle(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetTitle(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -246,6 +250,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetAuthor(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetAuthor(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -254,6 +262,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetSubject(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetSubject(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -262,6 +274,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetKeywords(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetKeywords(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -270,6 +286,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetCreator(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetCreator(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -278,6 +298,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetProducer(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetProducer(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -286,6 +310,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetCreationDate(PdfDate value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetCreationDate(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -294,6 +322,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetModificationDate(PdfDate value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.DocumentInfo_SetModificationDate(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

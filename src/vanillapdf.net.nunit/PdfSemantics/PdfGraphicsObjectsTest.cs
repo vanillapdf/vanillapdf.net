@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using vanillapdf.net.PdfSemantics;
@@ -29,18 +30,17 @@ namespace vanillapdf.net.nunit.PdfSemantics
         }
 
         [Test]
+        [Obsolete("Covers the deprecated integer accessors until they are removed.")]
         public void TestRectangleDeprecatedIntegerCoordinatesTruncate()
         {
             using var rect = PdfRectangle.Create();
             rect.LowerLeftXReal = 10.75;
             rect.UpperRightYReal = 400.5;
 
-#pragma warning disable CS0618 // The deprecated integer accessors must keep working until they are removed
             ClassicAssert.AreEqual(10, rect.LowerLeftX);
             ClassicAssert.AreEqual(400, rect.UpperRightY);
 
             rect.UpperRightX = 50;
-#pragma warning restore CS0618
 
             ClassicAssert.AreEqual(50.0, rect.UpperRightXReal);
         }

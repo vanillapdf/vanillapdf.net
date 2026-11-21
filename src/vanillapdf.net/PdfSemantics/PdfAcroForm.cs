@@ -107,6 +107,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="fieldTree">The field hierarchy to attach.</param>
         public void SetFieldTree(PdfFieldTree fieldTree)
         {
+            if (fieldTree == null) {
+                throw new ArgumentNullException(nameof(fieldTree));
+            }
+
             UInt32 result = NativeMethods.InteractiveForm_SetFieldTree(Handle, fieldTree.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -137,6 +141,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="flags">The flags to set, see <see cref="PdfSignatureFlags.Create"/>.</param>
         public void SetSignatureFlags(PdfSignatureFlags flags)
         {
+            if (flags == null) {
+                throw new ArgumentNullException(nameof(flags));
+            }
+
             UInt32 result = NativeMethods.InteractiveForm_SetSignatureFlags(Handle, flags.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -167,6 +175,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="value">The default appearance string.</param>
         public void SetDefaultAppearance(PdfStringObject value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.InteractiveForm_SetDefaultAppearance(Handle, value.StringHandle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

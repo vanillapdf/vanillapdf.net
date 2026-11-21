@@ -182,6 +182,10 @@ namespace vanillapdf.net.PdfSemantics
         /// <param name="acroForm">The interactive form to attach.</param>
         public void SetAcroForm(PdfAcroForm acroForm)
         {
+            if (acroForm == null) {
+                throw new ArgumentNullException(nameof(acroForm));
+            }
+
             UInt32 result = NativeMethods.Catalog_SetAcroForm(Handle, acroForm.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

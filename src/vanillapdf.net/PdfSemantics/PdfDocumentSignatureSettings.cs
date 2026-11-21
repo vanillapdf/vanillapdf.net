@@ -289,6 +289,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetSubFilter(PdfNameObject data)
         {
+            if (data == null) {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             UInt32 result = NativeMethods.DocumentSignatureSettings_SetSubFilter(Handle, data.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

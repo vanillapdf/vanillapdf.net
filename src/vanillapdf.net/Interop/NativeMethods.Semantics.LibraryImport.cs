@@ -1870,9 +1870,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 WidgetAnnotation_SetAppearanceCharacteristics(PdfWidgetAnnotationSafeHandle handle, PdfAppearanceCharacteristicsSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 WidgetAnnotation_ToBaseAnnotation(PdfWidgetAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 WidgetAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfWidgetAnnotationSafeHandle data);
 
         #endregion
@@ -1932,6 +1934,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 XObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XObject_GetXObjectType(PdfXObjectSafeHandle handle, out PdfSemantics.PdfXObjectType data);
 
         [LibraryImport(LibraryName)]
@@ -1972,9 +1975,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FormXObject_SetGroup(PdfFormXObjectSafeHandle handle, PdfTransparencyGroupSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FormXObject_ToBaseXObject(PdfFormXObjectSafeHandle handle, out PdfXObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FormXObject_FromBaseXObject(PdfXObjectSafeHandle handle, out PdfFormXObjectSafeHandle data);
 
         #endregion

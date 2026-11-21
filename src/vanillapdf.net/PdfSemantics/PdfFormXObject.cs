@@ -106,6 +106,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetBoundingBox(PdfRectangle value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.FormXObject_SetBoundingBox(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -128,6 +132,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetMatrix(PdfMatrix value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.FormXObject_SetMatrix(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -150,6 +158,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetResources(PdfResourceDictionary value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.FormXObject_SetResources(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
@@ -172,6 +184,10 @@ namespace vanillapdf.net.PdfSemantics
 
         private void SetGroup(PdfTransparencyGroup value)
         {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             UInt32 result = NativeMethods.FormXObject_SetGroup(Handle, value.Handle);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();

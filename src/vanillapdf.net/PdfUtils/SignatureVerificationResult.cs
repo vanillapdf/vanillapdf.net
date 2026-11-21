@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using vanillapdf.net.Interop;
 using vanillapdf.net.Utils;
 
@@ -74,7 +75,7 @@ namespace vanillapdf.net.PdfUtils
 
                 // Native versions up to 2.4.0-alpha.1 include the null terminator in the buffer
                 using (var buffer = new PdfBuffer(bufferHandle)) {
-                    return buffer.StringData.TrimEnd('\0');
+                    return Encoding.UTF8.GetString(buffer.Data).TrimEnd('\0');
                 }
             }
         }
@@ -181,7 +182,7 @@ namespace vanillapdf.net.PdfUtils
 
                 // Native versions up to 2.4.0-alpha.1 include the null terminator in the buffer
                 using (var buffer = new PdfBuffer(bufferHandle)) {
-                    return buffer.StringData.TrimEnd('\0');
+                    return Encoding.UTF8.GetString(buffer.Data).TrimEnd('\0');
                 }
             }
         }
