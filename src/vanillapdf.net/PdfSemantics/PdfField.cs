@@ -393,14 +393,18 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Get the underlying field dictionary.
+        /// Underlying low-level field dictionary.
         /// </summary>
         /// <remarks>
         /// After changing /Fields, /Kids or /Parent through the dictionary,
         /// call <see cref="PdfFieldTree.Invalidate"/>.
         /// </remarks>
-        /// <returns>The field dictionary.</returns>
-        public PdfDictionaryObject GetBaseObject()
+        public PdfDictionaryObject BaseObject
+        {
+            get => GetBaseObject();
+        }
+
+        private PdfDictionaryObject GetBaseObject()
         {
             UInt32 result = NativeMethods.Field_GetBaseObject(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {

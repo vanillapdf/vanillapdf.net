@@ -20,9 +20,9 @@ namespace vanillapdf.net.PdfSemantics
         }
 
         /// <summary>
-        /// Underlying low-level object of the XObject.
+        /// Underlying low-level stream of the XObject.
         /// </summary>
-        public PdfObject BaseObject
+        public PdfStreamObject BaseObject
         {
             get => GetBaseObject();
         }
@@ -41,14 +41,17 @@ namespace vanillapdf.net.PdfSemantics
             return EnumUtil<PdfXObjectType>.CheckedCast(data);
         }
 
-        private PdfObject GetBaseObject()
+        private PdfStreamObject GetBaseObject()
         {
             UInt32 result = NativeMethods.XObject_GetBaseObject(XObjectHandle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfObject(data);
+            // Native declares a plain object, but every XObject is backed by a stream
+            using (var obj = new PdfObject(data)) {
+                return PdfStreamObject.FromObject(obj);
+            }
         }
 
         /// <inheritdoc/>

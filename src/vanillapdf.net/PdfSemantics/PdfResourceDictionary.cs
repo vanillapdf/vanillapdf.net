@@ -24,7 +24,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <summary>
         /// Underlying low-level resource dictionary object.
         /// </summary>
-        public PdfObject BaseObject
+        public PdfDictionaryObject BaseObject
         {
             get => GetBaseObject();
         }
@@ -164,14 +164,17 @@ namespace vanillapdf.net.PdfSemantics
             return data;
         }
 
-        private PdfObject GetBaseObject()
+        private PdfDictionaryObject GetBaseObject()
         {
             UInt32 result = NativeMethods.ResourceDictionary_GetBaseObject(Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
 
-            return new PdfObject(data);
+            // Native declares a plain object, but a resource dictionary is always backed by a dictionary
+            using (var obj = new PdfObject(data)) {
+                return PdfDictionaryObject.FromObject(obj);
+            }
         }
 
         /// <inheritdoc/>
