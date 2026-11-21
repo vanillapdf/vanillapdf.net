@@ -301,6 +301,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Field_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Field_GetType(PdfFieldSafeHandle handle, out PdfSemantics.PdfFieldType data);
 
         [LibraryImport(LibraryName)]
@@ -377,9 +378,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ButtonField_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ButtonField_FromField(PdfFieldSafeHandle handle, out PdfButtonFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ButtonField_ToField(PdfButtonFieldSafeHandle handle, out PdfFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -396,9 +399,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 TextField_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 TextField_FromField(PdfFieldSafeHandle handle, out PdfTextFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 TextField_ToField(PdfTextFieldSafeHandle handle, out PdfFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -421,9 +426,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ChoiceField_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ChoiceField_FromField(PdfFieldSafeHandle handle, out PdfChoiceFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ChoiceField_ToField(PdfChoiceFieldSafeHandle handle, out PdfFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -446,9 +453,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 SignatureField_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 SignatureField_FromField(PdfFieldSafeHandle handle, out PdfSignatureFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 SignatureField_ToField(PdfSignatureFieldSafeHandle handle, out PdfFieldSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -678,6 +687,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Annotation_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Annotation_GetAnnotationType(PdfAnnotationSafeHandle handle, out PdfSemantics.PdfAnnotationType data);
 
         [LibraryImport(LibraryName)]
@@ -797,9 +807,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 TextAnnotation_SetCreationDate(PdfTextAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 TextAnnotation_ToBaseAnnotation(PdfTextAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 TextAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfTextAnnotationSafeHandle data);
 
         #endregion
@@ -840,9 +852,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 HighlightAnnotation_SetCreationDate(PdfHighlightAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 HighlightAnnotation_ToBaseAnnotation(PdfHighlightAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 HighlightAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfHighlightAnnotationSafeHandle data);
 
         #endregion
@@ -880,9 +894,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FreeTextAnnotation_SetCreationDate(PdfFreeTextAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FreeTextAnnotation_ToBaseAnnotation(PdfFreeTextAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FreeTextAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfFreeTextAnnotationSafeHandle data);
 
         #endregion
@@ -923,9 +939,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 UnderlineAnnotation_SetCreationDate(PdfUnderlineAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 UnderlineAnnotation_ToBaseAnnotation(PdfUnderlineAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 UnderlineAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfUnderlineAnnotationSafeHandle data);
 
         #endregion
@@ -966,9 +984,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 StrikeOutAnnotation_SetCreationDate(PdfStrikeOutAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StrikeOutAnnotation_ToBaseAnnotation(PdfStrikeOutAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StrikeOutAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfStrikeOutAnnotationSafeHandle data);
 
         #endregion
@@ -1009,9 +1029,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 SquigglyAnnotation_SetCreationDate(PdfSquigglyAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 SquigglyAnnotation_ToBaseAnnotation(PdfSquigglyAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 SquigglyAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfSquigglyAnnotationSafeHandle data);
 
         #endregion
@@ -1052,9 +1074,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 InkAnnotation_SetCreationDate(PdfInkAnnotationSafeHandle handle, PdfDateSafeHandle value);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 InkAnnotation_ToBaseAnnotation(PdfInkAnnotationSafeHandle handle, out PdfAnnotationSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 InkAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfInkAnnotationSafeHandle data);
 
         #endregion
@@ -1129,54 +1153,63 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Date_CreateCurrent(out PdfDateSafeHandle handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetYear(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetYear(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetMonth(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetMonth(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetDay(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetDay(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetHour(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetHour(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetMinute(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetMinute(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetSecond(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetSecond(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetTimezone(PdfDateSafeHandle handle, out PdfSemantics.PdfTimezoneType data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetTimezone(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetHourOffset(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 Date_SetHourOffset(PdfDateSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Date_GetMinuteOffset(PdfDateSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
@@ -1193,6 +1226,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Font_CreateFromObject(PdfDictionaryObjectSafeHandle handle, out PdfFontSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Font_GetFontType(PdfFontSafeHandle handle, out PdfSemantics.PdfFontType data);
 
         [LibraryImport(LibraryName)]
@@ -1206,9 +1240,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Type0Font_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Type0Font_ToFont(PdfType0FontSafeHandle handle, out PdfFontSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Type0Font_FromFont(PdfFontSafeHandle handle, out PdfType0FontSafeHandle data);
 
         #endregion
@@ -1266,6 +1302,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 CharacterMap_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 CharacterMap_GetCharacterMapType(PdfCharacterMapSafeHandle handle, out PdfSemantics.PdfCharacterMapType data);
 
         #endregion
@@ -1276,9 +1313,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 UnicodeCharacterMap_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 UnicodeCharacterMap_ToCharacterMap(PdfUnicodeCharacterMapSafeHandle handle, out PdfCharacterMapSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 UnicodeCharacterMap_FromCharacterMap(PdfCharacterMapSafeHandle handle, out PdfUnicodeCharacterMapSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -1292,6 +1331,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 OutlineBase_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 OutlineBase_GetOutlineType(PdfOutlineBaseSafeHandle handle, out PdfSemantics.PdfOutlineType data);
 
         #endregion
@@ -1302,9 +1342,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Outline_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Outline_ToOutlineBase(PdfOutlineSafeHandle handle, out PdfOutlineBaseSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Outline_FromOutlineBase(PdfOutlineBaseSafeHandle handle, out PdfOutlineSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -1324,9 +1366,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 OutlineItem_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 OutlineItem_ToOutlineBase(PdfOutlineItemSafeHandle handle, out PdfOutlineBaseSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 OutlineItem_FromOutlineBase(PdfOutlineBaseSafeHandle handle, out PdfOutlineItemSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -1422,21 +1466,27 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 DocumentEncryptionSettings_Create(out PdfDocumentEncryptionSettingsSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_GetAlgorithm(PdfDocumentEncryptionSettingsSafeHandle handle, out PdfSemantics.PdfEncryptionAlgorithmType data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_SetAlgorithm(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_GetKeyLength(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_SetKeyLength(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_GetUserAccessPermissions(PdfDocumentEncryptionSettingsSafeHandle handle, out Int32 data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DocumentEncryptionSettings_SetUserAccessPermissions(PdfDocumentEncryptionSettingsSafeHandle handle, Int32 data);
 
         [LibraryImport(LibraryName)]
@@ -1481,9 +1531,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 XYZDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XYZDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfXYZDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 XYZDestination_ToDestination(PdfXYZDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1503,9 +1555,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitDestination_ToDestination(PdfFitDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         #endregion
@@ -1516,9 +1570,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitHorizontalDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitHorizontalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitHorizontalDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitHorizontalDestination_ToDestination(PdfFitHorizontalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1532,9 +1588,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitVerticalDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitVerticalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitVerticalDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitVerticalDestination_ToDestination(PdfFitVerticalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1548,9 +1606,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitRectangleDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitRectangleDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitRectangleDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitRectangleDestination_ToDestination(PdfFitRectangleDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1573,9 +1633,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitBoundingBoxDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitBoundingBoxDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitBoundingBoxDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitBoundingBoxDestination_ToDestination(PdfFitBoundingBoxDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         #endregion
@@ -1586,9 +1648,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitBoundingBoxHorizontalDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitBoundingBoxHorizontalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitBoundingBoxHorizontalDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitBoundingBoxHorizontalDestination_ToDestination(PdfFitBoundingBoxHorizontalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1602,9 +1666,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 FitBoundingBoxVerticalDestination_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitBoundingBoxVerticalDestination_FromDestination(PdfDestinationSafeHandle handle, out PdfFitBoundingBoxVerticalDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 FitBoundingBoxVerticalDestination_ToDestination(PdfFitBoundingBoxVerticalDestinationSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1631,9 +1697,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 LinkAnnotation_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LinkAnnotation_ToBaseAnnotation(PdfLinkAnnotationSafeHandle handle, out PdfAnnotationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LinkAnnotation_FromBaseAnnotation(PdfAnnotationSafeHandle handle, out PdfLinkAnnotationSafeHandle result);
 
         [LibraryImport(LibraryName)]
@@ -1650,6 +1718,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Action_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Action_GetActionType(PdfActionSafeHandle handle, out PdfSemantics.PdfActionType result);
 
         [LibraryImport(LibraryName)]
@@ -1666,9 +1735,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 GoToAction_GetDestination(PdfGoToActionSafeHandle handle, out PdfDestinationSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 GoToAction_ToAction(PdfGoToActionSafeHandle handle, out PdfActionSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 GoToAction_FromAction(PdfActionSafeHandle handle, out PdfGoToActionSafeHandle result);
 
         #endregion
@@ -1682,9 +1753,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 URIAction_GetURI(PdfURIActionSafeHandle handle, out PdfLiteralStringObjectSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 URIAction_ToAction(PdfURIActionSafeHandle handle, out PdfActionSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 URIAction_FromAction(PdfActionSafeHandle handle, out PdfURIActionSafeHandle result);
 
         #endregion
@@ -1701,9 +1774,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 GoToRemoteAction_GetFile(PdfGoToRemoteActionSafeHandle handle, out PdfObjectSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 GoToRemoteAction_ToAction(PdfGoToRemoteActionSafeHandle handle, out PdfActionSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 GoToRemoteAction_FromAction(PdfActionSafeHandle handle, out PdfGoToRemoteActionSafeHandle result);
 
         #endregion
@@ -1717,9 +1792,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 NamedAction_GetName(PdfNamedActionSafeHandle handle, out PdfNameObjectSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 NamedAction_ToAction(PdfNamedActionSafeHandle handle, out PdfActionSafeHandle result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 NamedAction_FromAction(PdfActionSafeHandle handle, out PdfNamedActionSafeHandle result);
 
         #endregion

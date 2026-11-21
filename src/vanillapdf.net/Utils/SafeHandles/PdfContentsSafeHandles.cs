@@ -72,16 +72,6 @@ namespace vanillapdf.net.Utils
             }
             return data;
         }
-
-        public static implicit operator PdfContentInstructionSafeHandle(PdfContentObjectTextSafeHandle handle)
-        {
-            return (PdfContentObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentObjectTextSafeHandle(PdfContentInstructionSafeHandle handle)
-        {
-            return (PdfContentObjectSafeHandle)handle;
-        }
     }
 
     internal sealed class PdfContentObjectInlineImageSafeHandle : PdfSafeHandle
@@ -104,16 +94,6 @@ namespace vanillapdf.net.Utils
                 throw PdfErrors.GetLastErrorException();
             }
             return data;
-        }
-
-        public static implicit operator PdfContentInstructionSafeHandle(PdfContentObjectInlineImageSafeHandle handle)
-        {
-            return (PdfContentObjectSafeHandle)handle;
-        }
-
-        public static implicit operator PdfContentObjectInlineImageSafeHandle(PdfContentInstructionSafeHandle handle)
-        {
-            return (PdfContentObjectSafeHandle)handle;
         }
     }
 

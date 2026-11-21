@@ -4,7 +4,7 @@
     <!-- net8.0 dropped: NUnit 4.6.0 introduced a source-breaking change (TestDelegate -> Action)
          that causes CS0121 under C# 12. Requires C# 13+ or .NET 9+ to compile.
          https://docs.nunit.org/articles/nunit/release-notes/framework.html#the-following-issues-are-marked-as-breaking-changes -->
-    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
 
     <!-- Bleeding-edge compatibility target for the next .NET major while it is
          still in preview. Opt-in, because building it requires the preview SDK

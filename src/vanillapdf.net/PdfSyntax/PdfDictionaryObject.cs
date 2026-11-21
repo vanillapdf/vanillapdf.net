@@ -56,7 +56,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns>The stored <see cref="PdfObject"/>.</returns>
         public PdfObject Find(PdfNameObject key)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.ObjectHandle, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_Find(Handle, key.Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -83,7 +83,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns><c>true</c> if the key exists.</returns>
         public bool TryFind(PdfNameObject key, out PdfObject value)
         {
-            UInt32 result = NativeMethods.DictionaryObject_TryFind(Handle, key.ObjectHandle, out var contains, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_TryFind(Handle, key.Handle, out var contains, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -115,7 +115,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <typeparam name="T">Expected object type.</typeparam>
         /// <param name="key">Dictionary key.</param>
         /// <returns>Object converted to <typeparamref name="T"/>.</returns>
-        /// <exception cref="InvalidCastException">Thrown if the value is not of the expected type.</exception>
+        /// <exception cref="PdfObjectTypeException">Thrown if the value is not of the expected type.</exception>
         public T FindAs<T>(PdfNameObject key) where T : PdfObject
         {
             var pdfObject = Find(key);
@@ -131,9 +131,10 @@ namespace vanillapdf.net.PdfSyntax
                 if (converted != null) {
                     return converted;
                 }
-            }
 
-            throw new InvalidCastException($"Value for key is not of type {typeof(T).Name}.");
+                var actualType = pdfObject.GetObjectType();
+                throw new PdfObjectTypeException($"Value for key is {actualType}, expected {typeof(T).Name}.");
+            }
         }
 
         /// <summary>
@@ -170,7 +171,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <returns><c>true</c> when the key is present.</returns>
         public bool Contains(PdfNameObject key)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Contains(Handle, key.ObjectHandle, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_Contains(Handle, key.Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -200,7 +201,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <param name="overwrite">Overwrite existing entry when <c>true</c>.</param>
         public void Insert(PdfNameObject key, PdfObject data, bool overwrite = false)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.ObjectHandle, data.ObjectHandle, overwrite);
+            UInt32 result = NativeMethods.DictionaryObject_Insert(Handle, key.Handle, data.ObjectHandle, overwrite);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -209,7 +210,7 @@ namespace vanillapdf.net.PdfSyntax
         /// <inheritdoc/>
         public bool Remove(PdfNameObject key)
         {
-            UInt32 result = NativeMethods.DictionaryObject_Remove(Handle, key.ObjectHandle, out var data);
+            UInt32 result = NativeMethods.DictionaryObject_Remove(Handle, key.Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }

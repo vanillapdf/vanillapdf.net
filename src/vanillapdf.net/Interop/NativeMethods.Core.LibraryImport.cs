@@ -47,27 +47,35 @@ namespace vanillapdf.net.Interop
         #region LibraryInfo
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionMajor(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionMinor(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionPatch(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetVersionBuild(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetAuthor(out IntPtr data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetBuildDay(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetBuildMonth(out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LibraryInfo_GetBuildYear(out int data);
 
         #endregion
@@ -106,6 +114,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Buffer_CreateFromData(IntPtr data, UIntPtr size, out PdfBufferSafeHandle handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Buffer_GetData(PdfBufferSafeHandle handle, out IntPtr data, out UIntPtr size);
 
         [LibraryImport(LibraryName)]
@@ -175,15 +184,19 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 InputOutputStream_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 InputOutputStream_ToInputStream(PdfInputOutputStreamSafeHandle handle, out PdfInputStreamSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 InputOutputStream_FromInputStream(PdfInputStreamSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 InputOutputStream_ToOutputStream(PdfInputOutputStreamSafeHandle handle, out PdfOutputStreamSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 InputOutputStream_FromOutputStream(PdfOutputStreamSafeHandle handle, out PdfInputOutputStreamSafeHandle data);
 
         [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
@@ -259,9 +272,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 PKCS12Key_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 PKCS12Key_ToSigningKey(PdfPKCS12KeySafeHandle handle, out PdfSigningKeySafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 PKCS12Key_FromSigningKey(PdfSigningKeySafeHandle handle, out PdfPKCS12KeySafeHandle data);
 
         [LibraryImport(LibraryName, StringMarshalling = StringMarshalling.Utf8)]
@@ -377,6 +392,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 TextStringEncoding_Detect(byte[] data, UIntPtr size, out PdfUtils.PdfTextStringEncodingType result);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 TextStringEncoding_PDFDocEncodingByteToUnicode(byte value, out UInt32 codepoint);
 
         #endregion
