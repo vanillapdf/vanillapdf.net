@@ -28,7 +28,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>True if the name exists in the map.</returns>
         public bool Contains(PdfNameObject name)
         {
-            UInt32 result = NativeMethods.NamedDestinations_Contains(Handle, name.ObjectHandle, out bool contains);
+            UInt32 result = NativeMethods.NamedDestinations_Contains(Handle, name.Handle, out bool contains);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
@@ -44,7 +44,7 @@ namespace vanillapdf.net.PdfSemantics
         /// <returns>The destination associated with the name.</returns>
         public PdfDestination Find(PdfNameObject name)
         {
-            UInt32 result = NativeMethods.NamedDestinations_Find(Handle, name.ObjectHandle, out var data);
+            UInt32 result = NativeMethods.NamedDestinations_Find(Handle, name.Handle, out var data);
             if (result != PdfReturnValues.ERROR_SUCCESS) {
                 throw PdfErrors.GetLastErrorException();
             }
