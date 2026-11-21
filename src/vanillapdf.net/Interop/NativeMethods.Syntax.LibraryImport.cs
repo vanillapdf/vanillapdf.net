@@ -105,9 +105,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 Object_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Object_GetObjectType(PdfObjectSafeHandle handle, out PdfSyntax.PdfObjectType data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 Object_GetOffset(PdfObjectSafeHandle handle, out Int64 data);
 
         [LibraryImport(LibraryName)]
@@ -130,9 +132,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ArrayObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ArrayObject_ToObject(PdfArrayObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ArrayObject_FromObject(PdfObjectSafeHandle handle, out PdfArrayObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -167,9 +171,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 DictionaryObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DictionaryObject_ToObject(PdfDictionaryObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 DictionaryObject_FromObject(PdfObjectSafeHandle handle, out PdfDictionaryObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -226,6 +232,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 IntegerObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 IntegerObject_ToObject(PdfIntegerObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -254,6 +261,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 RealObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 RealObject_ToObject(PdfRealObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -276,15 +284,18 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 BooleanObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 BooleanObject_ToObject(PdfBooleanObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 BooleanObject_FromObject(PdfObjectSafeHandle handle, out PdfBooleanObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 BooleanObject_Create(out PdfBooleanObjectSafeHandle handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 BooleanObject_GetValue(PdfBooleanObjectSafeHandle handle, [MarshalAs(UnmanagedType.U1)] out bool data);
 
         [LibraryImport(LibraryName)]
@@ -298,9 +309,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 NullObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 NullObject_ToObject(PdfNullObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 NullObject_FromObject(PdfObjectSafeHandle handle, out PdfNullObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -314,9 +327,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 NameObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 NameObject_ToObject(PdfNameObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 NameObject_FromObject(PdfObjectSafeHandle handle, out PdfNameObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -348,12 +363,15 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 StringObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StringObject_ToObject(PdfStringObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StringObject_FromObject(PdfObjectSafeHandle handle, out PdfStringObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StringObject_GetStringType(PdfStringObjectSafeHandle handle, out PdfSyntax.PdfStringType data);
 
         [LibraryImport(LibraryName)]
@@ -370,9 +388,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 LiteralStringObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LiteralStringObject_ToStringObject(PdfLiteralStringObjectSafeHandle handle, out PdfStringObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 LiteralStringObject_FromStringObject(PdfStringObjectSafeHandle handle, out PdfLiteralStringObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -398,9 +418,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 HexadecimalStringObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 HexadecimalStringObject_ToStringObject(PdfHexadecimalStringObjectSafeHandle handle, out PdfStringObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 HexadecimalStringObject_FromStringObject(PdfStringObjectSafeHandle handle, out PdfHexadecimalStringObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -426,9 +448,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 StreamObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StreamObject_ToObject(PdfStreamObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 StreamObject_FromObject(PdfObjectSafeHandle handle, out PdfStreamObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -457,9 +481,11 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 IndirectReferenceObject_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 IndirectReferenceObject_ToObject(PdfIndirectReferenceObjectSafeHandle handle, out PdfObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 IndirectReferenceObject_FromObject(PdfObjectSafeHandle handle, out PdfIndirectReferenceObjectSafeHandle data);
 
         [LibraryImport(LibraryName)]
@@ -485,6 +511,7 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 BaseObjectAttribute_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 BaseObjectAttribute_GetAttributeType(PdfBaseObjectAttributeSafeHandle handle, out PdfSyntax.PdfObjectAttributeType data);
 
         #endregion
@@ -495,36 +522,46 @@ namespace vanillapdf.net.Interop
         public static partial UInt32 ImageMetadataObjectAttribute_Release(IntPtr handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_ToBaseAttribute(PdfImageMetadataObjectAttributeSafeHandle handle, out PdfBaseObjectAttributeSafeHandle data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_FromBaseAttribute(PdfBaseObjectAttributeSafeHandle handle, out PdfImageMetadataObjectAttributeSafeHandle data);
 
         [LibraryImport(LibraryName)]
         public static partial UInt32 ImageMetadataObjectAttribute_Create(out PdfImageMetadataObjectAttributeSafeHandle handle);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_GetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetColorComponents(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_GetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, out PdfSyntax.PdfImageColorSpaceType data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetColorSpace(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_GetWidth(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetWidth(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_GetHeight(PdfImageMetadataObjectAttributeSafeHandle handle, out int data);
 
         [LibraryImport(LibraryName)]
+        [SuppressGCTransition]
         public static partial UInt32 ImageMetadataObjectAttribute_SetHeight(PdfImageMetadataObjectAttributeSafeHandle handle, int data);
 
         #endregion
