@@ -83,9 +83,8 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            8.x
-            9.x
             10.x
+            11.x
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -99,7 +98,7 @@ jobs:
         run: |
           $installDir = "${env:ProgramFiles(x86)}\dotnet"
           Invoke-WebRequest -Uri https://dot.net/v1/dotnet-install.ps1 -OutFile dotnet-install.ps1
-          foreach ($channel in '9.0', '10.0') {
+          foreach ($channel in '10.0', '11.0') {
             & ./dotnet-install.ps1 -Architecture x86 -Channel $channel -Runtime dotnet -InstallDir $installDir
           }
           "DOTNET_ROOT(x86)=$installDir" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8

@@ -67,8 +67,8 @@ Tests use NUnit (`vanillapdf.net.nunit` project). Test resources are in `src/van
 
 ## Target Frameworks
 
-- Main library: .NET Standard 2.0 and .NET 8.0 (multi-targeting)
-- Test project: .NET 8.0, .NET 9.0, and .NET 10.0
+- Main library: .NET Standard 2.0 and .NET 10.0 (multi-targeting)
+- Test project: .NET 10.0 and .NET 11.0
 
 ## Branching
 
